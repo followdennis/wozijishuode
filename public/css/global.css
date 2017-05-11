@@ -1,0 +1,42 @@
+body{
+    background-color: #ffffff;
+}
+.container .row{
+    margin-right:0;
+    margin-left:0;
+}
+.pst{
+    position:static;
+    width:800px;
+    height:100px;
+    border:1px solid black;
+    margin:0 auto;
+}
+.pst1{
+    width:100px;
+    height:100px;
+    color:white;
+    float:left;
+    background: green;
+}
+.pst2{
+    color:blue;
+    width:100px;
+    background:#0a001f;
+    height:100px;
+    float:left;
+    position:relative;
+    left:10px;
+    top:10px;
+}
+.pst3{
+    color:red;
+    width:100px;
+    background:#f0ad4e;
+    height:100px;
+    float:left;
+}
+.fourpage{
+    border:1px solid red;
+    display:block;
+}
