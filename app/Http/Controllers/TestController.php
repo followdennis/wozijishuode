@@ -9,7 +9,7 @@ class TestController extends Controller
     //
     public function test($id){
 
-        echo 'test2';
+        echo 'test3';
         echo $id;
     }
 }
