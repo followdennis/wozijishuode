@@ -27,6 +27,9 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::any('index',['uses'=>'AdminController@index','as'=>'index']);
     Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
+    Route::any('sidebar',function(){
+        return view('partial.leftmenu');
+    });
 });
 
 Route::any('indexhtml',function(){
