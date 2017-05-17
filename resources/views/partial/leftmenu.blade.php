@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/admin/assets/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="/admin/assets/css/sidebar-menu.css">
+    <style>
+
+    </style>
 </head>
 <body>
 <aside class="main-sidebar">
