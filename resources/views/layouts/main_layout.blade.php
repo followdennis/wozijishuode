@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="@yield('meta_description')">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>DASHGUM - FREE Bootstrap Admin Template</title>
+    <title>欢迎来到管理后台</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -16,13 +16,14 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/css/style-responsive.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="/admin/assets/css/sidebar-menu.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/sidebar-menu.css') }}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    @section('CUSTOM_STYLE')
 </head>
 
 <body>
@@ -130,7 +131,7 @@
                         </li>
                         <li>
                             <a href="index.html#">
-                                <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
+                                <span class="photo"><img alt="avatar" src="{{ asset('admin/assets/img/ui-zac.jpg') }}"></span>
                                 <span class="subject">
                                     <span class="from">Zac Snider</span>
                                     <span class="time">Just now</span>
@@ -142,7 +143,7 @@
                         </li>
                         <li>
                             <a href="index.html#">
-                                <span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>
+                                <span class="photo"><img alt="avatar" src="{{ asset('admin/assets/img/ui-divya.jpg') }}"></span>
                                 <span class="subject">
                                     <span class="from">Divya Manian</span>
                                     <span class="time">40 mins.</span>
@@ -154,7 +155,7 @@
                         </li>
                         <li>
                             <a href="index.html#">
-                                <span class="photo"><img alt="avatar" src="assets/img/ui-danro.jpg"></span>
+                                <span class="photo"><img alt="avatar" src="{{ asset('admin/assets/img/ui-danro.jpg') }}"></span>
                                 <span class="subject">
                                     <span class="from">Dan Rogers</span>
                                     <span class="time">2 hrs.</span>
@@ -166,7 +167,7 @@
                         </li>
                         <li>
                             <a href="index.html#">
-                                <span class="photo"><img alt="avatar" src="assets/img/ui-sherman.jpg"></span>
+                                <span class="photo"><img alt="avatar" src="{{ asset('admin/assets/img/ui-sherman.jpg') }}"></span>
                                 <span class="subject">
                                     <span class="from">Dj Sherman</span>
                                     <span class="time">4 hrs.</span>
@@ -197,15 +198,15 @@
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
 
-                <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+                <p class="centered"><a href="{{ url('back') }}"><img src="{{ asset('admin/assets/img/ui-sam.jpg') }}" class="img-circle" width="60"></a></p>
                 <h5 class="centered">Marcel Newman</h5>
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-dashboard"></i> <span>图片上传</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                        <li><a href="{{ url('back/fileupload') }}"><i class="fa fa-circle-o"></i> 图片上传</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                     </ul>
                 </li>
@@ -347,159 +348,31 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-
-            <div class="row">
-                <div class="col-lg-9 main-chart">
-
-
-
-                </div><!-- /col-lg-9 END SECTION MIDDLE -->
-
-
-                <!-- **********************************************************************************************************************************************************
-                RIGHT SIDEBAR CONTENT
-                *********************************************************************************************************************************************************** -->
-
-                <div class="col-lg-3 ds">
-                    <!--COMPLETED ACTIONS DONUTS CHART-->
-                    <h3>NOTIFICATIONS</h3>
-
-                    <!-- First Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p><muted>2 Minutes Ago</muted><br/>
-                                <a href="#">James Brown</a> subscribed to your newsletter.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Second Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p><muted>3 Hours Ago</muted><br/>
-                                <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Third Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p><muted>7 Hours Ago</muted><br/>
-                                <a href="#">Brandon Page</a> purchased a year subscription.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fourth Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p><muted>11 Hours Ago</muted><br/>
-                                <a href="#">Mark Twain</a> commented your post.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fifth Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p><muted>18 Hours Ago</muted><br/>
-                                <a href="#">Daniel Pratt</a> purchased a wallet in your store.<br/>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- USERS ONLINE SECTION -->
-                    <h3>TEAM MEMBERS</h3>
-                    <!-- First Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="assets/img/ui-divya.jpg" width="35px" height="35px" align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">DIVYA MANIAN</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Second Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="assets/img/ui-sherman.jpg" width="35px" height="35px" align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">DJ SHERMAN</a><br/>
-                                <muted>I am Busy</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Third Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="assets/img/ui-danro.jpg" width="35px" height="35px" align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">DAN ROGERS</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fourth Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="assets/img/ui-zac.jpg" width="35px" height="35px" align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">Zac Sniders</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fifth Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="assets/img/ui-sam.jpg" width="35px" height="35px" align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">Marcel Newman</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- /col-lg-3 -->
-            </div><! --/row -->
+            @yield('content')
         </section>
     </section>
 
     <!--main content end-->
+    @section('footer')
     <!--footer start-->
     <footer class="site-footer">
         <div class="text-center">
-            2014 - Alvarez.is  <a href="http://www.mycodes.net/" target="_blank">源码之家</a> <a href="http://www.mycodes.net/" target="_blank">源码之家</a>
+            2014 - Alvarez.is  <a href="" target="_blank">我的网站</a>
             <a href="index.html#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>
         </div>
     </footer>
     <!--footer end-->
+    @show
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
 
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
-<script src="/admin/assets/js/sidebar-menu.js"></script>
+<script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>
+@yield('CUSTOM_SCRIPT')
 <script>
     $.sidebarMenu($('.sidebar-menu'))
 </script>

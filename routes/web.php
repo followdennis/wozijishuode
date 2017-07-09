@@ -14,9 +14,6 @@
 Route::any('test',['uses'=>'TestController@test','as'=>'test']);
 Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
 //Route::any('index',function(){
 //    return view('layouts.main_layout');
 //});
@@ -24,14 +21,19 @@ Route::get('/', function () {
 /**
  * 后台操作
  */
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'back'], function () {
+    Route::any('/',['uses'=>'AdminController@index','as'=>'index']);
     Route::any('index',['uses'=>'AdminController@index','as'=>'index']);
+    Route::any('fileupload',['uses'=>'AdminController@file_upload']);
+    Route::any('/upload',['uses'=>'AdminController@upload']);
     Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });
 });
-
+Route::any('/',function(){
+   return view('mobile.index');
+});
 Route::any('indexhtml',function(){
     return view('mobile.index');
 });
