@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -16,10 +17,20 @@ class AdminController extends Controller
     }
 
     public function upload(Request $request){
+
         if($request->ajax()){
-            return $request->json(['name'=>'xiaoming','Id'=>123]);
-        }else{
-            return $request->json(['name'=>'error','Id'=>321]);
+
+//            $data['data'] = ['name'=>'xiaoming','Id'=>'123','error'=>'','msg'=>'成功'];
+//            Log::info('abc');
+//            return response()->json($data);
         }
+        else
+        {
+
+            $data['data'] = ['name'=>'xiaoming','Id'=>'123','error'=>'','msg'=>'成功'];
+
+            return response()->json($data);
+        }
+
     }
 }
