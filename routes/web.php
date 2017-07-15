@@ -44,4 +44,7 @@ Route::any('detailhtml',function(){
     return view('mobile.detail');
 });
 
+Route::any('spider',['uses'=>'TestController@spider','as'=>'spider']);
+Route::any('querylist',['uses'=>'TestController@query_list','as'=>'querylist']);
+
 
