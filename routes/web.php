@@ -32,7 +32,7 @@ Route::group(['prefix' => 'back'], function () {
     });
 });
 
-Route::group(['domain'=>'m.wozijishuode.cc'],function(){
+Route::group(['domain'=>'m.wozijishuode.com'],function(){
     Route::any('/',function(){
         return view('mobile.index');
     });
@@ -43,10 +43,10 @@ Route::group(['domain'=>'m.wozijishuode.cc'],function(){
         return view('mobile.detail');
     });
 });
-Route::group(['domain'=>'www.wozijishuode.cc','prefix'=>'back'],function(){
+Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Route::any('index', ['uses'=>'Admin\IndexController@index']);
 });
-Route::group(['domain'=>'www.wozijishuode.cc'],function(){
+Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::any('/',function(){
         return '嘿嘿';
     });
