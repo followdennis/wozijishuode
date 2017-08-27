@@ -12,10 +12,60 @@
 <meta name="msapplication-tap-highlight" content="no" />
 <meta name="applicable-device" content="mobile">
 <link href="{{ asset('mobile/css/style.css') }}" type="text/css" rel="stylesheet" />
-<link rel="canonical" href="file:///E|/网站模板存放文件夹/www.lz13.cn/default.htm">
 <script type="text/javascript" src="{{asset('mobile/js/jquery.js')}}"></script>
 <script type="text/javascript" src="{{ asset('mobile/js/common.js') }}"></script>
 <script type="text/javascript" src="{{ asset('mobile/js/md.js') }}"></script>
+    <style>
+        .menu{
+            background: #b72f2f;
+            width: 100%;
+            height: 66px;
+            padding: 5px 0;
+        }
+        .menu ul{
+            background: #b72f2f;
+            width: 100%;
+            height: 66px;
+            /*padding: 5px 0;*/
+            padding: 0 0 5px 0;
+        }
+        .menu ul li {
+            color: #fff;
+            font-size: 14px;
+            display: block;
+        }
+        .menu ul li {
+            float: left;
+            line-height: 22px;
+            height: 22px;
+            width: 16.666%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .menu-home ul {
+            background: #b72f2f;
+            width: 100%;
+            height: 66px;
+            /*padding: 5px 0;*/
+            padding-bottom: 10px;
+        }
+        .menu-home ul li {
+            color: #fff;
+            font-size: 14px;
+            display: block;
+        }
+        .menu-home ul li {
+            float: left;
+            line-height: 22px;
+            height: 22px;
+            width: 16.666%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .menu a, .menu a:visited, .menu-home a, .menu-home a:visited {
+
+        }
+    </style>
 </head>
 <body>
 <header class="head">
@@ -23,10 +73,50 @@
 <div class="nav"><p class="nav-ico">导航</p></div>
 </header>
 <div class="menu">
-<p><a href="cate.html" class="curr" title="励志文章">励志</a></p><p><a href="../lizhi/renshengganwu.html" title="人生感悟">人生</a></p><p><a href="../lizhi/qingchunlizhi.html" title="青春励志">青春</a></p><p><a href="../lizhi/chenggonglizhi.html" title="成功励志">成功</a></p><p><a href="../lizhi/jingdianyulu.html" title="经典语录">语录</a></p><p><a href="../lizhi/meiwen.html" title="经典美文">美文</a></p><p><a href="../lizhi/lizhigushi.html" title="励志故事">故事</a></p><p><a href="../lizhi/weirenchushi.html" title="为人处世">处世</a></p><p><a href="../lizhi/gaosanlizhi.html" title="高三励志">高三</a></p><p><a href="../lizhi/zhichanglizhi.html" title="职场励志">职场</a></p><p><a href="../lizhi/lizhiyanjiang.html" title="励志演讲">演讲</a></p><p><a href="../lizhi/jiatingjiaoyu.html" title="家庭教育">家教</a></p><p><a href="../lizhi/lizhirenwu.html" title="励志人物">人物</a></p><p><a href="../lizhi/ganenlizhi.html" title="感悟亲情">亲情</a></p><p><a href="../lizhi/daxueshenglizhi.html" title="大学生励志">大学</a></p><p><a href="../lizhi/lizhichuangye.html" title="创业">创业</a></p><p><a href="../lizhi/lizhimingyan.html" title="励志名言">名言</a></p><p><a href="../daohang.html">更多</a></p>
+{{--<p><a href="cate.html" class="curr" title="励志文章">励志</a></p><p><a href="../lizhi/renshengganwu.html" title="人生感悟">人生</a></p><p><a href="../lizhi/qingchunlizhi.html" title="青春励志">青春</a></p><p><a href="../lizhi/chenggonglizhi.html" title="成功励志">成功</a></p><p><a href="../lizhi/jingdianyulu.html" title="经典语录">语录</a></p><p><a href="../lizhi/meiwen.html" title="经典美文">美文</a></p><p><a href="../lizhi/lizhigushi.html" title="励志故事">故事</a></p><p><a href="../lizhi/weirenchushi.html" title="为人处世">处世</a></p><p><a href="../lizhi/gaosanlizhi.html" title="高三励志">高三</a></p><p><a href="../lizhi/zhichanglizhi.html" title="职场励志">职场</a></p><p><a href="../lizhi/lizhiyanjiang.html" title="励志演讲">演讲</a></p><p><a href="../lizhi/jiatingjiaoyu.html" title="家庭教育">家教</a></p><p><a href="../lizhi/lizhirenwu.html" title="励志人物">人物</a></p><p><a href="../lizhi/ganenlizhi.html" title="感悟亲情">亲情</a></p><p><a href="../lizhi/daxueshenglizhi.html" title="大学生励志">大学</a></p><p><a href="../lizhi/lizhichuangye.html" title="创业">创业</a></p><p><a href="../lizhi/lizhimingyan.html" title="励志名言">名言</a></p><p><a href="../daohang.html">更多</a></p>--}}
+    <ul>
+        <li><a href="../lizhi/renshengganwu.html" title="人生感悟">人生</a></li>
+        <li><a href="cate.html" class="curr" title="励志文章">励志</a></li>
+        <li><a href="../daohang.html">更多</a></li>
+        <li><a href="../lizhi/qingchunlizhi.html" title="青春励志">青春</a></li>
+        <li><a href="../lizhi/chenggonglizhi.html" title="成功励志">成功</a></li>
+        <li><a href="../lizhi/jingdianyulu.html" title="经典语录">语录</a></li>
+        <li><a href="../lizhi/meiwen.html" title="经典美文">美文</a></li>
+        <li><a href="../lizhi/lizhigushi.html" title="励志故事">故事</a></li>
+        <li><a href="../lizhi/weirenchushi.html" title="为人处世">处世</a></li>
+        <li><a href="../lizhi/gaosanlizhi.html" title="高三励志">高三</a></li>
+        <li><a href="../lizhi/zhichanglizhi.html" title="职场励志">职场</a></li>
+        <li><a href="../lizhi/lizhiyanjiang.html" title="励志演讲">演讲</a></li>
+        <li><a href="cate.html"  title="励志文章">励志</a></li>
+        <li><a href="cate.html"  title="励志文章">励志</a></li>
+        <li><a href="cate.html"  title="励志文章">励志</a></li>
+        <li><a href="cate.html"  title="励志文章">励志</a></li>
+        <li><a href="cate.html"  title="励志文章">励志</a></li>
+        <li><a href="cate.html"  title="励志文章">励志</a></li>
+    </ul>
 </div>
 <div class="menu-home">
-<p><a href="cate.html" class="curr" title="励志文章">励志</a></p><p><a href="../lizhi/renshengganwu.html" title="人生感悟">人生</a></p><p><a href="../lizhi/qingchunlizhi.html" title="青春励志">青春</a></p><p><a href="../lizhi/chenggonglizhi.html" title="成功励志">成功</a></p><p><a href="../lizhi/jingdianyulu.html" title="经典语录">语录</a></p><p><a href="../lizhi/meiwen.html" title="经典美文">美文</a></p><p><a href="../lizhi/lizhigushi.html" title="励志故事">故事</a></p><p><a href="../lizhi/weirenchushi.html" title="为人处世">处世</a></p><p><a href="../lizhi/gaosanlizhi.html" title="高三励志">高三</a></p><p><a href="../lizhi/zhichanglizhi.html" title="职场励志">职场</a></p><p><a href="../lizhi/lizhiyanjiang.html" title="励志演讲">演讲</a></p><p><a href="../lizhi/jiatingjiaoyu.html" title="家庭教育">家教</a></p><p><a href="../lizhi/lizhirenwu.html" title="励志人物">人物</a></p><p><a href="../lizhi/ganenlizhi.html" title="感悟亲情">亲情</a></p><p><a href="../lizhi/daxueshenglizhi.html" title="大学生励志">大学</a></p><p><a href="../lizhi/lizhichuangye.html" title="创业">创业</a></p><p><a href="../lizhi/lizhimingyan.html" title="励志名言">名言</a></p><p><a href="../daohang.html">更多</a></p>
+
+<ul>
+    <li><a href="../lizhi/renshengganwu.html" title="人生感悟">人生</a></li>
+    <li><a href="cate.html" class="curr" title="励志文章">励志</a></li>
+    <li><a href="../daohang.html">更多</a></li>
+    <li><a href="../lizhi/qingchunlizhi.html" title="青春励志">青春</a></li>
+    <li><a href="../lizhi/chenggonglizhi.html" title="成功励志">成功</a></li>
+    <li><a href="../lizhi/jingdianyulu.html" title="经典语录">语录</a></li>
+    <li><a href="../lizhi/meiwen.html" title="经典美文">美文</a></li>
+    <li><a href="../lizhi/lizhigushi.html" title="励志故事">故事</a></li>
+    <li><a href="../lizhi/weirenchushi.html" title="为人处世">处世</a></li>
+    <li><a href="../lizhi/gaosanlizhi.html" title="高三励志">高三</a></li>
+    <li><a href="../lizhi/zhichanglizhi.html" title="职场励志">职场</a></li>
+    <li><a href="../lizhi/lizhiyanjiang.html" title="励志演讲">演讲</a></li>
+    <li><a href="cate.html"  title="励志文章">励志</a></li>
+    <li><a href="cate.html"  title="励志文章">励志</a></li>
+    <li><a href="cate.html"  title="励志文章">励志</a></li>
+    <li><a href="cate.html"  title="励志文章">励志</a></li>
+    <li><a href="cate.html"  title="励志文章">励志</a></li>
+    <li><a href="cate.html"  title="励志文章">励志</a></li>
+</ul>
 </div>
 <div class="s1"><script type="text/javascript">d1();</script></div>
 <div class="main">
@@ -40,34 +130,77 @@
 <ul class="hd"><li class="on">励志文章</li><li>励志故事</li><li>成功励志</li></ul>
 <div class="bd tablist">
 <ul class="dis">
-<li><a href="detail.html">关于努力，这是我听过最好的答案</a></li><li><a href="../lizhiwenzhang/159898.html">对不起，你的梦想被别人实现了</a></li><li><a href="../lizhiwenzhang/159844.html">哪怕身处沟壑，也要记得仰望星空</a></li><li><a href="../lizhiwenzhang/159802.html">你没能更优秀，是因为缺少一种羞耻感</a></li><li><a href="../lizhiwenzhang/159749.html">年轻的时候，做什么才不会浪费</a></li><li><a href="../lizhiwenzhang/159640.html">别怕，一切可能没你想的那么糟糕</a></li><li><a href="../lizhiwenzhang/159545.html">不抱怨的人，怎样都好看</a></li><li><a href="../lizhiwenzhang/159490.html">只有loser才总是抱怨他们已经尽力了</a></li>
-<li class="more"><a href="cate.html" title="励志文章">进入励志文章栏目</a></li>
+<li><a href="detail.html">关于努力，这是我听过最好的答案</a></li>
+    <li><a href="../lizhiwenzhang/159898.html">对不起，你的梦想被别人实现了</a></li>
+    <li><a href="../lizhiwenzhang/159844.html">哪怕身处沟壑，也要记得仰望星空</a></li>
+    <li><a href="../lizhiwenzhang/159802.html">你没能更优秀，是因为缺少一种羞耻感</a></li>
+    <li><a href="../lizhiwenzhang/159749.html">年轻的时候，做什么才不会浪费</a></li>
+    <li><a href="../lizhiwenzhang/159640.html">别怕，一切可能没你想的那么糟糕</a></li>
+    <li><a href="../lizhiwenzhang/159545.html">不抱怨的人，怎样都好看</a></li>
+    <li><a href="../lizhiwenzhang/159490.html">只有loser才总是抱怨他们已经尽力了</a></li>
+    <li class="more"><a href="cate.html" title="励志文章">进入励志文章栏目</a></li>
 </ul>
 <ul>
-<li><a href="../lizhigushi/159745.html">请问，这里有上帝卖吗？</a></li><li><a href="../lizhigushi/158288.html">奔跑着，追寻夜空中最亮的星</a></li><li><a href="../lizhigushi/158150.html">我用三年，走出自卑，又用了三年，努力自...</a></li><li><a href="../lizhigushi/158079.html">我曾经自卑了17年</a></li><li><a href="../lizhigushi/158031.html">毕业5年后，我从三线城市到了深圳</a></li><li><a href="../lizhigushi/156396.html">我没有多聪明，唯有一点勇</a></li><li><a href="../lizhigushi/154519.html">轮回（一个真实的故事）</a></li><li><a href="../lizhigushi/153012.html">我花了二十年，上了一所你落榜才来的大...</a></li>
-<li class="more"><a href="../lizhi/lizhigushi.html" title="励志故事">进入励志故事栏目</a></li>
+<li><a href="../lizhigushi/159745.html">请问，这里有上帝卖吗？</a></li>
+    <li><a href="../lizhigushi/158288.html">奔跑着，追寻夜空中最亮的星</a></li>
+    <li><a href="../lizhigushi/158150.html">我用三年，走出自卑，又用了三年，努力自...</a></li>
+    <li><a href="../lizhigushi/158079.html">我曾经自卑了17年</a></li>
+    <li><a href="../lizhigushi/158031.html">毕业5年后，我从三线城市到了深圳</a></li>
+    <li><a href="../lizhigushi/156396.html">我没有多聪明，唯有一点勇</a></li>
+    <li><a href="../lizhigushi/154519.html">轮回（一个真实的故事）</a></li>
+    <li><a href="../lizhigushi/153012.html">我花了二十年，上了一所你落榜才来的大...</a></li>
+    <li class="more"><a href="../lizhi/lizhigushi.html" title="励志故事">进入励志故事栏目</a></li>
 </ul>
 <ul>
-<li><a href="../chenggonglizhi/159995.html">你迟迟踏不出第一步，往往是因为你太在...</a></li><li><a href="../chenggonglizhi/159951.html">藏在你身边的9条普通人都能做到的赚钱...</a></li><li><a href="../chenggonglizhi/159948.html">为什么自律一段时间会被打回原形</a></li><li><a href="../chenggonglizhi/159895.html">不想被抛弃，你必须有这种能力</a></li><li><a href="../chenggonglizhi/159843.html">自律这件事，真没你想象中那么难</a></li><li><a href="../chenggonglizhi/159798.html">你的人生旺不旺，取决于这件事</a></li><li><a href="../chenggonglizhi/159539.html">如果你想获得想要的东西，那就得让自己...</a></li><li><a href="../chenggonglizhi/159489.html">决定人生输赢的，绝对不会仅仅是运气</a></li>
+<li><a href="../chenggonglizhi/159995.html">你迟迟踏不出第一步，往往是因为你太在...</a></li>
+    <li><a href="../chenggonglizhi/159951.html">藏在你身边的9条普通人都能做到的赚钱...</a></li>
+    <li><a href="../chenggonglizhi/159948.html">为什么自律一段时间会被打回原形</a></li>
+    <li><a href="../chenggonglizhi/159895.html">不想被抛弃，你必须有这种能力</a></li>
+    <li><a href="../chenggonglizhi/159843.html">自律这件事，真没你想象中那么难</a></li>
+    <li><a href="../chenggonglizhi/159798.html">你的人生旺不旺，取决于这件事</a></li>
+    <li><a href="../chenggonglizhi/159539.html">如果你想获得想要的东西，那就得让自己...</a></li>
+    <li><a href="../chenggonglizhi/159489.html">决定人生输赢的，绝对不会仅仅是运气</a></li>
+    <li><a href="../chenggonglizhi/159489.html">决定人生输赢的，绝对不会仅仅是运气</a></li>
 <li class="more"><a href="../lizhi/chenggonglizhi.html" title="成功励志">进入成功励志栏目</a></li>
 </ul>
 </div>
 </div>
 <script type="text/javascript">TouchSlide({ slideCell:"#htab"});</script>
-<div class="s1"><script type="text/javascript">d2();</script></div>
+{{--<div class="s1"><script type="text/javascript">d2();</script></div>--}}
 <div class="homebox" id="htab2">
 <ul class="hd"><li class="on">人生感悟</li><li>为人处世</li><li>感悟亲情</li></ul>
 <div class="bd tablist">
 <ul class="dis">
-<li><a href="../renshengganwu/159997.html">再忙也要做到8件事，来自各科医生发自...</a></li><li><a href="../renshengganwu/159950.html">我为什么要坚持每天5:30起床？</a></li><li><a href="../renshengganwu/159893.html">你永远不知道，有些人活得有多不容易</a></li><li><a href="../renshengganwu/159842.html">所有的难，都是咬着牙跺着脚挺过来的</a></li><li><a href="../renshengganwu/159744.html">一封中产阶层的绝望信：手握500万，北京...</a></li><li><a href="../renshengganwu/159637.html">女人不管你奔几，都需要看看这15句话</a></li><li><a href="../renshengganwu/159587.html">我希望你25岁到30岁的这几年，不要因为...</a></li><li><a href="../renshengganwu/159357.html">累了，请放过自己，但别放弃自己</a></li>
+<li><a href="../renshengganwu/159997.html">再忙也要做到8件事，来自各科医生发自...</a></li>
+    <li><a href="../renshengganwu/159950.html">我为什么要坚持每天5:30起床？</a></li>
+    <li><a href="../renshengganwu/159893.html">你永远不知道，有些人活得有多不容易</a></li>
+    <li><a href="../renshengganwu/159842.html">所有的难，都是咬着牙跺着脚挺过来的</a></li>
+    <li><a href="../renshengganwu/159744.html">一封中产阶层的绝望信：手握500万，北京...</a></li>
+    <li><a href="../renshengganwu/159637.html">女人不管你奔几，都需要看看这15句话</a></li>
+    <li><a href="../renshengganwu/159587.html">我希望你25岁到30岁的这几年，不要因为...</a></li>
+    <li><a href="../renshengganwu/159357.html">累了，请放过自己，但别放弃自己</a></li>
 <li class="more"><a href="../lizhi/renshengganwu.html" title="人生感悟">进入人生感悟栏目</a></li>
 </ul>
 <ul>
-<li><a href="../weirenchushi/159996.html">有教养的人，懂得给人留点优越感</a></li><li><a href="../weirenchushi/159899.html">你情商那么低，你能成功个屁</a></li><li><a href="../weirenchushi/159840.html">话有三不说，事有三不做，人有三不交</a></li><li><a href="../weirenchushi/159743.html">25个细节，让你成为更受欢迎的人</a></li><li><a href="../weirenchushi/159639.html">真正聪明的人，为什么从不去社交？</a></li><li><a href="../weirenchushi/159586.html">真正了解一个人，就看这个细节</a></li><li><a href="../weirenchushi/159484.html">人际交往20条</a></li><li><a href="../weirenchushi/159442.html">同事之间九大忌，说的真好</a></li>
+<li><a href="../weirenchushi/159996.html">有教养的人，懂得给人留点优越感</a></li>
+    <li><a href="../weirenchushi/159899.html">你情商那么低，你能成功个屁</a></li>
+    <li><a href="../weirenchushi/159840.html">话有三不说，事有三不做，人有三不交</a></li>
+    <li><a href="../weirenchushi/159743.html">25个细节，让你成为更受欢迎的人</a></li>
+    <li><a href="../weirenchushi/159639.html">真正聪明的人，为什么从不去社交？</a></li>
+    <li><a href="../weirenchushi/159586.html">真正了解一个人，就看这个细节</a></li>
+    <li><a href="../weirenchushi/159484.html">人际交往20条</a></li>
+    <li><a href="../weirenchushi/159442.html">同事之间九大忌，说的真好</a></li>
 <li class="more"><a href="../lizhi/weirenchushi.html" title="为人处世">进入为人处世栏目</a></li>
 </ul>
 <ul>
-<li><a href="../ganenlizhi/159746.html">母亲的棍棒</a></li><li><a href="../ganenlizhi/159544.html">在那遥远的小山村……</a></li><li><a href="../ganenlizhi/159443.html">孩子，我是如此地爱你</a></li><li><a href="../ganenlizhi/156926.html">有些爱，我们无权挥霍，也挥霍不起</a></li><li><a href="../ganenlizhi/156588.html">一封父亲写给儿子的信，看哭无数人</a></li><li><a href="../ganenlizhi/156340.html">父爱的力量</a></li><li><a href="../ganenlizhi/154899.html">因为爱，你甘愿一次一次重来</a></li><li><a href="../ganenlizhi/154634.html">父母安好，便是好年</a></li>
+<li><a href="../ganenlizhi/159746.html">母亲的棍棒</a></li>
+    <li><a href="../ganenlizhi/159544.html">在那遥远的小山村……</a></li>
+    <li><a href="../ganenlizhi/159443.html">孩子，我是如此地爱你</a></li>
+    <li><a href="../ganenlizhi/156926.html">有些爱，我们无权挥霍，也挥霍不起</a></li>
+    <li><a href="../ganenlizhi/156588.html">一封父亲写给儿子的信，看哭无数人</a></li>
+    <li><a href="../ganenlizhi/156340.html">父爱的力量</a></li>
+    <li><a href="../ganenlizhi/154899.html">因为爱，你甘愿一次一次重来</a></li>
+    <li><a href="../ganenlizhi/154634.html">父母安好，便是好年</a></li>
 <li class="more"><a href="../lizhi/ganenlizhi.html" title="感悟亲情">进入感悟亲情栏目</a></li>
 </ul>
 </div>
@@ -77,7 +210,14 @@
 <ul class="hd"><li class="on">青春励志</li><li>高三励志</li><li>大学生励志</li></ul>
 <div class="bd tablist">
 <ul class="dis">
-<li><a href="../qingchunlizhi/159994.html">自卑，那只是你成长路上的一个小小逗号...</a></li><li><a href="../qingchunlizhi/159947.html">每个人都是通过自己的努力，去决定生活...</a></li><li><a href="../qingchunlizhi/159897.html">人生最艰难的日子，你是怎么度过的</a></li><li><a href="../qingchunlizhi/159841.html">当越来越多比你年轻的人出现在你身边...</a></li><li><a href="../qingchunlizhi/159800.html">牛人都在拼命努力，而你却总觉得自己太...</a></li><li><a href="../qingchunlizhi/159747.html">成长因我爱你而开始</a></li><li><a href="../qingchunlizhi/159636.html">青春，走一段弯路也无妨</a></li><li><a href="../qingchunlizhi/159585.html">每天的进步就是最好的成长</a></li>
+<li><a href="../qingchunlizhi/159994.html">自卑，那只是你成长路上的一个小小逗号...</a></li>
+    <li><a href="../qingchunlizhi/159947.html">每个人都是通过自己的努力，去决定生活...</a></li>
+    <li><a href="../qingchunlizhi/159897.html">人生最艰难的日子，你是怎么度过的</a></li>
+    <li><a href="../qingchunlizhi/159841.html">当越来越多比你年轻的人出现在你身边...</a></li>
+    <li><a href="../qingchunlizhi/159800.html">牛人都在拼命努力，而你却总觉得自己太...</a></li>
+    <li><a href="../qingchunlizhi/159747.html">成长因我爱你而开始</a></li>
+    <li><a href="../qingchunlizhi/159636.html">青春，走一段弯路也无妨</a></li>
+    <li><a href="../qingchunlizhi/159585.html">每天的进步就是最好的成长</a></li>
 <li class="more"><a href="../lizhi/qingchunlizhi.html" title="青春励志">进入青春励志栏目</a></li>
 </ul>
 <ul>
@@ -151,6 +291,6 @@
 <ul><li><a href="../archiver/archiver.htm">热门文章</a></li><li><a href="../daohang.html">更多栏目</a></li><li><a href="javascript:scroll(0,0)">&#8679;返回顶部</a></li></ul>
 </div>
 </div>
-<footer><a href="file:///E|/网站模板存放文件夹/www.lz13.cn/default.htm" title="励志一生">电脑版</a>励志一生 &copy; 版权所有 QQ:94679543</footer>
+<footer><a href="" title="励志一生">电脑版</a>沃兹基硕德 &copy; 版权所有 QQ:963132814</footer>
 </body>
 </html>

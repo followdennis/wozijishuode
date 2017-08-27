@@ -24,6 +24,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     @section('CUSTOM_STYLE')
+    @stop
 </head>
 
 <body>
@@ -331,11 +332,18 @@
                         <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-circle-o text-aqua"></i> <span>菜单测试</span>
+                        <i class="fa fa-angle-left pull-right"></i></a>
+                    {!! $menus !!}
+                </li>
                 <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
                 <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>系统设置</span></a></li>
                 <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>菜单管理</span></a></li>
                 <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>权限管理</span></a></li>
+
             </ul>
             <!-- sidebar menu end-->
         </div>

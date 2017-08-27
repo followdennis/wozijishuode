@@ -2,35 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menus;
+use App\Services\Tree;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    //后台功能实现
-    public function index(){
-        $data['name'] = 'bb';
-        return view('admin.main.index',$data);
+    public function __construct()
+    {
+        $this->treeModel =new Tree();
+        $this->menusModel = new Menus();
+        $data['menus'] = $this->menu();
+        view()->share($data);
     }
-    public function file_upload(){
-        return view('admin.carousel.index');
+
+    public function menu(){
+        $list = $this->menusModel->getAllList();
+
+        $new_list = $this->treeModel->tree($list);
+        $new_list = $this->treeModel->makehtml($new_list);
+        $menu = $this->treeModel->str;
+        return $menu;
     }
 
-    public function upload(Request $request){
-
-        if($request->ajax()){
-
-//            $data['data'] = ['name'=>'xiaoming','Id'=>'123','error'=>'','msg'=>'成功'];
-//            Log::info('abc');
-//            return response()->json($data);
-        }
-        else
-        {
-
-            $data['data'] = ['name'=>'xiaoming','Id'=>'123','error'=>'','msg'=>'成功'];
-
-            return response()->json($data);
-        }
-
-    }
 }

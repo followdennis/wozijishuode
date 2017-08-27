@@ -33,22 +33,23 @@ a:hover {color: #FF432F;text-decoration: none;}
 a:active {color: #FF432F;}
 a:visited {color: #757575;}
 
-.head {position:relative;position: fixed;left: 0;top:0px;width: 100%;height: 40px;max-height: 40px;z-index: 98;box-shadow: 0 1px 2px rgba(0,0,0,0.2);background:#515459;}
+.head {position:relative;position: fixed;left: 0;top:0px;width: 100%;height: 40px;max-height: 40px;z-index: 98;box-shadow: 0 1px 2px rgba(0,0,0,0.2);background:#e65a5a;}
 .head-fixe {border-bottom:1px solid #fff}
 .head h2 {line-height:40px;height:40px;overflow:hidden;font-weight:400;display:block;text-align:center;color:#fff}
 .head a.home {widtH:22px;line-height:66px;height:22px;background:url('../images/home_ico.png') no-repeat;display:block; position:absolute;top:9px;left:10px;-webkit-background-size:24px 22px;-moz-background-size:24px 22px;background-size:24px 22px;overflow:hidden}
 .nav {width:26px;height:18px;padding:11px 6px;position:absolute;right:10px;top:0px;}
 .nav .nav-ico{width:26px;line-height:60px;height:18px;background:url('../images/menu_ico.png') no-repeat;display:block;-webkit-background-size:26px 18px;-moz-background-size:26px 18px;background-size:26px 18px;overflow:hidden}
-.menu,.menu-home {background:#1A212B;width:100%;height:66px;padding:5px 0;}
+.menu,.menu-home {background:#b72f2f;width:100%;height:66px;padding:5px 0;}
 .menu { position:fixed;top:40px;left:0;display:none;z-index:98}
 .menu p,.menu-home p {float:left;line-height:22px;height:22px;width:16.666%;text-align:center;box-sizing: border-box;}
 .menu a,.menu a:visited,.menu-home a,.menu-home a:visited {color:#fff;font-size:14px;display:block}
-.menu a:hover,.menu a.curr,.menu a.curr:visited,.menu-home a:hover,.menu-home a.curr,.menu-home a.curr:visited {background:#51545A}
+.menu a:hover,.menu a.curr,.menu a.curr:visited,.menu-home a:hover,.menu-home a.curr,.menu-home a.curr:visited {background:#b50911}
 .menu-home {margin-bottom:0px}
 .action {height:40px;float:left;color:#fff}
-.action a {padding:0 18px 0 10px;line-height:40px;height:40px;display:inline-block;background:url('../images/action.png') no-repeat right center;color:#fff}
+/*background:url('../images/action.png') no-repeat right center;  下面的背景图隐藏掉*/
+.action a {padding:0 18px 0 10px;line-height:40px;height:40px;display:inline-block;color:#fff}
 .backtop{ position:fixed; right:1px; bottom:70px; background:url('../images/backtop.png') no-repeat;background-size:38px auto; width:38px; height:38px; text-indent:-9999px; display:none; z-index:100}
-footer {height:32px;line-height:32px;background:#3D3D3D;color:#fff;padding:0 10px;text-align:center;font-size:12px}
+footer {height:32px;line-height:32px;background:#190808;color:#fff;padding:0 10px;text-align:center;font-size:12px}
 footer a,footer a:visited {margin:0 10px;color:#fff}
 
 /* 主体  CSS  */
@@ -65,7 +66,7 @@ footer a,footer a:visited {margin:0 10px;color:#fff}
 .homebox .hd li {float:left;width:33.333%;border-right:1px solid #e2e2e2;text-align:center;max-height: 34px;text-indent:0;box-sizing: border-box;}
 .homebox .hd li:nth-child(3),.pagebox .hd li:nth-child(2){border-right:0;float:right;}
 .homebox .hd li a {display:block;}
-.homebox .hd li.on {background:#515459;color:#fff;border-top:1px solid #515459;border-bottom:1px solid #515459}
+.homebox .hd li.on {background:#ec5b61;color:#fff;border-top:1px solid #515459;border-bottom:1px solid #ec5b61}
 .homebox .hd li.on a {}
 .homebox .bd {}
 .homebox .bd ul,.newlist ul,.glist {margin:0 10px;box-sizing: border-box;}
@@ -100,8 +101,8 @@ footer a,footer a:visited {margin:0 10px;color:#fff}
 
 .pages {height:30px;clear:both;margin:10px 0}
 .pages span {float:left;widtH:33.333%;height:30px;display:block;text-align:center;font-weight:bold;padding:0 5px;box-sizing: border-box;}
-.pages span.txt b,.pages a,.pages a:visited {display:block;background:#515459;color:#fff;line-height:30px;height:30px;}
-.pages span.txt b {background:#777C7F;}
+.pages span.txt b,.pages a,.pages a:visited {display:block;background:#b72f2f;color:#fff;line-height:30px;height:30px;}
+.pages span.txt b {background:#ef7474;}
 
 #s1 {margin:0}
 

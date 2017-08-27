@@ -19,7 +19,10 @@
 </head>
 <body>
 <header class="head">
-<p class="action"><a href="index.html">首页</a><a href="cate.html">励志文章</a> 列表</p>
+<p class="action">
+    <a href="index.html">首页</a> 》
+    <a href="cate.html">励志文章</a>》
+    列表</p>
 <div class="nav"><p class="nav-ico">导航</p></div>
 </header>
 <div class="menu">

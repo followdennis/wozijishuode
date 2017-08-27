@@ -22,27 +22,36 @@ Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
  * 后台操作
  */
 Route::group(['prefix' => 'back'], function () {
-    Route::any('/',['uses'=>'AdminController@index','as'=>'index']);
-    Route::any('index',['uses'=>'AdminController@index','as'=>'index']);
-    Route::any('fileupload',['uses'=>'AdminController@file_upload']);
-    Route::any('/upload',['uses'=>'AdminController@upload']);
+    Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'index']);
+    Route::any('index',['uses'=>'Admin\IndexController@index','as'=>'index']);
+    Route::any('fileupload',['uses'=>'Admin\IndexController@file_upload']);
+    Route::any('/upload',['uses'=>'Admin\IndexController@upload']);
     Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });
 });
-Route::any('/',function(){
-   return view('mobile.index');
+
+Route::group(['domain'=>'m.wozijishuode.cc'],function(){
+    Route::any('/',function(){
+        return view('mobile.index');
+    });
+    Route::any('list',function(){
+        return view('mobile.list');
+    });
+    Route::any('detail',function(){
+        return view('mobile.detail');
+    });
 });
-Route::any('indexhtml',function(){
-    return view('mobile.index');
+Route::group(['domain'=>'www.wozijishuode.cc','prefix'=>'back'],function(){
+    Route::any('index', ['uses'=>'Admin\IndexController@index']);
 });
-Route::any('listhtml',function(){
-    return view('mobile.list');
+Route::group(['domain'=>'www.wozijishuode.cc'],function(){
+    Route::any('/',function(){
+        return '嘿嘿';
+    });
 });
-Route::any('detailhtml',function(){
-    return view('mobile.detail');
-});
+
 
 Route::any('spider',['uses'=>'TestController@spider','as'=>'spider']);
 Route::any('querylist',['uses'=>'TestController@query_list','as'=>'querylist']);

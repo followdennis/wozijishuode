@@ -35,6 +35,7 @@ class TestController extends Controller
             'fulfilled' => function ($response, $index) {
                 // this is delivered each successful response
                 if ($response->getStatusCode() == 200) {
+
                     // 判断 http 状态码为 200 的时候，执行成功
                     // echo $http->getBody();
                     $html =  $response->getBody()->getContents();
