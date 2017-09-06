@@ -11,10 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-9 main-chart">
-           @php
-           echo "<pre>";
-           print_r($menus);
-           @endphp
+          main
         </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
 
