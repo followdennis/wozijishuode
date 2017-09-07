@@ -15,7 +15,7 @@ class IndexController extends AdminController
     {
         parent::__construct();
 
-
+        $this->middleware('auth');
     }
 
     //后台功能实现
