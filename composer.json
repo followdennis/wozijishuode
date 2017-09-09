@@ -9,8 +9,10 @@
         "guzzlehttp/guzzle": "^6.3",
         "jaeger/querylist": "^3.2",
         "laravel/framework": "5.4.*",
+        "predis/predis": "^1.1",
         "symfony/css-selector": "^3.3",
-        "symfony/dom-crawler": "^3.3"
+        "symfony/dom-crawler": "^3.3",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

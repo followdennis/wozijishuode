@@ -24,13 +24,15 @@ Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
 Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Auth::routes();
 
-    Route::get('/home', 'HomeController@index')->name('home');
-//    Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'home']);
+//    Route::get('/home', 'HomeController@index')->name('home');
+    Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'home']);
     Route::any('/home',['uses'=>'Admin\IndexController@index','as'=>'home']);
     Route::any('index',['uses'=>'Admin\IndexController@index','as'=>'index']);
     Route::any('fileupload',['uses'=>'Admin\IndexController@file_upload']);
     Route::any('/upload',['uses'=>'Admin\IndexController@upload']);
+    Route::any('/add_role',['uses'=>'Admin\IndexController@add_role']);
 //    Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
+
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });
