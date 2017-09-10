@@ -1,6 +1,8 @@
 @extends('layouts.main_layout')
-@section('meta_description')
-@endsection
+
+@section('meta_description')aaa @endsection
+
+@section('meta_keyword') 管理后台 @endsection
 
 @section('CUSTOM_STYLE')
 

@@ -15,21 +15,21 @@ use Illuminate\Support\Facades\Auth;
 class IndexController extends AdminController
 {
     //
-    public function __construct()
+    public function __construct(Request $request)
     {
-        parent::__construct();
+        parent::__construct($request);
 
-        $this->middleware('auth');
     }
 
     //后台功能实现
-    public function index(){
+    public function index(Request $request){
         $data['name'] = 'bb';
 //        $list = $this->menusModel->getAllList();
 //        $tree = new Tree();
 //        $new_list = $tree->tree($list);
 //        $tree->makehtml($new_list);
 //        $data['menu'] = $tree->str;
+
         return view('admin.main.index',$data);
     }
     public function add_role(){
