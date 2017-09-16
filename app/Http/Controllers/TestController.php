@@ -14,6 +14,7 @@ use GuzzleHttp\Promise;
 use QL\QueryList;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler;
+use Yajra\Datatables\Datatables;
 
 class TestController extends Controller
 {
@@ -100,8 +101,9 @@ class TestController extends Controller
     }
 
     public function test2(){
-        $res = DB::connection('mysql_center')->table('fanw8')->take('10')->get()->toArray();
-        dd($res);
+        $res = DB::connection('mysql_center')->table('fanw8')
+            ->take('10')->select('title','id');
+        return Datatables::of($res)->make(true);
     }
     public function query_list(){
 

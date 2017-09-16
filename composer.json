@@ -14,6 +14,7 @@
         "predis/predis": "^1.1",
         "symfony/css-selector": "^3.3",
         "symfony/dom-crawler": "^3.3",
+        "yajra/laravel-datatables-oracle": "7.0",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {

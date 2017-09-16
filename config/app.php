@@ -167,6 +167,8 @@ return [
          * Package Service Providers...
          */
         Laravel\Passport\PassportServiceProvider::class,
+        //datatables
+        Yajra\Datatables\DatatablesServiceProvider::class,
         //
 
         /*
@@ -227,7 +229,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
-
+        //datatables
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];
