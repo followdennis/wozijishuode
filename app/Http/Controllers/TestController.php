@@ -7,6 +7,7 @@ use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise;
@@ -98,6 +99,10 @@ class TestController extends Controller
         $promise->wait();
     }
 
+    public function test2(){
+        $res = DB::connection('mysql_center')->table('fanw8')->take('10')->get()->toArray();
+        dd($res);
+    }
     public function query_list(){
 
         $page = 'https://laravel-china.org/categories/6';

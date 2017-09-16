@@ -12,6 +12,7 @@
 */
 //test
 Route::any('test',['uses'=>'TestController@test','as'=>'test']);
+Route::any('test2',['uses'=>'TestController@test2','as'=>'test2']);
 Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
 
 //Route::any('index',function(){
