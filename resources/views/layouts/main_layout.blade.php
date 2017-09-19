@@ -395,7 +395,7 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 
-<script src="{{ asset('js/app.js') }}"></script>
+
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>
