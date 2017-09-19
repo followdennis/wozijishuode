@@ -19,7 +19,7 @@ class MenusController extends AdminController
 
     public function index(){
 
-        return view('Admin.System.menu');
+        return view('admin.system.menu');
     }
     public function get_list(Request $request){
         $data_list = $this->menuModel->getList();
