@@ -35,6 +35,7 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
 //    Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
 
     Route::any('/menus',['uses'=>'Admin\System\MenusController@index','as'=>'menu']);
+    Route::any('/menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'menus/list']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });

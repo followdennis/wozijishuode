@@ -41,7 +41,7 @@
         <a href="index.html" class="logo"><b>后台管理界面</b></a>
         <!--logo end-->
 
-        <div class="top-menu">
+        <div class="top-menu" id="app">
             <ul class="nav pull-right top-menu">
                 {{--<li><a class="logout" href="login.html">Logout</a></li>--}}
                 <li class="dropdown">
@@ -395,6 +395,7 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>

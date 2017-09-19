@@ -3,6 +3,7 @@
     <link href="{{asset('css/datatables.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('CUSTOM_SCRIPT')
+
 <script src="{{asset('js/datatables.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
 
@@ -12,11 +13,7 @@
      * */
     var routes = {
         list: {
-            fetch : 'project_task/list',
-            delete : 'project_task/del',
-            edit:'project_task/edit',
-            change_status:'public_project_task/change_status',
-            show:'project_task/show'
+            fetch : 'menus/list',
         }
     };
 
@@ -24,6 +21,7 @@
 
         var table = $('#main_table').DataTable({
             bLengthChange:false,
+            bPaginate : false,
             processing: true,
             serverSide: true,
             deferRender: true,
@@ -67,25 +65,11 @@
                 }
             },
             columns: [
-                {data: 'id', name: 'id', title : '关键人id', sortable: false, visible: false},
-                {data: 'title', name: 'title', title : '文章标题', sortable: false},
+                {data: 'sort', name: 'sort', title : '排序', sortable: false},
+                {data: 'id', name: 'id', title : '关键人id', sortable: false},
+                {data: 'name', name: 'name', title : '菜单名称', sortable: false},
                 {data: 'description', name: 'description', title : '描述', sortable: false},
-                {data: 'estimate_time', name: 'estimate_time', title : '评估时间', sortable: false},
-                {
-                    data: 'is_finish', name: 'is_finish', title : '是否完成', sortable: false,
-                    render:function(data,type,full){
-                        var message_id = full.id;
-                        if(full.is_finish == 0){
-                            return '<span data-id="'+message_id+'" data-status="0" class="glyphicon glyphicon-remove is_finish_convert" style="color:red"></span>';
-                        }else{
-                            return '<span data-id="'+message_id+'" data-status="1" class="glyphicon glyphicon-ok is_finish_convert" style="color:green"></span>';
-                        }
-                    }
-                },
-                {data: 'assess_value', name: 'assess_value', title : '价值评估', sortable: false},
-                {data: 'start_time', name: 'start_time', title : '开始时间', sortable: false},
-                {data: 'created_at', name: 'created_at', title : '创建时间', sortable: false},
-                {data: 'true_time', name: 'true_time', title : '实际用时', sortable: false},
+
 //                    {
 //                        data: 'source_url', name: 'source_url', title : '文章来源', sortable: false,
 //                        render: function (data,type,full) {
@@ -98,7 +82,7 @@
 //                        }
 //                    },
 //                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
-                {data: 'action', name: 'action', title : '操作', width:"220px",sortable: false}
+//                {data: 'action', name: 'action', title : '操作', width:"220px",sortable: false}
             ],
             //创建行回调
             "createdRow": function ( row, data, index ) {
@@ -124,23 +108,23 @@
             e.preventDefault();
         });
 
-        $("#penalty_start_date").datepicker({
-            todayBtn: "linked",
-            clearBtn: true,
-            language: "zh-CN",
-            calendarWeeks: true,
-            autoclose: true,
-            todayHighlight: true
-        });
-
-        $("#penalty_end_date").datepicker({
-            todayBtn: "linked",
-            clearBtn: true,
-            language: "zh-CN",
-            calendarWeeks: true,
-            autoclose: true,
-            todayHighlight: true
-        });
+//        $("#penalty_start_date").datepicker({
+//            todayBtn: "linked",
+//            clearBtn: true,
+//            language: "zh-CN",
+//            calendarWeeks: true,
+//            autoclose: true,
+//            todayHighlight: true
+//        });
+//
+//        $("#penalty_end_date").datepicker({
+//            todayBtn: "linked",
+//            clearBtn: true,
+//            language: "zh-CN",
+//            calendarWeeks: true,
+//            autoclose: true,
+//            todayHighlight: true
+//        });
 
     } );
 
@@ -251,23 +235,23 @@
 //                content:url+'?id='+id,
 //            });
     }
-    $("#penalty_start_date").datepicker({
-        todayBtn: "linked",
-        clearBtn: true,
-        language: "zh-CN",
-        calendarWeeks: true,
-        autoclose: true,
-        todayHighlight: true
-    });
-
-    $("#penalty_end_date").datepicker({
-        todayBtn: "linked",
-        clearBtn: true,
-        language: "zh-CN",
-        calendarWeeks: true,
-        autoclose: true,
-        todayHighlight: true
-    });
+//    $("#penalty_start_date").datepicker({
+//        todayBtn: "linked",
+//        clearBtn: true,
+//        language: "zh-CN",
+//        calendarWeeks: true,
+//        autoclose: true,
+//        todayHighlight: true
+//    });
+//
+//    $("#penalty_end_date").datepicker({
+//        todayBtn: "linked",
+//        clearBtn: true,
+//        language: "zh-CN",
+//        calendarWeeks: true,
+//        autoclose: true,
+//        todayHighlight: true
+//    });
 
 </script>
 @endsection
