@@ -68,6 +68,7 @@
                 {data: 'sort', name: 'sort', title : '排序', sortable: false},
                 {data: 'id', name: 'id', title : '关键人id', sortable: false},
                 {data: 'name', name: 'name', title : '菜单名称', sortable: false},
+//                {data: 'route', name: 'route', title : '路由', sortable: false},
                 {data: 'description', name: 'description', title : '描述', sortable: false},
 
 //                    {
