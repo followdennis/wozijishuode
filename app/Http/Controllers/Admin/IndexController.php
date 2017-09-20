@@ -21,8 +21,6 @@ class IndexController extends AdminController
 
         parent::__construct($request);
 
-        parent::__construct($request);
-
     }
 
     //后台功能实现
