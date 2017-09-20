@@ -15,7 +15,8 @@
         "symfony/css-selector": "^3.3",
         "symfony/dom-crawler": "^3.3",
         "yajra/laravel-datatables-oracle": "7.0",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "symfony/http-foundation":"3.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
