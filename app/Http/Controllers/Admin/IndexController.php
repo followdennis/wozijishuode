@@ -19,7 +19,7 @@ class IndexController extends AdminController
     public function __construct(Request $request)
     {
 
-        parent::__construct();
+        parent::__construct($request);
 
         parent::__construct($request);
 
