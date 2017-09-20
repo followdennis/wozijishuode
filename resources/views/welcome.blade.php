@@ -6,6 +6,6 @@
 </head>
 <div clss="row">
 <input type="input" value="hello" class="form-group">
-    <a href="#" class="btn btn-default">halou</a>
+    <a href="#" class="btn btn-default">hello</a>
 </div>
 </html>
