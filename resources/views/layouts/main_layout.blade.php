@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('meta_description')">
     <meta name="author" content="Dashboard">
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <meta name="keyword" content="@yield('meta_keyword')">
 
     <title>欢迎来到管理后台</title>
 
@@ -23,8 +23,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    @section('CUSTOM_STYLE')
-    @stop
+  @yield('CUSTOM_STYLE')
 </head>
 
 <body>
@@ -42,9 +41,28 @@
         <a href="index.html" class="logo"><b>后台管理界面</b></a>
         <!--logo end-->
 
-        <div class="top-menu">
+        <div class="top-menu" id="app">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="login.html">Logout</a></li>
+                {{--<li><a class="logout" href="login.html">Logout</a></li>--}}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle logout" data-toggle="dropdown" role="button" aria-expanded="false">
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="nav notify-row" id="top_menu">
@@ -376,6 +394,7 @@
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
+
 
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>

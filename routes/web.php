@@ -12,6 +12,7 @@
 */
 //test
 Route::any('test',['uses'=>'TestController@test','as'=>'test']);
+Route::any('test2',['uses'=>'TestController@test2','as'=>'test2']);
 Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
 
 //Route::any('index',function(){
@@ -21,17 +22,31 @@ Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
 /**
  * 后台操作
  */
-Route::group(['prefix' => 'back'], function () {
-    Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'index']);
+Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
+    Auth::routes();
+
+//    Route::get('/home', 'HomeController@index')->name('home');
+    Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'home']);
+    Route::any('/home',['uses'=>'Admin\IndexController@index','as'=>'home']);
     Route::any('index',['uses'=>'Admin\IndexController@index','as'=>'index']);
     Route::any('fileupload',['uses'=>'Admin\IndexController@file_upload']);
     Route::any('/upload',['uses'=>'Admin\IndexController@upload']);
-    Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
+    Route::any('/add_role',['uses'=>'Admin\IndexController@add_role']);
+//    Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
+
+    Route::any('/menus',['uses'=>'Admin\System\MenusController@index','as'=>'menu']);
+    Route::any('/menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'menus/list']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });
 });
-
+//前台
+Route::group(['domain'=>'www.wozijishuode.com'],function(){
+    Route::any('/',function(){
+        return '嘿嘿';
+    });
+});
+//移动端
 Route::group(['domain'=>'m.wozijishuode.com'],function(){
     Route::any('/',function(){
         return view('mobile.index');
@@ -43,17 +58,10 @@ Route::group(['domain'=>'m.wozijishuode.com'],function(){
         return view('mobile.detail');
     });
 });
-Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
-    Route::any('index', ['uses'=>'Admin\IndexController@index']);
-});
-Route::group(['domain'=>'www.wozijishuode.com'],function(){
-    Route::any('/',function(){
-        return '嘿嘿';
-    });
-});
-
 
 Route::any('spider',['uses'=>'TestController@spider','as'=>'spider']);
 Route::any('querylist',['uses'=>'TestController@query_list','as'=>'querylist']);
+
+
 
 

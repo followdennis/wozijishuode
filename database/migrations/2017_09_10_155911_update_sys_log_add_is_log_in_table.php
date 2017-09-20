@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateArticleTable extends Migration
+class UpdateSysLogAddIsLogInTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class UpdateArticleTable extends Migration
      */
     public function up()
     {
-        Schema::table('article', function (Blueprint $table) {
+        Schema::table('sys_log', function (Blueprint $table) {
             //
-            $table->smallInteger('like')->unsigned()->after('click')->default(0)->comment('赞');
+            $table->tinyInteger('is_login')->default(0)->after('login_address')->comment('是否登陆,1：登陆，2：退出');
         });
     }
 
@@ -26,9 +26,9 @@ class UpdateArticleTable extends Migration
      */
     public function down()
     {
-        Schema::table('article', function (Blueprint $table) {
+        Schema::table('sys_log', function (Blueprint $table) {
             //
-            $table->dropColumn('like');
+            $table->dropColumn('is_login');
         });
     }
 }

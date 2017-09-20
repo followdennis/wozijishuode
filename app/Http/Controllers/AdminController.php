@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->treeModel =new Tree();
         $this->menusModel = new Menus();
         $data['menus'] = $this->menu();
+        $this->middleware('auth');
         view()->share($data);
     }
 
