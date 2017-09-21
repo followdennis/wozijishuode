@@ -17,6 +17,9 @@
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/css/style-responsive.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/sidebar-menu.css') }}">
+    <link href="{{asset('vendor/metronic_theme/css/components.css')}}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{{asset('vendor/metronic_theme/css/plugins.css')}}" rel="stylesheet" type="text/css" />
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -24,6 +27,11 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   @yield('CUSTOM_STYLE')
+    <style>
+        .row_left{
+            padding-left:15px;
+        }
+    </style>
 </head>
 
 <body>

@@ -1,6 +1,9 @@
 @extends('layouts.main_layout')
 @section('CUSTOM_STYLE')
-    <link href="{{asset('css/datatables.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/metronic_theme/css/bootstrap-responsive.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
+
+
 @endsection
 @section('CUSTOM_SCRIPT')
 
@@ -273,10 +276,11 @@
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
-            <div class="row">
+            <div class="row row_left">
                 <div class="col-md-12">
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                    <div class="portlet box blue-steel">
+                    <div class="portlet box red">
+                        {{--<div class="portlet box blue-steel">--}}
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-cogs"></i>关键词列表 </div>
