@@ -20,18 +20,37 @@
     <link href="{{asset('vendor/metronic_theme/css/components.css')}}" rel="stylesheet" id="style_components" type="text/css" />
     <link href="{{asset('vendor/metronic_theme/css/plugins.css')}}" rel="stylesheet" type="text/css" />
 
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
   @yield('CUSTOM_STYLE')
     <style>
-        .row_left{
-            padding-left:15px;
+        .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+            color: #fff;
+            background-color: #e7505a;
+            border-color: #e7505a;
+        }
+        .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+            z-index: 2;
+            color: red;
+            background-color: #eeeeee;
+            border-color: #ddd;
+        }
+        .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+            color: red;
+            border-color: #ddd;
+        }
+        .pagination > li > a, .pagination > li > span {
+            color: #555;
+        }
+        .row{
+            margin-left:-15px;
         }
     </style>
+
 </head>
 
 <body>

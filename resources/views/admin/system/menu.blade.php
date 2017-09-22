@@ -6,8 +6,8 @@
 
 @endsection
 @section('CUSTOM_SCRIPT')
+<script src="{{asset('vendor/datatables/js/datatables.js')}}" type="text/javascript"></script>
 
-<script src="{{asset('js/datatables.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
 
 <script>
@@ -24,7 +24,7 @@
 
         var table = $('#main_table').DataTable({
             bLengthChange:false,
-            bPaginate : false,
+            bPaginate : true,
             processing: true,
             serverSide: true,
             deferRender: true,
