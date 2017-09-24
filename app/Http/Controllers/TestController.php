@@ -19,10 +19,12 @@ use Yajra\Datatables\Datatables;
 class TestController extends Controller
 {
     //
-    public function test($id){
+    public function test($id = 0){
 
         echo 'test3';
         echo $id;
+        echo "<br/>";
+        echo route('back.home');
     }
     public function spider(){
         $client = new Client();

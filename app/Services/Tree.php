@@ -7,7 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Tree extends Model
 {
     //
+    public $arr = array();
+    public $icon = array('└─ ','├─ ','│　 ');
+    public $ret = '';
+    public $nbsp = "&nbsp;&nbsp;";
     public $str;
+
+
+    public function init($arr=array()) {
+        $this->arr = $arr;
+        $this->ret = '';
+        return is_array($arr);
+    }
     public function makehtml($arr = array()){
         if(!is_array($arr)){
             return false;
@@ -66,6 +77,64 @@ class Tree extends Model
     }
 
     /**
+     * 菜单中使用的tree
+     * @param $data
+     * @param int $id
+     * @param int $lev
+     * @param string $pk
+     * @return array
+     */
+    public function tree_menu($data , $id = 0,$lev = 0, $pk = 'id'){
+        static $son = array();
+        foreach($data as $key => $val){
+            if($val['parent_id'] == $id){
+                $val['lev'] = $lev;
+                $son[] = $val;
+                $this->tree_menu($data, $val['id'] , $lev+1);
+            }
+        }
+        return $son;
+    }
+
+    /**
+     * @param $myid
+     * @param $str 格式如  "\$spacer\$name"
+     * @param int $sid
+     * @param string $adds
+     * @param string $str_group
+     * @return array
+     */
+    public function get_tree($myid, $str, $sid = 0, $adds = '', $str_group = '') {
+        $number = 1;
+        //一级栏目
+        static $son = array();
+        $child = $this->get_child($myid);
+        if (is_array($child)) {
+            $total = count($child);
+            foreach ($child as $id => $value) {
+                $j = $k = '';
+                if ($number == $total) {
+                    $j .= $this->icon[0];
+                } else {
+                    $j .= $this->icon[1];
+                    $k = $adds ? $this->icon[2] : '';
+                }
+                $spacer = $adds ? $adds . $j : '';
+                $selected = $id == $sid ? 'selected' : '';
+                @extract($value);
+                $parent_id == 0 && $str_group ? eval("\$nstr = \"$str_group\";") : eval("\$nstr = \"$str\";");
+//                $this->ret .= $nstr;
+                $data = $value;
+                $data['name'] = $nstr;
+                $son[] = $data;
+                $nbsp = $this->nbsp;
+                $this->get_tree($id, $str, $sid, $adds . $k . $nbsp, $str_group);
+                $number++;
+            }
+        }
+        return $son;
+    }
+    /**
      * 寻找祖先
      */
     public function Ancestry($data,$pid,$pk = 'cate_id'){
@@ -78,5 +147,16 @@ class Tree extends Model
             }
         }
         return $ancestry;
+    }
+
+    public function get_child($myid) {
+        $a = $newarr = array();
+        if (is_array($this->arr)) {
+            foreach ($this->arr as $id => $a) {
+                if ($a['parent_id'] == $myid)
+                    $newarr[$id] = $a;
+            }
+        }
+        return $newarr ? $newarr : false;
     }
 }

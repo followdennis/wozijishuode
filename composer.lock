@@ -810,16 +810,16 @@
         },
         {
             "name": "jaeger/phpquery-single",
-            "version": "0.9.7",
+            "version": "0.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jae-jae/phpQuery-single.git",
-                "reference": "4b1dc2b2625a4a142f21a0b85a4254c327dfc5c4"
+                "reference": "7dec61d09b5954a15daecc716402501527dea1ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/jae-jae/phpQuery-single/4b1dc2b2625a4a142f21a0b85a4254c327dfc5c4.zip",
-                "reference": "4b1dc2b2625a4a142f21a0b85a4254c327dfc5c4",
+                "url": "https://files.phpcomposer.com/files/jae-jae/phpQuery-single/7dec61d09b5954a15daecc716402501527dea1ec.zip",
+                "reference": "7dec61d09b5954a15daecc716402501527dea1ec",
                 "shasum": ""
             },
             "require": {
@@ -849,7 +849,7 @@
             ],
             "description": "phpQuery单文件版本，是Querylist的依赖(http://querylist.cc/)，phpQuery项目主页:http://code.google.com/p/phpquery/",
             "homepage": "http://code.google.com/p/phpquery/",
-            "time": "2016-01-02T17:34:12+00:00"
+            "time": "2017-09-22T06:57:13+00:00"
         },
         {
             "name": "jaeger/querylist",

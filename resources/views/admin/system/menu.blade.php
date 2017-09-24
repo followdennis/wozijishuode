@@ -24,7 +24,7 @@
 
         var table = $('#main_table').DataTable({
             bLengthChange:false,
-            bPaginate : true,
+            bPaginate : false,
             processing: true,
             serverSide: true,
             deferRender: true,
@@ -71,8 +71,9 @@
                 {data: 'sort', name: 'sort', title : '排序', sortable: false},
                 {data: 'id', name: 'id', title : '关键人id', sortable: false},
                 {data: 'name', name: 'name', title : '菜单名称', sortable: false},
-//                {data: 'route', name: 'route', title : '路由', sortable: false},
-                {data: 'description', name: 'description', title : '描述', sortable: false},
+                {data: 'parent_id', name: 'parent_id', title : '父id', sortable: false},
+                {data: 'permission_name', name: 'permission_name', title : '路由', sortable: false},
+                {data: 'is_show', name: 'is_show', title : '是否显示', sortable: false},
 
 //                    {
 //                        data: 'source_url', name: 'source_url', title : '文章来源', sortable: false,
@@ -86,7 +87,7 @@
 //                        }
 //                    },
 //                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
-//                {data: 'action', name: 'action', title : '操作', width:"220px",sortable: false}
+                {data: 'action', name: 'action', title : '操作', width:"220px",sortable: false}
             ],
             //创建行回调
             "createdRow": function ( row, data, index ) {
@@ -272,7 +273,7 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h1 class="page-title"> 爱站关键词
+            <h1 class="page-title"> 菜单管理
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
@@ -283,11 +284,11 @@
                         {{--<div class="portlet box blue-steel">--}}
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>关键词列表 </div>
+                                <i class="fa fa-cogs"></i>菜单列表 </div>
 
                             <div class="actions">
                                 <button type="button" class="btn btn-default btn-sm" onclick="showAddListModal()">
-                                    <i class="fa fa-plus"></i> 关键词列表信息
+                                    <i class="fa fa-plus"></i> 添加菜单
                                 </button>
                             </div>
                         </div>

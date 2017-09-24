@@ -25,7 +25,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
   @yield('CUSTOM_STYLE')
     <style>
         .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
@@ -49,12 +48,12 @@
         .row{
             margin-left:-15px;
         }
+        .portlet.box > .portlet-title {
+            padding: 0px 15px;
+        }
     </style>
-
 </head>
-
 <body>
-
 <section id="container" >
     <!-- **********************************************************************************************************************************************************
     TOP BAR CONTENT & NOTIFICATIONS
