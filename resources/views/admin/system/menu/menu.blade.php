@@ -7,7 +7,8 @@
 @endsection
 @section('CUSTOM_SCRIPT')
 <script src="{{asset('vendor/datatables/js/datatables.js')}}" type="text/javascript"></script>
-
+<script src="{{asset('js/system/menu/index.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
 
 <script>
@@ -287,7 +288,7 @@
                                 <i class="fa fa-cogs"></i>菜单列表 </div>
 
                             <div class="actions">
-                                <button type="button" class="btn btn-default btn-sm" onclick="showAddListModal()">
+                                <button type="button" data-url="{{route('menus/add')}}" class="btn btn-default btn-sm menu_add" >
                                     <i class="fa fa-plus"></i> 添加菜单
                                 </button>
                             </div>

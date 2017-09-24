@@ -19,7 +19,7 @@ class MenusController extends AdminController
     }
 
     public function index(){
-        return view('admin.system.menu');
+        return view('admin.system.menu.menu');
     }
     public function get_list(Request $request){
         $data_list = $this->menuModel->getList();
@@ -32,7 +32,7 @@ class MenusController extends AdminController
                 }
             })
             ->addColumn('action',function($record){
-                return '<a href="javascript:;" class="btn btn-sm green item_edit"><i class="fa fa-edit"></i>编辑</a>';
+                return '<a href="javascript:;" class="btn btn-sm green "><i class="fa fa-edit"></i>编辑</a>';
             })
             ->make(true);
             $json = htmlspecialchars_decode($json);//防止无法解析其中的引号
@@ -49,6 +49,12 @@ class MenusController extends AdminController
             }
             return response()->json($new);
     }
+    public function add(Request $request){
+        if($request->isMethod('post')){
 
+        }else{
+            return view('admin.system.menu.add');
+        }
+    }
 
 }

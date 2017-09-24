@@ -16,4 +16,9 @@ require('laravel-elixir-vue-2');
 elixir((mix) => {
     mix.sass('app.scss')
        .webpack('app.js');
+
+    // bootstrap-switch
+    mix.less('../vendor/bootstrap-switch/src/less/bootstrap3/build.less', 'public/vendor/bootstrap-switch/bootstrap-switch.css')
+    .coffee('../vendor/bootstrap-switch/src/coffee/bootstrap-switch.coffee', 'public/vendor/bootstrap-switch/bootstrap-switch.js');
+
 });

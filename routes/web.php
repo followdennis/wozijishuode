@@ -14,7 +14,9 @@
 Route::any('test',['uses'=>'TestController@test','as'=>'test']);
 Route::any('test2',['uses'=>'TestController@test2','as'=>'test2']);
 Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
-
+Route::any('view',function(){
+    return view('layouts.common');
+});
 //Route::any('index',function(){
 //    return view('layouts.main_layout');
 //});
@@ -34,8 +36,15 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Route::any('/add_role',['uses'=>'Admin\IndexController@add_role']);
 //    Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
 
-    Route::any('/menus',['uses'=>'Admin\System\MenusController@index','as'=>'menu']);
-    Route::any('/menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'menus/list']);
+    /**
+     * 系统管理
+     */
+    /**
+     * 菜单管理
+     */
+    Route::any('menus',['uses'=>'Admin\System\MenusController@index','as'=>'menus']);
+    Route::any('menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'menus/list']);
+    Route::any('menus/add',['uses'=>'Admin\System\MenusController@add','as'=>'menus/add']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });
