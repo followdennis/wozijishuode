@@ -51,6 +51,15 @@
         .portlet.box > .portlet-title {
             padding: 0px 15px;
         }
+        .common_content{
+            display: inline-block;
+            margin-top: 0px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 15px;
+            padding-top: 0px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -76,7 +85,8 @@
     *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper">
+        {{--<section class="wrapper">--}}
+        <section class="common_content">
             @yield('body')
         </section>
     </section>
@@ -84,9 +94,8 @@
     <!--main content end-->
 @section('footer')
     <!--footer start-->
-
         <!--footer end-->
-    @show
+@show
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->

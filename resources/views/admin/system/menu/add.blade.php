@@ -12,10 +12,11 @@
 
     <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/System/Menu/form.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
+
 @endsection
 
 @section('body')
-
     <div class="portlet-body" style="padding:25px 0 0 15px">
         <!-- BEGIN FORM-->
         <form action="{{url('menu/add')}}" method="post" id="form_horizontal" class="form-horizontal" enctype="multipart/form-data">
@@ -88,7 +89,6 @@
                         <div id="permissions_name_error"> </div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="control-label col-xs-3">路由参数
                         <span class="required">  </span>

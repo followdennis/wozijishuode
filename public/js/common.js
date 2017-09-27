@@ -1,0 +1,4 @@
+
+$(function(){
+    $('.make-switch').bootstrapSwitch();
+})
