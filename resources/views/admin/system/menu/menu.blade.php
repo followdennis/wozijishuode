@@ -1,13 +1,13 @@
 @extends('layouts.main_layout')
 @section('CUSTOM_STYLE')
     <link href="{{asset('vendor/metronic_theme/css/bootstrap-responsive.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/toastr/toastr.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
-
-
 @endsection
 @section('CUSTOM_SCRIPT')
 <script src="{{asset('vendor/datatables/js/datatables.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/system/menu/index.js')}}" type="text/javascript"></script>
+<script src="{{asset('vendor/toastr/toastr.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
 
@@ -18,6 +18,9 @@
     var routes = {
         list: {
             fetch : 'menus/list',
+            add : '{{route('menus/add')}}',
+            edit : '{{route('menus/edit')}}',
+            del : '{{route('menus/del')}}'
         }
     };
 
@@ -69,12 +72,11 @@
                 }
             },
             columns: [
-                {data: 'sort', name: 'sort', title : '排序', sortable: false},
-                {data: 'id', name: 'id', title : '关键人id', sortable: false},
+                {data: 'sort', name: 'sort', title : '排序',width:"35px", sortable: false},
+                {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
                 {data: 'name', name: 'name', title : '菜单名称', sortable: false},
-                {data: 'parent_id', name: 'parent_id', title : '父id', sortable: false},
                 {data: 'permission_name', name: 'permission_name', title : '路由', sortable: false},
-                {data: 'is_show', name: 'is_show', title : '是否显示', sortable: false},
+                {data: 'is_show', name: 'is_show', title : '显示',width:"50px", sortable: false},
 
 //                    {
 //                        data: 'source_url', name: 'source_url', title : '文章来源', sortable: false,
@@ -88,18 +90,18 @@
 //                        }
 //                    },
 //                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
-                {data: 'action', name: 'action', title : '操作', width:"220px",sortable: false}
+                {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}
             ],
             //创建行回调
             "createdRow": function ( row, data, index ) {
-                $('.itemDel',row).click(function () {
-                    deleteItem($(this).attr('data-id'));
+                $('.menu_del',row).click(function () {
+                    deleteItem($(this).data('id'));
                 });
-                $('.itemDetail',row).click(function(){
-                    item_details($(this).attr('data-id'));
+                $('.item_add',row).click(function(){
+                    item_add($(this).data('id'));
                 })
-                $('.itemEdit',row).click(function(){
-                    item_edit($(this).attr('data-id'));
+                $('.item_edit',row).click(function(){
+                    item_edit($(this).data('id'));
                 })
                 $('.is_finish_convert',row).click(function(){
                     change_finish_status(this);
@@ -174,14 +176,12 @@
             }
 
         ).then(
-
             function(){
-                url = jsRoute(routes.list.delete, {id: id});
+                url = jsRoute(routes.list.del, {id: id});
                 $.get( url, function(data) {
                     if(data.status){
                         var table = $('#main_table').DataTable();
                         table.ajax.reload();
-
                         toastr.options = {
                             closeButton: true,
                             debug: false,
@@ -199,7 +199,7 @@
                 }).fail(function() {
                     swal({
                         title: "失败",
-                        text: '删除关键人失败',
+                        text: '删除菜单失败',
                         type: "error",
                     });
                 });
@@ -223,23 +223,41 @@
             content:url+'?id='+id,
         });
     }
+    function item_add(id){
+        var url = jsRoute(routes.list.add,{parent_id:id});
+        layer.open({
+            title: '添加菜单',
+            type: 2,
+            btn: ['保存','取消'], //按钮
+            yes: function(index, layero){ //或者使用btn1
+                var formData = layer.getChildFrame('body');
+                formData.find('#dosubmit').click();
+                // layer.closeAll();
+            },cancel: function(index){ //或者使用btn2
+                layer.closeAll();
+            },
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px','700px'], //宽高
+            content: url
+        });
+    }
     function item_edit(id){
-
-
-        var url =jsRoute(routes.list.edit,{id:id});
-        window.location.href=url;
-//            layer.open({
-//                title: '投诉任务详情',
-//                type: 2,
-//                btn: ['关闭'], //按钮
-//                yes: function(index, layero){ //或者使用btn1
-//
-//                    layer.closeAll();
-//                },
-//                skin: 'layui-layer-rim', //加上边框
-//                area: ['1000px','600px'], //宽高
-//                content:url+'?id='+id,
-//            });
+        var url = jsRoute(routes.list.edit,{id:id});
+        layer.open({
+            title: '编辑菜单',
+            type: 2,
+            btn: ['保存','取消'], //按钮
+            yes: function(index, layero){ //或者使用btn1
+                var formData = layer.getChildFrame('body');
+                formData.find('#dosubmit').click();
+                // layer.closeAll();
+            },cancel: function(index){ //或者使用btn2
+                layer.closeAll();
+            },
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px','700px'], //宽高
+            content: url
+        });
     }
 //    $("#penalty_start_date").datepicker({
 //        todayBtn: "linked",

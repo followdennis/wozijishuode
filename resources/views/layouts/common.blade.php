@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/sidebar-menu.css') }}">
     <link href="{{asset('vendor/metronic_theme/css/components.css')}}" rel="stylesheet" id="style_components" type="text/css" />
     <link href="{{asset('vendor/metronic_theme/css/plugins.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/sweetalert2/sweetalert2.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -102,8 +103,13 @@
 
 
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
+{{--这个j可能和validate有依赖关系--}}
+<script src="{{asset('vendor/metronic_theme/js/app.js')}}" type="text/javascript"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>
+
+<script src="{{asset('vendor/sweetalert2/sweetalert2.js')}}" type="text/javascript"> </script>
+
 @yield('CUSTOM_SCRIPT')
 <script>
     $.sidebarMenu($('.sidebar-menu'))

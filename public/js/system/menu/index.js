@@ -87,30 +87,6 @@ $(document).ready(function () {
     });
 
     /**
-     * 编辑
-     */
-    $('.menu_edit').click(function () {
-        var name = $(this).attr('data-name');
-        var url = $(this).attr('data-url');
-        //页面层
-        layer.open({
-            title: '编辑菜单 -> ' + name,
-            type: 2,
-            btn: ['保存','取消'], //按钮
-            yes: function(index, layero){ //或者使用btn1
-                var formData = layer.getChildFrame('body');
-                formData.find('#dosubmit').click();
-                // layer.closeAll();
-            },cancel: function(index){ //或者使用btn2
-                layer.closeAll();
-            },
-            skin: 'layui-layer-rim', //加上边框
-            area: ['600px','775px'], //宽高
-            content: url
-        });
-    });
-
-    /**
      * 添加
      */
     $('.menu_add').click(function () {

@@ -16,7 +16,7 @@ Route::any('test_view',function(){
 });
 Route::any('test',['uses'=>'TestController@test','as'=>'test']);
 Route::any('test2',['uses'=>'TestController@test2','as'=>'test2']);
-Route::any('test/{id?}',['uses'=>'TestController@test','as'=>'test']);
+Route::any('abctest/{id}',['uses'=>'TestController@test','as'=>'test/{id}']);
 Route::any('view',function(){
     return view('layouts.common');
 });
@@ -48,6 +48,8 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Route::any('menus',['uses'=>'Admin\System\MenusController@index','as'=>'menus']);
     Route::any('menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'menus/list']);
     Route::any('menus/add',['uses'=>'Admin\System\MenusController@add','as'=>'menus/add']);
+    Route::any('menus/edit',['uses'=>'Admin\System\MenusController@edit','as'=>'menus/edit']);
+    Route::any('menus/del',['uses'=>'Admin\System\MenusController@del','as'=>'menus/del']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });

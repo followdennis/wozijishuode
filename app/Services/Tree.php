@@ -104,7 +104,7 @@ class Tree extends Model
      * @param string $str_group
      * @return array
      */
-    public function get_tree($myid, $str, $sid = 0, $adds = '', $str_group = '') {
+    public function get_menu_tree($myid, $str, $sid = 0, $adds = '', $str_group = '') {
         $number = 1;
         //一级栏目
         static $son = array();
@@ -128,11 +128,45 @@ class Tree extends Model
                 $data['name'] = $nstr;
                 $son[] = $data;
                 $nbsp = $this->nbsp;
-                $this->get_tree($id, $str, $sid, $adds . $k . $nbsp, $str_group);
+                $this->get_menu_tree($id, $str, $sid, $adds . $k . $nbsp, $str_group);
                 $number++;
             }
         }
         return $son;
+    }
+
+    /**
+     * 得到树型结构
+     * @param int ID，表示获得这个ID下的所有子级
+     * @param string 生成树型结构的基本代码，例如："<option value=\$id \$selected>\$spacer\$name</option>"
+     * @param int 被选中的ID，比如在做树型下拉框的时候需要用到
+     * @return string
+     */
+    public function get_tree($myid, $str, $sid = 0, $adds = '', $str_group = ''){
+        $number=1;
+        $child = $this->get_child($myid);
+
+        if(is_array($child)){
+            $total = count($child);
+            foreach($child as $id=>$value){
+                $j=$k='';
+                if($number==$total){
+                    $j .= $this->icon[0];
+                }else{
+                    $j .= $this->icon[1];
+                    $k = $adds ? $this->icon[2] : '';
+                }
+                $spacer = $adds ? $adds.$j : '';
+                $selected = $id==$sid ? 'selected' : '';
+                @extract($value);
+                $parent_id == 0 && $str_group ? eval("\$nstr = \"$str_group\";") : eval("\$nstr = \"$str\";");
+                $this->ret .= $nstr;
+                $nbsp = $this->nbsp;
+                $this->get_tree($id, $str, $sid, $adds.$k.$nbsp,$str_group);
+                $number++;
+            }
+        }
+        return $this->ret;
     }
     /**
      * 寻找祖先

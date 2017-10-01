@@ -96,7 +96,6 @@ $(document).ready(function() {
             } else {
                 error.insertAfter(element); // for other inputs, just perform default behavior
             }
-
         },
 
         highlight: function (element) { // hightlight error inputs
@@ -131,10 +130,10 @@ $(document).ready(function() {
                 type: "success",
                 closeOnConfirm: false
             }).then(function(){
-                console.log('fff')
+                // console.log('fff')
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 parent.layer.close(index); //再执行关闭
-                parent.window.location.href='/menu/index';
+                parent.window.location.href="/back/menus";
             });
         }else if(data.state == -1){
             swal({

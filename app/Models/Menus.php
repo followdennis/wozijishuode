@@ -15,7 +15,7 @@ class Menus extends Model
         return $query->where('id', '>', $id);
     }
     public function getAllList(){
-        return self::All()->toArray();
+        return self::all()->toArray();
     }
 
 }
