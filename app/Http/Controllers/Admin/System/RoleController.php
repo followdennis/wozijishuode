@@ -32,7 +32,7 @@ class RoleController extends AdminController
         $data = $this->roleModel->getAllList();
         return Datatables::of($data)
             ->addColumn('action',function($record){
-                $permission_man = '<a data-url="" data-id="'.$record->id.'" class="btn  btn-sm blue power_set"><i class="fa fa-gear"></i> 权限设置 </a>';
+                $permission_man = '<a data-id="'.$record->id.'" data-name="'.$record->name.'" class="btn  btn-sm blue power_set"><i class="fa fa-gear"></i> 权限设置 </a>';
                 $member_man = '<a href="'.route('role/member',['role_id'=>$record->id]).'" class="btn  btn-sm green"><i class="fa fa-user"></i> 成员管理 </a>';
                 $role_edit = '<a data-id="'.$record->id.'" data-name="'.$record->name.'" class="btn  btn-sm purple item_edit"><i class="fa fa-edit"></i> 编辑 </a>';
                 $role_del = '<a href="javascript:void(0);" data-id="'.$record->id.'" class="btn  btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a>';
@@ -193,7 +193,7 @@ class RoleController extends AdminController
             $list = $this->roleModel->getRoleMemberList($role_id);
             return Datatables::of($list)
                 ->addColumn('action',function($record){
-                    return '<a >删除</a>';
+                    return '<a href="javascript:void(0);" data-id="'.$record->id.'" data-role_id="'.$record->role_id.'" class="btn  btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a>';
                 })
                 ->filter(function($query) use($request){
                     if($request->has('keyword')){
@@ -207,6 +207,20 @@ class RoleController extends AdminController
             $data['role_id'] = $role_id;
             return view('admin.system.role.member',$data);
         }
+    }
+    /**
+     * 删除成员
+     */
+    public function member_del(Request $request){
+        $id = $request->get('id');
+        $role_id = $request->get('role_id');
+        $del_status = $this->roleModel->memberDel($id,$role_id);
+        if($del_status){
+            return response()->json(['status'=>1,'msg'=>'删除成员成功']);
+        }else{
+            return response()->json(['status'=>0,'msg'=>'删除成员失败']);
+        }
+
     }
 
 }

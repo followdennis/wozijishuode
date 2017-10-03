@@ -106,7 +106,7 @@
                         item_edit($(this).data('id'),$(this).data('name'));
                     });
                     $('.power_set',row).click(function(){
-                        power_set($(this).data('id'));
+                        power_set($(this).data('id'),$(this).data('name'));
                     });
                     $('.is_finish_convert',row).click(function(){
                         change_finish_status(this);
@@ -207,10 +207,10 @@
                 content:url+'?id='+id,
             });
         }
-        function power_set(id){
+        function power_set(id,name){
             var url = jsRoute(routes.power.set,{id:id});
             layer.open({
-                title: '权限设置',
+                title: '权限设置>'+ name,
                 type: 2,
                 btn: ['保存','关闭'], //按钮
                 yes: function(index, layero){ //或者使用btn1

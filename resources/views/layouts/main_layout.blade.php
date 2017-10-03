@@ -242,10 +242,9 @@
     <aside>
         <div id="sidebar"  class="nav-collapse ">
             <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
 
-                <p class="centered"><a href="{{ url('back') }}"><img src="{{ asset('admin/assets/img/ui-sam.jpg') }}" class="img-circle" width="60"></a></p>
-                <h5 class="centered">Marcel Newman</h5>
+            {!! $menus !!}
+            <ul class="sidebar-menu" id="nav-accordion">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="treeview">
                     <a href="#">
@@ -376,12 +375,6 @@
                         </li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                     </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-circle-o text-aqua"></i> <span>菜单测试</span>
-                        <i class="fa fa-angle-left pull-right"></i></a>
-                    {!! $menus !!}
                 </li>
                 <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
                 <li class="header">LABELS</li>

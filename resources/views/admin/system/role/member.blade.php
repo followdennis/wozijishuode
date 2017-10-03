@@ -21,6 +21,9 @@
                 add : '{{route('role/add')}}',
                 edit : '{{route('role/edit')}}',
                 del : '{{route('role/del')}}'
+            },
+            member:{
+              del:'{{route('role/member_del')}}'
             }
         };
         $(document).ready(function() {
@@ -89,7 +92,7 @@
                 //创建行回调
                 "createdRow": function ( row, data, index ) {
                     $('.item_del',row).click(function () {
-                        deleteItem($(this).data('id'));
+                        deleteItem($(this).data('id'),$(this).data('role_id'));
                     });
                     $('.item_add',row).click(function(){
                         item_add($(this).data('id'));
@@ -106,7 +109,7 @@
             });
         } );
 
-        function deleteItem(id) {
+        function deleteItem(id,role_id) {
             swal({
                     title: "确定删除?",
                     text: "删除后，你将无法恢复!",
@@ -120,7 +123,7 @@
                 }
             ).then(
                 function(){
-                    url = jsRoute(routes.list.del, {id: id});
+                    url = jsRoute(routes.member.del, {id: id,role_id:role_id});
                     $.get( url, function(data) {
                         if(data.status){
                             var table = $('#main_table').DataTable();

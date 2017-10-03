@@ -243,10 +243,16 @@ class Role extends EntrustRole
         $list = DB::table('role_user as ru')
             ->join('roles as r','ru.role_id','=','r.id')
             ->join('users as u','ru.user_id','=','u.id')
-            ->select('u.id as id','u.name as login_name','u.nickname as name','r.name as role_name as role_name')
+            ->select('u.id as id','u.name as login_name','u.nickname as name','r.name as role_name as role_name','ru.role_id as role_id')
             ->where('role_id',$role_id)
             ->whereNull('u.deleted_at')
             ->orderBy('u.id','DESC');
         return $list;
+    }
+    /**
+     * 删除角色成员
+     */
+    public function memberDel($id,$role_id){
+        return DB::table('role_user')->where(['user_id'=>$id,'role_id'=>$role_id])->delete();
     }
 }

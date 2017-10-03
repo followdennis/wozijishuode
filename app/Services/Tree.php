@@ -19,28 +19,37 @@ class Tree extends Model
         $this->ret = '';
         return is_array($arr);
     }
-    public function makehtml($arr = array()){
+    public function makehtml($arr = array(),$level = 0){
         if(!is_array($arr)){
             return false;
         }
-        $this->str .= "<ul class='treeview-menu'>";
+        if($level == 0){
+//            $this->str .= "<ul class=\"sidebar-menu\" id=\"nav-accordion\">";
+            $this->str = "<ul class=\"sidebar-menu\" id=\"nav-accordion\">
+
+                <p class=\"centered\"><a href=\"http://www.wozijishuode.com/back\"><img src=\"http://www.wozijishuode.com/admin/assets/img/ui-sam.jpg\" class=\"img-circle\" width=\"60\"></a></p>
+                <h5 class=\"centered\">Marcel Newman</h5>";
+        }else{
+            $this->str .= "<ul class='treeview-menu'>";
+        }
         foreach($arr as $k => $v){
             if(isset($v['children'])){
                 $this->str .= "<li class='treeview'><a href='#'>
-                        <i class='fa fa-circle-o'></i> <span>".$v['name']."</span>
+                        <i class='fa ".$v['icon']."'></i> <span>".$v['name']."</span>
                         <i class='fa fa-angle-left pull-right'></i>
                     </a>";
-                $this->makehtml($v['children']);
+                $this->makehtml($v['children'],$level+1);
                 $this->str.= "</li>";
             }else{
+//                $route_url = route($v['route_name']);
+                $route_url='';
                 $this->str .= "<li>
-                            <a href='#'>
-                                <i class='fa fa-circle-o'></i>".$v['name']."
+                            <a href='".$route_url."'>
+                                <i class='fa ".$v['icon']."'></i>".$v['name']."
                             </a></li>";
             }
         }
         $this->str .= "</ul>";
-
     }
 
     public function tree($arr , $parentId = 0 ,$level = 0, $pk = 'id'){

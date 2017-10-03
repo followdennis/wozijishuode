@@ -15,7 +15,11 @@ class Menus extends Model
         return $query->where('id', '>', $id);
     }
     public function getAllList(){
-        return self::all()->toArray();
+        return self::leftJoin('permissions as p',function($query){
+            $query->on('menus.permission_id','=','p.id');
+        })->select('menus.*','p.name as route_name')
+            ->get()
+            ->toArray();
     }
 
 }

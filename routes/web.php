@@ -61,6 +61,7 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Route::any('role/del',['uses'=>'Admin\System\RoleController@del','as'=>'role/del']);
     Route::any('role/power',['uses'=>'Admin\System\RoleController@power','as'=>'role/power']);
     Route::any('role/member',['uses'=>'Admin\System\RoleController@member','as'=>'role/member']);//展示及列表
+    Route::any('role/member_del',['uses'=>'Admin\System\RoleController@member_del','as'=>'role/member_del']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });

@@ -15,6 +15,21 @@ class Menus extends Model
     //
     use SoftDeletes;
     protected $table = 'menus';
+
+    /**
+     * 获取左侧菜单列表
+     * @return array
+     */
+    public function getAllMenuList(){
+        return self::leftJoin('permissions as p',function($query){
+                $query->on('menus.permission_id','=','p.id');
+             })
+            ->select('menus.*','p.name as route_name')
+            ->where('menus.is_show',1)
+            ->get()
+            ->toArray();
+    }
+
     //对象方式获取
     public function getList(){
         $data = DB::table($this->table." as m")
