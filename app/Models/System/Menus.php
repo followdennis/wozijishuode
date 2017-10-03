@@ -3,6 +3,7 @@
 namespace App\Models\System;
 
 use App\Models\Permission;
+use App\Services\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class Menus extends Model
     //
     use SoftDeletes;
     protected $table = 'menus';
+    //对象方式获取
     public function getList(){
         $data = DB::table($this->table." as m")
             ->leftJoin('permissions as p',function($query){
@@ -25,8 +27,37 @@ class Menus extends Model
             ->orderBy('sort','desc');
         return $data;
     }
+    //数组方式获取
     public function getAllList(){
-        return self::all()->toArray();
+//        return self::all()->toArray();
+        if(Cache::has('menu_permision_list'))
+        {
+            $list = Cache::get('menu_permision_list');
+        }else {
+            $list_arr = DB::table($this->table . " as m")
+                ->leftJoin('permissions as p', 'm.permission_id', '=', 'p.id')
+                ->select('m.*', 'p.name as permissions_name', 'p.display_name as permissions_display_name', 'p.description as permissions_description')
+                ->where('m.deleted_at', null)
+                ->orderBy('m.sort', 'asc')
+                ->orderBy('m.id', 'desc')
+                ->get();
+            $list = [];
+            if(!empty($list_arr))
+            {
+                $list_to_arr = $list_arr->toArray();
+                foreach ($list_to_arr as $r) {
+                    if(is_object($r))
+                    {
+                        $list[] = Utils::objectToArray($r);
+                    }else{
+                        $list[] = $r;
+                    }
+                }
+            }
+            $left_time = Carbon::now()->addMinute(config('cache.left_time'));
+            Cache::put('menu_permision_list',$list,$left_time);
+        }
+        return $list;
     }
     /**
      * 添加菜单

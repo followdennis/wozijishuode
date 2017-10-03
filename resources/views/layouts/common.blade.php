@@ -85,11 +85,11 @@
     MAIN CONTENT
     *********************************************************************************************************************************************************** -->
     <!--main content start-->
-    <section id="main-content">
+    <section id="main-content2">
         {{--<section class="wrapper">--}}
-        <section class="common_content">
+
             @yield('body')
-        </section>
+
     </section>
 
     <!--main content end-->

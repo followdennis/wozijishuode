@@ -16,11 +16,10 @@ $(document).ready(function () {
                     confirmButtonText: "是的，确定删除",
                     closeOnConfirm: false
                 }
-
             ).then(
                 function(){
                     $.ajax({
-                        url: "/menu/del",
+                        url: "/role/del",
                         data: {id: id},
                         type: "post",
                         dataType: "json",
@@ -88,13 +87,14 @@ $(document).ready(function () {
 
     /**
      * 添加
+     * 目前只用到这一个
      */
-    $('.menu_add').click(function () {
+    $('.role_add').click(function () {
 
         var url = $(this).data('url');
         //页面层
         layer.open({
-            title: '添加菜单',
+            title: '添加角色',
             type: 2,
             btn: ['保存','取消'], //按钮
             yes: function(index, layero){ //或者使用btn1
@@ -105,8 +105,13 @@ $(document).ready(function () {
                 layer.closeAll();
             },
             skin: 'layui-layer-rim', //加上边框
-            area: ['600px','700px'], //宽高
-            content: url
+            area: ['500px','400px'], //宽高
+            content: url,
+            end: function () {
+                // location.reload();
+                var table = $('#main_table').DataTable();
+                table.ajax.reload();
+            }
         });
     });
 })

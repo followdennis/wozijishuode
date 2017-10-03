@@ -414,7 +414,10 @@ ul.sidebar-menu li a.active i {
 #main-content {
     margin-left: 210px;
 }
-
+/*common模板里用到*/
+#main-content2{
+    margin-left:0px;
+}
 .header, .footer {
     min-height: 60px;
     padding: 0 15px;

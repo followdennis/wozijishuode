@@ -16,6 +16,7 @@
 @endsection
 
 @section('body')
+    <section class="common_content">
     <div class="portlet-body" style="padding:25px 0 0 15px">
         <!-- BEGIN FORM-->
         <form action="{{route('menus/edit')}}" method="post" id="form_horizontal" class="form-horizontal" enctype="multipart/form-data">
@@ -125,4 +126,5 @@
         </form>
         <!-- END FORM-->
     </div>
+    </section>
 @endsection

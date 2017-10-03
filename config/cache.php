@@ -87,5 +87,6 @@ return [
     */
 
     'prefix' => 'laravel',
+    'left_time' => 0,
 
 ];

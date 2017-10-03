@@ -50,6 +50,17 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Route::any('menus/add',['uses'=>'Admin\System\MenusController@add','as'=>'menus/add']);
     Route::any('menus/edit',['uses'=>'Admin\System\MenusController@edit','as'=>'menus/edit']);
     Route::any('menus/del',['uses'=>'Admin\System\MenusController@del','as'=>'menus/del']);
+    /**
+     * 角色管理
+     */
+    Route::any('role',['uses'=>'Admin\System\RoleController@index','as'=>'role']);
+    Route::any('role/list',['uses'=>'Admin\System\RoleController@get_list','as'=>'role/list']);
+    Route::any('role/add',['uses'=>'Admin\System\RoleController@add','as'=>'role/add']);
+    Route::any('ajax_role/check_role_exist',['uses'=>'Admin\System\RoleController@checkRoleNameUnique','as'=>'ajax_role/check_role_exist']);
+    Route::any('role/edit',['uses'=>'Admin\System\RoleController@edit','as'=>'role/edit']);
+    Route::any('role/del',['uses'=>'Admin\System\RoleController@del','as'=>'role/del']);
+    Route::any('role/power',['uses'=>'Admin\System\RoleController@power','as'=>'role/power']);
+    Route::any('role/member',['uses'=>'Admin\System\RoleController@member','as'=>'role/member']);//展示及列表
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });
