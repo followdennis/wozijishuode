@@ -11,7 +11,7 @@
     {{--<script src="{{asset('js/jquery.form.js')}}" type="text/javascript"></script>--}}
 
     <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/System/Menu/form.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/system/menu/form.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
 @endsection
 
