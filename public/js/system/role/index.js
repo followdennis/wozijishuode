@@ -90,7 +90,6 @@ $(document).ready(function () {
      * 目前只用到这一个
      */
     $('.role_add').click(function () {
-
         var url = $(this).data('url');
         //页面层
         layer.open({

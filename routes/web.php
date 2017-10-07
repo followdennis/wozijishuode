@@ -46,7 +46,7 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
      * 菜单管理
      */
     Route::any('menus',['uses'=>'Admin\System\MenusController@index','as'=>'menus']);
-    Route::any('menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'menus/list']);
+    Route::any('menus/list',['uses'=>'Admin\System\MenusController@get_list','as'=>'back/menus/list']);
     Route::any('menus/add',['uses'=>'Admin\System\MenusController@add','as'=>'menus/add']);
     Route::any('menus/edit',['uses'=>'Admin\System\MenusController@edit','as'=>'menus/edit']);
     Route::any('menus/del',['uses'=>'Admin\System\MenusController@del','as'=>'menus/del']);

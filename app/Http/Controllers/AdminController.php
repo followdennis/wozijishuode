@@ -20,7 +20,6 @@ class AdminController extends Controller
 
     public function menu(){
         $list = $this->menusModel->getAllMenuList();
-
         $new_list = $this->treeModel->tree($list);
         $new_list = $this->treeModel->makehtml($new_list);
         $menu = $this->treeModel->str;

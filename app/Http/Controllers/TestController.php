@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise;
@@ -24,7 +25,10 @@ class TestController extends Controller
         echo 'test3';
         echo $id;
         echo "<br/>";
-        echo route('back.home');
+        echo route('back/menus');
+        echo "<br/>";
+       echo  Route::currentRouteName();
+       dd(Route::has('back/menu'));
     }
     public function spider(){
         $client = new Client();

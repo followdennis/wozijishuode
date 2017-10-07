@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Route;
 
 class Tree extends Model
 {
@@ -23,18 +24,47 @@ class Tree extends Model
         if(!is_array($arr)){
             return false;
         }
+        $route = Route::currentRouteName();
+        $route = trim($route,'/');
+
+
         if($level == 0){
 //            $this->str .= "<ul class=\"sidebar-menu\" id=\"nav-accordion\">";
-            $this->str = "<ul class=\"sidebar-menu\" id=\"nav-accordion\">
+            $this->str = "<ul class=\"sidebar-menu \" id=\"nav-accordion\">
 
                 <p class=\"centered\"><a href=\"http://www.wozijishuode.com/back\"><img src=\"http://www.wozijishuode.com/admin/assets/img/ui-sam.jpg\" class=\"img-circle\" width=\"60\"></a></p>
                 <h5 class=\"centered\">Marcel Newman</h5>";
         }else{
-            $this->str .= "<ul class='treeview-menu'>";
+            $this->str .= "<ul class='treeview-menu '>";
         }
         foreach($arr as $k => $v){
+            @extract($v);
+            if(!empty($route_params))
+            {
+                parse_str($route_params,$route_params);
+            }
+            $route_name = trim($route_name,'/');
+            $menu_url = '';
+
+            if($route_name != '' && Route::has($route_name))
+            {
+                $menu_url = $route_name ? route($route_name,$route_params) : '';
+            }
+
+            //本身叶子节点节点选中
+            $class_active = '';
+            if(!empty($route) && $route_name == $route){
+               $class_active = " class='active' ";
+            }
+            $ul_open = '';
+            $li_active = '';
+            if(!empty($route) && in_array(1,$this->checkChildrenClick($v,$route))){
+                $ul_open = " menu-open ";
+                $li_active = ' active ';
+            }
             if(isset($v['children'])){
-                $this->str .= "<li class='treeview'><a href='#'>
+
+                $this->str .= "<li class='treeview".$li_active."'><a href='".$menu_url."'>
                         <i class='fa ".$v['icon']."'></i> <span>".$v['name']."</span>
                         <i class='fa fa-angle-left pull-right'></i>
                     </a>";
@@ -42,9 +72,9 @@ class Tree extends Model
                 $this->str.= "</li>";
             }else{
 //                $route_url = route($v['route_name']);
-                $route_url='';
-                $this->str .= "<li>
-                            <a href='".$route_url."'>
+info($menu_url);
+                $this->str .= "<li ".$class_active.">
+                            <a href='".$menu_url."'>
                                 <i class='fa ".$v['icon']."'></i>".$v['name']."
                             </a></li>";
             }
@@ -52,6 +82,35 @@ class Tree extends Model
         $this->str .= "</ul>";
     }
 
+    public function checkChildrenClick($arr,$current_route,$recursion=false){
+        global $selected;
+        if($recursion == false){
+            $selected = [];
+        }
+        if(isset($arr['children']) && is_array($arr['children'])){
+            foreach($arr['children'] as $id => $item){
+                if($current_route == trim($item['route_name'])){
+                    $selected[] = 1;
+                }else{
+                    $selected[] = 0;
+                }
+                if(isset($arr['children']) && is_array($arr['children'])){
+                    $this->checkChildrenClick($item,$current_route,true);
+                }
+            }
+        }
+        return $selected;
+    }
+    public function checkChildrenSelected($tree_part,$current_route,$recursion=false)
+    {
+        global $selected;
+        if($recursion == false)
+        {
+            $selected = [];
+        }
+
+        return $selected;
+    }
     public function tree($arr , $parentId = 0 ,$level = 0, $pk = 'id'){
 
         $children = array_filter($arr ,function($val) use($parentId){
@@ -86,7 +145,7 @@ class Tree extends Model
     }
 
     /**
-     * 菜单中使用的tree
+     * 菜单列表中使用的tree
      * @param $data
      * @param int $id
      * @param int $lev
@@ -201,5 +260,12 @@ class Tree extends Model
             }
         }
         return $newarr ? $newarr : false;
+    }
+
+    /**
+     * 结构化之后的数据
+     */
+    public function get_children(){
+
     }
 }

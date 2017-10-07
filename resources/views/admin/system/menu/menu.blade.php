@@ -207,22 +207,6 @@
         );
     }
 
-    function item_details(id){
-        var url ='/project_task/show';
-        var url = jsRoute(routes.list.show);
-        layer.open({
-            title: '投诉任务详情',
-            type: 2,
-            btn: ['关闭'], //按钮
-            yes: function(index, layero){ //或者使用btn1
-
-                layer.closeAll();
-            },
-            skin: 'layui-layer-rim', //加上边框
-            area: ['1000px','600px'], //宽高
-            content:url+'?id='+id,
-        });
-    }
     function item_add(id){
         var url = jsRoute(routes.list.add,{parent_id:id});
         layer.open({
@@ -238,7 +222,12 @@
             },
             skin: 'layui-layer-rim', //加上边框
             area: ['600px','700px'], //宽高
-            content: url
+            content: url,
+            end: function () {
+                // location.reload();
+                var table = $('#main_table').DataTable();
+                table.ajax.reload();
+            }
         });
     }
     function item_edit(id){

@@ -87,7 +87,7 @@ class Menus extends Model
         if(trim($permission_data['name']) != ''){ //路由不为空
             if(\Route::has(trim($permission_data['name']))) //路由是否已经配置
             {
-                $route = route_uri($permission_data['name']);
+                $route = route($permission_data['name']);
                 preg_match_all("/\{([\w+]+)\}/",$route,$route_var);  //正则不包括 route中的可选参数 ?
                 $var_field = [];
                 if(!empty($route_var[1])) //存在路由变量
@@ -170,7 +170,7 @@ class Menus extends Model
         if(trim($permission_data['name']) != ''){
             if(\Route::has(trim($permission_data['name']))) //路由是否已经配置
             {
-                $route = route_uri($permission_data['name']);
+                $route = route($permission_data['name']);//由route_uri 修改为route
                 preg_match_all("/\{([\w+]+)\}/",$route,$route_var);  //正则不包括 route中的可选参数 ?
                 $var_field = [];
                 if(!empty($route_var[1])) //存在路由变量
