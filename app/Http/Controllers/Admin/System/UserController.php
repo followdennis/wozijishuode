@@ -100,11 +100,13 @@ class UserController extends AdminController
             $data = [
                 'name' => trim($params['name']),
                 'email' => trim($params['email']),
-                'password' => bcrypt($params['password']),
                 'py'=>pinyin_abbr($params['name']),
                 'pinyin'=>pinyin_permalink($params['name'],''),
                 'nickname'=>$params['nickname']
             ];
+            if(!empty($params['password'])){
+                $data['password'] = bcrypt($params['password']);
+            }
             $role_ids = $params['role_id'];
             $insert_user = $this->userModel->updateUser($data,$role_ids,$id);
             if($insert_user){

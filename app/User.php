@@ -92,19 +92,13 @@ class User extends Authenticatable
         $user = DB::table($this->table)->whereNull('deleted_at')->where('id',$id)->first();
         $now = Carbon::now()->format('Y-m-d H:i:s');
         $data['updated_at'] = $now;
-        if(empty($data['password'])){
-            unset($data['password']);
-        }
+
         if(!empty($user)){
             DB::beginTransaction();
-
             $u_status = DB::table($this->table)->where('id',$id)->update($data);
-
             $r_status = true;
             $del_status = true;
             $exist_role_user = DB::table('role_user')->where('user_id',$id)->first();
-
-
             if(!empty($role_ids)){
                 if($exist_role_user){
                     $del_status = DB::table('role_user')->where('user_id',$id)->delete();
