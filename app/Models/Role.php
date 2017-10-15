@@ -24,6 +24,12 @@ class Role extends EntrustRole
             ->where('deleted_at',null)
             ->orderBy('created_at','desc');
     }
+    public function getList(){
+        return DB::table($this->table)
+            ->where('deleted_at',null)
+            ->orderBy('created_at','desc')
+            ->get()->toArray();
+    }
 
     /**
      * 新增角色
@@ -38,6 +44,7 @@ class Role extends EntrustRole
         $Role->description = trim($params['description']);
         return $Role->save();
     }
+
     /**
      * 检查角色名称唯一性
      * @param $name

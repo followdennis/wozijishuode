@@ -66,6 +66,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'py'=>pinyin_abbr($data['name']),
+            'pinyin'=>pinyin_permalink($data['name'],'')
         ]);
     }
 }

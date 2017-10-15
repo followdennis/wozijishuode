@@ -16,7 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/css/style-responsive.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/sidebar-menu.css') }}">
+    <link href="{{ asset('admin/assets/css/sidebar-menu.css') }}"  rel="stylesheet" >
     <link href="{{asset('vendor/metronic_theme/css/components.css')}}" rel="stylesheet" id="style_components" type="text/css" />
     <link href="{{asset('vendor/metronic_theme/css/plugins.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/sweetalert2/sweetalert2.css')}}" rel="stylesheet" type="text/css" />
@@ -61,6 +61,8 @@
             padding-top: 0px;
             width: 100%;
         }
+        /*下拉多选*/
+        .multiselect-container>li>a{padding-left:30px;}
     </style>
 </head>
 <body>

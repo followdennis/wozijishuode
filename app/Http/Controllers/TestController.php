@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Overtrue\Pinyin\Pinyin;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise;
@@ -25,10 +26,24 @@ class TestController extends Controller
         echo 'test3';
         echo $id;
         echo "<br/>";
-        echo route('back/menus');
+//        echo route('back/menus');
         echo "<br/>";
        echo  Route::currentRouteName();
-       dd(Route::has('back/menu'));
+       echo "<br/>";
+       $pinyin = new Pinyin();
+       $pinyin = app('pinyin')->convert('你好');//数组
+       $py = app('pinyin')->abbr('你好');
+       print_r($pinyin);
+       print_r($py);
+       echo pinyin_abbr('你好');//nh
+       $pinyin = pinyin('你好'); //['ni','hao'];
+       print_r($pinyin);
+       $perlink = pinyin_permalink('你好，世界',''); //nihaoshijie
+       print_r($perlink);
+       echo "<hr>";
+       echo "abc" == 0 ? "yes":"no";
+       echo "<br/>";
+       echo strlen(1234);
     }
     public function spider(){
         $client = new Client();

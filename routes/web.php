@@ -62,6 +62,15 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Route::any('role/power',['uses'=>'Admin\System\RoleController@power','as'=>'role/power']);
     Route::any('role/member',['uses'=>'Admin\System\RoleController@member','as'=>'role/member']);//展示及列表
     Route::any('role/member_del',['uses'=>'Admin\System\RoleController@member_del','as'=>'role/member_del']);
+    /**
+     * 用户管理
+     */
+    Route::any('user',['uses'=>'Admin\System\UserController@index','as'=>'user']);
+    Route::any('user/list',['uses'=>'Admin\System\UserController@get_list','as'=>'user/list']);
+    Route::any('user/edit',['uses'=>'Admin\System\UserController@edit','as'=>'user/edit']);
+    Route::any('user/add',['uses'=>'Admin\System\UserController@add','as'=>'user/add']);
+    Route::any('user/del',['uses'=>'Admin\System\UserController@del','as'=>'user/del']);
+    Route::any('user/check_exists',['uses'=>'Admin\System\UserController@check_exists','as'=>'user/check_exists']);
     Route::any('sidebar',function(){
         return view('partial.leftmenu');
     });

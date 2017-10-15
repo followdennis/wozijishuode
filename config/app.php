@@ -180,6 +180,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
+        Overtrue\LaravelPinyin\ServiceProvider::class,//拼音插件
 
     ],
 
@@ -231,6 +233,8 @@ return [
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         //datatables
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Hashids' =>Vinkla\Hashids\Facades\Hashids::class,
+        'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
     ],
 
 ];

@@ -48,7 +48,11 @@ class Tree extends Model
 
             if($route_name != '' && Route::has($route_name))
             {
-                $menu_url = $route_name ? route($route_name,$route_params) : '';
+                if(!empty($route_params)){
+                    $menu_url = $route_name ? route($route_name,$route_params) : '';
+                }else{
+                    $menu_url = $route_name ? route($route_name) : '';
+                }
             }
 
             //本身叶子节点节点选中
@@ -71,8 +75,6 @@ class Tree extends Model
                 $this->makehtml($v['children'],$level+1);
                 $this->str.= "</li>";
             }else{
-//                $route_url = route($v['route_name']);
-info($menu_url);
                 $this->str .= "<li ".$class_active.">
                             <a href='".$menu_url."'>
                                 <i class='fa ".$v['icon']."'></i>".$v['name']."
