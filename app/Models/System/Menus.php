@@ -240,5 +240,24 @@ class Menus extends Model
             }
         }
     }
+    /**
+     * 检验菜单是否存在
+     */
+    public function checkMenuExists($route){
+        if(empty($route)){
+            return false;
+        }
+        $info =  DB::table($this->table." as m")
+        ->leftJoin('permissions as p','m.permission_id','=','p.id')
+            ->where('p.name','=',$route)
+            ->first();
+
+        if(empty($info)){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
 
 }
