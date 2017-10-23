@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -86,7 +87,6 @@ class LoginController extends Controller
             ];
             $id = $this->sysModel->record_login($params);
             session(['sys_log_id_'.Auth::user()->id => $id]);
-
             return $this->sendLoginResponse($request);
         }
 

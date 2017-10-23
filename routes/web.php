@@ -29,7 +29,7 @@ Route::any('view',function(){
  */
 Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
     Auth::routes();
-    Route::group(['middleware'=>'permissions'],function(){
+    Route::group(['middleware'=>['permissions','auth']],function(){
 
         //    Route::get('/home', 'HomeController@index')->name('home');
         Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'home']);
