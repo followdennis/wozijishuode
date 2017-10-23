@@ -29,6 +29,19 @@ class Menus extends Model
             ->get()
             ->toArray();
     }
+    public function getMenuListById($user_id = 0){
+        return DB::table('users as u')
+            ->whereNull('u.deleted_at')
+            ->where('u.id',$user_id)
+            ->leftJoin('role_user as ru','ru.user_id','=','u.id')
+            ->leftJoin('permission_role as pr','pr.role_id','=','ru.role_id')
+            ->leftJoin('permissions as p','p.id','=','pr.permission_id')
+            ->leftJoin('menus as m','m.permission_id','=','p.id')
+            ->where('m.is_show','=',1)
+            ->select('m.*','p.name as route_name')
+            ->get()
+            ->toArray();
+    }
 
     //对象方式获取
     public function getList(){

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\System\Menus;
 use App\Services\Tree;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -14,12 +16,15 @@ class AdminController extends Controller
         $this->treeModel =new Tree();
         $this->menusModel = new Menus();
         $data['menus'] = $this->menu();
-        $this->middleware('auth');
+        $this->middleware(['auth']);
         view()->share($data);
     }
 
     public function menu(){
         $list = $this->menusModel->getAllMenuList();
+//        var_dump(Session::all());
+//      dd(Auth::user());
+//        $list = $this->menusModel->getMenuListById($user_id);
         $new_list = $this->treeModel->tree($list);
         $new_list = $this->treeModel->makehtml($new_list);
         $menu = $this->treeModel->str;
