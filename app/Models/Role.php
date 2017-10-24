@@ -106,20 +106,16 @@ class Role extends EntrustRole
         //角色权限cache
         if( Cache::has('role_permision_role_id:'.$id) )
         {
-            $ret_ids = Cache::get('role_permision_role_id:'.$id);
+            $ids = Cache::get('role_permision_role_id:'.$id);
         }else{
-            $list = DB::table('permission_role')->where('role_id',$id)->select('permission_id')->get();
-            $ret_ids = [];
-            if(!empty($list))
-            {
-                foreach ($list as $item) {
-                    array_push($ret_ids,$item->permission_id);
-                }
+            $ids = DB::table('permission_role')->where('role_id',$id)->select('permission_id')->pluck('permission_id')->toArray();
+            if(!$ids){
+                $ids = [];
             }
             $left_time = Carbon::now()->addMinute(config('cache.left_time'));
-            Cache::put('role_permision_role_id:'.$id,$ret_ids,$left_time);
+            Cache::put('role_permision_role_id:'.$id,$ids,$left_time);
         }
-        return $ret_ids;
+        return $ids;
     }
     /**
      * 获取用户权限id列表
@@ -138,17 +134,16 @@ class Role extends EntrustRole
             $permision_ids = Cache::get('user_role_permision_user_id:'.$user_id);
         }else{
             //后面的groupby是必要的，当一个用户拥有多个角色的时候，是有可能出现重复重复权限id的
-            $list = DB::table('role_user as ru')
+            $permision_ids = DB::table('role_user as ru')
                 ->join('permission_role as pr','pr.role_id','=','ru.role_id')
-                ->select('pr.permission_id')
+                ->select('pr.permission_id as permission_id')
                 ->where('ru.user_id',$user_id)
                 ->groupBy('pr.permission_id')
-                ->get();
-            $permision_ids = [];
-            foreach ($list as $item)
-            {
-                array_push($permision_ids,$item->permission_id);
+                ->pluck('permission_id')->toArray();
+            if(!$permision_ids){
+                $permision_ids = [];
             }
+
             $left_time = Carbon::now()->addMinute(config('cache.left_time'));
             Cache::put('user_role_permision_user_id:'.$user_id,$permision_ids,$left_time);
         }

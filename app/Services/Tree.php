@@ -13,6 +13,8 @@ class Tree extends Model
     public $ret = '';
     public $nbsp = "&nbsp;&nbsp;";
     public $str;
+    public $username = '';
+    public $currentArr = [];
 
 
     public function init($arr=array()) {
@@ -26,6 +28,9 @@ class Tree extends Model
         }
         $route = Route::currentRouteName();
         $route = trim($route,'/');
+        if(count($this->currentArr)>1){
+            $route = $this->currentArr[1]['route_name'];
+        }
 
 
         if($level == 0){
@@ -33,7 +38,7 @@ class Tree extends Model
             $this->str = "<ul class=\"sidebar-menu \" id=\"nav-accordion\">
 
                 <p class=\"centered\"><a href=\"http://www.wozijishuode.com/back\"><img src=\"http://www.wozijishuode.com/admin/assets/img/ui-sam.jpg\" class=\"img-circle\" width=\"60\"></a></p>
-                <h5 class=\"centered\">Marcel Newman</h5>";
+                <h5 class=\"centered\">$this->username</h5>";
         }else{
             $this->str .= "<ul class='treeview-menu '>";
         }
@@ -246,7 +251,7 @@ class Tree extends Model
         foreach($data as $key => $val){
             if($val[$pk] == $pid){
                 //下面两行调换会改变顺序
-                $this->Ancestry($data, $val['parent_id']);
+                $this->Ancestry($data, $val['parent_id'],$pk);
                 $ancestry[] = $val;
             }
         }

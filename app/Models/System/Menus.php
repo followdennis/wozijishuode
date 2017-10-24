@@ -20,12 +20,14 @@ class Menus extends Model
      * 获取左侧菜单列表
      * @return array
      */
-    public function getAllMenuList(){
+    public function getAllMenuList($is_show = 1){
         return self::leftJoin('permissions as p',function($query){
                 $query->on('menus.permission_id','=','p.id');
              })
-            ->select('menus.*','p.name as route_name')
-            ->where('menus.is_show',1)
+            ->select('menus.*','p.name as route_name','p.id as permission_id')
+            ->when($is_show,function($query) use($is_show){
+                $query->where('menus.is_show',$is_show);
+            })
             ->get()
             ->toArray();
     }
@@ -134,15 +136,26 @@ class Menus extends Model
             $now_time = Carbon::now()->format('Y-m-d H:i:s');
             DB::beginTransaction();
             //权限 新建
+            $exist_permission = $permissions->where('name',$permission_data['name'])->first();
             $permission_data['created_at'] = $now_time;
             $permission_data['updated_at'] = $now_time;
-            $permission_id = $permissions->insertGetId($permission_data);
-            $menu_data['permission_id'] = $permission_id;
+            if($exist_permission){
+                $permission_id = $exist_permission->id;
 
-            //菜单 添加
-            $menu_data['created_at'] = $now_time;
-            $menu_data['updated_at'] = $now_time;
-            $menu_insert_status = self::insertGetId($menu_data);
+                $menu_update['updated_at']= $now_time;
+                $menu_update['name'] = $menu_data['name'];
+                $menu_update['deleted_at'] = null;
+                $menu_insert_status = self::withTrashed()->where('permission_id',$permission_id)->update($menu_update);
+            }else{
+                $permission_id = $permissions->insertGetId($permission_data);
+                $menu_data['permission_id'] = $permission_id;
+
+                //菜单 添加
+                $menu_data['created_at'] = $now_time;
+                $menu_data['updated_at'] = $now_time;
+                $menu_insert_status = self::insertGetId($menu_data);
+            }
+
 
             if ($permission_id && $menu_insert_status) {
                 DB::commit();
@@ -270,7 +283,6 @@ class Menus extends Model
         }else{
             return true;
         }
-
     }
 
 }
