@@ -26,7 +26,6 @@ class AdminController extends Controller
             view()->share($data);
             return $next($request);
         });
-
     }
 
     public function menu($user_id,$username = ''){
@@ -41,10 +40,6 @@ class AdminController extends Controller
             }
         }
 
-//        var_dump(Session::all());role/membe
-//        $list2 = $this->menusModel->getMenuListById($user_id);
-
-//        $list = collect($list2)->toArray();
         $this->treeModel->username = $username;
         $parent_id =   Permission::where('permissions.name',Route::currentRouteName())
             ->leftJoin('menus','menus.permission_id','=','permissions.id')

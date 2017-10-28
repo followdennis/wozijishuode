@@ -37,7 +37,7 @@ class Tree extends Model
 //            $this->str .= "<ul class=\"sidebar-menu\" id=\"nav-accordion\">";
             $this->str = "<ul class=\"sidebar-menu \" id=\"nav-accordion\">
 
-                <p class=\"centered\"><a href=\"http://www.wozijishuode.com/back\"><img src=\"http://www.wozijishuode.com/admin/assets/img/ui-sam.jpg\" class=\"img-circle\" width=\"60\"></a></p>
+                <p class=\"centered\"><a href=\"".route("home")."\"><img src=\"http://www.wozijishuode.com/admin/assets/img/ui-sam.jpg\" class=\"img-circle\" width=\"60\"></a></p>
                 <h5 class=\"centered\">$this->username</h5>";
         }else{
             $this->str .= "<ul class='treeview-menu '>";

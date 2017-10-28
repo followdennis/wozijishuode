@@ -84,6 +84,12 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
         return '嘿嘿';
     });
 });
+//前台
+Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'wechat'],function(){
+    Route::any('/',function(){
+        return '微信';
+    });
+});
 //移动端
 Route::group(['domain'=>'m.wozijishuode.com'],function(){
     Route::any('/',function(){
