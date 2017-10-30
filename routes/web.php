@@ -72,6 +72,14 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('user/add',['uses'=>'Admin\System\UserController@add','as'=>'user/add']);
         Route::any('user/del',['uses'=>'Admin\System\UserController@del','as'=>'user/del']);
         Route::any('user/check_exists',['uses'=>'Admin\System\UserController@check_exists','as'=>'user/check_exists']);
+        /**
+         * 友情链接
+         */
+        Route::any('friend_link',['uses'=>'Admin\System\FriendLinkController@index','as'=>'friend_link']);
+        Route::any('friend_link/add',['uses'=>'Admin\System\FriendLinkController@add','as'=>'friend_link/add']);
+        Route::any('friend_link/edit',['uses'=>'Admin\System\FriendLinkController@edit','as'=>'friend_link/edit']);
+        Route::any('friend_link/del',['uses'=>'Admin\System\FriendLinkController@del','as'=>'friend_link/del']);
+        Route::any('friend_link/list',['uses'=>'Admin\System\FriendLinkController@get_list','as'=>'friend_link/list']);
         Route::any('sidebar',function(){
             return view('partial.leftmenu');
         });
