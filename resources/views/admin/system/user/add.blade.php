@@ -5,7 +5,6 @@
     <link href="{{asset('metronic_theme/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css')}}" rel="stylesheet" type="text/css" />
 
 @endsection
-
 @section('CUSTOM_SCRIPT')
     {{--<script type="text/javascript" src="{{ URL::asset('/js/jquery-validation-1.13.1/lib/jquery.form.js')}}"></script>--}}
     <script src="{{asset('metronic_theme/global/plugins/jquery-validation/js/jquery.validate.js')}}" type="text/javascript"></script>

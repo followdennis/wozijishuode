@@ -28,7 +28,7 @@
 
             var table = $('#main_table').DataTable({
                 bLengthChange:false,
-                bPaginate : false,
+                bPaginate : true,
                 processing: true,
                 serverSide: true,
                 deferRender: true,
@@ -72,10 +72,10 @@
                     }
                 },
                 columns: [
-                    {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
+//                    {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
+                    {data: 'sort', name: 'sort', title : '排序值', sortable: false},
                     {data: 'name', name: 'name', title : '网站名称', sortable: false},
                     {data: 'link_url', name: 'link_url', title : '链接地址', sortable: false},
-                    {data: 'sort', name: 'sort', title : '排序值', sortable: false},
                     {data: 'is_front', name: 'is_front', title : '是否首页', sortable: false},
                     {data: 'description', name: 'description', title : '描述', sortable: false},
                     {data: 'created_at', name: 'created_at', title : '创建时间', sortable: false},
@@ -96,19 +96,12 @@
                 ],
                 //创建行回调
                 "createdRow": function ( row, data, index ) {
-                    $('.menu_del',row).click(function () {
+                    $('.item_del',row).click(function () {
                         deleteItem($(this).data('id'));
                     });
-                    $('.item_add',row).click(function(){
-                        item_add($(this).data('id'));
-                    })
                     $('.item_edit',row).click(function(){
                         item_edit($(this).data('id'));
                     })
-                    $('.is_finish_convert',row).click(function(){
-                        change_finish_status(this);
-                    })
-
                 }
 
             });
@@ -117,54 +110,7 @@
                 table.draw();
                 e.preventDefault();
             });
-
-//        $("#penalty_start_date").datepicker({
-//            todayBtn: "linked",
-//            clearBtn: true,
-//            language: "zh-CN",
-//            calendarWeeks: true,
-//            autoclose: true,
-//            todayHighlight: true
-//        });
-//
-//        $("#penalty_end_date").datepicker({
-//            todayBtn: "linked",
-//            clearBtn: true,
-//            language: "zh-CN",
-//            calendarWeeks: true,
-//            autoclose: true,
-//            todayHighlight: true
-//        });
-
         } );
-
-        function change_finish_status(obj){
-            var status = $(obj).attr('data-status');
-            var id = $(obj).attr('data-id')
-            if(status == 0){
-                $(obj).attr('data-status',1);
-                status = 1;
-                $(obj).attr('class','glyphicon glyphicon-ok is_finish_convert').css('color','green');
-            }else{
-                $(obj).attr('data-status',0);
-                status = 0;
-                $(obj).attr('class','glyphicon glyphicon-remove is_finish_convert').css('color','red');
-            }
-            var url = jsRoute(routes.list.change_status);
-            $.get(url,{id:id,is_finish:status},function(data){
-                if(data.status == 0){
-
-                }else{
-                    toastr.options = {
-                        closeButton: true,
-                        debug: false,
-                        positionClass: 'toast-top-right',
-                        onclick: null,
-                    };
-                    toastr['success'](data.msg,'成功');
-                }
-            })
-        }
         function deleteItem(id) {
             swal({
                     title: "确定删除?",
@@ -201,18 +147,22 @@
                     }).fail(function() {
                         swal({
                             title: "失败",
-                            text: '删除菜单失败',
+                            text: '删除链接失败',
                             type: "error",
                         });
                     });
                 }
             );
         }
-
-        function item_add(id){
-            var url = jsRoute(routes.list.add,{parent_id:id});
+        $(document).ready(function(){
+           $('.item_add').click(function(){
+               item_add();
+           })
+        });
+        function item_add(){
+            var url = jsRoute(routes.list.add);
             layer.open({
-                title: '添加菜单',
+                title: '添加链接',
                 type: 2,
                 btn: ['保存','取消'], //按钮
                 yes: function(index, layero){ //或者使用btn1
@@ -223,7 +173,7 @@
                     layer.closeAll();
                 },
                 skin: 'layui-layer-rim', //加上边框
-                area: ['600px','700px'], //宽高
+                area: ['600px','420px'], //宽高
                 content: url,
                 end: function () {
                     // location.reload();
@@ -231,11 +181,15 @@
                     table.ajax.reload();
                 }
             });
+        }
+        function item_del(){
+            var url = jsRoute(routes.list.del);
+
         }
         function item_edit(id){
             var url = jsRoute(routes.list.edit,{id:id});
             layer.open({
-                title: '编辑菜单',
+                title: '编辑链接',
                 type: 2,
                 btn: ['保存','取消'], //按钮
                 yes: function(index, layero){ //或者使用btn1
@@ -246,7 +200,7 @@
                     layer.closeAll();
                 },
                 skin: 'layui-layer-rim', //加上边框
-                area: ['600px','450px'], //宽高
+                area: ['600px','420px'], //宽高
                 content: url,
                 end: function () {
                     // location.reload();
@@ -255,23 +209,14 @@
                 }
             });
         }
-        //    $("#penalty_start_date").datepicker({
-        //        todayBtn: "linked",
-        //        clearBtn: true,
-        //        language: "zh-CN",
-        //        calendarWeeks: true,
-        //        autoclose: true,
-        //        todayHighlight: true
-        //    });
-        //
-        //    $("#penalty_end_date").datepicker({
-        //        todayBtn: "linked",
-        //        clearBtn: true,
-        //        language: "zh-CN",
-        //        calendarWeeks: true,
-        //        autoclose: true,
-        //        todayHighlight: true
-        //    });
+
+        function showAddListModal(){
+            $('.sub_button').show();
+            $('#name').val('');
+            $('#enterprise_type_name').val();
+            $('#enterprise_type_id').val('');
+            $('#editListModal').modal();
+        }
 
     </script>
 @endsection
@@ -302,7 +247,7 @@
                                 <i class="fa fa-cogs"></i>友情链接列表 </div>
 
                             <div class="actions">
-                                <button type="button" data-url="{{route('user/add')}}" class="btn btn-default btn-sm user_add" >
+                                <button type="button" data-url="{{route('user/add')}}"  class="btn btn-default btn-sm item_add" >
                                     <i class="fa fa-plus"></i> 添加友情链接
                                 </button>
                             </div>
@@ -315,9 +260,61 @@
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
-
+            <div class="modal fade" id="editListModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="editListModalTitle">新增链接</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="portlet-body form">
+                                <form class="form-horizontal" role="form" action="" id="editListForm" method="post" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <input id="dosubmit" name="dosubmit" type="submit" style="display: none;" >
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3">链接名称<span class="required"> * </span></label>
+                                        <div class="col-xs-8" style="height:32px;">
+                                            <input type="text" name="link_name" id="link_name"  class="form-control" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3">链接地址<span class="required"> * </span></label>
+                                        <div class="col-xs-8" style="height:32px;">
+                                            <input value="" type="text" id="link_url" name="link_url" data-required="1" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3">描述<span class="required"> * </span></label>
+                                        <div class="col-xs-8" style="height:32px;">
+                                            <input value="" type="text" id="sort" name="sort" data-required="1" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3">排序<span class="required"> * </span></label>
+                                        <div class="col-xs-9" style="height:32px;">
+                                            <input value="0" type="text" id="sort" name="sort" data-required="1" class="form-control  input-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3">是否首页<span class="required"> * </span></label>
+                                        <div class="col-xs-9" style="height:32px;">
+                                            <input value="0" type="text" id="sort" name="sort" data-required="1" class="form-control  input-inline" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary sub_button" onclick="submitEditList()">保存</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
         </div>
         <!-- END CONTENT BODY -->
+
     </div>
 @endsection
 @section('footer')
