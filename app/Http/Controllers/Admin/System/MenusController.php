@@ -7,7 +7,7 @@ use App\Models\System\Menus;
 use App\Services\Tree;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
-use Yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class MenusController extends AdminController
 {

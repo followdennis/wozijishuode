@@ -9,7 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Vinkla\Hashids\Facades\Hashids;
-use Yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class UserController extends AdminController
 {

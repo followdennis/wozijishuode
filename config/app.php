@@ -168,7 +168,7 @@ return [
          */
         Laravel\Passport\PassportServiceProvider::class,
         //datatables
-        Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
         //
 
         /*
@@ -232,7 +232,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         //datatables
-        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+//        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'Hashids' =>Vinkla\Hashids\Facades\Hashids::class,
         'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
     ],

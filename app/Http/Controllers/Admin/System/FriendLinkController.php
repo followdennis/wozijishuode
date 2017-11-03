@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Models\System\FriendLink;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class FriendLinkController extends AdminController
 {

@@ -9,7 +9,7 @@ use App\Services\RoleMenu;
 use App\Services\Tree;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class RoleController extends AdminController
 {
