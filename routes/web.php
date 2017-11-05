@@ -39,6 +39,15 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('/upload',['uses'=>'Admin\IndexController@upload']);
         Route::any('/add_role',['uses'=>'Admin\IndexController@add_role']);
 //    Route::any('login',['uses'=>'Admin\LoginController@login','as'=>'login']);
+        /**
+         * 文章管理
+         */
+        Route::any('/articles',['uses'=>'Admin\ArticlesManage\IndexController@index','as'=>'articles']);
+        Route::any('/articles/list',['uses'=>'Admin\ArticlesManage\IndexController@get_list','as'=>'articles/list']);
+        Route::any('/articles/add',['uses'=>'Admin\ArticlesManage\IndexController@add','as'=>'articles/add']);
+        Route::any('/articles/edit',['uses'=>'Admin\ArticlesManage\IndexController@edit','as'=>'articles/edit']);
+        Route::any('/articles/del',['uses'=>'Admin\ArticlesManage\IndexController@del','as'=>'articles/del']);
+
 
         /**
          * 系统管理

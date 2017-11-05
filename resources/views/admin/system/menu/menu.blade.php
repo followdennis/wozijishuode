@@ -245,7 +245,12 @@
             },
             skin: 'layui-layer-rim', //加上边框
             area: ['600px','700px'], //宽高
-            content: url
+            content: url,
+            end: function () {
+                // location.reload();
+                var table = $('#main_table').DataTable();
+                table.ajax.reload();
+            }
         });
     }
 //    $("#penalty_start_date").datepicker({

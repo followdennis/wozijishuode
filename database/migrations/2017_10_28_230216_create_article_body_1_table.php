@@ -13,13 +13,13 @@ class CreateArticleBody1Table extends Migration
      */
     public function up()
     {
-        for($i = 1; $i< 11; $i++){
+        for($i = 1; $i< 101; $i++){
             Schema::create('article_body_'.$i, function (Blueprint $table) use($i) {
                 $table->increments('id');
                 $table->engine = 'InnoDB';
                 $table->tinyInteger('table_id')->default($i)->comment('body表id');
                 $table->integer('article_id')->default(0)->comment('文章id');
-                $table->text('content')->nullable()->comment('文章内容');
+                $table->mediumText('content')->nullable()->comment('文章内容');
                 $table->timestamps();
             });
         }

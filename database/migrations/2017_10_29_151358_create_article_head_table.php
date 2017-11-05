@@ -13,7 +13,7 @@ class CreateArticleHeadTable extends Migration
      */
     public function up()
     {
-        for($i = 1; $i< 6 ; $i++){
+        for($i = 1; $i< 11 ; $i++){
             Schema::create('article_head_'.$i, function (Blueprint $table) use($i){
                 $table->increments('id');
                 $table->tinyInteger('table_head_id')->default($i)->comment('head table 的id');

@@ -58,3 +58,47 @@ if (! function_exists('obj_to_array')) {
         return $list;
     }
 }
+
+/**
+ * 2017-11-04
+ * 两个等长的二位数组合并（可用）
+ * select   true 则均为二位数组，false 表示arr2为一维数组
+ * @param array $arr1 二维数组
+ * @param array $arr2 二维数组
+ */
+if (! function_exists('array_add_column')) {
+    function array_add_column($arr1=array(),$arr2= array(),$select = true,$field = 'id'){
+        if(!is_array($arr1) || !is_array($arr2)){
+            return '';
+        }
+        if($select){
+            foreach($arr1 as $k => &$v){
+                foreach($arr2[$k] as $key => $val){
+                    $v[$key] = $val;
+                }
+            }
+        }else{
+            foreach($arr1 as $k => &$v){
+                $v[$field] = $arr2[$k];
+            }
+        }
+        return $arr1;
+    }
+}
+
+/**
+ * 获取文章head表id
+ */
+if(!function_exists('get_article_head_id')){
+    function get_article_head_id($id){
+        return ceil($id/10000);
+    }
+}
+/**
+ * 获取文章body表id
+ */
+if(!function_exists('get_article_body_id')){
+    function get_article_body_id($id){
+        return ceil($id/5000);
+    }
+}
