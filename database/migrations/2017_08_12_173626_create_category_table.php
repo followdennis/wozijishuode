@@ -19,7 +19,7 @@ class CreateCategoryTable extends Migration
             $table->string('pinyin',100)->nullable()->comment('拼音:全拼');
             $table->string('py',100)->nullable()->comment('拼音:简拼');
             $table->smallInteger('parent_id')->unsigned()->default(0);
-            $table->string('description',255)->comment('描述');
+            $table->string('description',255)->nullable()->comment('描述');
             $table->softDeletes();
             $table->timestamps();
         });

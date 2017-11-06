@@ -39,8 +39,11 @@ class IndexController extends AdminController
     }
     public function show(Request $request){
         $id = $request->get('id');
+        $time = microtime(true);
         $data = ArticleRepository::getArticleData($id);
-
+        $end = microtime(true);
+        echo $end-$time;
+        return view('admin.articleManage.show',['data'=>$data]);
     }
     public function get_list(){
 

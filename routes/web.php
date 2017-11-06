@@ -44,9 +44,18 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
          */
         Route::any('/articles',['uses'=>'Admin\ArticlesManage\IndexController@index','as'=>'articles']);
         Route::any('/articles/list',['uses'=>'Admin\ArticlesManage\IndexController@get_list','as'=>'articles/list']);
+        Route::any('/articles/show',['uses'=>'Admin\ArticlesManage\IndexController@show','as'=>'articles/show']);
         Route::any('/articles/add',['uses'=>'Admin\ArticlesManage\IndexController@add','as'=>'articles/add']);
         Route::any('/articles/edit',['uses'=>'Admin\ArticlesManage\IndexController@edit','as'=>'articles/edit']);
         Route::any('/articles/del',['uses'=>'Admin\ArticlesManage\IndexController@del','as'=>'articles/del']);
+        /**
+         * 分类管理category
+         */
+        Route::any('/category',['uses'=>'Admin\ArticlesManage\CategoryController@index','as'=>'category']);//分类管理
+        Route::any('/category/list',['uses'=>'Admin\ArticlesManage\CategoryController@get_list','as'=>'category/list']);//分类列表
+        Route::any('/category/edit',['uses'=>'Admin\ArticlesManage\CategoryController@edit','as'=>'category/edit']);//编辑分类
+        Route::any('/category/del',['uses'=>'Admin\ArticlesManage\CategoryController@del','as'=>'category/del']);//删除分类
+        Route::any('/category/add',['uses'=>'Admin\ArticlesManage\CategoryController@add','as'=>'category/add']);//添加分类
 
 
         /**
