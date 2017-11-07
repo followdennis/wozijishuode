@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "40dc9b8a2fb4bdc8b462251edaf52002",
+    "content-hash": "3dca6f53c1dfd71c473cfed3e274d5a0",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1082,16 +1082,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.19",
+            "version": "v5.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c678100e84934ec85c9f8bc26bd0a60222682719"
+                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/laravel/framework/c678100e84934ec85c9f8bc26bd0a60222682719.zip",
-                "reference": "c678100e84934ec85c9f8bc26bd0a60222682719",
+                "url": "https://files.phpcomposer.com/files/laravel/framework/d3e0493bead126cf7fb9a005c64e6b58a9190e51.zip",
+                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51",
                 "shasum": ""
             },
             "require": {
@@ -1132,6 +1132,7 @@
                 "illuminate/database": "self.version",
                 "illuminate/encryption": "self.version",
                 "illuminate/events": "self.version",
+                "illuminate/exception": "self.version",
                 "illuminate/filesystem": "self.version",
                 "illuminate/hashing": "self.version",
                 "illuminate/http": "self.version",
@@ -1209,7 +1210,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-10-25T19:10:45+00:00"
+            "time": "2017-09-13T13:36:29+00:00"
         },
         {
             "name": "laravel/passport",

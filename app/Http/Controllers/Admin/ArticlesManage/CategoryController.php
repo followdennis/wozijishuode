@@ -66,6 +66,8 @@ class CategoryController extends AdminController
                 'parent_id'=>intval($params['parent_id']),
                 'is_show'=>intval($params['is_show']),
                 'description'=>strval($params['description']),
+                'py'=>pinyin_abbr($params['name']),
+                'pinyin'=>pinyin_permalink($params['name'],''),
                 'alias'=>strval($params['alias'])
             ];
             $status = $this->categoryModel->insertData($data);

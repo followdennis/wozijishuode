@@ -21,6 +21,14 @@ class ArticleRepository
         return $data;
     }
     /**
+     * 获取跨表的一组数据
+     */
+    public static function getArticleRandList($ids = []){
+        $articleHead = new ArticleHead();
+        $data = $articleHead->getHeadRandList($ids);
+        return $data;
+    }
+    /**
      * 获取文章单条数据
      * @param $id
      * @return array

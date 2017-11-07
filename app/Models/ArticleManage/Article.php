@@ -11,13 +11,13 @@ class Article extends Model
     protected $table='article_index';
 
 
-    public function getIds($cate_id = 0){
+    public function getIds($cate_id = 5){
         $record = DB::table($this->table)
-            ->orderBy('id','asc')
+            ->select('id','cate_id')
+            ->orderBy('id','desc')
             ->when($cate_id,function($query) use($cate_id){
                 $query->where('cate_id',$cate_id);
-            })
-            ->select('id','cate_id');
+            });
         return $record;
     }
     public function getArticleList($ids = []){

@@ -12,6 +12,7 @@ use App\Models\ArticleManage\Article;
 use App\Models\ArticleManage\ArticleHead;
 use App\Repository\ArticleRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -28,11 +29,10 @@ class IndexController extends AdminController
     public function index(Request $request,ArticleHead $articlehead){
         $time = microtime(true);
         $page = $this->articleModel->getIds()->paginate(10);
-        $ids_arr = [];
         foreach($page as $k =>$v){
             $ids_arr[] = $v->id;
         }
-        $list = ArticleRepository::getArticleList($ids_arr);
+        $list = ArticleRepository::getArticleRandList($ids_arr);
         $end = microtime(true);
         echo $end-$time;
         return view('admin.articleManage.index',['list'=>$list,'page'=>$page]);
