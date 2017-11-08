@@ -1,6 +1,11 @@
 <?php
-
-namespace App;
+/**
+ * Created by PhpStorm.
+ * User: admin
+ * Date: 2017/11/8
+ * Time: 22:02
+ */
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;

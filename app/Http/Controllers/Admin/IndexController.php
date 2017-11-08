@@ -7,7 +7,7 @@ use App\Models\Menus;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\Tree;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
