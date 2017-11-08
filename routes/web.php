@@ -57,6 +57,28 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('/category/del',['uses'=>'Admin\ArticlesManage\CategoryController@del','as'=>'category/del']);//删除分类
         Route::any('/category/add',['uses'=>'Admin\ArticlesManage\CategoryController@add','as'=>'category/add']);//添加分类
 
+        /**
+         * 标签管理
+         */
+        Route::any('/tags',['uses'=>'Admin\ArticlesManage\TagsController@index','as'=>'tags']);
+        Route::any('/tags/list',['uses'=>'Admin\ArticlesManage\TagsController@get_list','as'=>'tags/list']);
+        Route::any('/tags/edit',['uses'=>'Admin\ArticlesManage\TagsController@edit','as'=>'tags/edit']);
+        Route::any('/tags/del',['uses'=>'Admin\ArticlesManage\TagsController@del','as'=>'tags/del']);
+        Route::any('/tags/add',['uses'=>'Admin\ArticlesManage\TagsController@add','as'=>'tags/add']);
+        /**
+         * 内链管理
+         */
+        Route::any('innerlink',['uses'=>'Admin\ArticlesManage\InnerLinkController@index','as'=>'innerlink']);
+        Route::any('innerlink/list',['uses'=>'Admin\ArticlesManage\InnerLinkController@get_list','as'=>'innerlink/list']);
+        Route::any('innerlink/add',['uses'=>'Admin\ArticlesManage\InnerLinkController@add','as'=>'innerlink/add']);
+        Route::any('innerlink/edit',['uses'=>'Admin\ArticlesManage\InnerLinkController@edit','as'=>'innerlink/edit']);
+        Route::any('innerlink/del',['uses'=>'Admin\ArticlesManage\InnerLinkController@del','as'=>'innerlink/del']);
+        /**
+         * 评论管理
+         */
+        Route::any('comments',['uses'=>'Admin\ArticlesManage\CommentsController@index','as'=>'comments']);
+        Route::any('comments/list',['uses'=>'Admin\ArticlesManage\CommentsController@get_list','as'=>'comments/list']);
+        Route::any('comments/del',['uses'=>'Admin\ArticlesManage\CommentsController@del','as'=>'comments/del']);
 
         /**
          * 系统管理

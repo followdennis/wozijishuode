@@ -11,7 +11,7 @@
     {{--<script src="{{asset('js/jquery.form.js')}}" type="text/javascript"></script>--}}
 
     <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/admin/category/form.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/system/menu/form.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
 @endsection
 
@@ -73,7 +73,7 @@
                 <div class="form-group">
                     <label class="control-label col-xs-3">是否显示</label>
                     <div class="col-xs-9" style="height:32px;">
-                        <input type="checkbox" name="is_show" @if($info->is_show) checked @endif checked class="make-switch" data-on-text="是" data-off-text="否">
+                        <input type="checkbox" name="is_show" @if($info->is_show) checked @endif  class="make-switch" data-on-text="是" data-off-text="否">
                     </div>
                 </div>
                 <fieldset>

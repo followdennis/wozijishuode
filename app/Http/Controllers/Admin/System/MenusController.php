@@ -138,7 +138,6 @@ class MenusController extends AdminController
             $tree->init($array);
             $select_categorys = $tree->get_tree(0, $str);
 
-
             $data['select_categorys'] = $select_categorys;
             $data['info'] = $menu_info;
             return  view('admin.system.menu.edit',$data);
