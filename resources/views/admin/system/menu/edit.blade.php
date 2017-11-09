@@ -66,7 +66,7 @@
                     <div class="col-xs-8">
                         <div class="input-icon right">
                             <i class="fa"></i>
-                            <input type="text" name="sort" value="0" data-required="1" class="form-control" value="{{ $info->sort }}" />
+                            <input type="text" name="sort" value="{{ $info->sort }}" data-required="1" class="form-control" value="{{ $info->sort }}" />
                         </div>
                     </div>
                 </div>

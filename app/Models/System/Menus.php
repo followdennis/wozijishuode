@@ -53,8 +53,8 @@ class Menus extends Model
             })
             ->select('m.*','p.name as permission_name','p.display_name as permission_display_name','p.description as permission_description')
             ->whereNull('deleted_at')
-            ->orderBy('created_at')
-            ->orderBy('sort','desc');
+            ->orderBy('sort','desc')
+            ->orderBy('created_at');
         return $data;
     }
     //数组方式获取
@@ -68,7 +68,7 @@ class Menus extends Model
                 ->leftJoin('permissions as p', 'm.permission_id', '=', 'p.id')
                 ->select('m.*', 'p.name as permissions_name', 'p.display_name as permissions_display_name', 'p.description as permissions_description')
                 ->where('m.deleted_at', null)
-                ->orderBy('m.sort', 'asc')
+                ->orderBy('m.sort', 'desc')
                 ->orderBy('m.id', 'desc')
                 ->get();
             $list = [];
@@ -155,8 +155,6 @@ class Menus extends Model
                 $menu_data['updated_at'] = $now_time;
                 $menu_insert_status = self::insertGetId($menu_data);
             }
-
-
             if ($permission_id && $menu_insert_status) {
                 DB::commit();
                 if (Cache::has('menu_permision_list')) {
