@@ -15,6 +15,9 @@ class Category extends Model
     public function getList(){
         return self::select('*');
     }
+    public function getFieldList(){
+        return self::select('id','name','parent_id')->get();
+    }
     public function getAllList(){
         $list_arr = self::orderBy('is_show','desc')->get();
         if(!empty($list_arr))

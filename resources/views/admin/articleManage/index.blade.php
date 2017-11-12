@@ -6,9 +6,80 @@
 
 @section('CUSTOM_STYLE')
     <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
-
+<style>
+    #dataTables_scrollBody th{
+        border-bottom: 1px solid #ddd;
+    }
+</style>
 @endsection
 @section('CUSTOM_SCRIPT')
+    <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
+    <script>
+        var routes = {
+            list: {
+                fetch : 'articles/list',
+                add : '{{route('articles/add')}}',
+                edit : '{{route('articles/edit')}}',
+                del : '{{route('articles/del')}}'
+            }
+        };
+        var url = jsRoute(routes.list.fetch);
+    $(document).ready(function(){
+
+        var url = jsRoute(routes.list.fetch);
+        getList({page:1});
+        var perPage = 10;
+        $("#main_table_length").on("change","select[name=main_table_length]",function(){
+            var perPage = $(this).val();
+            var params = {page:1,perPage:perPage};
+            getList(params);
+        });
+        $("#main_table_paginate").on("click","li a",function(){
+            var page = $(this).attr('data-page');
+            var perPage = $("#main_table_length select[name=main_table_length]").val();
+            var cate_id = $("#cate_id select[name=cate_id]").val();
+            var params = {page:page,perPage:perPage,cateId:cate_id};
+            getList(params);
+        })
+
+    })
+        function getList(params){
+
+            $.ajax({
+                url:url,
+                dataType:"json",
+                data:params,
+                type:"get",
+                success:function(json_data){
+                    console.log(data);
+                    var data = json_data.list;
+                    var links = json_data.links;
+                    var str = '';
+                    for(var i = 0; i < data.length; i++){
+                        str += '<tr>';
+                        str += "<td>"+data[i].id + "</td>";
+                        str += "<td>" + data[i].title  + "</td>";
+                        str += "<td>" + (data[i].cate_name || '') + "</td>";
+                        str += "<td>" + (data[i].author || '') + "</td>";
+                        str += "<td>" + data[i].click + "</td>";
+                        str += "<td>" + data[i].like + "</td>";
+                        str += "<td>" + (data[i].created_at || '')+ "</td>";
+                        str += "<td><a data-id=\"" + data[i].id + "\" class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" +
+                            "<a href=\"javascript:;\" data-id=\""+ data[i].id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" +
+                            "</td>";
+                        str += '<tr>';
+                    }
+                    $("#show_list").html(str);
+                    $("#main_table_paginate").html(links);
+                    var page_table_info = "显示第 "+json_data.from + " 至 "+json_data.to+" 项结果，共 "+json_data.total+" 项";
+                    $("#main_table_info").html(page_table_info);
+                },
+                error:function(){
+
+                }
+            });
+        }
+</script>
 
 @endsection
 @section('content')
@@ -35,6 +106,16 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="keyword" id="keyword" placeholder="标签名称">
                                 </div>
+                                <div class="form-group" id="cate_id">
+                                        <select name="cate_id"  class="form-control">
+                                            <option value="0">请选择分类</option>
+                                            @if(!empty($cate_list))
+                                                @foreach($cate_list as $k =>$cate)
+                                                    <option value="{{ $cate->id }}">{{ $cate->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                </div>
                                 <button type="submit" class="btn btn-primary red">搜索</button>
                             </form>
                             <div id="main_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -59,43 +140,40 @@
                                                     <table class="table table-striped table-bordered table-hover order-column dataTable no-footer " role="grid">
                                                         <thead>
                                                         <tr role="row ">
-                                                            <th  style="width: 34px;" >排序</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 35px;" aria-label="ID">ID</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="菜单名称">标题</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="拼音">分类</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="简拼">作者</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="描述">点击量</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="显示">赞</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="显示">创建时间</th>
-                                                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 235px;" aria-label="操作">操作</th>
-                                                        </tr></thead>
+
+                                                        </tr>
+                                                        </thead>
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%;">
+                                            <div class="dataTables_scrollBody" id="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%;">
                                                 <table class="table table-striped table-bordered table-hover order-column dataTable no-footer " style="width: 100%;" id="main_table" role="grid" aria-describedby="main_table_info"><thead>
-                                                    <tr role="row" style="height: 0px;">
-                                                        <th style="width: 34px;padding-top: 0px;  padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" >
-                                                        </th>
+                                                    <tr role="row" >
+                                                        <th class="sorting_disabled example_tb_th"  rowspan="1" colspan="1" style="width: 35px;" aria-label="ID">ID</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="菜单名称">标题</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"   aria-label="拼音">分类</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="简拼">作者</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="描述">点击量</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="显示">赞</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="显示">创建时间</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 235px;" aria-label="操作">操作</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
-                                                    @foreach($list as $k => $data)
-                                                    <tr role="row" class="odd">
-                                                        <td>{{ $data->id }}</td>
-                                                        <td>{{ $data->title }}</td>
-                                                        <td>{{ $data->cate_name }}</td>
-                                                        <td>{{ $data->author }}</td>
-                                                        <td>{{ $data->click }}</td>
-                                                        <td>{{ $data->like }}</td>
-                                                        <td>{{ $data->created_at }}</td>
-                                                        <td>
-                                                            <a data-id="1" class="btn btn-sm green item_add">
-                                                                <i class="fa fa-plus"></i> 添加子分类 </a>
-                                                            <a data-id="1" class="btn btn-sm purple item_edit"><i class="fa fa-edit"></i>编辑</a>
-                                                            <a href="javascript:;" data-id="1" class="btn dark btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a></td>
-                                                    </tr>
-                                                    @endforeach
+                                                    <tbody id="show_list">
+                                                    {{--@foreach($list as $k => $data)--}}
+                                                    {{--<tr role="row" class="odd">--}}
+                                                        {{--<td>{{ $data->id }}</td>--}}
+                                                        {{--<td>{{ $data->title }}</td>--}}
+                                                        {{--<td>{{ $data->cate_name }}</td>--}}
+                                                        {{--<td>{{ $data->author }}</td>--}}
+                                                        {{--<td>{{ $data->click }}</td>--}}
+                                                        {{--<td>{{ $data->like }}</td>--}}
+                                                        {{--<td>{{ $data->created_at }}</td>--}}
+                                                        {{--<td>--}}
+                                                            {{--<a data-id="1" class="btn btn-sm purple item_edit"><i class="fa fa-edit"></i>编辑</a>--}}
+                                                            {{--<a href="javascript:;" data-id="1" class="btn dark btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a></td>--}}
+                                                    {{--</tr>--}}
+                                                    {{--@endforeach--}}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -105,10 +183,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-2">
-                                        <div class="dataTables_info" id="main_table_info" role="status" aria-live="polite">显示第 {{ $page->firstItem() }} 至 {{ $page->lastItem() }} 项结果，共 {{ $page->total() }} 项</div></div>
+                                        <div class="dataTables_info" id="main_table_info" role="status" aria-live="polite"></div></div>
                                     <div class="col-sm-10">
                                         <div class="dataTables_paginate paging_simple_numbers" id="main_table_paginate">
-                                            {{ $page->links() }}
+                                            {{--{{ $page->links() }}--}}
                                         </div>
                                     </div>
                                 </div>

@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin\ArticlesManage;
 use App\Http\Controllers\AdminController;
 use App\Models\ArticleManage\Article;
 use App\Models\ArticleManage\ArticleHead;
+use App\Models\ArticleManage\Category;
 use App\Repository\ArticleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,22 +21,36 @@ class IndexController extends AdminController
 {
 
     protected $articleModel;
-    public function __construct(Request $request,Article $articleModel)
+    protected $articleHeadModel;
+    protected $categoryModel;
+    public function __construct(Request $request,Article $articleModel,ArticleHead $articleHead,Category $category)
     {
         parent::__construct($request);
         $this->articleModel = $articleModel;
+        $this->articleHeadModel = $articleHead;
+        $this->categoryModel = $category;
     }
 
-    public function index(Request $request,ArticleHead $articlehead){
-        $time = microtime(true);
-        $page = $this->articleModel->getIds(7)->paginate(10);
+    public function index(Request $request){
+        $cate_list = $this->categoryModel->getFieldList();
+        return view('admin.articleManage.index',compact('cate_list'));
+    }
+    public function get_list(Request $request){
+        $perPage = 10;
+        $cate_id = $request->get('cateId');
+        if($request->filled('perPage') && $request->get('perPage') < 101){
+            $perPage = intval($request->get('perPage'));
+        }
+        $page = $this->articleModel->getIds($cate_id)->paginate($perPage);
         foreach($page as $k =>$v){
             $ids_arr[] = $v->id;
         }
+        $links = $page->links('vendor.pagination.new')->toHtml();
         $list = ArticleRepository::getArticleRandList($ids_arr);
-        $end = microtime(true);
-        $exhaust = $end-$time;
-        return view('admin.articleManage.index',['list'=>$list,'page'=>$page]);
+        $from = $page->firstItem();
+        $to = $page->lastItem();
+        $total = $page->total();
+        return response()->json(compact('links','list','from','to','total'));
     }
     public function show(Request $request){
         $id = $request->get('id');
@@ -45,9 +60,7 @@ class IndexController extends AdminController
         echo $end-$time;
         return view('admin.articleManage.show',['data'=>$data]);
     }
-    public function get_list(){
 
-    }
     public function add(){
 
     }
