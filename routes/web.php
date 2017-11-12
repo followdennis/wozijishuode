@@ -79,6 +79,7 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('comments',['uses'=>'Admin\ArticlesManage\CommentsController@index','as'=>'comments']);
         Route::any('comments/list',['uses'=>'Admin\ArticlesManage\CommentsController@get_list','as'=>'comments/list']);
         Route::any('comments/del',['uses'=>'Admin\ArticlesManage\CommentsController@del','as'=>'comments/del']);
+        Route::any('comments/hide',['uses'=>'Admin\ArticlesManage\CommentsController@hide_message','as'=>'comments/hide']);//是否屏蔽
 
         /**
          * 系统管理

@@ -11,7 +11,7 @@ class Article extends Model
     protected $table='article_index';
 
 
-    public function getIds($cate_id = 5){
+    public function getIds($cate_id = 0){
         $record = DB::table($this->table)
             ->select('id','cate_id')
             ->orderBy('id','desc')

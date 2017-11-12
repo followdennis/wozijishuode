@@ -28,13 +28,13 @@ class IndexController extends AdminController
 
     public function index(Request $request,ArticleHead $articlehead){
         $time = microtime(true);
-        $page = $this->articleModel->getIds()->paginate(10);
+        $page = $this->articleModel->getIds(7)->paginate(10);
         foreach($page as $k =>$v){
             $ids_arr[] = $v->id;
         }
         $list = ArticleRepository::getArticleRandList($ids_arr);
         $end = microtime(true);
-        echo $end-$time;
+        $exhaust = $end-$time;
         return view('admin.articleManage.index',['list'=>$list,'page'=>$page]);
     }
     public function show(Request $request){

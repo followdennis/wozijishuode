@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
+    protected $treeModel;
+    protected $menusModel;
     public function __construct(Request $request)
     {
         $this->middleware(function($request,$next){
