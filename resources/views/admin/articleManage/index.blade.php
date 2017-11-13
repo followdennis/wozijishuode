@@ -71,7 +71,7 @@
                     }
                     $("#show_list").html(str);
                     $("#main_table_paginate").html(links);
-                    var page_table_info = "显示第 "+json_data.from + " 至 "+json_data.to+" 项结果，共 "+json_data.total+" 项";
+                    var page_table_info = "显示第 "+json_data.page.from + " 至 "+json_data.page.to+" 项结果，共 "+json_data.page.total+" 项";
                     $("#main_table_info").html(page_table_info);
                 },
                 error:function(){

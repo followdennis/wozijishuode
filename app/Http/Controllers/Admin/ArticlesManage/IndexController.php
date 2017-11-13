@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Admin\ArticlesManage;
 
 use App\Http\Controllers\AdminController;
 use App\Models\ArticleManage\Article;
+use App\Models\ArticleManage\ArticleAll;
 use App\Models\ArticleManage\ArticleHead;
 use App\Models\ArticleManage\Category;
 use App\Repository\ArticleRepository;
@@ -23,12 +24,14 @@ class IndexController extends AdminController
     protected $articleModel;
     protected $articleHeadModel;
     protected $categoryModel;
-    public function __construct(Request $request,Article $articleModel,ArticleHead $articleHead,Category $category)
+    protected $articleAllModel;
+    public function __construct(Request $request,Article $articleModel,ArticleHead $articleHead,Category $category,ArticleAll $articleAll)
     {
         parent::__construct($request);
         $this->articleModel = $articleModel;
         $this->articleHeadModel = $articleHead;
         $this->categoryModel = $category;
+        $this->articleAllModel = $articleAll;
     }
 
     public function index(Request $request){
@@ -41,17 +44,39 @@ class IndexController extends AdminController
         if($request->filled('perPage') && $request->get('perPage') < 101){
             $perPage = intval($request->get('perPage'));
         }
-        $page = $this->articleModel->getIds($cate_id)->paginate($perPage);
-        foreach($page as $k =>$v){
-            $ids_arr[] = $v->id;
-        }
-        $links = $page->links('vendor.pagination.new')->toHtml();
-        $list = ArticleRepository::getArticleRandList($ids_arr);
-        $from = $page->firstItem();
-        $to = $page->lastItem();
-        $total = $page->total();
-        return response()->json(compact('links','list','from','to','total'));
+        $page = $this->articleAllModel->getList($cate_id)->paginate($perPage);
+
+        $response = array(
+            'list'   => $page->toArray()['data'],
+            'page' => array(
+                'total'        => $page->total(),
+                'per_page'     => $page->perPage(),
+                'current_page' => $page->currentPage(),
+                'last_page'    => $page->lastPage(),
+                'from'         => $page->firstItem(),
+                'to'           => $page->lastItem()
+            ),
+            'links'=>$page->links('vendor.pagination.new')->toHtml()
+        );
+        return response()->json($response);
     }
+//    public function get_list(Request $request){
+//        $perPage = 10;
+//        $cate_id = $request->get('cateId');
+//        if($request->filled('perPage') && $request->get('perPage') < 101){
+//            $perPage = intval($request->get('perPage'));
+//        }
+//        $page = $this->articleModel->getIds($cate_id)->paginate($perPage);
+//        foreach($page as $k =>$v){
+//            $ids_arr[] = $v->id;
+//        }
+//        $links = $page->links('vendor.pagination.new')->toHtml();
+//        $list = ArticleRepository::getArticleRandList($ids_arr);
+//        $from = $page->firstItem();
+//        $to = $page->lastItem();
+//        $total = $page->total();
+//        return response()->json(compact('links','list','from','to','total'));
+//    }
     public function show(Request $request){
         $id = $request->get('id');
         $time = microtime(true);
