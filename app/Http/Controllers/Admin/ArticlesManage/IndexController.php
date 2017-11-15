@@ -90,34 +90,19 @@ class IndexController extends AdminController
 
     }
 
-    public function edit(){
-        $time = microtime(true);
-        $id = 52364;
+    public function edit(Request $request){
         $id = $request->get('id');
-        $head_id = get_article_head_id($id);
-        $body_id = get_article_body_id($id);
-//        $record = \DB::table('article_head_'.$head_id." as h")
-//            ->leftJoin('article_body_'.$body_id." as b",'h.id','=','b.id')
-//            ->select('h.id','h.title','h.cate_name','h.click','b.content')
-//            ->where('h.id',$id)
-//            ->first();
-        $record1 = \DB::table('article_head_'.$head_id)->where('id',$id)->first();
-        $record2 = \DB::table('article_body_'.$body_id)->where('id',$id)->first();
+        echo $id;
+        if($request->isMethod('post')){
 
-        $data = [
-            'id'=>$record1->id,
-            'title'=>$record1->title,
-            'cate_name'=>$record1->cate_name,
-            'click'=>$record1->click,
-            'content'=>$record2->content
-        ];
-        echo "<pre>";
-        print_r($data);
-        $end = microtime(true);
-        echo $end-$time;
+        }else{
+            return view('admin.articleManage.edit');
+        }
+
     }
-    public function del(){
-
+    public function del(Request $request){
+        $id = $request->get('id');
+        echo $id;
     }
 
 }
