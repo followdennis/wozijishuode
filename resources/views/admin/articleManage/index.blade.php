@@ -55,44 +55,44 @@
 
                     var data = json_data.list;
                     var links = json_data.links;
+                    var str = '';
+                    function get_data(){alert(11);}
+                    for(var i = 0; i < data.length; i++){
+                        var edit_url = jsRoute(routes.list.edit,{id:data[i].id});
+                        str += '<tr>';
+                        str += "<td>"+data[i].id + "</td>";
+                        str += "<td>" + data[i].title  + "</td>";
+                        str += "<td>" + (data[i].cate_name || '') + "</td>";
+                        str += "<td>" + (data[i].author || '') + "</td>";
+                        str += "<td>" + data[i].click + "</td>";
+                        str += "<td>" + data[i].like + "</td>";
+                        str += "<td>" + (data[i].created_at || '')+ "</td>";
+                        str += "<td><a data-id=\"" + data[i].id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
+                            var del_item = "<a href='javascript:void(0);' onclick='test2(\""+data[i].id+"\");' data-id=\""+ data[i].id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
 
-//                    function get_data(){alert(11);}
-//                    for(var i = 0; i < data.length; i++){
-//                        var edit_url = jsRoute(routes.list.edit,{id:data[i].id});
-//                        str += '<tr>';
-//                        str += "<td>"+data[i].id + "</td>";
-//                        str += "<td>" + data[i].title  + "</td>";
-//                        str += "<td>" + (data[i].cate_name || '') + "</td>";
-//                        str += "<td>" + (data[i].author || '') + "</td>";
-//                        str += "<td>" + data[i].click + "</td>";
-//                        str += "<td>" + data[i].like + "</td>";
-//                        str += "<td>" + (data[i].created_at || '')+ "</td>";
-//                        str += "<td><a data-id=\"" + data[i].id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
-//                            var del_item = "<a href='javascript:void(0);'  data-id=\""+ data[i].id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
-//
-//                            str += del_item;
-//                           str += "</td>";
-//                        str += '</tr>';
-//
-//                    }
-                    $.each(data,function(index,item){
-                        var edit_url = jsRoute(routes.list.edit,{id:item.id});
-                        var str = '';
-                        str += '<tr id="a'+item.id+'">';
-                        str += "<td>"+item.id + "</td>";
-                        str += "<td>" + item.title  + "</td>";
-                        str += "<td>" + item.cate_name || '' + "</td>";
-                        str += "<td>" + (item.author || '') + "</td>";
-                        str += "<td>" + item.click + "</td>";
-                        str += "<td>" + item.like + "</td>";
-                        str += "<td>" + item.created_at || ''+ "</td>";
+                            str += del_item;
+                           str += "</td>";
                         str += '</tr>';
-                        $("#show_list").append(str);
-                        var action  = "<td><a data-id=\"" +item.id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
-                        action  += "<a href='javascript:void(0);'onclick='test2(\""+item.id+"\");'  data-id=\""+ item.id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
-                        $("#a"+item.id).append(action);
-                    });
 
+                    }
+//                    $.each(data,function(index,item){
+//                        var edit_url = jsRoute(routes.list.edit,{id:item.id});
+//                        var str = '';
+//                        str += '<tr id="a'+item.id+'">';
+//                        str += "<td>"+item.id + "</td>";
+//                        str += "<td>" + item.title  + "</td>";
+//                        str += "<td>" + item.cate_name || '' + "</td>";
+//                        str += "<td>" + (item.author || '') + "</td>";
+//                        str += "<td>" + item.click + "</td>";
+//                        str += "<td>" + item.like + "</td>";
+//                        str += "<td>" + item.created_at || ''+ "</td>";
+//                        str += '</tr>';
+//                        $("#show_list").append(str);
+//                        var action  = "<td><a data-id=\"" +item.id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
+//                        action  += "<a href='javascript:void(0);'onclick='test2(\""+item.id+"\");'  data-id=\""+ item.id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
+//                        $("#a"+item.id).append(action);
+//                    });
+                    $("#show_list").html(str);
                     $("#main_table_paginate").html(links);
                     var page_table_info = "显示第 "+json_data.page.from + " 至 "+json_data.page.to+" 项结果，共 "+json_data.page.total+" 项";
                     $("#main_table_info").html(page_table_info);
@@ -105,16 +105,17 @@
 
         }
 
+
     })
 
-        function test2(a){
-            alert(a);
-        }
+
         function del_item(id){
             console.log(id);
         }
 
-
+        function test2(a){
+            alert(a);
+        }
 
 
 </script>
