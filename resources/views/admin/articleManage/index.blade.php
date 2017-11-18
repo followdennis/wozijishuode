@@ -6,13 +6,15 @@
 
 @section('CUSTOM_STYLE')
     <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
-<style>
+    <link href="{{asset('vendor/toastr/toastr.css')}}" rel="stylesheet" type="text/css" />
+    <style>
     #dataTables_scrollBody th{
         border-bottom: 1px solid #ddd;
     }
 </style>
 @endsection
 @section('CUSTOM_SCRIPT')
+    <script src="{{asset('vendor/toastr/toastr.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
     <script>
         var routes = {
@@ -30,6 +32,7 @@
         var url = jsRoute(routes.list.fetch);
         getList({page:1});
         var perPage = 10;
+        //改变翻页
         $("#main_table_length").on("change","select[name=main_table_length]",function(){
             var perPage = $(this).val();
             var params = {page:1,perPage:perPage};
@@ -42,6 +45,7 @@
             var params = {page:page,perPage:perPage,cateId:cate_id};
             getList(params);
         })
+
 
         function getList(params){
 
@@ -68,7 +72,7 @@
                         str += "<td>" + data[i].like + "</td>";
                         str += "<td>" + (data[i].created_at || '')+ "</td>";
                         str += "<td><a data-id=\"" + data[i].id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
-                            var del_item = "<a href='javascript:void(0);' onclick='test2(\""+data[i].id+"\");' data-id=\""+ data[i].id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
+                            var del_item = "<a href='javascript:void(0);' onclick='del_item(\""+data[i].id+"\");' data-id=\""+ data[i].id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
 
                             str += del_item;
                            str += "</td>";
@@ -107,15 +111,60 @@
 
 
     })
-
+        function getParams(){
+            var perPage = $("#main_table_length select[name=main_table_length]").val();
+            var cate_id = $("#cate_id select[name=cate_id]").val();
+            var params = {page:1,perPage:perPage,cateId:cate_id};
+            return params;
+        }
 
         function del_item(id){
-            console.log(id);
+            swal({
+                    title: "确定删除?",
+                    text: "删除后，你将无法恢复!",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "取消",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "是的，确定删除",
+
+                }
+
+            ).then(
+                function(){
+                    url = jsRoute(routes.list.del, {id: id});
+                    $.get( url, function(data) {
+                        if(data.status){
+//                            var table = $('#main_table').DataTable();
+//                            table.ajax.reload();
+                            var params = getParams();
+                            //用模拟改变事件重新刷新页面
+                            $('#main_table_length select[name=main_table_length]').trigger("change");
+                            toastr.options = {
+                                closeButton: true,
+                                debug: false,
+                                positionClass: 'toast-top-right',
+                                onclick: null,
+                            };
+                            toastr['success'](data.msg,'成功');
+                        }else{
+                            swal({
+                                title: "失败",
+                                text: data.msg,
+                                type: "error",
+                            });
+                        }
+                    }).fail(function() {
+                        swal({
+                            title: "失败",
+                            text: '删除菜单失败',
+                            type: "error",
+                        });
+                    });
+                }
+            ) .catch(swal.noop);;
         }
 
-        function test2(a){
-            alert(a);
-        }
 
 
 </script>

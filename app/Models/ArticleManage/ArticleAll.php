@@ -7,6 +7,7 @@
  */
 namespace App\Models\ArticleManage;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 class ArticleAll extends Model
@@ -16,7 +17,16 @@ class ArticleAll extends Model
     public function getList(){
         $record = DB::table($this->table)
             ->select('id','title','author','author_id','description','tags_name','inner_link_name','inner_link_id','cate_name','cate_id','is_show','click','like','created_at')
+            ->where('is_show',0)
             ->orderBy('id','desc');
         return $record;
+    }
+    public function delData($id = 0){
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+        $status = DB::table($this->table)->where('id',$id)->update(['deleted_at'=>$now,'is_show'=>1]);//1表示删除
+        return $status;
+    }
+    public function getInfoById($id){
+        return DB::table($this->table)->where('is_show',0)->find($id);
     }
 }

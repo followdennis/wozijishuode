@@ -85,24 +85,29 @@ class IndexController extends AdminController
         echo $end-$time;
         return view('admin.articleManage.show',['data'=>$data]);
     }
-
     public function add(){
 
     }
 
     public function edit(Request $request){
         $id = $request->get('id');
-        echo $id;
+
         if($request->isMethod('post')){
 
         }else{
+            $data = ArticleRepository::getArticleData($id);
             return view('admin.articleManage.edit');
         }
 
     }
     public function del(Request $request){
         $id = $request->get('id');
-        echo $id;
+        $status = $this->articleAllModel->delData($id);
+        if($status){
+            return response()->json(['status'=>1,'msg'=>'删除成功']);
+        }else{
+            return response()->json(['status'=>0,'msg'=>'删除失败']);
+        }
     }
 
 }
