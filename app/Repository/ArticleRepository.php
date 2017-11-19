@@ -1,6 +1,7 @@
 <?php
 namespace App\Repository;
 use App\Models\ArticleManage\Article;
+use App\Models\ArticleManage\ArticleAll;
 use App\Models\ArticleManage\ArticleBody;
 use App\Models\ArticleManage\ArticleHead;
 
@@ -12,6 +13,14 @@ use App\Models\ArticleManage\ArticleHead;
  */
 class ArticleRepository
 {
+    protected $articleAllModel;
+    protected $articleBodyModel;
+    public function __construct(ArticleAll $articleAll,ArticleBody $articleBody)
+    {
+        $this->articleAllModel = $articleAll;
+        $this->articleBodyModel = $articleBody;
+    }
+
     /**
      * 获取article列表数据
      */
@@ -44,7 +53,18 @@ class ArticleRepository
             'content'=>$body->content
         ];
     }
+    /**
+     * 通过article 表获取内容
+     * retuan 数组
+     */
+    public function getInfoByArticle($id){
 
+        $article_head_info = $this->articleAllModel->getInfoById($id);
+        $content = $this->articleBodyModel->getInfoById($id,['content']);
+        $article = collect($article_head_info)->merge($content);
+        return $article->toArray();
+
+    }
 
 
 

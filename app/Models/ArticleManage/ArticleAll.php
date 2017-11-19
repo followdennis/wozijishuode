@@ -27,6 +27,22 @@ class ArticleAll extends Model
         return $status;
     }
     public function getInfoById($id){
-        return DB::table($this->table)->where('is_show',0)->find($id);
+        return DB::table($this->table)
+            ->select([
+                'id',
+                'title',
+                'author',
+                'author_id',
+                'tags_id',
+                'inner_link_id',
+                'inner_link_name',
+                'cate_name',
+                'cate_id',
+                'click',
+                'like',
+                'created_at',
+                'updated_at'
+            ])
+            ->where('is_show',0)->find($id);//这里的0表示显示文章
     }
 }

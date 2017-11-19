@@ -1,22 +1,20 @@
 @extends('layouts.main_layout')
-
-@section('meta_description')aaa @endsection
-
-@section('meta_keyword') 管理后台 @endsection
-
 @section('CUSTOM_STYLE')
-    <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/metronic_theme/css/bootstrap-responsive.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/toastr/toastr.css')}}" rel="stylesheet" type="text/css" />
-    <style>
-    #dataTables_scrollBody th{
-        border-bottom: 1px solid #ddd;
-    }
-</style>
+    <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('CUSTOM_SCRIPT')
+    <script src="{{asset('vendor/datatables/js/datatables.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/admin/tags/index.js')}}" type="text/javascript"></script>
     <script src="{{asset('vendor/toastr/toastr.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
+
     <script>
+        /**
+         * 定义本页面使用到的路由
+         * */
         var routes = {
             list: {
                 fetch : 'articles/list',
@@ -25,100 +23,116 @@
                 del : '{{route('articles/del')}}'
             }
         };
-        var url = jsRoute(routes.list.fetch);
 
-    $(document).ready(function(){
+        $(document).ready(function() {
 
-        var url = jsRoute(routes.list.fetch);
-        getList({page:1});
-        var perPage = 10;
-        //改变翻页
-        $("#main_table_length").on("change","select[name=main_table_length]",function(){
-            var perPage = $(this).val();
-            var params = {page:1,perPage:perPage};
-            getList(params);
-        });
-        $("#main_table_paginate").on("click","li a",function(){
-            var page = $(this).attr('data-page');
-            var perPage = $("#main_table_length select[name=main_table_length]").val();
-            var cate_id = $("#cate_id select[name=cate_id]").val();
-            var params = {page:page,perPage:perPage,cateId:cate_id};
-            getList(params);
-        })
-
-
-        function getList(params){
-
-
-            $.ajax({
-                url:url,
-                dataType:"json",
-                data:params,
-                type:"get",
-                success:function(json_data){
-
-                    var data = json_data.list;
-                    var links = json_data.links;
-                    var str = '';
-                    function get_data(){alert(11);}
-                    for(var i = 0; i < data.length; i++){
-                        var edit_url = jsRoute(routes.list.edit,{id:data[i].id});
-                        str += '<tr>';
-                        str += "<td>"+data[i].id + "</td>";
-                        str += "<td>" + data[i].title  + "</td>";
-                        str += "<td>" + (data[i].cate_name || '') + "</td>";
-                        str += "<td>" + (data[i].author || '') + "</td>";
-                        str += "<td>" + data[i].click + "</td>";
-                        str += "<td>" + data[i].like + "</td>";
-                        str += "<td>" + (data[i].created_at || '')+ "</td>";
-                        str += "<td><a data-id=\"" + data[i].id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
-                            var del_item = "<a href='javascript:void(0);' onclick='del_item(\""+data[i].id+"\");' data-id=\""+ data[i].id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
-
-                            str += del_item;
-                           str += "</td>";
-                        str += '</tr>';
-
+            var table = $('#main_table').DataTable({
+                bLengthChange:true,
+                bPaginate : true,
+                processing: true,
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                aaSorting: [],
+                scrollX: true,
+                autoWidth: true,
+                language: {
+                    "sProcessing": "正在加载数据，请稍后...",
+                    "sLengthMenu": "每页显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
                     }
-//                    $.each(data,function(index,item){
-//                        var edit_url = jsRoute(routes.list.edit,{id:item.id});
-//                        var str = '';
-//                        str += '<tr id="a'+item.id+'">';
-//                        str += "<td>"+item.id + "</td>";
-//                        str += "<td>" + item.title  + "</td>";
-//                        str += "<td>" + item.cate_name || '' + "</td>";
-//                        str += "<td>" + (item.author || '') + "</td>";
-//                        str += "<td>" + item.click + "</td>";
-//                        str += "<td>" + item.like + "</td>";
-//                        str += "<td>" + item.created_at || ''+ "</td>";
-//                        str += '</tr>';
-//                        $("#show_list").append(str);
-//                        var action  = "<td><a data-id=\"" +item.id + "\" href='"+edit_url+"' class=\"btn btn-sm purple item_edit\"><i class=\"fa fa-edit\"></i>编辑</a>" ;
-//                        action  += "<a href='javascript:void(0);'onclick='test2(\""+item.id+"\");'  data-id=\""+ item.id +"\" class=\"btn dark btn-sm red item_del\"><i class=\"fa fa-trash-o\"></i> 删除 </a>" ;
-//                        $("#a"+item.id).append(action);
-//                    });
-                    $("#show_list").html(str);
-                    $("#main_table_paginate").html(links);
-                    var page_table_info = "显示第 "+json_data.page.from + " 至 "+json_data.page.to+" 项结果，共 "+json_data.page.total+" 项";
-                    $("#main_table_info").html(page_table_info);
-
                 },
-                error:function(){
+                ajax: {
+                    url: jsRoute(routes.list.fetch),
+                    data: function (d) {
+                        d.keyword = $('#keyword').val();
+                        d.cate_id = $('#input_cate_id').val();
+                    }
+                },
+                columns: [
+                    {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
+                    {data: 'title', name: 'title', title : '标题', sortable: false},
+                    {data: 'cate_name', name: 'cate_name', title : '分类名', sortable: false},
+                    {data: 'author', name: 'author', title : '作者', sortable: false},
+                    {data: 'click', name: 'click', title : '点击量', sortable: false},
+                    {data: 'like', name: 'like', title : '赞', sortable: false},
+                    {data: 'created_at', name: 'created_at', title : '创建日期', sortable: false},
+//                    {
+//                        data: 'source_url', name: 'source_url', title : '文章来源', sortable: false,
+//                        render: function (data,type,full) {
+//                            if(full.source_url.length > 0){
+//                                url =  full.source_url;
+//                                return  "<a href='"+url+"' class='get_deducation' target='_blank'>文章来源</a>";
+//                            }else{
+//                                return '文章来源';
+//                            }
+//                        }
+//                    },
+//                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
+                    {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}
+                ],
+                //创建行回调
+                "createdRow": function ( row, data, index ) {
+                    $('.item_del',row).click(function () {
+                        deleteItem($(this).data('id'));
+                    });
 
                 }
+
             });
 
+            $('#search-form').on('submit', function(e) {
+                table.draw();
+                e.preventDefault();
+            });
+        } );
+
+        function change_finish_status(obj){
+            var status = $(obj).attr('data-status');
+            var id = $(obj).attr('data-id')
+            if(status == 0){
+                $(obj).attr('data-status',1);
+                status = 1;
+                $(obj).attr('class','glyphicon glyphicon-ok is_finish_convert').css('color','green');
+            }else{
+                $(obj).attr('data-status',0);
+                status = 0;
+                $(obj).attr('class','glyphicon glyphicon-remove is_finish_convert').css('color','red');
+            }
+            var url = jsRoute(routes.list.change_status);
+            $.get(url,{id:id,is_finish:status},function(data){
+                if(data.status == 0){
+
+                }else{
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        positionClass: 'toast-top-right',
+                        onclick: null,
+                    };
+                    toastr['success'](data.msg,'成功');
+                }
+            })
         }
-
-
-    })
-        function getParams(){
-            var perPage = $("#main_table_length select[name=main_table_length]").val();
-            var cate_id = $("#cate_id select[name=cate_id]").val();
-            var params = {page:1,perPage:perPage,cateId:cate_id};
-            return params;
-        }
-
-        function del_item(id){
+        function deleteItem(id) {
             swal({
                     title: "确定删除?",
                     text: "删除后，你将无法恢复!",
@@ -127,7 +141,7 @@
                     cancelButtonText: "取消",
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "是的，确定删除",
-
+                    closeOnConfirm: false
                 }
 
             ).then(
@@ -135,11 +149,8 @@
                     url = jsRoute(routes.list.del, {id: id});
                     $.get( url, function(data) {
                         if(data.status){
-//                            var table = $('#main_table').DataTable();
-//                            table.ajax.reload();
-                            var params = getParams();
-                            //用模拟改变事件重新刷新页面
-                            $('#main_table_length select[name=main_table_length]').trigger("change");
+                            var table = $('#main_table').DataTable();
+                            table.ajax.reload();
                             toastr.options = {
                                 closeButton: true,
                                 debug: false,
@@ -162,31 +173,87 @@
                         });
                     });
                 }
-            ) .catch(swal.noop);;
+            );
         }
 
-
-
-</script>
-
+        function item_add(id){
+            var url = jsRoute(routes.list.add,{parent_id:id});
+            layer.open({
+                title: '添加分类',
+                type: 2,
+                btn: ['保存','取消'], //按钮
+                yes: function(index, layero){ //或者使用btn1
+                    var formData = layer.getChildFrame('body');
+                    formData.find('#dosubmit').click();
+                    // layer.closeAll();
+                },cancel: function(index){ //或者使用btn2
+                    layer.closeAll();
+                },
+                skin: 'layui-layer-rim', //加上边框
+                area: ['600px','500px'], //宽高
+                content: url,
+                end: function () {
+                    // location.reload();
+                    var table = $('#main_table').DataTable();
+                    table.ajax.reload();
+                }
+            });
+        }
+        function item_edit(id){
+            var url = jsRoute(routes.list.edit,{id:id});
+            layer.open({
+                title: '编辑分类',
+                type: 2,
+                btn: ['保存','取消'], //按钮
+                yes: function(index, layero){ //或者使用btn1
+                    var formData = layer.getChildFrame('body');
+                    formData.find('#dosubmit').click();
+                    // layer.closeAll();
+                },cancel: function(index){ //或者使用btn2
+                    layer.closeAll();
+                },
+                skin: 'layui-layer-rim', //加上边框
+                area: ['600px','500px'], //宽高
+                content: url,
+                end: function () {
+                    // location.reload();
+                    var table = $('#main_table').DataTable();
+                    table.ajax.reload();
+                }
+            });
+        }
+    </script>
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 main-chart">
-          article
+    <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE BAR -->
+            <div class="page-bar">
+                <ul class="page-breadcrumb">
+                    {{--{!! $CurrentPosition !!}--}}
+                </ul>
+            </div>
+            <!-- END PAGE BAR -->
+            <!-- BEGIN PAGE TITLE-->
+            <h1 class="page-title"> 文章管理
+            </h1>
+            <!-- END PAGE TITLE-->
+            <!-- END PAGE HEADER-->
             <div class="row row_left">
                 <div class="col-md-12">
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet box red">
-
+                        {{--<div class="portlet box blue-steel">--}}
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>分类列表 </div>
+                                <i class="fa fa-cogs"></i>文章列表 </div>
 
                             <div class="actions">
-                                <button type="button" data-url="http://www.wozijishuode.com/back/category/add" class="btn btn-default btn-sm category_add">
-                                    <i class="fa fa-plus"></i> 添加分类
-                                </button>
+                                <a href="{{route('articles/add')}}" class="btn btn-default btn-sm" >
+                                    <i class="fa fa-plus"></i> 新增文章
+                                </a>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -195,101 +262,27 @@
                                     <input type="text" class="form-control" name="keyword" id="keyword" placeholder="标签名称">
                                 </div>
                                 <div class="form-group" id="cate_id">
-                                        <select name="cate_id"  class="form-control">
-                                            <option value="0">请选择分类</option>
-                                            @if(!empty($cate_list))
-                                                @foreach($cate_list as $k =>$cate)
-                                                    <option value="{{ $cate->id }}">{{ $cate->name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                    <select name="cate_id" id="input_cate_id" class="form-control">
+                                        <option value="0">请选择分类</option>
+                                        @if(!empty($cate_list))
+                                            @foreach($cate_list as $k =>$cate)
+                                                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary red">搜索</button>
                             </form>
-                            <div id="main_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="dataTables_length" id="main_table_length"><label>每页显示
-                                                <select name="main_table_length" aria-controls="main_table" class="form-control input-sm">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select> 项结果</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9 pull-right"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="dataTables_scroll">
-                                            <div class="dataTables_scrollHead " style="overflow: hidden; position: relative; border: 0px; width: 100%;">
-                                                <div class="dataTables_scrollHeadInner " >
-                                                    <table class="table table-striped table-bordered table-hover order-column dataTable no-footer " role="grid">
-                                                        <thead>
-                                                        <tr role="row ">
-
-                                                        </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="dataTables_scrollBody" id="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%;">
-                                                <table class="table table-striped table-bordered table-hover order-column dataTable no-footer " style="width: 100%;" id="main_table" role="grid" aria-describedby="main_table_info"><thead>
-                                                    <tr role="row" >
-                                                        <th class="sorting_disabled example_tb_th"  rowspan="1" colspan="1" style="width: 35px;" aria-label="ID">ID</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="菜单名称">标题</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1"   aria-label="拼音">分类</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="简拼">作者</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="描述">点击量</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="显示">赞</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1"  aria-label="显示">创建时间</th>
-                                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 235px;" aria-label="操作">操作</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="show_list">
-                                                    {{--@foreach($list as $k => $data)--}}
-                                                    {{--<tr role="row" class="odd">--}}
-                                                        {{--<td>{{ $data->id }}</td>--}}
-                                                        {{--<td>{{ $data->title }}</td>--}}
-                                                        {{--<td>{{ $data->cate_name }}</td>--}}
-                                                        {{--<td>{{ $data->author }}</td>--}}
-                                                        {{--<td>{{ $data->click }}</td>--}}
-                                                        {{--<td>{{ $data->like }}</td>--}}
-                                                        {{--<td>{{ $data->created_at }}</td>--}}
-                                                        {{--<td>--}}
-                                                            {{--<a data-id="1" class="btn btn-sm purple item_edit"><i class="fa fa-edit"></i>编辑</a>--}}
-                                                            {{--<a href="javascript:;" data-id="1" class="btn dark btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a></td>--}}
-                                                    {{--</tr>--}}
-                                                    {{--@endforeach--}}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="main_table_processing" class="dataTables_processing panel panel-default" style="display: none;">正在加载数据，请稍后...</div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <div class="dataTables_info" id="main_table_info" role="status" aria-live="polite"></div></div>
-                                    <div class="col-sm-10">
-                                        <div class="dataTables_paginate paging_simple_numbers" id="main_table_paginate">
-                                            {{--{{ $page->links() }}--}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="table table-striped table-bordered table-hover order-column" style="width: 100%" id="main_table">
+                            </table>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
-        </div><!-- /col-lg-9 END SECTION MIDDLE -->
-
-
-        <!-- **********************************************************************************************************************************************************
-        RIGHT SIDEBAR CONTENT
-        *********************************************************************************************************************************************************** -->
-    </div><! --/row -->
+        </div>
+        <!-- END CONTENT BODY -->
+    </div>
 @endsection
-
+@section('footer')
+@endsection

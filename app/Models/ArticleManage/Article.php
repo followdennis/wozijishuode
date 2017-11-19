@@ -2,6 +2,7 @@
 
 namespace App\Models\ArticleManage;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,14 @@ class Article extends Model
      * @param $id
      */
     public function getArticleById($id){
+
+    }
+    public function insertData($params = []){
+        if(!isset($params['cate_id'])){
+            return false;
+        }
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+        $id = DB::table($this->table)->insertGetId(['cate_id'=>$params['cate_id'],'created_at',$now]);
 
     }
 

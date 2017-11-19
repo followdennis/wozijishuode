@@ -1,4 +1,5 @@
 /*!
+ * 修改了一些特殊字符不能转移的地方，在html 和unhtml 函数处（2017-11-19）
  * UEditor
  * version: ueditor
  * build: Tue Aug 25 2015 15:23:01 GMT+0800 (CST)
@@ -750,8 +751,25 @@ var utils = UE.utils = {
      *
      * ```
      */
+    // unhtml:function (str, reg) {
+    //     return str ? str.replace(reg || /[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g, function (a, b) {
+    //         if (b) {
+    //             return a;
+    //         } else {
+    //             return {
+    //                 '<':'&lt;',
+    //                 '&':'&amp;',
+    //                 '"':'&quot;',
+    //                 '>':'&gt;',
+    //                 "'":'&#39;'
+    //             }[a]
+    //         }
+    //
+    //     }) : '';
+    // },
+    //处理特殊字符不转移的问题
     unhtml:function (str, reg) {
-        return str ? str.replace(reg || /[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g, function (a, b) {
+        return str ? str.replace(reg || /[&<">'](?:(amp|lt|quot|gt|#39|nbsp|ldquo|rdquo|mdash|middot|hellip|lsquo|rsquo|#\d+);)?/g, function (a, b) {
             if (b) {
                 return a;
             } else {
@@ -783,15 +801,37 @@ var utils = UE.utils = {
      *
      * ```
      */
+    // html:function (str) {
+    //     return str ? str.replace(/&((g|l|quo)t|amp|#39|nbsp);/g, function (m) {
+    //         return {
+    //             '&lt;':'<',
+    //             '&amp;':'&',
+    //             '&quot;':'"',
+    //             '&gt;':'>',
+    //             '&#39;':"'",
+    //             '&nbsp;':' '
+    //         }[m]
+    //     }) : '';
+    // },
+    //处理特殊字符问题
     html:function (str) {
-        return str ? str.replace(/&((g|l|quo)t|amp|#39|nbsp);/g, function (m) {
+        return str ? str.replace(/&((g|l|quo)t|#39|nbsp|ldquo|rdquo|amp|mdash|middot|hellip|lsquo|rsquo);/g, function (m) {
             return {
                 '&lt;':'<',
                 '&amp;':'&',
                 '&quot;':'"',
                 '&gt;':'>',
                 '&#39;':"'",
-                '&nbsp;':' '
+                '&nbsp;':' ',
+                //增加部分
+                '&ldquo;':'“',
+                '&rdquo;':'”',
+                '&amp;':'&',
+                '&mdash;':'—',
+                '&middot;':'·',
+                '&hellip;':'…',
+                '&lsquo;':'‘',
+                '&rsquo;':'’',
             }[m]
         }) : '';
     },

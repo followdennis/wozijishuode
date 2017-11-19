@@ -10,9 +10,9 @@ class ArticleBody extends Model
     //
     protected $table='article_body_';
 
-    public function getInfoById($id){
+    public function getInfoById($id,$select = '*'){
         $body_id = get_article_body_id($id);
-        return DB::table($this->table.$body_id)->where('id',$id)->first();
+        return DB::table($this->table.$body_id)->where('id',$id)->select($select)->first();
     }
 
 }

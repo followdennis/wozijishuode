@@ -29,8 +29,23 @@
 @section('CUSTOM_SCRIPT')
     @include('vendor.ueditor.assets')
     <script type="text/javascript">
-        var ue = UE.getEditor('container1');
+        var ue = UE.getEditor('container1',{
+            toolbars:[[
+                'fullscreen',  '|', 'undo', 'redo', '|',
+                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'cleardoc', '|',
+                'lineheight', '|',
+                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+                'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+                'simpleupload', 'insertimage', 'emotion',   'insertcode',  'template', 'background', '|',
+                'horizontal', 'date', 'time', 'spechars', 'snapscreen',  '|',
+                'inserttable', 'deletetable',  '|',
+                'preview', 'searchreplace'
+            ]],
+            initialFrameHeight:600
+        });
         ue.ready(function() {
+            ue.setContent("{!! $data['content'] !!}");
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
         });
     </script>
@@ -38,7 +53,16 @@
         $(document).ready(function(){
             if($('#input_select option:selected').val() != 0){
                 $("#_input").val($("#input_select option:selected").text());
+                $("#_input_bridge").val($("#input_select option:selected").val());
             }
+            //设置文章默认值
+
+            //作者字段变动的同时，光标离开
+            $("#_input").change(function(){
+                $("#_input").blur(function(){
+                    $("#_input_bridge").val('0,'+$("#_input").val());
+                });
+            });
             //tag字段变动的同时，光标离开
             $("#_input_tag").change(function(){
                 $("#_input_tag").blur(function(){
@@ -46,8 +70,14 @@
                 });
             });
         });
+        //设置文章初始值
+        function clearmyedit(){
+            UE.getEditor('container1').setContent('abc');
+        }
         function get_author() {
             $("#_input").val($("#input_select option:selected").text());
+            $("#_input_bridge").val($("#input_select option:selected").val());
+
         }
         function get_tag() {
             $("#_input_tag").val($("#input_select_tag option:selected").text());
@@ -114,7 +144,7 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="title" placeholder="请输入标题">
+                        <input type="text" class="form-control" id="title" value="{{ $data['title'] }}" placeholder="请输入标题">
                     </div>
                 </div>
                 <div class="form-group">
@@ -134,20 +164,7 @@
 
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <label for="description" class="col-sm-3 control-label">作者</label>
-                            <div class="col-sm-9">
 
-                                <select class="form-control" name="cate" id="cate">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-
-                            </div>
-                        </div>
 
                         <div class="col-lg-4">
                             <label for="description" class="col-sm-3 control-label">作者</label>
@@ -161,10 +178,17 @@
                                         <option value="3,测试3" >测试3</option>
                                         <option value="4,测试2" selected>测试2</option>
                                     </select>
+                                    <input id="_input_bridge" class="_input" type="hidden" />
                                     <input id="_input" class="_input" type="text" />
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="description" class="col-sm-3 control-label">内链</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="inner_link" placeholder="请输入内链">
+                            </div>
                         </div>
 
                     </div>
@@ -213,43 +237,23 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">描述</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label">description</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="description" placeholder="Password">
+                        <textarea class="form-control" rows="3" id="article_content" name="description" placeholder="文章描述"></textarea>
                     </div>
-
                 </div>
-
-
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label">description</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                       创建时间：{{ $data['created_at'] }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Remember me
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" rows="3" id="article_content" name="content"></textarea>
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label">文章正文</label>
                     <div class="col-sm-10">
                         <script id="container1" name="content" type="text/plain"></script>
                     </div>
                 </div>
-
             </form>
         </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
