@@ -2,6 +2,7 @@
 
 namespace App\Models\ArticleManage;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ArticleHead extends Model
@@ -35,6 +36,7 @@ class ArticleHead extends Model
     //更新操作
     public function updateData($params = []){
         $head_id = get_article_head_id($params['id']);
+        $params = array_add($params,'updated_at',Carbon::now()->format('Y-m-d H:i:s'));
         return \DB::table($this->table.$head_id)->where('id',$params['id'])->update($params);
     }
 }

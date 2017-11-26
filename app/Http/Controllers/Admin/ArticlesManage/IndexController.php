@@ -197,8 +197,9 @@ class IndexController extends AdminController
                     $article_head_state = $this->articleHeadModel->updateData($data_head);
                     $article_content_state = $this->articleBodyModel->updateData($body);
                 }catch (\Exception $e){
-                    echo '失败';
+
                 }
+
 //                return response()->json(['status'=>1,'msg'=>'编辑成功']);
                 return redirect(route('articles'));
         }else{
