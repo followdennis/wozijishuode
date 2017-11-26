@@ -32,4 +32,9 @@ class ArticleHead extends Model
         $head_id = get_article_head_id($id);
         return \DB::table($this->table.$head_id)->where('id',$id)->get();
     }
+    //更新操作
+    public function updateData($params = []){
+        $head_id = get_article_head_id($params['id']);
+        return \DB::table($this->table.$head_id)->where('id',$params['id'])->update($params);
+    }
 }

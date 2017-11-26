@@ -15,6 +15,24 @@ class Category extends Model
     public function getList(){
         return self::select('*');
     }
+    //获取分类选项
+    public function getCateList(){
+        $list_arr = self::select(['id','name','parent_id'])->get();
+        $list = [];
+        if(!empty($list_arr))
+        {
+            $list_to_arr = $list_arr->toArray();
+            foreach ($list_to_arr as $r) {
+                if(is_object($r))
+                {
+                    $list[] = Utils::objectToArray($r);
+                }else{
+                    $list[] = $r;
+                }
+            }
+        }
+        return $list;
+    }
     public function getFieldList(){
         return self::select('id','name','parent_id')->get();
     }

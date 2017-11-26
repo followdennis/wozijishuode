@@ -10,6 +10,7 @@ class InnerLink extends Model
     //
     use SoftDeletes;
     protected $table = 'inner_link';
+    protected $guarded = [];
     public function getInfoById($id){
         return self::find($id);
     }
@@ -25,4 +26,6 @@ class InnerLink extends Model
     public function updateData($params,$id){
         return self::where('id',$id)->update($params);
     }
+    //创建或者更新
+
 }

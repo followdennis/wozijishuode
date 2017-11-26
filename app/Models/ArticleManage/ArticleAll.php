@@ -9,9 +9,11 @@ namespace App\Models\ArticleManage;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 class ArticleAll extends Model
 {
+    use SoftDeletes;
     protected $table = 'article';
 
     public function getList(){
@@ -34,9 +36,11 @@ class ArticleAll extends Model
                 'author',
                 'author_id',
                 'tags_id',
+                'tags_name',
                 'inner_link_id',
                 'inner_link_name',
                 'cate_name',
+                'description',
                 'cate_id',
                 'click',
                 'like',
@@ -45,4 +49,11 @@ class ArticleAll extends Model
             ])
             ->where('is_show',0)->find($id);//这里的0表示显示文章
     }
+    public function editData($params = []){
+        return self::where('id',$params['id'])->update($params);
+    }
+    public function insertData($params = []){
+        return self::insert($params);
+    }
+
 }

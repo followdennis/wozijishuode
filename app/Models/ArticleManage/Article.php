@@ -38,5 +38,8 @@ class Article extends Model
         $id = DB::table($this->table)->insertGetId(['cate_id'=>$params['cate_id'],'created_at',$now]);
 
     }
+    public function updateData($params = []){
+        return self::where('id',$params['id'])->update(['cate_id'=>$params['cate_id']]);
+    }
 
 }
