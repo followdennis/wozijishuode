@@ -70,6 +70,17 @@
                 columns: [
                     {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
                     {data: 'title', name: 'title', title : '标题', sortable: false},
+                    {data: 'is_show', name: 'is_show', title : '展示', sortable: false,
+                        render:function(data,type,full){
+                            var message_id = full.id;
+                            if(full.is_show == 0){
+                                return '<font color="red">✘</font>';
+                            }else{
+                                return '<font color="green">✔</font>';
+                            }
+                        }
+
+                    },
                     {data: 'cate_name', name: 'cate_name', title : '分类名', sortable: false},
                     {data: 'author', name: 'author', title : '作者', sortable: false},
                     {data: 'click', name: 'click', title : '点击量', sortable: false},
@@ -94,9 +105,7 @@
                     $('.item_del',row).click(function () {
                         deleteItem($(this).data('id'));
                     });
-
                 }
-
             });
 
             $('#search-form').on('submit', function(e) {

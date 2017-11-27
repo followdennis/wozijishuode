@@ -132,9 +132,82 @@ class IndexController extends AdminController
     public function add(Request $request){
         if($request->isMethod('post')){
             $params = $request->all();
+            $tags_name = [];
+            $tags_id = [];
+            $data_head = [];
+            if(isset($params['tags']) && !empty($params['tags'])){
+                foreach($params['tags'] as $tag){
+                    $tag_arr = explode(',',$tag);
+                    $tagModel = $this->tagsModel->firstOrCreate(['name'=>@$tag_arr[1]],[
+                        'pinyin'=>pinyin_permalink($tag_arr[1],''),
+                        'py'=>pinyin_abbr($tag_arr[1]),
+                        'tables_id'=>0,
+                        'description'=>''
+                    ]);
+                    echo
+                    $tags_name[] = @$tag_arr[1];
+                    if(@tag_arr[0] == 0){
+                        $tags_id[] = $tagModel->id;
+                    }else{
+                        $tags_id[] = @$tag_arr[0];
+                    }
+                }
+                $data_head = array_add($data_head,'tags_name',implode(',',$tags_name));
+                $data_head = array_add($data_head,'tags_id',implode(',',$tags_id));
 
+            }
+            if(!empty($params['author'])){
+                $data_head = array_add($data_head,'author',explode(',',$params['author'])[1]);
+                $data_head = array_add($data_head,'author_id',explode(',',$params['author'])[0]);
+            }
+            $cate = explode(',',$params['cate']);
+            $cate_id = @$cate[0];
+            $cate_name = @$cate[1];
+
+
+            //获取id
+            $id = $this->articleModel->insertData(['cate_id'=>$cate_id]);
+            if(!empty($params['inner_link'])){
+                $data_head = array_add($data_head,'inner_link_name',$params['inner_link']);
+                $data_head = array_add($data_head,'inner_link_id',1);
+                $inner_link_state = $this->innerLinkModel->insert(['article_id'=>$id,'name'=>$params['inner_link'],'tables_id'=>1]);
+            }
+            $data_head['id'] = $id;
+            $data_head['title'] = $params['title'];
+            $data_head['description'] = $params['description'];
+            $data_head['cate_name'] = $cate_name;
+            $data_head['cate_id'] = $cate_id;
+            $body = [
+                'id'=>$id,
+                'content'=>$params['content']
+            ];
+//            try{
+
+                $article_state = $this->articleAllModel->insertData($data_head);
+                $article_head_state = $this->articleHeadModel->insertData($data_head);
+                $article_content_state = $this->articleBodyModel->insertData($body);
+//            }catch (\Exception $e){
+//
+//            }
+            return redirect(route('articles'));
+        }else{
+            $tree = new Tree();
+            $tree->icon = array('└ ','├ ','│');
+            $cate_list = $this->categoryModel->getCateList();
+            $array = array();
+            foreach($cate_list as $r) {
+                $r['cname'] =  $r['name'];
+                $array[] = $r;
+            }
+            $str  = "<option value='\$id,\$name' \$selected>\$spacer \$cname</option>";
+            $tree->init($array);
+            $category = $tree->get_tree(0, $str);
+            $tags = $this->tagsModel->getAllList();
+            $data['cate_list'] = $category;
+            $data['tags_list'] = $tags;
+            return view('admin.articleManage.add',compact('data'));
         }
-        return view('admin.articleManage.add');
+
     }
 
     public function edit(Request $request){
@@ -207,6 +280,7 @@ class IndexController extends AdminController
             $data = $articleRepo->getInfoByArticle($id);//为数组值
             $patten = array("\r\n", "\n", "\r");//替换文本中的换行符
             $data['content']=trim(str_replace($patten, "", $data['content']));
+
             $data['created_at'] = Carbon::parse($data['created_at'])->format('Y-m-d H:i:s');
             $tree = new Tree();
             $tree->icon = array('└ ','├ ','│');
@@ -223,8 +297,12 @@ class IndexController extends AdminController
             $tags = $this->tagsModel->getAllList();
             $data['cate_list'] = $category;
             $data['tags_list'] = $tags;
-            $data['tags_name'] = explode(',',$data['tags_name']);
-            $data['tags_id'] = explode(',',$data['tags_id']);
+            if(!empty($data['tags_name'])){
+                $data['tags_name'] = explode(',',$data['tags_name']);
+                $data['tags_id'] = explode(',',$data['tags_id']);
+            }else{
+                $data['tags_name'] = '';
+            }
 
             return view('admin.articleManage.edit',compact('data'));
         }
@@ -233,6 +311,9 @@ class IndexController extends AdminController
     public function del(Request $request){
         $id = $request->get('id');
         $status = $this->articleAllModel->delData($id);
+        $article_index_status = $this->articleModel->delData($id);
+        $article_head_status = $this->articleHeadModel->delData($id);
+        $article_body = $this->articleBodyModel->delete($id);
         if($status){
             return response()->json(['status'=>1,'msg'=>'删除成功']);
         }else{

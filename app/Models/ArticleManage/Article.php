@@ -30,16 +30,21 @@ class Article extends Model
     public function getArticleById($id){
 
     }
+    //添加一条数据
     public function insertData($params = []){
         if(!isset($params['cate_id'])){
             return false;
         }
         $now = Carbon::now()->format('Y-m-d H:i:s');
-        $id = DB::table($this->table)->insertGetId(['cate_id'=>$params['cate_id'],'created_at',$now]);
-
+        $id = DB::table($this->table)->insertGetId(['cate_id'=>$params['cate_id'],'created_at'=>$now]);
+        return $id;
     }
     public function updateData($params = []){
         return self::where('id',$params['id'])->update(['cate_id'=>$params['cate_id']]);
+    }
+    //删除
+    public function delData($id){
+        return self::where('id',$id)->update(['deleted_at'=>Carbon::now()->format('Y-m-d H:i:s'),'is_show'=>0]);
     }
 
 }

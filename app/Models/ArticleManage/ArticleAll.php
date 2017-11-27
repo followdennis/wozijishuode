@@ -19,13 +19,13 @@ class ArticleAll extends Model
     public function getList(){
         $record = DB::table($this->table)
             ->select('id','title','author','author_id','description','tags_name','inner_link_name','inner_link_id','cate_name','cate_id','is_show','click','like','created_at')
-            ->where('is_show',0)
+            ->whereNull('deleted_at')
             ->orderBy('id','desc');
         return $record;
     }
     public function delData($id = 0){
         $now = Carbon::now()->format('Y-m-d H:i:s');
-        $status = DB::table($this->table)->where('id',$id)->update(['deleted_at'=>$now,'is_show'=>1]);//1表示删除
+        $status = DB::table($this->table)->where('id',$id)->update(['deleted_at'=>$now,'is_show'=>0]);//1表示删除
         return $status;
     }
     public function getInfoById($id){
@@ -46,13 +46,15 @@ class ArticleAll extends Model
                 'like',
                 'created_at',
                 'updated_at'
-            ])
-            ->where('is_show',0)->find($id);//这里的0表示显示文章
+            ])->
+            whereNull('deleted_at')->find($id);//这里的0表示显示文章
     }
+    //更新
     public function editData($params = []){
         return self::where('id',$params['id'])->update($params);
     }
     public function insertData($params = []){
+        $params = array_add($params,'created_at',Carbon::now()->format('Y-m-d H:i:s'));
         return self::insert($params);
     }
 

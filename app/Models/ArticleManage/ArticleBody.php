@@ -20,5 +20,11 @@ class ArticleBody extends Model
         $params = array_add($params,'updated_at',Carbon::now()->format('Y-m-d H:i:s'));
         return DB::table($this->table.$body_id)->where('id',$params['id'])->update($params);
     }
+    //添加数据
+    public function insertData($params = []){
+        $body_id = get_article_body_id($params['id']);
+        $params = array_add($params,'created_at',Carbon::now()->format('Y-m-d H:i:s'));
+        return DB::table($this->table.$body_id)->insert($params);
+    }
 
 }

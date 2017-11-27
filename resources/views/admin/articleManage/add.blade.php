@@ -121,36 +121,29 @@
 
     <div class="row">
         <div class="col-lg-9 main-chart">
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="{{ route('articles/add') }}" method="post" id="form_horizontal"  enctype="multipart/form-data" >
                 <div class="form-group">
+                    {{ csrf_field() }}
                     <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="title" placeholder="请输入标题">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="请输入标题">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">分类</label>
                     <div class="row col-sm-10" >
                         <div class="col-lg-4">
                             <label for="description" class="col-sm-3 control-label">分类</label>
                             <div class="col-sm-9">
 
                                 <select class="form-control" name="cate" id="cate">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    {!! $data['cate_list'] !!}
                                 </select>
-
                             </div>
                         </div>
-
-
                         <div class="col-lg-4">
                             <label for="description" class="col-sm-3 control-label">作者</label>
                             <div class="col-sm-9">
-
                                 <div id="select_div" class="select_div">
                                     <select id="input_select" class="input_select"  onchange="get_author()">
                                         <option value="0">请选择作者</option>
@@ -159,7 +152,7 @@
                                         <option value="3,测试3" >测试3</option>
                                         <option value="4,测试2" selected>测试2</option>
                                     </select>
-                                    <input id="_input_bridge" class="_input" type="hidden" />
+                                    <input id="_input_bridge" class="_input"  name="author"  type="hidden" />
                                     <input id="_input" class="_input" type="text" />
                                 </div>
                             </div>
@@ -171,9 +164,7 @@
                                 <input type="text" class="form-control" name="inner_link" placeholder="请输入内链">
                             </div>
                         </div>
-
                     </div>
-
                 </div>
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">tags</label>
@@ -185,11 +176,9 @@
                                     <div id="select_div" class="select_div">
                                         <select id="input_select_tag" class="input_select" onchange="get_tag()">
                                             <option value="0" >请选择标签</option>
-                                            <option value="1,爬楼高手">爬楼高手</option>
-                                            <option value="2,隔壁老尤条" >隔壁老尤条</option>
-                                            <option value="3,测试3" >测试3</option>
-                                            <option value="4,测试2" >测试2</option>
-                                            <option value="5,政治" >政治</option>
+                                            @foreach($data['tags_list'] as $tag)
+                                                <option value="{{ $tag->id }},{{$tag->name}}">{{ $tag->name }}</option>
+                                            @endforeach
                                         </select>
                                         <input id="_input_tag" class="_input" type="text" />
                                         <input id="_input_tag_bridge"  type="hidden" />
@@ -200,18 +189,6 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="col-sm-12" id="tag_group">
-                                <div class="tag_button_position">
-                                    <button type="button" class="btn btn-success" onclick="del_self(this)">历史</button>
-                                    <input type="hidden" name="tags[]" value="tags[]" >
-                                </div>
-                                <div class="tag_button_position">
-                                    <button type="button" class="btn btn-success" onclick="del_self(this)">军事</button>
-                                    <input type="hidden" name="tags[]" value="tags[]" >
-                                </div>
-                                <div class="tag_button_position">
-                                    <button type="button" class="btn btn-success" onclick="del_self(this)">政治</button>
-                                    <input type="hidden" name="tags[]" value="tags[]" >
-                                </div>
 
                             </div>
                         </div>
@@ -227,6 +204,12 @@
                     <label for="inputPassword3" class="col-sm-2 control-label">文章正文</label>
                     <div class="col-sm-10">
                         <script id="container1" name="content" type="text/plain"></script>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn blue">保存</button>
                     </div>
                 </div>
             </form>
