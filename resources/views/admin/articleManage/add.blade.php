@@ -147,10 +147,9 @@
                                 <div id="select_div" class="select_div">
                                     <select id="input_select" class="input_select"  onchange="get_author()">
                                         <option value="0">请选择作者</option>
-                                        <option value="1,爬楼高手">爬楼高手</option>
-                                        <option value="2,隔壁老尤条" >隔壁老尤条</option>
-                                        <option value="3,测试3" >测试3</option>
-                                        <option value="4,测试2" selected>测试2</option>
+                                        @foreach($data['author_list'] as $author)
+                                            <option value="{{ $author->id }},{{$author->name}}">{{ $author->name }}</option>
+                                        @endforeach
                                     </select>
                                     <input id="_input_bridge" class="_input"  name="author"  type="hidden" />
                                     <input id="_input" class="_input" type="text" />

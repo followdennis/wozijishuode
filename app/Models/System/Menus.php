@@ -28,6 +28,7 @@ class Menus extends Model
             ->when($is_show,function($query) use($is_show){
                 $query->where('menus.is_show',$is_show);
             })
+            ->orderBy('sort','desc')
             ->get()
             ->toArray();
     }

@@ -82,6 +82,15 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('comments/hide',['uses'=>'Admin\ArticlesManage\CommentsController@hide_message','as'=>'comments/hide']);//是否屏蔽
 
         /**
+         * 作者管理
+         */
+        Route::get('author',['uses'=>'Admin\ArticlesManage\AuthorController@index','as'=>'author']);
+        Route::get('author/list',['uses'=>'Admin\ArticlesManage\AuthorController@get_list','as'=>'author/list']);
+        Route::match(['get','post'],'author/add',['uses'=>'Admin\ArticlesManage\AuthorController@add','as'=>'author/add']);
+        Route::match(['get','post'],'author/edit',['uses'=>'Admin\ArticlesManage\AuthorController@edit','as'=>'author/edit']);
+        Route::get('author/del',['uses'=>'Admin\ArticlesManage\AuthorController@del','as'=>'author/del']);
+
+        /**
          * 系统管理
          */
         /**

@@ -12,6 +12,7 @@ use App\Models\ArticleManage\Article;
 use App\Models\ArticleManage\ArticleAll;
 use App\Models\ArticleManage\ArticleBody;
 use App\Models\ArticleManage\ArticleHead;
+use App\Models\ArticleManage\Author;
 use App\Models\ArticleManage\Category;
 use App\Models\ArticleManage\InnerLink;
 use App\Models\ArticleManage\Tags;
@@ -34,8 +35,9 @@ class IndexController extends AdminController
     protected $articleBodyModel;
     protected $tagsModel;
     protected $innerLinkModel;
+    protected $authorModel;
     public function __construct(Request $request,
-                                Article $articleModel,ArticleHead $articleHead,Category $category,
+                                Article $articleModel,ArticleHead $articleHead,Category $category,Author $author,
                                 ArticleAll $articleAll,ArticleBody $articleBody,Tags $tags,InnerLink $innerLink)
     {
         parent::__construct($request);
@@ -46,6 +48,7 @@ class IndexController extends AdminController
         $this->articleBodyModel = $articleBody;
         $this->tagsModel = $tags;
         $this->innerLinkModel = $innerLink;
+        $this->authorModel = $author;
     }
 
     public function index(Request $request){
@@ -60,7 +63,8 @@ class IndexController extends AdminController
                 $id = $record->id;
                 $edit_article = '<a href="'.route('articles/edit',['id'=>$id]).'" class="btn btn-sm purple item_edit"><i class="fa fa-edit"></i>编辑</a>';
                 $del_article = '<a href="javascript:;" data-id="'.$id.'" class="btn  btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a>';
-                return $edit_article.$del_article;
+                $show_article = '<a href="'.route('articles/show',['id'=>$id]).'" class="btn btn-sm blue item_show"><i class="fa fa-edit"></i>预览</a>';
+                return $edit_article.$del_article.$show_article;
             })
             ->editColumn('created_at',function($record){
                 return Carbon::parse($record->created_at)->format('Y-m-d');
@@ -181,14 +185,14 @@ class IndexController extends AdminController
                 'id'=>$id,
                 'content'=>$params['content']
             ];
-//            try{
+            try{
 
                 $article_state = $this->articleAllModel->insertData($data_head);
                 $article_head_state = $this->articleHeadModel->insertData($data_head);
                 $article_content_state = $this->articleBodyModel->insertData($body);
-//            }catch (\Exception $e){
-//
-//            }
+            }catch (\Exception $e){
+
+            }
             return redirect(route('articles'));
         }else{
             $tree = new Tree();
@@ -203,8 +207,10 @@ class IndexController extends AdminController
             $tree->init($array);
             $category = $tree->get_tree(0, $str);
             $tags = $this->tagsModel->getAllList();
+            $authors = $this->authorModel->getAllList();
             $data['cate_list'] = $category;
             $data['tags_list'] = $tags;
+            $data['author_list'] = $authors;
             return view('admin.articleManage.add',compact('data'));
         }
 
@@ -215,7 +221,6 @@ class IndexController extends AdminController
 
         if($request->isMethod('post')){
                 $params = $request->all();
-
                 $tags_name = [];
                 $tags_id = [];
                 $data_head = [];
@@ -272,14 +277,13 @@ class IndexController extends AdminController
                 }catch (\Exception $e){
 
                 }
-
 //                return response()->json(['status'=>1,'msg'=>'编辑成功']);
                 return redirect(route('articles'));
         }else{
             $articleRepo = new ArticleRepository($this->articleAllModel,$this->articleBodyModel);
             $data = $articleRepo->getInfoByArticle($id);//为数组值
             $patten = array("\r\n", "\n", "\r");//替换文本中的换行符
-            $data['content']=trim(str_replace($patten, "", $data['content']));
+            $data['content']=addslashes(trim(str_replace($patten, "", $data['content'])));
 
             $data['created_at'] = Carbon::parse($data['created_at'])->format('Y-m-d H:i:s');
             $tree = new Tree();
@@ -295,8 +299,10 @@ class IndexController extends AdminController
             $tree->init($array);
             $category = $tree->get_tree(0, $str);
             $tags = $this->tagsModel->getAllList();
+            $authors = $this->authorModel->getAllList();
             $data['cate_list'] = $category;
             $data['tags_list'] = $tags;
+            $data['author_list'] = $authors;
             if(!empty($data['tags_name'])){
                 $data['tags_name'] = explode(',',$data['tags_name']);
                 $data['tags_id'] = explode(',',$data['tags_id']);
