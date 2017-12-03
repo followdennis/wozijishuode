@@ -46,5 +46,8 @@ class Article extends Model
     public function delData($id){
         return self::where('id',$id)->update(['deleted_at'=>Carbon::now()->format('Y-m-d H:i:s'),'is_show'=>0]);
     }
-
+    //修改显示状态
+    public function changeShow($condition = [],$update){
+        return self::where($condition)->update($update);
+    }
 }

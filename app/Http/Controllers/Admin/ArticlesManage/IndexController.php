@@ -326,5 +326,19 @@ class IndexController extends AdminController
             return response()->json(['status'=>0,'msg'=>'删除失败']);
         }
     }
-
+    //文章是否在前台展示
+    public function is_show(Request $request){
+        $id = $request->get('id');
+        $is_show = $request->get('is_show');
+        $condition = ['id'=>$id];
+        $update = ['is_show'=>$is_show];
+        $article_index_status = $this->articleModel->changeShow($condition,$update);
+        $article_all_status = $this->articleAllModel->changeShow($condition,$update);
+        $article_head_status = $this->articleHeadModel->changeShow($condition,$update);
+        if($article_all_status && $article_index_status && $article_head_status){
+            return response()->json(['status'=>1,'msg'=>'修改成功']);
+        }else{
+            return response()->json(['status'=>0,'msg'=>'修改失败']);
+        }
+    }
 }

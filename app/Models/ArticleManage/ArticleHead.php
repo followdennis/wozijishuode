@@ -51,5 +51,10 @@ class ArticleHead extends Model
         $head_id = get_article_head_id($id);
         return \DB::table($this->table.$head_id)->where('id',$id)->update($data);
     }
-
+    //修改显示状态
+    public function changeShow($condition = [],$update = []){
+        $head_id = get_article_head_id($condition['id']);
+        $update = ['updated_at'=>Carbon::now()->toDateTimeString(),'is_show'=>$update['is_show']];
+        return \DB::table($this->table.$head_id)->where($condition)->update($update);
+    }
 }

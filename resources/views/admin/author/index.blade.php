@@ -72,7 +72,17 @@
                     {data: 'pinyin', name: 'pinyin', title : '拼音', sortable: false},
                     {data: 'py', name: 'py', title : '简拼', sortable: false},
                     {data: 'description', name: 'description', title : '描述', sortable: false},
-                    {data: 'is_show', name: 'is_show', title : '是否展示', sortable: false},
+                    {data: 'is_show', name: 'is_show', title : '是否展示', sortable: false,
+                        render:function(data,type,full){
+                            var message_id = full.id;
+                            if(full.is_show == 0){
+                                return '<span data-id="'+message_id+'" data-status="0" class="glyphicon glyphicon-remove is_finish_convert" style="color:red"></span>';
+                            }else{
+                                return '<span data-id="'+message_id+'" data-status="1" class="glyphicon glyphicon-ok is_finish_convert" style="color:green"></span>';
+                            }
+                        }
+
+                    },
                     {data: 'created_at', name: 'created_at', title : '创建日期', sortable: false},
 //                    {
 //                        data: 'source_url', name: 'source_url', title : '文章来源', sortable: false,
@@ -108,6 +118,34 @@
                 e.preventDefault();
             });
         } );
+        function change_finish_status(obj){
+            var status = $(obj).attr('data-status');
+            var id = $(obj).attr('data-id')
+            if(status == 0){
+                $(obj).attr('data-status',1);
+                status = 1;
+                $(obj).attr('class','glyphicon glyphicon-ok is_finish_convert').css('color','green');
+            }else{
+                $(obj).attr('data-status',0);
+                status = 0;
+                $(obj).attr('class','glyphicon glyphicon-remove is_finish_convert').css('color','red');
+            }
+            //前台是否展示
+            var url = jsRoute(routes.list.change_status);
+            $.get(url,{id:id,is_finish:status},function(data){
+                if(data.status == 0){
+
+                }else{
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        positionClass: 'toast-top-right',
+                        onclick: null,
+                    };
+                    toastr['success'](data.msg,'成功');
+                }
+            })
+        }
         function deleteItem(id) {
             swal({
                     title: "确定删除?",

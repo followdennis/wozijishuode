@@ -30,9 +30,6 @@ class AuthorController extends AdminController
                 $author_del = '<a href="javascript:;" data-id="'.$id.'" class="btn  btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a>';
                 return $author_edit.$author_del;
             })
-            ->editColumn('is_show',function($record){
-               return $record->is_show == 1 ? '是': '否';
-            })
             ->editColumn('created_at',function($record){
                 return empty($record->created_at) ? '':Carbon::parse($record->created_at)->format('Y-m-d');
             })

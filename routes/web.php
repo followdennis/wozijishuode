@@ -48,6 +48,8 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('/articles/add',['uses'=>'Admin\ArticlesManage\IndexController@add','as'=>'articles/add']);
         Route::any('/articles/edit',['uses'=>'Admin\ArticlesManage\IndexController@edit','as'=>'articles/edit']);
         Route::any('/articles/del',['uses'=>'Admin\ArticlesManage\IndexController@del','as'=>'articles/del']);
+        Route::any('public_articles/is_show',['uses'=>'Admin\ArticlesManage\IndexController@is_show','as'=>'public_articles/is_show']);
+
         /**
          * 分类管理category
          */

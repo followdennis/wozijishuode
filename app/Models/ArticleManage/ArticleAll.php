@@ -57,5 +57,8 @@ class ArticleAll extends Model
         $params = array_add($params,'created_at',Carbon::now()->format('Y-m-d H:i:s'));
         return self::insert($params);
     }
-
+    //修改显示状态
+    public function changeShow($condition = [],$update = []){
+        return self::where($condition)->update($update);
+    }
 }

@@ -20,7 +20,8 @@
                 fetch : 'articles/list',
                 add : '{{route('articles/add')}}',
                 edit : '{{route('articles/edit')}}',
-                del : '{{route('articles/del')}}'
+                del : '{{route('articles/del')}}',
+                is_show:'{{route('public_articles/is_show')}}'
             }
         };
 
@@ -74,9 +75,9 @@
                         render:function(data,type,full){
                             var message_id = full.id;
                             if(full.is_show == 0){
-                                return '<font color="red">✘</font>';
+                                return '<span data-id="'+message_id+'" data-status="0" class="glyphicon glyphicon-remove is_finish_convert" style="color:red"></span>';
                             }else{
-                                return '<font color="green">✔</font>';
+                                return '<span data-id="'+message_id+'" data-status="1" class="glyphicon glyphicon-ok is_finish_convert" style="color:green"></span>';
                             }
                         }
 
@@ -105,6 +106,10 @@
                     $('.item_del',row).click(function () {
                         deleteItem($(this).data('id'));
                     });
+                    $('.is_finish_convert',row).click(function(){
+                        change_show_status(this);
+                    })
+
                 }
             });
 
@@ -114,7 +119,7 @@
             });
         } );
 
-        function change_finish_status(obj){
+        function change_show_status(obj){
             var status = $(obj).attr('data-status');
             var id = $(obj).attr('data-id')
             if(status == 0){
@@ -126,10 +131,16 @@
                 status = 0;
                 $(obj).attr('class','glyphicon glyphicon-remove is_finish_convert').css('color','red');
             }
-            var url = jsRoute(routes.list.change_status);
-            $.get(url,{id:id,is_finish:status},function(data){
+            var url = jsRoute(routes.list.is_show);
+            $.get(url,{id:id,is_show:status},function(data){
                 if(data.status == 0){
-
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        positionClass: 'toast-top-right',
+                        onclick: null,
+                    };
+                    toastr['success'](data.msg,'失败');
                 }else{
                     toastr.options = {
                         closeButton: true,
