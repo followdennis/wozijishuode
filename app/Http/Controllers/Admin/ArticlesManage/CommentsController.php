@@ -31,13 +31,14 @@ class CommentsController extends AdminController
         return DataTables::of($record)
             ->addColumn('action',function($record){
                 $id = \Hashids::encode($record->id);
+                $real_id = $record->id;
                 if($record->is_hidden == 1){
                     $is_hidden = '<a  data-id="'.$id.'" data-is_hidden="'.$record->is_hidden.'" class="btn btn-sm default item_hide"><i class="fa fa-edit"></i>展示</a>';
                 }else{
                     $is_hidden = '<a  data-id="'.$id.'" data-is_hidden="'.$record->is_hidden.'" class="btn btn-sm green item_hide"><i class="fa fa-edit"></i>屏蔽</a>';
                 }
                 $del_tags = '<a href="javascript:;" data-id="'.$id.'" class="btn  btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a>';
-                $article = '<a href="javascript:;" data-id="'.$id.'" class="btn  btn-sm blue item_more"><i class="fa fa-trash-o"></i> 对应文章 </a>';
+                $article = '<a href="'.route('articles/show',['id'=>$real_id]).'"  class="btn  btn-sm blue item_more"><i class="fa fa-trash-o"></i> 对应文章 </a>';
                 return $is_hidden.$del_tags.$article;
             })
             ->editColumn('created_at',function($record){

@@ -47,11 +47,7 @@ class ArticleRepository
         $articlebody = new ArticleBody();
         $head = $articleHead->getInfoById($id);
         $body = $articlebody->getInfoById($id);
-        return [
-            'id'=>$head->id,
-            'title'=>$head->title,
-            'content'=>$body->content
-        ];
+        return array_merge(collect($head)->toArray(),collect($body)->toArray());
     }
     /**
      * 通过article 表获取内容

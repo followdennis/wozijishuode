@@ -30,9 +30,12 @@ class InnerLinkController extends AdminController
         return DataTables::of($record)
             ->addColumn('action',function($record){
                 $id = \Hashids::encode($record->id);
+                $article_id = $record->article_id;
                 $edit = '<a  data-id="'.$id.'" class="btn btn-sm purple item_edit"><i class="fa fa-edit"></i>编辑</a>';
                 $del = '<a href="javascript:;" data-id="'.$id.'" class="btn  btn-sm red item_del"><i class="fa fa-trash-o"></i> 删除 </a>';
-                return $edit.$del;
+                $article = '<a href="'.route('articles/show',['id'=>$article_id]).'"  class="btn  btn-sm blue item_more"><i class="fa fa-trash-o"></i> 对应文章 </a>';
+
+                return $edit.$del.$article;
             })
             ->editColumn('created_at',function($record){
                 return Carbon::parse($record->created_at)->format('Y-m-d');
