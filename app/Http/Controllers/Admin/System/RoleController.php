@@ -189,7 +189,7 @@ class RoleController extends AdminController
         $role_id = $request->get('role_id');
         // 实例化分页
         if($request->ajax()){
-            info($role_id);
+
             $list = $this->roleModel->getRoleMemberList($role_id);
             return Datatables::of($list)
                 ->addColumn('action',function($record){

@@ -127,8 +127,12 @@ class IndexController extends AdminController
 //    }
     public function show(Request $request){
         $id = $request->get('id');
+        $start = microtime(true);
         $data = ArticleRepository::getArticleData($id);
-        return view('admin.articleManage.show',['data'=>$data]);
+        $end = microtime(true);
+        $long = ($end-$start);
+        $long = sprintf('%.3f',$long);
+        return view('admin.articleManage.show',['data'=>$data,'long'=>$long.'s']);
     }
     public function add(Request $request){
         if($request->isMethod('post')){

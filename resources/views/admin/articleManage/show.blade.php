@@ -18,16 +18,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-1 col-md-offset-1">
+            <div class="col-md-4 col-md-offset-1">
+                用时：{{ $long }}
                 作者:<em>{{ $data['author'] }}</em>
-            </div>
-            <div class="col-md-1">
                 分类：<em>{{ $data['cate_name'] }}</em>
-            </div>
-            <div class="col-md-1">
                 点击: <strong>{{ $data['click'] }}</strong>
-            </div>
-            <div class="col-md-1">
                 赞:<strong>{{ $data['like'] }}</strong>
             </div>
             <div class="col-md-1">
