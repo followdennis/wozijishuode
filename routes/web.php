@@ -16,7 +16,7 @@ Route::any('test_view',function(){
 });
 Route::any('test',['uses'=>'TestController@test','as'=>'test']);
 Route::any('test2',['uses'=>'TestController@test2','as'=>'test2']);
-Route::any('abctest/{id}',['uses'=>'TestController@test','as'=>'test/{id}']);
+
 Route::any('view',function(){
     return view('layouts.common');
 });
