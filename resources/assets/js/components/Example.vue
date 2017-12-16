@@ -22,7 +22,7 @@
         },
         data(){
             return {
-                msg:'hello vue',
+                msg:'hee',
                 code:200
             }
         }
