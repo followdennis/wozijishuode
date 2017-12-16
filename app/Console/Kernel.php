@@ -36,6 +36,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
+
+        $this->load(__DIR__ . '/Commands');//5.5中添加这一行，就可以不用$commands中添加类了
         require base_path('routes/console.php');
     }
 }

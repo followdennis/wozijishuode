@@ -7,6 +7,7 @@
 
                     <div class="panel-body">
                         I'm an example component!
+                        {{msg}}
                     </div>
                 </div>
             </div>
@@ -18,6 +19,12 @@
     export default {
         mounted() {
             console.log('Component mounted.')
+        },
+        data(){
+            return {
+                msg:'hello vue',
+                code:200
+            }
         }
     }
 </script>

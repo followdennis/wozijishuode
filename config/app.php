@@ -183,6 +183,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Overtrue\LaravelPinyin\ServiceProvider::class,//拼音插件
+        Laravel\Tinker\TinkerServiceProvider::class,//laravel thinker
 
     ],
 
