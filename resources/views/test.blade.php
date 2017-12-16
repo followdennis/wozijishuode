@@ -34,12 +34,17 @@
 
 
 </head>
-<body>
+<body onload="leftTimer()">
 <div id="app">
+
     <example></example>
 </div>
+<div id="LeftTime">
 
+</div>
 </body>
+
+
 <script src="{{ mix('js/app.js') }}"></script>
 </html>
 
