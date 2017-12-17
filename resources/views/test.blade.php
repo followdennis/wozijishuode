@@ -34,7 +34,7 @@
 
 
 </head>
-<body onload="leftTimer()">
+<body>
 <div id="app">
 
     <example></example>

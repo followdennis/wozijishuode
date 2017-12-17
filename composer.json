@@ -20,7 +20,8 @@
         "symfony/http-foundation": "3.3.*",
         "vinkla/hashids": "3.*",
         "yajra/laravel-datatables-oracle": "8.0",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "FortAwesome/Font-Awesome": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

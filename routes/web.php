@@ -145,9 +145,9 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
     });
 });
 //前台
-Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'wechat'],function(){
+Route::group(['domain'=>'wx.wozijishuode.com'],function(){
     Route::any('/',function(){
-        return '微信';
+        return view('wechat.index');
     });
 });
 //移动端
