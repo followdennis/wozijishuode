@@ -12456,7 +12456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            msg: 'hee',
+            msg: 'hei hei  ',
             code: 200
         };
     }

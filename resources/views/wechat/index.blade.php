@@ -1,6 +1,6 @@
 @extends('layouts.wx')
 @section('CUSTOM_STYLE')
-
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.css') }}">
     <style>
 
         .list li.have-img{
@@ -119,106 +119,12 @@
             padding-left: 160px;
         }
     </style>
-    <style type="text/css" media="screen">
-        *{padding:0;margin:0}
-        html,body,div{
-            font:normal normal 13px/24px SimSun,MicroSoft YaHei;
-            color:#333;
-        }
-        html,body{
-            height:100%;
-        }
-        h1,h2,h3,h4,h5,h6{
-            font-size:100%;
-            font-weight:normal;
-        }
-        ul,li,ol,dl,dt,dd{
-            list-style:none;
-            margin:0;
-            padding:0;
-        }
-        header,nav,section,article,footer,aside{
-            display:block;
-        }
-        .clearfix{
-            zoom:1;
-        }
-        .clearfix:after{
-            display:block;
-            content:"";
-            overflow:hidden;
-            clear:both;
-        }
-        ul,ol,li{list-style:none;}
-        .tabtitle{
-            list-style:none;
-        }
-        .tabfocus{
-            border:1px #ddd solid;
-            padding:0px;
-        }
-        .tabfocus ul li{
-            float:left;
-            text-align:center;
-            cursor:pointer;
-            width:90px;
-            padding:10px 0;
-            font-family: MicroSoft YaHei;
 
-        }
-        .tabfocus ul{
-            border-bottom:2px solid #ebebeb;
-            position:relative;
-
-        }
-        .tabfocus ul div.line{
-            display: block;
-            position: absolute;
-            border-bottom: 2px solid #f60;
-            bottom: -2px;
-            width: 90px;
-            left: 0;
-            text-align: center;
-            bottom: -2px;
-            height: 4px;
-        }
-        .tabfocus ul b{
-            display: inline-block;
-            height: 0;
-            width: 0;
-            overflow:hidden;
-            line-height: 0;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #f60 transparent transparent transparent;
-            margin-top: 4px;
-        }
-        .conn{
-            margin:13px;
-        }
-        .conn .con{
-            display:none;
-            color:#666;
-        }
-        .conn .current{
-            display:block;
-        }
-    </style>
 @endsection
 @section('CUSTOM_SCRIPT')
 
     <script type="text/javascript">
-        $(function(){
-            var $tabfocus =$('.tabfocus ul li');
-            var $conn = $('.conn .con');
-            var $b = $('.tabfocus div.line');
-            $tabfocus.click(function(){
-                var index = $tabfocus.index(this);
-                $conn.eq(index).fadeIn('fast').siblings().hide();
-                var len = $tabfocus.width();
-                $b.stop(true,false).animate({'left':len*index+'px'},200);
-            });
-        });
+
     </script>
 @endsection
 @section('content')
@@ -271,9 +177,9 @@
                                 <div class="meta">
                                     <a class="collection-tag" target="_blank" href="/c/RfYyQj">散文</a>
                                     <a target="_blank" href="/p/8830fad9262e">
-                                        <i class="iconfont ic-list-read"></i> 616
+                                        <i class="fa fa-eye"></i> 616
                                     </a>        <a target="_blank" href="/p/8830fad9262e#comments">
-                                        <i class="iconfont ic-list-comments"></i> 82
+                                        <i class="fa fa-commenting-o"></i> 82
                                     </a>      <span><i class="iconfont ic-list-like"></i> 123</span>
                                 </div>
                             </div>
