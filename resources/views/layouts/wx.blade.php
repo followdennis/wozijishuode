@@ -77,7 +77,7 @@
 
 <!-- Scripts -->
 <script src="{{asset('admin/assets/js/jquery-1.8.3.min.js')}}" type="application/javascript"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 @yield('CUSTOM_SCRIPT')
 </body>
 </html>

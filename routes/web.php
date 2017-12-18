@@ -150,6 +150,9 @@ Route::group(['domain'=>'wx.wozijishuode.com'],function(){
         return view('wechat.index');
     });
 });
+Route::get('wx',function(){
+    return view('wechat.wx');
+});
 //移动端
 Route::group(['domain'=>'m.wozijishuode.com'],function(){
     Route::any('/',function(){
