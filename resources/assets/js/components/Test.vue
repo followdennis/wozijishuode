@@ -22,7 +22,7 @@
         },
         data(){
             return {
-                msg:'hei hei  ',
+                msg:'我他妈 ',
                 code:200
             }
         }
