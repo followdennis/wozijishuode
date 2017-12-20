@@ -44,7 +44,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">君不见，高堂明镜悲白发，朝如青丝暮成雪！</div>
+                <div class="title">五色令人目盲； 五音令人耳聋； 五味令人口爽； 驰骋田猎，令人心发狂； 难得之货，令人行妨</div>
                 <div class="left_time" id="LeftTime">
 
                 </div>

@@ -11,10 +11,11 @@
             <el-col :span="18" style="background-color: silver;">
                 <el-tabs type="border-card">
                     <el-tab-pane label="用户管理">{{ list }}</el-tab-pane>
-                    <el-tab-pane label="配置管理" @click="alert('ok')">配置管理{{ list }}</el-tab-pane>
+                    <el-tab-pane label="配置管理" @click="getArticle2">配置管理</el-tab-pane>
                     <el-tab-pane label="角色管理">角色管理</el-tab-pane>
                     <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
                 </el-tabs>
+
             </el-col>
             <el-col :span="6">
                 <div class="route-test">

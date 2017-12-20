@@ -27870,6 +27870,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -83977,11 +83978,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "配置管理"
     },
     on: {
-      "click": function($event) {
-        _vm.alert('ok')
-      }
+      "click": _vm.getArticle2
     }
-  }, [_vm._v("配置管理" + _vm._s(_vm.list))]), _vm._v(" "), _c('el-tab-pane', {
+  }, [_vm._v("配置管理")]), _vm._v(" "), _c('el-tab-pane', {
     attrs: {
       "label": "角色管理"
     }
