@@ -51,6 +51,12 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('public_articles/is_show',['uses'=>'Admin\ArticlesManage\IndexController@is_show','as'=>'public_articles/is_show']);
 
         /**
+         * 线上文章批量管理
+         */
+        Route::get('/articles/mass',['uses'=>'Admin\ArticlesManage\ArticleOnlineMassController@index','as'=>'articles/mass']);
+        Route::get('/articles/mass/list',['uses'=>'Admin\ArticlesManage\ArticleOnlineMassController@lists','as'=>'articles/mass/list']);
+        Route::post('/articles/mass/edit',['uses'=>'Admin\ArticlesManage\ArticleOnlineMassController@edit','as'=>'articles/mass/edit']);
+        /**
          * 分类管理category
          */
         Route::any('/category',['uses'=>'Admin\ArticlesManage\CategoryController@index','as'=>'category']);//分类管理

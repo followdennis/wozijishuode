@@ -12,24 +12,12 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import ElementUI from 'element-ui'    //引入element－ui
 
-Vue.component('example', require('./components/Example.vue'));
-
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue')
-);
-
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue')
-);
-
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue')
-);
+import 'element-ui/lib/theme-default/index.css' //引入element－ui所需的css样式资源文件
+Vue.use(ElementUI);    //把引入的ElementUI装入我们的Vue
+Vue.component('mass', require('./components/article/Mass.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#article_mass'
 });

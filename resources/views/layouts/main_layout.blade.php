@@ -6,7 +6,7 @@
     <meta name="description" content="@yield('meta_description')">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="@yield('meta_keyword')">
-
+    <meta name="X-CSRF-TOKEN" content="{{ csrf_token() }}">
     <title>欢迎来到管理后台</title>
 
     <!-- Bootstrap core CSS -->
@@ -392,7 +392,7 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 
-
+<script src="{{ mix('js/article.js') }}"></script>
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>
