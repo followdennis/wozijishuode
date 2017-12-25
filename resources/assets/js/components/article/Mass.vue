@@ -63,6 +63,7 @@
 <script>
     export default {
         mounted() {
+            this.loadData();
             console.log('Component mounted.')
         },
         data(){
@@ -86,19 +87,19 @@
 
         methods:{
             rowClick:function(){
-
+                alert('abc');
             },
             sortChange:function(){
 
             },
-            loadData:function(criteria,pageNum,pageSize){
+            loadData:function(){
                 let params = {
-                    page:pageNum,
-                    perPage:pageSize,
-                    query:criteria
+                    page:this.page.currentPage,
+                    perPage:this.page.perPage,
+                    query:this.criteria
                 }
                 this.loading = true;
-                axios.get('/api/get_list',{params:params}).then((response)=>{
+                axios.get('/back/articles/mass/list',{params:params}).then((response)=>{
                     var data = response.data;
                     this.tableData = data.items;
                     this.page.total = data.total;

@@ -15,10 +15,12 @@ class ArticleRepository
 {
     protected $articleAllModel;
     protected $articleBodyModel;
-    public function __construct(ArticleAll $articleAll,ArticleBody $articleBody)
+    protected $articleHeadModel;
+    public function __construct(ArticleAll $articleAll,ArticleBody $articleBody,ArticleHead $articleHead)
     {
         $this->articleAllModel = $articleAll;
         $this->articleBodyModel = $articleBody;
+        $this->articleHeadModel = $articleHead;
     }
 
     /**
@@ -61,7 +63,30 @@ class ArticleRepository
         return $article->toArray();
 
     }
+    /**
+     * 获取完整的跨表的多条数据
+     * 2017-12-25
+     */
+    public function getArticlesByIds($ids = array(1000,2333,1123,45555)){
+        if(count($ids) > 0){
+            $articles = [];
+            foreach($ids as $id){
+                $article = $this->getArticleById($id);
+                array_push($articles,$article);
+            }
+            return $articles;
+        }
+    }
 
+    /**
+     * 获取articleHead 和 articleBody中的文章
+     */
+    public function getArticleById($id = 1){
+        $article_head = $this->articleHeadModel->getInfoById($id,['id','title','author','author_id','description','tags_name','tags_id','inner_link_name','inner_link_id','img','cate_name','is_show','cate_id','click','like']);
+        $article_body = $this->articleBodyModel->getInfoById($id,['content']);
+        $article = collect($article_head)->merge($article_body);
+        return $article->toArray();
+    }
 
 
 }

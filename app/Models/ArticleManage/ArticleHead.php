@@ -10,9 +10,9 @@ class ArticleHead extends Model
     //分表处理
     protected $table='article_head_';
 
-    public function getInfoById($id){
+    public function getInfoById($id,$select = '*'){
         $head_id = get_article_head_id($id);
-        return \DB::table($this->table.$head_id)->find($id);
+        return \DB::table($this->table.$head_id)->select($select)->find($id);
     }
     public function getHeadList($ids = []){
         $last = last($ids);
