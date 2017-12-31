@@ -36,7 +36,8 @@
                 margin-bottom: 40px;
             }
             .left_time {
-                font-size: 24px;
+                font-size: 36px;
+                font-weight: 600;
                 margin-bottom: 40px;
             }
         </style>
