@@ -72,7 +72,7 @@
                 return i;
             }
             if(lefttime<=0){
-                document.getElementById("LeftTime").innerHTML="结束";
+                document.getElementById("LeftTime").innerHTML="hello 2018";
                 clearInterval(sh);
             }
         }
