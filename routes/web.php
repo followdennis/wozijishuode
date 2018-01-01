@@ -56,6 +56,23 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::get('/articles/mass',['uses'=>'Admin\ArticlesManage\ArticleOnlineMassController@index','as'=>'articles/mass']);
         Route::get('/articles/mass/list',['uses'=>'Admin\ArticlesManage\ArticleOnlineMassController@lists','as'=>'articles/mass/list']);
         Route::post('/articles/mass/edit',['uses'=>'Admin\ArticlesManage\ArticleOnlineMassController@edit','as'=>'articles/mass/edit']);
+
+        /**
+         * 个人日记管理
+         * 问题管理
+         */
+        Route::any('diary/questions',['uses'=>'Admin\Diary\QuestionController@index','as'=>'diary/questions']);//视图
+        Route::any('diary/questions/lists',['uses'=>'Admin\Diary\QuestionController@lists','as'=>'diary/questions/lists']);
+        Route::any('diary/questions/add',['uses'=>'Admin\Diary\QuestionController@add','as'=>'diary/questions/add']);
+        Route::any('diary/questions/del',['uses'=>'Admin\Diary\QuestionController@del','as'=>'diary/questions/del']);
+        Route::any('diary/questions/edit',['uses'=>'Admin\Diary\QuestionController@edit','as'=>'diary/questions/edit']);
+        /**
+         * 自我评价
+         */
+        Route::any('diary/today/thoughts',['uses'=>'Admin\Diary\ReflectController@index','as'=>'diary/today/thoughts']);//视图
+        Route::any('diary/today/thoughts/lists',['uses'=>'Admin\Diary\ReflectController@lists','as'=>'diary/today/thoughts/lists']);
+        Route::any('diary/today/thoughts/add',['uses'=>'Admin\Diary\ReflectController@add','as'=>'diary/today/thoughts/add']);
+
         /**
          * 分类管理category
          */

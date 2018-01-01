@@ -281,7 +281,7 @@ class IndexController extends AdminController
 //                return response()->json(['status'=>1,'msg'=>'编辑成功']);
                 return redirect(route('articles'));
         }else{
-            $articleRepo = new ArticleRepository($this->articleAllModel,$this->articleBodyModel);
+            $articleRepo = new ArticleRepository($this->articleAllModel,$this->articleBodyModel,$this->articleHeadModel);
             $data = $articleRepo->getInfoByArticle($id);//为数组值
             $patten = array("\r\n", "\n", "\r");//替换文本中的换行符
             $data['content']=addslashes(trim(str_replace($patten, "", $data['content'])));

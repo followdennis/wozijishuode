@@ -392,10 +392,13 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 
-<script src="{{ mix('js/article.js') }}"></script>
+@section('EXTRA_JS')
+@show
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>
+
+
 <script src="{{asset('vendor/sweetalert2/sweetalert2.js')}}" type="text/javascript"> </script>
 
 @yield('CUSTOM_SCRIPT')

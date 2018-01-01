@@ -9,25 +9,8 @@
 @endsection
 @section('CUSTOM_SCRIPT')
 
-    <script src="{{asset('vendor/datatables/js/datatables.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/admin/tags/index.js')}}" type="text/javascript"></script>
-    <script src="{{asset('vendor/toastr/toastr.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/helper.js')}}" type="application/javascript"></script>
 
     <script>
-        /**
-         * 定义本页面使用到的路由
-         * */
-        var routes = {
-            list: {
-                fetch : 'articles/list',
-                add : '{{route('articles/add')}}',
-                edit : '{{route('articles/edit')}}',
-                del : '{{route('articles/del')}}',
-                is_show:'{{route('public_articles/is_show')}}'
-            }
-        };
         $('.dropdown-toggle').dropdown()
     </script>
 @endsection
@@ -62,7 +45,7 @@
                             </div>
                         </div>
                         <div class="portlet-body" id="article_mass">
-                        <mass></mass>
+                            <mass></mass>
 
                         </div>
                     </div>
