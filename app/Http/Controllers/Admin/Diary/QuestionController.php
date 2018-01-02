@@ -21,12 +21,13 @@ class QuestionController extends AdminController
         return view('admin/diary/question/index');
     }
     public function lists(Request $request){
+        $perPage = !empty($request->get('perPage')) ? intval($request->get('perPage')) : 10;
         $data = $this->questionModel->where(function($query)use($request){
-            if($request->filled('keywords')){
-                $kw = $request->get('keywords');
+            if($request->filled('query')){
+                $kw = $request->get('query');
                 $query->where('question','like','%'.$kw.'%');
             }
-        })->paginate(10);
+        })->paginate($perPage);
         $results = [
             'total'=>$data->total(),
             'perPage' => $data->perPage(),
@@ -50,14 +51,53 @@ class QuestionController extends AdminController
         $results['items'] = $item;
         return response()->json($results,200);
     }
-    public function add(){
-
+    public function add(Request $request){
+        $this->validate($request,[
+            'question'=>'required|max:255',
+            'sort'=>'integer'
+        ]);
+        $data = [
+            'question'=>trim($request->get('question')),
+            'sort'=>intval($request->get('sort')),
+            'created_at'=>Carbon::now()
+        ];
+        $status = $this->questionModel->insertData($data);
+        if($status){
+            return response()->json(['state'=>1,'msg'=>'新增成功']);
+        }else{
+            return response()->json(['state'=>0,'msg'=>'新增失败']);
+        }
     }
-    public function edit(){
+    public function edit(Request $request){
 
+        $this->validate($request,[
+            'question'=>'required|max:255',
+            'sort'=>'required|integer',
+            'id'=>'required|integer'
+        ]);
+        $id = $request->get('id');
+        $data =[
+            'question'=> trim($request->get('question')),
+            'sort'=>intval($request->get('sort'))
+        ];
+        $status = $this->questionModel->where('id',$id)->update($data);
+        if($status){
+            return response()->json(['state'=>1,'msg'=>'编辑成功']);
+        }else{
+            return response()->json(['state'=>0,'msg'=>'编辑失败']);
+        }
     }
-    public function del(){
-
+    public function del(Request $request){
+        $this->validate($request,[
+            'id'=>'required|array'
+        ]);
+        $ids = $request->get('id');
+        $status = $this->questionModel->whereIn('id',$ids)->delete();
+        if($status){
+            return response()->json(['state'=>1,'msg'=>'删除成功']);
+        }else{
+            return response()->json(['state'=>0,'msg'=>'删除失败']);
+        }
     }
 
 }

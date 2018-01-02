@@ -8,14 +8,12 @@
     <script src="{{ mix('js/article.js') }}"></script>
 @endsection
 @section('CUSTOM_SCRIPT')
-
-
     <script>
         $('.dropdown-toggle').dropdown()
     </script>
 @endsection
 @section('content')
-    <div class="page-content-wrapper">
+    <div class="page-content-wrapper" id="article_mass">
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             <!-- BEGIN PAGE HEADER-->
@@ -44,9 +42,8 @@
 
                             </div>
                         </div>
-                        <div class="portlet-body" id="article_mass">
-                            <mass></mass>
-
+                        <div class="portlet-body" >
+                            <my_question></my_question>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->

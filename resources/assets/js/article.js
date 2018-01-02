@@ -17,7 +17,7 @@ import ElementUI from 'element-ui'    //引入element－ui
 import 'element-ui/lib/theme-default/index.css' //引入element－ui所需的css样式资源文件
 Vue.use(ElementUI);    //把引入的ElementUI装入我们的Vue
 Vue.component('mass', require('./components/article/Mass.vue'));
-
+Vue.component('my_question',require('./components/diary/question.vue'));
 const app = new Vue({
     el: '#article_mass'
 });

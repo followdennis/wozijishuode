@@ -14,4 +14,7 @@ class MyQuestion extends Model
     public function getList(){
         return self::orderBy('sort','desc')->orderBy('id','desc');
     }
+    public function insertData($data = array()){
+        return self::insert($data);
+    }
 }
