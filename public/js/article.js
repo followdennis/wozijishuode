@@ -83721,6 +83721,7 @@ window.Vue = __webpack_require__(3);
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a); //把引入的ElementUI装入我们的Vue
 Vue.component('mass', __webpack_require__(194));
 Vue.component('my_question', __webpack_require__(195));
+// Vue.componet('my_reflect',required('./components/diary/reflect.vue'));
 var app = new Vue({
   el: '#article_mass'
 });
@@ -84021,6 +84022,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -84188,28 +84191,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         batchRemove: function batchRemove() {
+            var _this4 = this;
+
             var ids = this.sels.map(function (item) {
                 return item.id;
             });
-
-            console.log(ids);
+            this.$confirm('确认删除？', '删除后将无法恢复', {}).then(function () {
+                _this4.loading = true;
+                axios.post('/back/diary/question/del', { id: ids }).then(function (res) {
+                    _this4.loading = false;
+                    var response = res.data;
+                    if (response.state) {
+                        _this4.$message({
+                            message: response.msg,
+                            type: 'success'
+                        });
+                        _this4.loadData();
+                    } else {
+                        _this4.$message({
+                            message: response.msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch(function () {
+                    console.log('请求出错');
+                });
+            }).catch(function () {
+                console.log('取消批量删除');
+            });
         },
         handleDelete: function handleDelete(index, row) {
-            var _this4 = this;
+            var _this5 = this;
 
             var array = [];
             array.push(row.id);
-
-            axios.post('/api/get_list/del', { array: array }).then(function (response) {
-                var res = response.data;
-                if (res.status == 1) {
-                    alert(res.msg);
-                } else {
-                    alert(res.msg);
-                }
-                _this4.loadData(_this4.criteria, _this4.page.currentPage, _this4.page.perPage);
-            }).catch(function (error) {
-                console.log(error);
+            this.$confirm('确认删除?', '删除后将无法恢复', {}).then(function () {
+                _this5.loading = true;
+                console.log(array);
+                axios.post('/back/diary/question/del', { id: array }).then(function (res) {
+                    _this5.loading = false;
+                    var response = res.data;
+                    if (response.state) {
+                        _this5.$message({
+                            message: response.msg,
+                            type: 'success'
+                        });
+                    } else {
+                        _this5.$message({
+                            message: response.msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch(function () {
+                    console.log('删除报错');
+                });
+            }).catch(function () {
+                console.log('取消');
             });
         }
     }
@@ -84559,6 +84596,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "问题",
       "prop": "question"
     }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 22
+    }
   }, [_c('el-input', {
     attrs: {
       "auto-complete": "off"
@@ -84570,7 +84611,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "addForm.question"
     }
-  })], 1), _vm._v(" "), _c('el-form-item', {
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "排序"
     }

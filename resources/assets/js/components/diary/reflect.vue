@@ -32,7 +32,7 @@
             <el-table-column
                     prop="question"
                     label="问题"
-                    >
+            >
             </el-table-column>
             <el-table-column
                     prop="sort"

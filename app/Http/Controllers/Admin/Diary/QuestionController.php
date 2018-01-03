@@ -92,6 +92,9 @@ class QuestionController extends AdminController
             'id'=>'required|array'
         ]);
         $ids = $request->get('id');
+        if(count($ids) > 20){
+            return response()->json(['state'=>0,'msg'=>'一次最多删除20个']);
+        }
         $status = $this->questionModel->whereIn('id',$ids)->delete();
         if($status){
             return response()->json(['state'=>1,'msg'=>'删除成功']);
