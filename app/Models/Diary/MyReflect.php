@@ -10,9 +10,11 @@ class MyReflect extends Model
 {
     //
     protected $table='my_reflect';
+    protected $guarded = [];
     //获取最新的数据
     public function getLatest(){
-        $max_task_id = DB::table($this->table)->whereNull('deleted_at')->max('task_id');
+        $today = Carbon::today()->toDateTimeString();
+        $max_task_id = DB::table('my_question_task')->where('today',$today)->max('task_id');
         $reflects = self::where('task_id',$max_task_id)->whereRaw('to_days(created_at)=to_days(now())')->get();
         $result = [];
         foreach ($reflects as $k =>$v){
@@ -21,9 +23,14 @@ class MyReflect extends Model
                 'num'=>$v->num,
                 'num_desc'=>$v->num_desc,
                 'assess'=>$v->assess,
-                'createdAt'=>Carbon::parse($v->createdAt)->toDateString()
+                'task_id'=>$v->task_id,
+                'created_at'=>Carbon::parse($v->created_at)->toDateString()
             ];
         }
         return $result;
+    }
+    //添加或编辑今日任务
+    public function updateData($condition =[],$create = []){
+        return self::updateOrCreate($condition,$create);
     }
 }

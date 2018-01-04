@@ -83721,7 +83721,7 @@ window.Vue = __webpack_require__(3);
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a); //把引入的ElementUI装入我们的Vue
 Vue.component('mass', __webpack_require__(194));
 Vue.component('my_question', __webpack_require__(195));
-// Vue.componet('my_reflect',required('./components/diary/reflect.vue'));
+Vue.component('my_reflect', __webpack_require__(222));
 var app = new Vue({
   el: '#article_mass'
 });
@@ -84907,6 +84907,435 @@ if(false) {
 
 module.exports = __webpack_require__(178);
 
+
+/***/ }),
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.loadData();
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            msg: 'hei hei',
+            filters: {
+                query: ''
+            },
+            tableData: [],
+            page: {
+                total: 0,
+                perPage: 10,
+                currentPage: 1,
+                lastPage: 0,
+                from: 0,
+                to: 0
+            },
+            loading: false
+        };
+    },
+
+    methods: {
+        loadData: function loadData() {
+            var _this = this;
+
+            var params = {
+                page: this.page.currentPage,
+                perPage: this.page.perPage,
+                query: this.filters.query
+            };
+            this.loading = true;
+            axios.get('/back/diary/today/thoughts/lists', { params: params }).then(function (response) {
+                var data = response.data;
+                _this.tableData = data;
+                _this.loading = false;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        handleAdd: function handleAdd() {
+            this.addFormVisible = true;
+            this.addForm = {
+                question: '',
+                sort: 0
+            };
+        }
+    }
+});
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(47)();
+exports.push([module.i, "\n.table_list[data-v-1cec38b7]{\n    margin:0px;\n}\n", ""]);
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(224)
+
+var Component = __webpack_require__(25)(
+  /* script */
+  __webpack_require__(220),
+  /* template */
+  __webpack_require__(223),
+  /* scopeId */
+  "data-v-1cec38b7",
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\diary\\reflect.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] reflect.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1cec38b7", Component.options)
+  } else {
+    hotAPI.reload("data-v-1cec38b7", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row table_list"
+  }, [_c('el-col', {
+    staticClass: "toolbar",
+    staticStyle: {
+      "padding-bottom": "0px"
+    },
+    attrs: {
+      "span": 24
+    }
+  }, [_c('el-form', {
+    attrs: {
+      "inline": true,
+      "model": _vm.filters
+    }
+  }, [_c('el-form-item', [_c('el-input', {
+    attrs: {
+      "placeholder": "请输入关键词"
+    },
+    model: {
+      value: (_vm.filters.query),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "query", $$v)
+      },
+      expression: "filters.query"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.loadData
+    }
+  }, [_vm._v("查询")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.handleAdd
+    }
+  }, [_vm._v("新增")])], 1)], 1)], 1), _vm._v(" "), _c('el-table', {
+    directives: [{
+      name: "loading",
+      rawName: "v-loading",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.tableData,
+      "border": "",
+      "element-loading-text": "加载中...",
+      "element-loading-spinner": "el-icon-loading",
+      "element-loading-background": "rgba(0, 0, 0, 0.8)"
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "questionId",
+      "label": "ID",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "questionName",
+      "label": "问题",
+      "width": "400"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "描述"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-input', {
+          attrs: {
+            "placeholder": ""
+          },
+          model: {
+            value: (scope.row.answer.description),
+            callback: function($$v) {
+              _vm.$set(scope.row.answer, "description", $$v)
+            },
+            expression: "scope.row.answer.description"
+          }
+        })]
+      }
+    }])
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "answer.num",
+      "label": "数量"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-input-number', {
+          attrs: {
+            "site": "mini",
+            "min": 0,
+            "max": 1000
+          },
+          model: {
+            value: (scope.row.answer.num),
+            callback: function($$v) {
+              _vm.$set(scope.row.answer, "num", $$v)
+            },
+            expression: "scope.row.answer.num"
+          }
+        })]
+      }
+    }])
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "answer.numDesc",
+      "label": "数量描述"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "评估"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('div', {
+          staticStyle: {
+            "margin-top": "8px"
+          }
+        }, [_c('el-radio-group', {
+          attrs: {
+            "size": "small"
+          },
+          model: {
+            value: (scope.row.answer.assess),
+            callback: function($$v) {
+              _vm.$set(scope.row.answer, "assess", $$v)
+            },
+            expression: "scope.row.answer.assess"
+          }
+        }, [_c('el-radio-button', {
+          attrs: {
+            "label": "是"
+          }
+        }), _vm._v(" "), _c('el-radio-button', {
+          attrs: {
+            "label": "否"
+          }
+        }), _vm._v(" "), _c('el-radio-button', {
+          attrs: {
+            "label": "不清楚"
+          }
+        })], 1)], 1)]
+      }
+    }])
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "操作",
+      "width": "200"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "primary"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleEdit(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("编辑")]), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "danger"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleDelete(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("删除")])]
+      }
+    }])
+  })], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-1cec38b7", module.exports)
+  }
+}
+
+/***/ }),
+/* 224 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(221);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(74)("1ead9d99", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-1cec38b7\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./reflect.vue", function() {
+     var newContent = require("!!../../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-1cec38b7\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./reflect.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 /******/ ]);

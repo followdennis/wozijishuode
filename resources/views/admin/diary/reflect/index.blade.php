@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="portlet-body" >
-                            <my_question></my_question>
+                            <my_reflect></my_reflect>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
