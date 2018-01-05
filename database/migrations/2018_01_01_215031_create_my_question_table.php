@@ -16,6 +16,7 @@ class CreateMyQuestionTable extends Migration
         Schema::create('my_question', function (Blueprint $table) {
             $table->increments('id');
             $table->string('question')->comment('自设问题');
+            $table->string('description')->nullable()->comment('描述');
             $table->tinyInteger('sort',false,true)->default(0)->comment('排序值');
             $table->timestamps();
             $table->softDeletes();

@@ -41,6 +41,7 @@ class QuestionController extends AdminController
             return [
                 'id'=>$item->id,
                 'question'=>$item->question,
+                'description'=>$item->description,
                 'sort'=>$item->sort,
                 'createdAt'=>Carbon::parse($item->created_at)->toDateString()
             ];
@@ -54,10 +55,12 @@ class QuestionController extends AdminController
     public function add(Request $request){
         $this->validate($request,[
             'question'=>'required|max:255',
+            'description'=>'max:255',
             'sort'=>'integer'
         ]);
         $data = [
             'question'=>trim($request->get('question')),
+            'description'=>$request->filled('description') ? $request->get('description'):'',
             'sort'=>intval($request->get('sort')),
             'created_at'=>Carbon::now()
         ];
@@ -72,12 +75,14 @@ class QuestionController extends AdminController
 
         $this->validate($request,[
             'question'=>'required|max:255',
+            'description'=>'max:255',
             'sort'=>'required|integer',
             'id'=>'required|integer'
         ]);
         $id = $request->get('id');
         $data =[
             'question'=> trim($request->get('question')),
+            'description'=>$request->filled('description') ? $request->get('description'):'',
             'sort'=>intval($request->get('sort'))
         ];
         $status = $this->questionModel->where('id',$id)->update($data);

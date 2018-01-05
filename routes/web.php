@@ -72,6 +72,7 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         Route::any('diary/today/thoughts',['uses'=>'Admin\Diary\ReflectController@index','as'=>'diary/today/thoughts']);//视图
         Route::any('diary/today/thoughts/lists',['uses'=>'Admin\Diary\ReflectController@lists','as'=>'diary/today/thoughts/lists']);
         Route::any('diary/today/thoughts/add',['uses'=>'Admin\Diary\ReflectController@add','as'=>'diary/today/thoughts/add']);
+        Route::any('diary/today_get_task_list',['uses'=>'Admin\Diary\ReflectController@get_task_list','as'=>'public_diary/today/tasks']);
 
         /**
          * 分类管理category

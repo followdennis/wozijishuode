@@ -15,37 +15,49 @@ class ReflectController extends AdminController
     //反思
     protected $questionModel;
     protected $reflectModel;
-    public function __construct(Request $request,MyQuestion $question,MyReflect $reflect)
+    protected $taskModel;
+    public function __construct(Request $request,MyQuestion $question,MyReflect $reflect,MyQuestionTask $task)
     {
         parent::__construct($request);
         $this->questionModel = $question;
         $this->reflectModel = $reflect;
+        $this->taskModel = $task;
     }
 
     public function index(){
         return view('admin.diary.reflect.index');
     }
+    public function get_task_list(){
+        $task_list = $this->taskModel->getList();
+        return response()->json($task_list);
+    }
     public function lists(Request $request){
         $questions = $this->questionModel->getList()
             ->where(function($query) use($request){
-                if($request->filled('query')){
+                if($request->filled('query')) {
                     $kw = $request->get('query');
-                    $query->where('question','like','%'.$kw.'%');
+                    $query->where('question', 'like', '%'.$kw.'%');
                 }
             })
             ->get();
-        $latest = $this->reflectModel->getLatest();
+        $task_id = 0;
+        if($request->filled('today')){
+            $task_id = $request->get('today');
+        }
+        $latest = $this->reflectModel->getLatest($task_id);
         $results = [];
         foreach($questions as $k =>$question){
             array_push($results,[
                 'questionId'=>$question->id,
                 'questionName'=>$question->question,
+                'description'=>$question->description,
                 'answer'=>[
-                    'description'=>isset($latest[$question->id]['description'])?$latest[$question->id]['description']:'',
                     'num'=>isset($latest[$question->id]['num'])?$latest[$question->id]['num']:0,
                     'numDesc'=>isset($latest[$question->id]['num_desc'])?$latest[$question->id]['num_desc']:'',
                     'assess'=>isset($latest[$question->id]['assess'])?$latest[$question->id]['assess']:0,
-                    'taskId'=>isset($last[$question->id]['task_id']) ?$last[$question->id]['task_id']:0
+                    'taskId'=>isset($last[$question->id]['task_id']) ?$last[$question->id]['task_id']:0,
+                    'start'=>1,
+                    'startName'=>'开始'
                 ]
             ]);
         }
@@ -57,15 +69,14 @@ class ReflectController extends AdminController
         $task = MyQuestionTask::updateOrCreate(['today'=>$today]);
         $this->validate($request,[
             'questionId'=>'required|integer',
-            'description'=>'max:255',
             'num'=>'required|integer',
-            'numDesc'=>'string',
-            'assess'=>'required|integer'
+            'numDesc'=>'max:255',
+            'assess'=>'required|integer',
+            'taskId'=>'required|integer',
         ]);
         $params = $request->all();
         $condition = ['question_id'=>$params['questionId'],'task_id'=>$task->task_id];
         $create = [
-            'description'=>$params['description'],
             'num'=>$params['num'],
             'num_desc'=>$params['numDesc'],
             'assess'=>$params['assess']

@@ -35,6 +35,11 @@
                     >
             </el-table-column>
             <el-table-column
+                    prop="description"
+                    label="描述"
+            >
+            </el-table-column>
+            <el-table-column
                     prop="sort"
                     label="排序"
                     width="80">
@@ -83,6 +88,11 @@
                         <el-input v-model="addForm.question" auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
+                <el-form-item label="描述" prop="description">
+                    <el-col :span="22">
+                        <el-input v-model="addForm.description" auto-complete="off"></el-input>
+                    </el-col>
+                </el-form-item>
                 <el-form-item label="排序">
                     <el-input-number v-model="addForm.sort" :min="0" :max="200"></el-input-number>
                 </el-form-item>
@@ -97,6 +107,9 @@
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                 <el-form-item label="问题" prop="question">
                     <el-input v-model="editForm.question" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="描述" prop="description">
+                    <el-input v-model="editForm.description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="排序值" prop="sort">
                     <el-input-number v-model="editForm.sort" :min="0" :max="200"></el-input-number>
@@ -118,6 +131,7 @@
     export default {
         mounted() {
             this.loadData();
+
             console.log('Component mounted.')
         },
         data(){
@@ -150,6 +164,7 @@
                 //新增界面数据
                 addForm: {
                     question: '',
+                    description:'',
                     sort: 0
                 },
                 editFormVisible:false,
@@ -163,8 +178,9 @@
                 editForm: {
                     id: 0,
                     question: '',
+                    description:'',
                     sort: 0,
-                },
+                }
             }
         },
 
@@ -254,8 +270,7 @@
                             //NProgress.start();
                             let para = Object.assign({}, this.editForm);
                             console.log(para);
-                            var data = {id:para.id,question:para.question,sort:para.sort};
-                            axios.post('/back/diary/question/edit',data).then((res)=>{
+                            axios.post('/back/diary/question/edit',para).then((res)=>{
                                 this.editLoading = false;
                                 //NProgress.done();
                                 var response = res.data;
@@ -315,6 +330,7 @@
                         this.loading = false;
                         let response = res.data;
                         if(response.state){
+                            this.loadData();
                             this.$message({
                                 message:response.msg,
                                 type:'success'
