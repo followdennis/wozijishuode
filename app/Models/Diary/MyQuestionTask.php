@@ -15,7 +15,7 @@ class MyQuestionTask extends Model
 
     public function getList(){
         $user_id = Auth::user()->id;
-        return self::where('user_id',$user_id)->get()->map(function($item){
+        return self::where('user_id',$user_id)->orderBy('task_id','desc')->get()->map(function($item){
             $week = Carbon::parse($item->today)->dayOfWeek;
             $week = $this->getWeek($week);
             $date = Carbon::parse($item->today)->toDateString();

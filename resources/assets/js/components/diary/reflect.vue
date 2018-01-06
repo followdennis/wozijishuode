@@ -28,30 +28,43 @@
                 v-loading="loading"
                 element-loading-text="加载中..."
                 element-loading-spinner="el-icon-loading"
-                element-loading-background="rgba(0, 0, 0, 0.8)">
+                element-loading-background="rgba(0, 0, 0, 0.8)"
+                :row-class-name="tableRowClassName">
             <el-table-column
                     prop="questionId"
                     label="ID"
                     width="60">
             </el-table-column>
             <el-table-column
-                    prop="questionName"
                     label="问题"
                     width="400"
             >
+                <template slot-scope="scope">
+
+                    <el-popover v-if="scope.row.description != null &&  scope.row.description !=''" trigger="hover" placement="top">
+                        <p>说明: {{ scope.row.description }}</p>
+                        <div slot="reference" class="name-wrapper">
+                            {{ scope.row.questionName }}
+                        </div>
+                    </el-popover>
+                    <div v-else>
+                        {{ scope.row.questionName }}
+                    </div>
+                </template>
             </el-table-column>
             <el-table-column
-                    prop="description"
-                    label="描述"
-                    width="100"
+                    label="简记"
             >
+                <template slot-scope="scope">
+                    <el-input v-model="scope.row.answer.description" placeholder=""></el-input>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="answer.num"
                     label="数量"
             >
                 <template slot-scope="scope">
-                    <el-input-number site="mini" v-model="scope.row.answer.num" :min="0" :max="1000"></el-input-number>
+                    <el-input-number controls-position="right" class="number_count" v-model="scope.row.answer.num" :min="0" :max="1000"></el-input-number>
                 </template>
             </el-table-column>
             <el-table-column
@@ -76,7 +89,7 @@
             </el-table-column>
             <el-table-column
                     label="操作"
-                    width="200"
+                    width="140"
             >
                 <template slot-scope="scope">
                     <el-button
@@ -85,16 +98,26 @@
                             @click="handleSave(scope.$index, scope.row)">保存</el-button>
                     <el-button
                             size="small"
-                            type="danger"
-                            @click="handleStart(scope.$index, scope.row)">开始</el-button>
+                            :type="scope.row.answer.start === true?'success':'danger'"
+                            v-text="scope.row.answer.start === true?'停止':'开始'"
+                            @click="handleStart(scope.$index, scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
     </div>
 </template>
-<style scoped="scope">
+<style>
     .table_list{
         margin:0px;
+    }
+    .el-table .warning-row{
+        background:#d9f7c9;
+    }
+    .el-table .success-row{
+        background: #f0f9eb;
+    }
+    .number_count{
+        width:118px;
     }
 </style>
 <script>
@@ -135,9 +158,11 @@
                     numDesc:'',
                     assess:0,
                     taskId:0,
-                    start:0
+                    start:0,
+                    description:''
                 },
                 loading:false,
+                time_count:null
             }
         },
         methods:{
@@ -152,7 +177,7 @@
                 axios.get('/back/diary/today/thoughts/lists',{params:params}).then((response)=>{
                     var data = response.data;
                     this.tableData = data;
-                    console.log(data);
+//                    console.log(data);
                     this.loading = false;
                 }).catch(function(error){
                     console.log(error);
@@ -179,12 +204,14 @@
                     num:row.answer.num,
                     numDesc:row.answer.numDesc,
                     assess:row.answer.assess,
-                    taskId:row.answer.taskId
+                    taskId:row.answer.taskId,
+                    description:row.answer.description
                 }
                 axios.post('/back/diary/today/thoughts/add',this.saveForm).then((res)=>{
                     var response = res.data;
                     console.log(response);
                     if(response.state === 1){
+                        row.answer.isCreate = 1;
                         this.$message({
                             message:response.msg,
                             type:'success'
@@ -206,15 +233,26 @@
                 console.log(this.saveForm);
             },
             handleStart:function(index,row){
-                console.log('start');
                 row.answer.start = !row.answer.start;
-                row.answer.startName = row.answer.start ?'结束':'开始';
-                console.log(row.answer.startName);
+                let count=function(){
+                    row.answer.num++;
+                }
+                if(row.answer.start === true){
+                     this.time_count =  setInterval(count,1000);
+                }else{
+                    clearInterval(this.time_count);
+                }
                 console.log(row.answer.start);
             },
             startChange:function(data){
                 console.log('start-change');
                 console.log(data);
+            },
+            tableRowClassName(row, rowIndex) {
+                if (row.answer.isCreate === 1) {
+                    return 'warning-row';
+                }
+                return '';
             }
         }
     }

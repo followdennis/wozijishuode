@@ -7,7 +7,6 @@ use App\Models\Diary\MyQuestion;
 use App\Models\Diary\MyQuestionTask;
 use App\Models\Diary\MyReflect;
 use Carbon\Carbon;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,12 +52,13 @@ class ReflectController extends AdminController
                 'questionName'=>$question->question,
                 'description'=>$question->description,
                 'answer'=>[
+                    'description'=>isset($latest[$question->id]['description'])?$latest[$question->id]['description']:'',
                     'num'=>isset($latest[$question->id]['num'])?$latest[$question->id]['num']:0,
                     'numDesc'=>isset($latest[$question->id]['num_desc'])?$latest[$question->id]['num_desc']:'',
                     'assess'=>isset($latest[$question->id]['assess'])?$latest[$question->id]['assess']:0,
                     'taskId'=>isset($latest[$question->id]['task_id']) ?$latest[$question->id]['task_id']:0,
-                    'start'=>1,
-                    'startName'=>'开始'
+                    'isCreate'=>isset($latest[$question->id]['created_at'])?1:0,
+                    'start'=>false
                 ]
             ]);
         }
@@ -86,11 +86,12 @@ class ReflectController extends AdminController
         $create = [
             'num'=>$params['num'],
             'num_desc'=>$params['numDesc'],
-            'assess'=>$params['assess']
+            'assess'=>$params['assess'],
+            'description'=>$params['description']
         ];
         $status = $this->reflectModel->updateData($condition,$create);
         if($status){
-            return response()->json(['state'=>1,'msg'=>'操作完成']);
+            return response()->json(['state'=>1,'msg'=>'保存成功']);
         }else{
             return response()->json(['state'=>0,'msg'=>'处理失败']);
         }
