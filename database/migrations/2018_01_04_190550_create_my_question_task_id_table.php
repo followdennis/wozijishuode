@@ -15,6 +15,7 @@ class CreateMyQuestionTaskIdTable extends Migration
     {
         Schema::create('my_question_task', function (Blueprint $table) {
             $table->increments('task_id');
+            $table->integer('user_id',false,true)->default(0)->comment('用户id');
             $table->timestamp('today')->comment('今天的0点时间');
             $table->timestamps();
         });

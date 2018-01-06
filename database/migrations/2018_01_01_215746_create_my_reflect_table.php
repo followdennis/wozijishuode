@@ -15,6 +15,7 @@ class CreateMyReflectTable extends Migration
     {
         Schema::create('my_reflect', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id',false,true)->default(0)->comment('用户id');
             $table->smallInteger('question_id',false,true)->default(0)->comment('问题id');
             $table->string('description')->nullable()->comment('情况的解释，或是此时的想法');
             $table->integer('num',false,true)->default(0)->comment('可以是时间，以秒计算,或者是分数满分10分计,或者代码行数');

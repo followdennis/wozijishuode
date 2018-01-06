@@ -9,6 +9,7 @@ use App\Models\Diary\MyReflect;
 use Carbon\Carbon;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReflectController extends AdminController
 {
@@ -55,7 +56,7 @@ class ReflectController extends AdminController
                     'num'=>isset($latest[$question->id]['num'])?$latest[$question->id]['num']:0,
                     'numDesc'=>isset($latest[$question->id]['num_desc'])?$latest[$question->id]['num_desc']:'',
                     'assess'=>isset($latest[$question->id]['assess'])?$latest[$question->id]['assess']:0,
-                    'taskId'=>isset($last[$question->id]['task_id']) ?$last[$question->id]['task_id']:0,
+                    'taskId'=>isset($latest[$question->id]['task_id']) ?$latest[$question->id]['task_id']:0,
                     'start'=>1,
                     'startName'=>'开始'
                 ]
@@ -65,8 +66,6 @@ class ReflectController extends AdminController
     }
     //添加或编辑 今日任务20180104
     public function add(Request $request){
-        $today = Carbon::today()->toDateTimeString();
-        $task = MyQuestionTask::updateOrCreate(['today'=>$today]);
         $this->validate($request,[
             'questionId'=>'required|integer',
             'num'=>'required|integer',
@@ -74,8 +73,16 @@ class ReflectController extends AdminController
             'assess'=>'required|integer',
             'taskId'=>'required|integer',
         ]);
+        $user_id = Auth::user()->id;
+        $today = Carbon::today()->toDateTimeString();
+        $task_id = MyQuestionTask::updateOrCreate(['today'=>$today,'user_id'=>$user_id])->task_id;
+
+        if($request->get('taskId') <$task_id && $request->get('taskId') > 0){
+            //非当天的数据无法处理
+            return response()->json(['state'=>2,'msg'=>'非当天的数据无法处理']);
+        }
         $params = $request->all();
-        $condition = ['question_id'=>$params['questionId'],'task_id'=>$task->task_id];
+        $condition = ['question_id'=>$params['questionId'],'task_id'=>$task_id,'user_id'=>$user_id];
         $create = [
             'num'=>$params['num'],
             'num_desc'=>$params['numDesc'],
@@ -83,7 +90,7 @@ class ReflectController extends AdminController
         ];
         $status = $this->reflectModel->updateData($condition,$create);
         if($status){
-            return response()->json(['state'=>1,'msg'=>'处理完成']);
+            return response()->json(['state'=>1,'msg'=>'操作完成']);
         }else{
             return response()->json(['state'=>0,'msg'=>'处理失败']);
         }

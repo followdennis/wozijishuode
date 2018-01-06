@@ -183,10 +183,16 @@
                 }
                 axios.post('/back/diary/today/thoughts/add',this.saveForm).then((res)=>{
                     var response = res.data;
-                    if(response.state){
+                    console.log(response);
+                    if(response.state === 1){
                         this.$message({
                             message:response.msg,
                             type:'success'
+                        });
+                    }else if(response.state === 2){
+                        this.$message({
+                            message:response.msg,
+                            type:'warning'
                         });
                     }else{
                         this.$message({

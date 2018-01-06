@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Models\Diary\MyQuestion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends AdminController
 {
@@ -22,7 +23,7 @@ class QuestionController extends AdminController
     }
     public function lists(Request $request){
         $perPage = !empty($request->get('perPage')) ? intval($request->get('perPage')) : 10;
-        $data = $this->questionModel->where(function($query)use($request){
+        $data = $this->questionModel->getList()->where(function($query)use($request){
             if($request->filled('query')){
                 $kw = $request->get('query');
                 $query->where('question','like','%'.$kw.'%');
@@ -59,6 +60,7 @@ class QuestionController extends AdminController
             'sort'=>'integer'
         ]);
         $data = [
+            'user_id'=>Auth::user()->id,
             'question'=>trim($request->get('question')),
             'description'=>$request->filled('description') ? $request->get('description'):'',
             'sort'=>intval($request->get('sort')),
@@ -80,12 +82,13 @@ class QuestionController extends AdminController
             'id'=>'required|integer'
         ]);
         $id = $request->get('id');
+        $user_id = Auth::user()->id;
         $data =[
             'question'=> trim($request->get('question')),
             'description'=>$request->filled('description') ? $request->get('description'):'',
             'sort'=>intval($request->get('sort'))
         ];
-        $status = $this->questionModel->where('id',$id)->update($data);
+        $status = $this->questionModel->where(['id'=>$id,'user_id'=>$user_id])->update($data);
         if($status){
             return response()->json(['state'=>1,'msg'=>'编辑成功']);
         }else{
@@ -100,7 +103,8 @@ class QuestionController extends AdminController
         if(count($ids) > 20){
             return response()->json(['state'=>0,'msg'=>'一次最多删除20个']);
         }
-        $status = $this->questionModel->whereIn('id',$ids)->delete();
+        $user_id = Auth::user()->id;
+        $status = $this->questionModel->whereIn('id',$ids)->where('user_id',$user_id)->delete();
         if($status){
             return response()->json(['state'=>1,'msg'=>'删除成功']);
         }else{

@@ -4,6 +4,7 @@ namespace App\Models\Diary;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MyReflect extends Model
@@ -13,11 +14,12 @@ class MyReflect extends Model
     protected $guarded = [];
     //获取最新的数据
     public function getLatest($task_id = 0){
+        $user_id = Auth::user()->id;
         if($task_id>0){
-            $reflects = self::where('task_id',$task_id)->get();
+            $reflects = self::where('user_id',$user_id)->where('task_id',$task_id)->get();
         }else{
             $today = Carbon::today()->toDateTimeString();
-            $max_task_id = DB::table('my_question_task')->where('today',$today)->max('task_id');
+            $max_task_id = DB::table('my_question_task')->where('user_id',$user_id)->where('today',$today)->max('task_id');
             $reflects = self::where('task_id',$max_task_id)->whereRaw('to_days(created_at)=to_days(now())')->get();
         }
 
