@@ -84037,6 +84037,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -84109,6 +84114,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var data = response.data;
                 _this.tableData = data.items;
                 _this.page.total = data.total;
+                _this.page.from = data.from;
+                _this.page.to = data.to;
                 _this.loading = false;
             }).catch(function (error) {
                 console.log(error);
@@ -84404,12 +84411,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log('Component mounted.');
     },
 
-    computed: {
-        start_label: function start_label() {
-            console.log('11');
-            return this.start ? '停止' : '开始';
-        }
-    },
+    computed: {},
     data: function data() {
         return {
             msg: '开始',
@@ -84489,7 +84491,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 numDesc: row.answer.numDesc,
                 assess: row.answer.assess,
                 taskId: row.answer.taskId,
-                description: row.answer.description
+                description: row.answer.description,
+                today: this.filters.today
             };
             axios.post('/back/diary/today/thoughts/add', this.saveForm).then(function (res) {
                 var response = res.data;
@@ -84776,7 +84779,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('el-select', {
     attrs: {
       "clearable": "",
-      "placeholder": "请选择"
+      "placeholder": "请选择日期"
     },
     model: {
       value: (_vm.filters.today),
@@ -84827,7 +84830,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-table-column', {
     attrs: {
-      "prop": "questionId",
+      "type": "index",
       "label": "ID",
       "width": "60"
     }
@@ -85074,7 +85077,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "id",
+      "type": "index",
       "label": "ID",
       "width": "60"
     }
@@ -85164,7 +85167,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "size-change": _vm.handleSizeChange,
       "current-change": _vm.handleCurrentChange
     }
-  })], 1)], 1), _vm._v(" "), _c('el-dialog', {
+  }), _vm._v(" "), _c('span', {
+    staticStyle: {
+      "display": "block",
+      "float": "right",
+      "padding-top": "6px",
+      "font-size": "13px",
+      "color": "#48576a"
+    }
+  }, [_vm._v("第" + _vm._s(_vm.page.from) + "到" + _vm._s(_vm.page.to) + "条")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
     attrs: {
       "title": "新增",
       "close-on-click-modal": false
@@ -85285,6 +85296,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "问题",
       "prop": "question"
     }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 22
+    }
   }, [_c('el-input', {
     attrs: {
       "auto-complete": "off"
@@ -85296,10 +85311,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "editForm.question"
     }
-  })], 1), _vm._v(" "), _c('el-form-item', {
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "描述",
       "prop": "description"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 22
     }
   }, [_c('el-input', {
     attrs: {
@@ -85312,7 +85331,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "editForm.description"
     }
-  })], 1), _vm._v(" "), _c('el-form-item', {
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "排序值",
       "prop": "sort"

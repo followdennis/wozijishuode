@@ -25,7 +25,7 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h1 class="page-title"> 今日自省
+            <h1 class="page-title"> 今日汇总
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->

@@ -25,7 +25,7 @@
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column
-                    prop="id"
+                    type="index"
                     label="ID"
                     width="60">
             </el-table-column>
@@ -78,6 +78,7 @@
                         :total="page.total"
                         style="float:right;">
                 </el-pagination>
+                <span style="display:block;float:right;padding-top:6px;font-size:13px;color: #48576a;">第{{page.from}}到{{page.to}}条</span>
             </el-col>
         </div>
         <!--新增界面-->
@@ -106,10 +107,14 @@
         <el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                 <el-form-item label="问题" prop="question">
-                    <el-input v-model="editForm.question" auto-complete="off"></el-input>
+                    <el-col :span="22">
+                        <el-input v-model="editForm.question" auto-complete="off"></el-input>
+                    </el-col>
                 </el-form-item>
                 <el-form-item label="描述" prop="description">
-                    <el-input v-model="editForm.description" auto-complete="off"></el-input>
+                    <el-col :span="22">
+                        <el-input v-model="editForm.description" auto-complete="off"></el-input>
+                    </el-col>
                 </el-form-item>
                 <el-form-item label="排序值" prop="sort">
                     <el-input-number v-model="editForm.sort" :min="0" :max="200"></el-input-number>
@@ -202,6 +207,8 @@
                     var data = response.data;
                     this.tableData = data.items;
                     this.page.total = data.total;
+                    this.page.from = data.from;
+                    this.page.to =data.to;
                     this.loading = false;
                 }).catch(function(error){
                     console.log(error);

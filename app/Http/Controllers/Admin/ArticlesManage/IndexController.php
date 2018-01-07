@@ -149,7 +149,6 @@ class IndexController extends AdminController
                         'tables_id'=>0,
                         'description'=>''
                     ]);
-                    echo
                     $tags_name[] = @$tag_arr[1];
                     if(@tag_arr[0] == 0){
                         $tags_id[] = $tagModel->id;
@@ -168,8 +167,6 @@ class IndexController extends AdminController
             $cate = explode(',',$params['cate']);
             $cate_id = @$cate[0];
             $cate_name = @$cate[1];
-
-
             //获取id
             $id = $this->articleModel->insertData(['cate_id'=>$cate_id]);
             if(!empty($params['inner_link'])){
@@ -244,7 +241,6 @@ class IndexController extends AdminController
                     }
                     $data_head = array_add($data_head,'tags_name',implode(',',$tags_name));
                     $data_head = array_add($data_head,'tags_id',implode(',',$tags_id));
-
                 }
 
                 if(!empty($params['author'])){
@@ -285,7 +281,7 @@ class IndexController extends AdminController
             $data = $articleRepo->getInfoByArticle($id);//为数组值
             $patten = array("\r\n", "\n", "\r");//替换文本中的换行符
             $data['content']=addslashes(trim(str_replace($patten, "", $data['content'])));
-
+            $data['author_and_id'] = $data['author_id'].','.$data['author'];
             $data['created_at'] = Carbon::parse($data['created_at'])->format('Y-m-d H:i:s');
             $tree = new Tree();
             $tree->icon = array('└ ','├ ','│');
@@ -300,7 +296,7 @@ class IndexController extends AdminController
             $tree->init($array);
             $category = $tree->get_tree(0, $str);
             $tags = $this->tagsModel->getAllList();
-            $authors = $this->authorModel->getAllList();
+            $authors = $this->authorModel->getAuthorAndId();
             $data['cate_list'] = $category;
             $data['tags_list'] = $tags;
             $data['author_list'] = $authors;
@@ -310,7 +306,6 @@ class IndexController extends AdminController
             }else{
                 $data['tags_name'] = '';
             }
-
             return view('admin.articleManage.edit',compact('data'));
         }
 

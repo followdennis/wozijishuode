@@ -25,6 +25,9 @@ class Author extends Model
     public function getAllList(){
         return self::select('id','name')->get();
     }
+    public function getAuthorAndId(){
+        return self::selectRaw("concat(id,',',name)as author,name")->get();
+    }
     //删除
     public function delData($id){
         return self::destroy($id);

@@ -46,8 +46,8 @@
         <div class="container">
             <div class="content">
                 <div class="title">任有多重，道有多远。</div>
-                <div class="left_time" id="LeftTime">
-
+                <div class="left_time">
+                    赶工中...
                 </div>
             </div>
         </div>

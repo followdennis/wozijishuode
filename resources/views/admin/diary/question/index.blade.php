@@ -25,7 +25,7 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h1 class="page-title"> 文章批量管理
+            <h1 class="page-title"> 问题列表
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
@@ -36,7 +36,7 @@
                         {{--<div class="portlet box blue-steel">--}}
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>文章列表 </div>
+                                <i class="fa fa-cogs"></i>问题列表 </div>
 
                             <div class="actions">
 

@@ -3,6 +3,11 @@
     <link href="{{asset('vendor/metronic_theme/css/bootstrap-responsive.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/toastr/toastr.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/datatables/css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .is_finish_convert:hover{
+            cursor:pointer;
+        }
+    </style>
 @endsection
 @section('CUSTOM_SCRIPT')
     <script src="{{asset('vendor/datatables/js/datatables.js')}}" type="text/javascript"></script>

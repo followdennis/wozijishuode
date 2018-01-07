@@ -72,12 +72,13 @@ class ReflectController extends AdminController
             'numDesc'=>'max:255',
             'assess'=>'required|integer',
             'taskId'=>'required|integer',
+            'today'=>''
         ]);
         $user_id = Auth::user()->id;
         $today = Carbon::today()->toDateTimeString();
         $task_id = MyQuestionTask::updateOrCreate(['today'=>$today,'user_id'=>$user_id])->task_id;
 
-        if($request->get('taskId') <$task_id && $request->get('taskId') > 0){
+        if($request->get('taskId') <$task_id && $request->get('taskId') > 0 || intval($request->get('today')) < $task_id){
             //非当天的数据无法处理
             return response()->json(['state'=>2,'msg'=>'非当天的数据无法处理']);
         }

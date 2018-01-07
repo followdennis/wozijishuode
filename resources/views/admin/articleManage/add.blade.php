@@ -6,20 +6,22 @@
 
 @section('CUSTOM_STYLE')
     <style>
-        .input_select{
+
+        .input_select_2{
             width:150px;height:36px;
         }
         .select_div{
             text-align: center;position:relative;
         }
+        .select_div_2{
+            text-align: left;position:relative;margin-left: -15px;
+        }
         ._input{
             display:block;position:absolute;width:130px;margin-top:-36px;padding-left:10px;height:36px;
         }
-        .add_tag_button{
-            position: absolute;
-            margin-top: -36px;
+        .add_tag_button_2{
             height: 36px;
-            margin-left: 83px;
+            margin-left: -5px;
         }
         .tag_button_position{
             float:left;margin-right:3px;
@@ -47,11 +49,7 @@
     </script>
     <script>
         $(document).ready(function(){
-            if($('#input_select option:selected').val() != 0){
-                $("#_input").val($("#input_select option:selected").text());
-                $("#_input_bridge").val($("#input_select option:selected").val());
-            }
-            //作者字段变动的同时，光标离开
+            //这个没有用到，但写法还是值得学习的
             $("#_input").change(function(){
                 $("#_input").blur(function(){
                     $("#_input_bridge").val('0,'+$("#_input").val());
@@ -64,11 +62,6 @@
                 });
             });
         });
-        function get_author() {
-            $("#_input").val($("#input_select option:selected").text());
-            $("#_input_bridge").val($("#input_select option:selected").val());
-
-        }
         function get_tag() {
             $("#_input_tag").val($("#input_select_tag option:selected").text());
             $("#_input_tag_bridge").val($("#input_select_tag option:selected").val());
@@ -78,18 +71,30 @@
         }
         function add_tag(){
             if($('.tag_button_position').length>5){
-                alert('一篇文章最多可以添加6个标签');
+                swal({
+                    title: "操作失败",
+                    text: '一篇文章最多可以添加6个标签',
+                    type: "error",
+                });
                 return false;
             }
             //追加tag标签
             //非下拉框选择
             if($("#input_select_tag option:selected").val() == 0){
                 if($("#_input_tag").val().length == 0){
-                    alert('你还没有选择或设置标签');
+                    swal({
+                        title: "操作失败",
+                        text: '您还没有选择标签',
+                        type: "error",
+                    });
                     return false;
                 }else{
                     if($("#_input_tag").val() == "请选择标签"){
-                        alert('你还没有选择或设置标签');
+                        swal({
+                            title: "操作失败",
+                            text: '您还没有选择标签',
+                            type: "error",
+                        });
                         return false;
                     }
                     var tag_name = '0,'+$.trim($("#_input_tag").val());
@@ -105,8 +110,11 @@
                     var tag_name_all = $.trim($(item).html());
 
                     if(tag_button_name == tag_name_all){
-                        alert('标签已存在');
-
+                        swal({
+                            title: "操作失败",
+                            text: '标签已存在',
+                            type: "error",
+                        });
                         throw('已存在');
                     }
                 });
@@ -154,17 +162,14 @@
                             <label for="description" class="col-sm-3 control-label">作者</label>
                             <div class="col-sm-9">
                                 <div id="select_div" class="select_div">
-                                    <select id="input_select" class="input_select"  onchange="get_author()">
+                                    <select id="input_select" class="form-control" name="author">
                                         <option value="0">请选择作者</option>
                                         @foreach($data['author_list'] as $author)
                                             <option value="{{ $author->id }},{{$author->name}}">{{ $author->name }}</option>
                                         @endforeach
                                     </select>
-                                    <input id="_input_bridge" class="_input"  name="author"  type="hidden" />
-                                    <input id="_input" class="_input" type="text" />
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-lg-4">
                             <label for="description" class="col-sm-3 control-label">内链</label>
@@ -175,27 +180,22 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">tags</label>
+                    <label for="description" class="col-sm-2 control-label">标签</label>
                     <div class="col-sm-10">
-                        <div class="col-lg-4">
-                            <div class="col-sm-12">
-                                <div class="col-sm-9">
-
-                                    <div id="select_div" class="select_div">
-                                        <select id="input_select_tag" class="input_select" onchange="get_tag()">
-                                            <option value="0" >请选择标签</option>
-                                            @foreach($data['tags_list'] as $tag)
-                                                <option value="{{ $tag->id }},{{$tag->name}}">{{ $tag->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input id="_input_tag" class="_input" type="text" />
-                                        <input id="_input_tag_bridge"  type="hidden" />
-                                        <button type="button" class="add_tag_button" onclick="add_tag()">add</button>
-                                    </div>
-                                </div>
+                        <div class="col-lg-3">
+                            <div id="select_div" class="select_div_2">
+                                <select id="input_select_tag" class="input_select_2" onchange="get_tag()">
+                                    <option value="0" >请选择标签</option>
+                                    @foreach($data['tags_list'] as $tag)
+                                        <option value="{{ $tag->id }},{{$tag->name}}">{{ $tag->name }}</option>
+                                    @endforeach
+                                </select>
+                                <input id="_input_tag" class="_input" type="text" />
+                                <input id="_input_tag_bridge"  type="hidden" />
+                                <button type="button" class="add_tag_button_2" onclick="add_tag()">add</button>
                             </div>
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-9">
                             <div class="col-sm-12" id="tag_group">
 
                             </div>
@@ -203,7 +203,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">description</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label">描述</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="article_content" name="description" placeholder="文章描述"></textarea>
                     </div>

@@ -5,7 +5,7 @@
                 <el-form-item>
                     <el-input v-model="filters.query" placeholder="请输入关键词"></el-input>
                 </el-form-item>
-                <el-select v-model="filters.today" clearable  placeholder="请选择">
+                <el-select v-model="filters.today" clearable  placeholder="请选择日期">
                     <el-option
                             v-for="item in todayTask.list"
                             :key="item.taskId"
@@ -31,7 +31,7 @@
                 element-loading-background="rgba(0, 0, 0, 0.8)"
                 :row-class-name="tableRowClassName">
             <el-table-column
-                    prop="questionId"
+                    type="index"
                     label="ID"
                     width="60">
             </el-table-column>
@@ -128,10 +128,7 @@
             console.log('Component mounted.')
         },
         computed:{
-            start_label(){
-                console.log('11');
-                return this.start ? '停止':'开始';
-            }
+
         },
         data(){
             return {
@@ -205,7 +202,8 @@
                     numDesc:row.answer.numDesc,
                     assess:row.answer.assess,
                     taskId:row.answer.taskId,
-                    description:row.answer.description
+                    description:row.answer.description,
+                    today:this.filters.today
                 }
                 axios.post('/back/diary/today/thoughts/add',this.saveForm).then((res)=>{
                     var response = res.data;
