@@ -28,7 +28,7 @@ class ReflectController extends AdminController
         return view('admin.diary.reflect.index');
     }
     public function get_task_list(){
-        $task_list = $this->taskModel->getList();
+        $task_list = $this->taskModel->getList(7);
         return response()->json($task_list);
     }
     public function lists(Request $request){
@@ -78,7 +78,7 @@ class ReflectController extends AdminController
         $today = Carbon::today()->toDateTimeString();
         $task_id = MyQuestionTask::updateOrCreate(['today'=>$today,'user_id'=>$user_id])->task_id;
 
-        if($request->get('taskId') <$task_id && $request->get('taskId') > 0 || intval($request->get('today')) < $task_id){
+        if($request->get('taskId') <$task_id && $request->get('taskId') > 0 || ($request->filled('today') && intval($request->get('today')) < $task_id)){
             //非当天的数据无法处理
             return response()->json(['state'=>2,'msg'=>'非当天的数据无法处理']);
         }

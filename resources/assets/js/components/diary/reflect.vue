@@ -123,8 +123,8 @@
 <script>
     export default {
         mounted() {
-            this.loadData();
             this.getTaskList();
+            this.loadData();
             console.log('Component mounted.')
         },
         computed:{

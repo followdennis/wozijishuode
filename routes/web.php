@@ -164,9 +164,11 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
 });
 //前台
 Route::group(['domain'=>'www.wozijishuode.com'],function(){
-    Route::any('/',function(){
-        return '嘿嘿';
-    });
+    Route::any('/',['uses'=>'Foreground\IndexController@index']);
+    Route::any('/index.html',['uses'=>'Foreground\IndexController@index']);
+    Route::any('/lists',['uses'=>'Foreground\IndexController@lists']);
+    Route::any('/detail',['uses'=>'Foreground\IndexController@detail']);
+    Route::any('/search',['uses'=>'Foreground\IndexController@search']);
 });
 //前台
 Route::group(['domain'=>'wx.wozijishuode.com'],function(){

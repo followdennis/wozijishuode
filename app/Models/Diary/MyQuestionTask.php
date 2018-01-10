@@ -13,9 +13,9 @@ class MyQuestionTask extends Model
     protected $guarded=[];
     protected $primaryKey = 'task_id';
 
-    public function getList(){
+    public function getList($take = 10){
         $user_id = Auth::user()->id;
-        return self::where('user_id',$user_id)->orderBy('task_id','desc')->get()->map(function($item){
+        return self::where('user_id',$user_id)->orderBy('task_id','desc')->take($take)->get()->map(function($item){
             $week = Carbon::parse($item->today)->dayOfWeek;
             $week = $this->getWeek($week);
             $date = Carbon::parse($item->today)->toDateString();
