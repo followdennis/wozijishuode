@@ -127,7 +127,7 @@
         </el-dialog>
     </div>
 </template>
-<style scoped="scope">
+<style >
     .table_list{
         margin:0px;
     }
@@ -195,6 +195,10 @@
             },
             sortChange:function(){
 
+            },
+            indexMethod(index) {
+                console.log(index);
+                return index*2;
             },
             loadData:function(){
                 let params = {
