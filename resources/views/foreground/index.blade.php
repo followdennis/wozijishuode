@@ -325,7 +325,7 @@
                                     <a class="author-name">用户名</a>
                                     <span class="time">2018-10-25 22:32:03</span>
                                     <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> 29</a>
-                                    <a href="#" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 20</>
+                                    <a href="#" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 20</a>
 
                                 </div>
                                 <p>胜利在望的人总是干劲十足，有眼光的人总是感觉到胜利在望
