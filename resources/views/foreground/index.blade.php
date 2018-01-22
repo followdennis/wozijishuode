@@ -163,12 +163,30 @@
         .article-list .have-img .wrap-img{
             position: absolute;
             top: 50%;
-            margin-top: -68px;
+            margin-top: -90px;
             left: 0;
             width: 150px;
-            height: 120px;
+            height: 150px;
         }
-
+        /*导航样式*/
+        .nav-channel .dropdown-menu{
+            border:0;
+        }
+        .nav-channel .channel-item{
+            border-radius: 4px;
+            margin:0 1px;
+        }
+        .nav-channel .nav-active{
+            background:#ed4040;
+        }
+        #bs-example-navbar-collapse-1 .nav-active a{
+            color:#fff;
+        }
+        #bs-example-navbar-collapse-1 .channel-item a:hover{
+            border-radius: 4px;
+            color:#fff;
+            background:#ed4040;
+        }
 
     </style>
 </head>
@@ -221,15 +239,18 @@
                                 <span class="icon-bar">2</span>
                                 <span class="icon-bar">3</span>
                             </button>
-                            <a class="navbar-brand" href="#">首页</a>
+                            <a class="navbar-brand" href="/">首页</a>
                         </div>
 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                                <li class="active"><a href="#">Link</a></li>
-                                <li class="dropdown">
+                            <ul class="nav navbar-nav nav-channel">
+                                <li class="channel-item"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                                <li class="channel-item @if(empty($cate_name)) nav-active @endif"><a href="#">Link</a></li>
+                                <li class="channel-item @if($cate_name == 'abc') nav-active @endif"><a href="/abc">Link2</a></li>
+                                <li class="channel-item"><a href="/">Link3</a></li>
+                                <li class="channel-item"><a href="/">Link4</a></li>
+                                <li class="channel-item dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#">Action</a></li>

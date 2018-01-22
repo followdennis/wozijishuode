@@ -166,7 +166,7 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
 Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::any('/',['uses'=>'Foreground\IndexController@index']);
     Route::any('/index.html',['uses'=>'Foreground\IndexController@index']);
-    Route::any('/lists',['uses'=>'Foreground\IndexController@lists']);
+    Route::any('/{lists?}',['uses'=>'Foreground\IndexController@lists']);
     Route::any('/detail',['uses'=>'Foreground\IndexController@detail']);
     Route::any('/search',['uses'=>'Foreground\IndexController@search']);
 });

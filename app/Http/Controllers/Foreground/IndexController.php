@@ -9,11 +9,11 @@ class IndexController extends Controller
 {
     //
     public function index(){
-        return view('foreground.index');
+        return view('foreground.index',['cate_name'=>'']);
     }
 
     public function lists(){
-        return view('foreground.lists');
+        return view('foreground.index',['cate_name'=>'abc']);
     }
     public function detail(){
         return view('foreground.detail');
