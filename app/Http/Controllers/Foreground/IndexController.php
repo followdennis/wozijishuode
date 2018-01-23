@@ -13,10 +13,10 @@ class IndexController extends Controller
     }
 
     public function lists(){
-        return view('foreground.index',['cate_name'=>'abc']);
+        return view('foreground.ch',['cate_name'=>'abc']);
     }
     public function detail(){
-        return view('foreground.detail');
+        return view('foreground.detail',['cate_name'=>'ddd']);
     }
     public function search(){
         return view('foreground.search');

@@ -3,6 +3,9 @@
 @endsection
 @section('style')
 @endsection
+@section('nav')
+    @include('foreground.shared.nav')
+@endsection
 @section('content')
     <div class="panel panel-default article-list">
         <div class="panel-body">
@@ -86,14 +89,9 @@
         </ul>
     </div>
 @endsection
-@section('nav')
-    @include('foreground.shared.nav')
-@endsection
 @section('right_side')
     @include('foreground.shared.search')
     @include('foreground.shared.hot')
     @include('foreground.shared.recommend')
     @include('foreground.shared.tags')
-    @include('foreground.shared.friendlink')
-    @include('foreground.shared.copyright')
 @endsection
