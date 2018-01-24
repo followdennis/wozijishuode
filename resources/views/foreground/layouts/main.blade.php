@@ -14,8 +14,11 @@
     <!-- Styles -->
     <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
-    @yield('style')
     <style>
+        *{
+            padding:0;
+            margin:0;
+        }
         .navbar{
             min-height:45px;
         }
@@ -190,8 +193,8 @@
         .navbar{
             margin-bottom:5px;
         }
-
     </style>
+    @yield('style')
 </head>
 <body>
 <div id="app">
