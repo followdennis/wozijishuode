@@ -21,6 +21,7 @@
         }
         .panel-body-detail .article-content{
             font-size:16px;
+            line-height: 27px;
         }
         .panel-body-detail .article-content img{
             max-width: 100%;
@@ -100,7 +101,7 @@
         .comment .input-submit{
             float: right;
             line-height: 44px;
-            background-color: #3f404c;
+            background-color: #2392d4;
             width: 110px;
             height: 100%;
             color: #fff;
@@ -187,6 +188,165 @@
             float:right;
             margin-right:3px;
         }
+        .page-pre-next{
+            font-size:16px;
+        }
+        .page-pre-next a {
+            margin-left: 2px;
+            font-size:16px;
+            font-weight:600;
+            color:#676565;
+        }
+        .relative .title{
+            position: relative;
+            font-size: 18px;
+            color: #222;
+            line-height: 18px;
+            padding-left: 16px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .relative .relative-wrap ul li{
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+        .relative .relative-wrap .relative-item{
+            height: 123px;
+            position: relative;
+            padding: 10px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .relative-item .relative-lbox{
+            width: 158px;
+            height: 102px;
+            margin-right: 16px;
+            float:left;
+        }
+        .relative-item .relative-lbox .img-wrap:before{
+            display: inline-block;
+            height: 100%;
+        }
+        .relative-item .relative-lbox .img-wrap{
+            position: relative;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #e8e8e8;
+            background: #e8e8e8;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        .relative-item .relative-lbox .img-wrap img{
+            width:100%;
+        }
+        .relative-item .relative-rbox:before{
+            content: "";
+            visibility: hidden;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .relative-item .relative-rbox{
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .relative-item .relative-rbox .inner{
+            display: inline-block;
+            width: 100%;
+            vertical-align: middle;
+        }
+        .relative-item .relative-rbox .inner .title-box{
+            font-size: 20px;
+            line-height: 1.3;
+            margin-bottom: 4px;
+            font-weight: 700;
+            max-height: 52px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .relative-footer .footer-bar-left{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .footer-bar-left .media-avatar{
+            color: #fff;
+            margin-right: 2px;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 50%;
+            background-color: #eee;
+            overflow: hidden;
+        }
+        .footer-bar-left .media-avatar>img{
+            color: #fff;
+            margin-right: 2px;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 50%;
+            background-color: #eee;
+            overflow: hidden;
+        }
+        .footer-bar-left a{
+            color: #999;
+            margin-right:5px;
+        }
+        .footer-bar-left a:hover{
+            color:#406599;
+        }
+        .relative-footer .footer-bar-right{
+            float: right;
+        }
+
+        .relative-footer .footer-bar-right .action-dislike{
+            position: relative;
+            color: transparent;
+            color: #fff!important;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+            padding-right: 20px;
+            padding-left: 8px;
+            transition: width .3s ease;
+            white-space: nowrap;
+            z-index: 2;
+        }
+        .relative-footer .footer-bar-right .action-dislike:hover{
+            background-color: #f85959;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 12px;
+            width: 72px;
+        }
+        .footer-bar-right .action-dislike i{
+            position: absolute;
+            top: 2px;
+            right: 0
+        }
+        .inner .title-box .link:hover{
+            color:#406599;
+        }
+
+        .relative .title:before{
+            position: absolute;
+            left: 0;
+            top: 0;
+            content: "";
+            width: 4px;
+            height: 18px;
+            background: #ed4040;
+            border-radius: 4px;
+        }
     </style>
 @endsection
 @section('content')
@@ -218,9 +378,13 @@
                     </div>
                 </div>
             </div>
-            <div class="page-pre-next">
-                <span class="page-pre">上一篇:<a href="#">司马懿的因人数</a></span>
-                <span class="page-next">下一篇:<a href="#">司马昭家族</a></span>
+            <div class="row page-pre-next">
+                <div class="col-md-6">
+                    <span class="page-pre">上一篇：<a href="#">司马懿的因人数</a></span>
+                </div>
+                <div class="col-md-6">
+                    <span class="page-next">下一篇：<a href="#">司马昭家族</a></span>
+                </div>
             </div>
             <div class="article-ad">
                 我是一则广告
@@ -285,6 +449,106 @@
                                     <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
                                     <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
                                     <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="title">相关推荐</div>
+                <div class="relative-wrap">
+                    <ul>
+                        <li>
+                            <div class="relative-item">
+                                <div class="relative-lbox">
+                                    <a href="#" class="img-wrap"><img src="//p1.pstatp.com/list/190x124/50ed00093e440810e7f5"/></a>
+                                </div>
+                                <div class="relative-rbox">
+                                    <div class="inner">
+                                        <div class="title-box">
+                                            <a href="#" class="link">
+                                                司马懿失权后一兵一卒不能调动 凭他养的三千死士成功反杀
+                                            </a>
+                                        </div>
+                                        <div class="relative-footer">
+                                            <div class="footer-bar-left">
+                                                <a href="#" class="media-avatar">
+                                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
+                                                </a>
+                                                <a href="#" class="source">鲁迅</a>
+                                                <a href="#" class="comment-count">32 评论</a>
+                                            </div>
+                                            <div class="footer-bar-right">
+                                                <div class="action-dislike">
+                                                    <i class="fa fa-times" aria-hidden="true" style="font-size: 16px; color: rgb(221, 221, 221);"></i>
+                                                    不感兴趣
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="relative-item">
+                                <div class="relative-lbox">
+                                    <a href="#" class="img-wrap"><img src="//p1.pstatp.com/list/190x124/50ed00093e440810e7f5"/></a>
+                                </div>
+                                <div class="relative-rbox">
+                                    <div class="inner">
+                                        <div class="title-box">
+                                            <a href="#" class="link">
+                                                司马懿失权后一兵一卒不能调动 凭他养的三千死士成功反杀
+                                            </a>
+                                        </div>
+                                        <div class="relative-footer">
+                                            <div class="footer-bar-left">
+                                                <a href="#" class="media-avatar">
+                                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
+                                                </a>
+                                                <a href="#" class="source">鲁迅</a>
+                                                <a href="#" class="comment-count">32 评论</a>
+                                            </div>
+                                            <div class="footer-bar-right">
+                                                <div class="action-dislike">
+                                                    <i class="fa fa-times" aria-hidden="true" style="font-size: 16px; color: rgb(221, 221, 221);"></i>
+                                                    不感兴趣
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="relative-item">
+                                <div class="relative-lbox">
+                                    <a href="#" class="img-wrap"><img src="//p1.pstatp.com/list/190x124/50ed00093e440810e7f5"/></a>
+                                </div>
+                                <div class="relative-rbox">
+                                    <div class="inner">
+                                        <div class="title-box">
+                                            <a href="#" class="link">
+                                                司马懿失权后一兵一卒不能调动 凭他养的三千死士成功反杀
+                                            </a>
+                                        </div>
+                                        <div class="relative-footer">
+                                            <div class="footer-bar-left">
+                                                <a href="#" class="media-avatar">
+                                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
+                                                </a>
+                                                <a href="#" class="source">鲁迅</a>
+                                                <a href="#" class="comment-count">32 评论</a>
+                                            </div>
+                                            <div class="footer-bar-right">
+                                                <div class="action-dislike">
+                                                    <i class="fa fa-times" aria-hidden="true" style="font-size: 16px; color: rgb(221, 221, 221);"></i>
+                                                    不感兴趣
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </li>
