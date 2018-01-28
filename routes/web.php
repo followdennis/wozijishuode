@@ -34,6 +34,8 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
         //    Route::get('/home', 'HomeController@index')->name('home');
         Route::any('/',['uses'=>'Admin\IndexController@index','as'=>'home']);
         Route::any('/home',['uses'=>'Admin\IndexController@index','as'=>'home']);
+
+
         Route::any('index',['uses'=>'Admin\IndexController@index','as'=>'index']);
         Route::any('fileupload',['uses'=>'Admin\IndexController@file_upload']);
         Route::any('/upload',['uses'=>'Admin\IndexController@upload']);
@@ -164,11 +166,24 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function(){
 });
 //前台
 Route::group(['domain'=>'www.wozijishuode.com'],function(){
+    Route::get('/login',['uses'=>'Foreground\Auth\LoginController@showLoginForm','as'=>'front.login']);
+    Route::post('/login',['uses'=>'Foreground\Auth\LoginController@login']);
+    Route::get('/register',['uses'=>'Foreground\Auth\RegisterController@showRegistrationForm','as'=>'front.register']);
+    Route::post('/register',['uses'=>'Foreground\Auth\RegisterController@register']);
+
+    Route::post('/logout',['uses'=>'Foreground\Auth\LoginController@logout','as'=>'front.logout']);
+    Route::get('/password/reset',['uses'=>'Foreground\Auth\ResetPasswordController@showResetForm','as'=>'front.password.request']);
+
+
     Route::any('/',['uses'=>'Foreground\IndexController@index']);
     Route::any('/index.html',['uses'=>'Foreground\IndexController@index']);
     Route::any('/ch/{cate?}',['uses'=>'Foreground\IndexController@lists']);
     Route::any('/{cate?}/detail/{detail?}',['uses'=>'Foreground\IndexController@detail']);
     Route::any('/search',['uses'=>'Foreground\IndexController@search']);
+    /**
+     * 个人中心
+     */
+    Route::get('/user_center',['uses'=>'Foreground\CommonUserController@index']);
 });
 //前台
 Route::group(['domain'=>'wx.wozijishuode.com'],function(){

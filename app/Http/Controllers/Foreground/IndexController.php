@@ -19,6 +19,6 @@ class IndexController extends Controller
         return view('foreground.detail',['cate_name'=>'ddd']);
     }
     public function search(){
-        return view('foreground.search');
+        return view('foreground.search',['cate_name'=>'bb']);
     }
 }

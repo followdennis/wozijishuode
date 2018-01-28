@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cn">
 <head>
@@ -7,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="YB6AyeVnFYNCeV2lmYeu6iZTkkR6XI2hk6TdOByb">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>我自己说的</title>
 
@@ -54,7 +53,6 @@
             border:0;
         }
         .article-list .have-img .list-item-content{
-
             padding-left:150px;
         }
         .article-list .have-img .list-item-content h2{
@@ -224,8 +222,30 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right" id="login_style">
                     <!-- Authentication Links -->
-                    <li><a href="">登陆</a></li>
-                    <li><a href="">注册</a></li>
+                    @if (Auth::guard('front')->guest())
+                        <li><a href="{{ route('front.login') }}">登陆</a></li>
+                        <li><a href="{{ route('front.register') }}">注册</a></li>
+                    @else
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::guard('front')->user()->name }} <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ route('front.logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('front.logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

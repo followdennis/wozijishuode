@@ -40,7 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        'front' => [
+            'driver' => 'session',
+            'provider' => 'common_users'
+        ],
         'api' => [
             'driver' => 'passport',
 //            'driver' => 'token',
@@ -70,7 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'common_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\CommonUser::class,
+        ]
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
