@@ -1,18 +1,18 @@
-<nav class="navbar navbar-default s-cate-bar">
+<nav class="navbar navbar-default s-cate-bar" id="navbar">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle " data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar">1</span>
-                <span class="icon-bar">2</span>
-                <span class="icon-bar">3</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">首页</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse " style="margin-left:36px;" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav nav-channel">
                 <li class="channel-item"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                 <li class="channel-item @if(empty($cate_name)) nav-active @endif"><a href="#">Link</a></li>

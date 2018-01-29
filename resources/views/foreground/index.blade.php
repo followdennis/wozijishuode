@@ -1,5 +1,26 @@
 @extends('foreground.layouts.main')
 @section('script')
+<script type="text/javascript">
+ window.onscroll=function(){
+      var topScroll =document.body.scrollTop;//滚动的距离,距离顶部的距离
+     console.log(topScroll);
+      var bignav  = document.getElementById("navbar");//获取到导航栏id
+//      var brand = document.getElementById('site-brand');
+      if(topScroll > 50){  //当滚动距离大于250px时执行下面的东西
+          bignav.className = 'nav-brand';
+
+//          brand.style.position="fixed";
+//          brand.style.top= "50px";
+//          brand.style.width="200px";
+//          brand.style.left="117px";
+//          brand.style.display = "block";
+      }else{//当滚动距离小于50的时候执行下面的内容，也就是让导航栏恢复原状
+         $(bignav).removeClass('nav-brand')
+
+//          brand.style.display = "none";
+      }
+ }
+</script>
 @endsection
 @section('style')
 @endsection

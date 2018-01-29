@@ -191,11 +191,19 @@
         .navbar{
             margin-bottom:5px;
         }
+        .nav-brand{
+            position:fixed;
+            top:0;
+            width:47%;
+            z-index:999;
+            background:#fff;
+        }
     </style>
     @yield('style')
 </head>
 <body>
 <div id="app">
+
     <nav class="navbar navbar-default navbar-static-top s-top-bar">
         <div class="container">
             <div class="navbar-header">
@@ -236,12 +244,15 @@
                                     <a href="{{ route('front.logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
+                                        退出
                                     </a>
 
                                     <form id="logout-form" action="{{ route('front.logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
+                                </li>
+                                <li>
+                                    <a href="#" style="color:red">更多功能,敬请期待</a>
                                 </li>
                             </ul>
                         </li>
@@ -253,8 +264,12 @@
 
     <div class="container">
         <div class="row">
-
-            <div class="col-md-8 col-md-offset-1">
+            <div class="col-md-1">
+                <ul style="list-style: none">
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-md-8">
                 @yield('nav')
                 @yield('content')
             </div>
