@@ -85002,7 +85002,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           attrs: {
             "controls-position": "right",
             "min": 0,
-            "max": 1000
+            "max": 10000
           },
           model: {
             value: (scope.row.answer.num),

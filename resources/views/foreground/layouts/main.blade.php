@@ -194,9 +194,10 @@
         .nav-brand{
             position:fixed;
             top:0;
-            width:47%;
+            width:100%;
             z-index:999;
-            background:#fff;
+            background-color: #f8f8f8;
+            border-color: #e7e7e7;
         }
     </style>
     @yield('style')

@@ -49,7 +49,11 @@ class Category extends Model
                     $list[] = $r;
                 }
             }
+            if(empty($list)){
+                $list = [];
+            }
         }
+
         return $list;
     }
     public function getInfoById($id){

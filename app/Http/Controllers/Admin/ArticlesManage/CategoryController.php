@@ -54,6 +54,8 @@ class CategoryController extends AdminController
             $str = "\$spacer\$name";
             $tree_new = $tree->get_menu_tree(0,$str);
             $new['data'] = $tree_new;
+        }else{
+            $new['list'] = [];
         }
         return response()->json($new);
     }

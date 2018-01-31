@@ -64,7 +64,7 @@
                     label="数量"
             >
                 <template slot-scope="scope">
-                    <el-input-number controls-position="right" class="number_count" v-model="scope.row.answer.num" :min="0" :max="1000"></el-input-number>
+                    <el-input-number controls-position="right" class="number_count" v-model="scope.row.answer.num" :min="0" :max="10000"></el-input-number>
                 </template>
             </el-table-column>
             <el-table-column
