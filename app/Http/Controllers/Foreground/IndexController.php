@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Foreground;
 
 use App\Models\Foreground\Article;
 use App\Models\Foreground\Category;
+use App\Repository\Foreground\ArticleRepository;
 use Illuminate\Http\Request;
 
 class IndexController extends CommonController
@@ -18,10 +19,13 @@ class IndexController extends CommonController
         $this->articleModel = $article;
     }
 
-    public function index(){
+    public function index(ArticleRepository $articleRepository){
         $nav = $this->nav();
-        $article_list = $this->articleModel->getArticleList();
+//        $article_list = $this->articleModel->getArticleList();
+        $article_list = $articleRepository->getArticleList();
 
+//        $category = Article::find(58574)->category;
+//        dd($category->pinyin);
         return view('foreground.index',['nav'=>$nav,'articles'=>$article_list]);
     }
 

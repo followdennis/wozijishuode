@@ -24,14 +24,14 @@
         </div>
         <ul class="list-group">
             @foreach($articles as $k =>$article)
-                @if($article['have_img'] == 1)
+                @if($article->have_img == 1)
                     <li class="list-group-item have-img">
                         <a href="#" class="wrap-img">
                             <img src="http://p3.pstatp.com/large/5e3f00055a0d7bfc6ed7"/>
                         </a>
                         <div class="list-item-content">
                             <h2>
-                                <a href="#"  class="transition">{{ $article['title'] }}</a>
+                                <a href="{{url($article->cate_id."/".$article->id.".html")}}"  class="transition">{{ $article->title }}</a>
                             </h2>
 
                             <div class="author">
@@ -56,7 +56,7 @@
 
                         <div class="list-item-content">
                             <h2>
-                                <a href="#"  class="transition">{{ $article['title'] }}</a>
+                                <a href="{{url($article->cate_id."/".$article['id'].".html")}}"  class="transition">{{ $article['title'] }}</a>
                             </h2>
 
                             <div class="author">
