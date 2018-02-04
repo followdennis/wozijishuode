@@ -4,11 +4,13 @@ namespace App\Models\ArticleManage;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
     //
+    use SoftDeletes;
     protected $table='article_index';
 
 
@@ -49,5 +51,9 @@ class Article extends Model
     //修改显示状态
     public function changeShow($condition = [],$update){
         return self::where($condition)->update($update);
+    }
+    //检查文章是否存在
+    public function checkArticleExists($cate_id,$id){
+        return self::where('cate_id',$cate_id)->where('id',$id)->where('is_show',1)->first();
     }
 }

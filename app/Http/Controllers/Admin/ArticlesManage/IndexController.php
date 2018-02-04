@@ -16,6 +16,7 @@ use App\Models\ArticleManage\Author;
 use App\Models\ArticleManage\Category;
 use App\Models\ArticleManage\InnerLink;
 use App\Models\ArticleManage\Tags;
+use App\Models\ArticleManage\TagsArticles;
 use App\Repository\ArticleRepository;
 use App\Services\Tree;
 use Carbon\Carbon;
@@ -36,9 +37,12 @@ class IndexController extends AdminController
     protected $tagsModel;
     protected $innerLinkModel;
     protected $authorModel;
+    protected $tagsArticlesModel;
     public function __construct(Request $request,
                                 Article $articleModel,ArticleHead $articleHead,Category $category,Author $author,
-                                ArticleAll $articleAll,ArticleBody $articleBody,Tags $tags,InnerLink $innerLink)
+                                ArticleAll $articleAll,ArticleBody $articleBody,Tags $tags,InnerLink $innerLink,
+                                TagsArticles $tagsArticles
+                                )
     {
         parent::__construct($request);
         $this->articleModel = $articleModel;
@@ -49,6 +53,7 @@ class IndexController extends AdminController
         $this->tagsModel = $tags;
         $this->innerLinkModel = $innerLink;
         $this->authorModel = $author;
+        $this->tagsArticlesModel = $tagsArticles;
     }
 
     public function index(Request $request){
@@ -184,10 +189,11 @@ class IndexController extends AdminController
                 'content'=>$params['content']
             ];
             try{
-
                 $article_state = $this->articleAllModel->insertData($data_head);
+                $tag_count_plus = $this->tagsModel->changeArticleCount($tags_id,1);//更新数量
                 $article_head_state = $this->articleHeadModel->insertData($data_head);
-                $article_content_state = $this->articleBodyModel->insertData($body);
+                $article_content_state = $this->articleBodyModel->insertData($body);//tag文章文章数量
+                $tag_article_state = $this->add_tag_article_id($id,$tags_id);
             }catch (\Exception $e){
 
             }
@@ -215,14 +221,21 @@ class IndexController extends AdminController
     }
 
     public function edit(Request $request){
-        $id = $request->get('id');
-
+        $id = intval($request->get('id'));
         if($request->isMethod('post')){
+            $this->validate($request,[
+                'click'=>'required|integer',
+                'is_show'=>'required'
+            ]);
                 $params = $request->all();
                 $tags_name = [];
                 $tags_id = [];
                 $data_head = [];
+                $current_tag_ids = $this->articleAllModel->getTagIdsById($id);
+                $this->tagsModel->changeArticleCount($current_tag_ids,-1);//数量减少
+                $this->tagsArticlesModel->delDataByArticleId($id);
                 if(!empty($params['tags'])){
+                    $tag_articles_data = [];
                     foreach($params['tags'] as $tag){
                         $tag_arr = explode(',',$tag);
                         $tagModel = $this->tagsModel->firstOrCreate(['name'=>@$tag_arr[1]],[
@@ -231,14 +244,22 @@ class IndexController extends AdminController
                             'tables_id'=>0,
                             'description'=>''
                         ]);
-                        echo
+
                         $tags_name[] = @$tag_arr[1];
                         if(@tag_arr[0] == 0){
                             $tags_id[] = $tagModel->id;
                         }else{
                             $tags_id[] = @$tag_arr[0];
                         }
+                        //tag_article
+                        array_push($tag_articles_data,[
+                            'tag_id'=>$tagModel->id,
+                            'article_id'=> $id,
+                            'created_at'=>Carbon::now()->toDateTimeString()
+                        ]);
                     }
+                    $this->tagsArticlesModel->insert($tag_articles_data);//增加tag_article
+                    $this->tagsModel->changeArticleCount($tags_id,1);//更新数量
                     $data_head = array_add($data_head,'tags_name',implode(',',$tags_name));
                     $data_head = array_add($data_head,'tags_id',implode(',',$tags_id));
                 }
@@ -262,6 +283,8 @@ class IndexController extends AdminController
                 $data_head['description'] = $params['description'];
                 $data_head['cate_name'] = $cate_name;
                 $data_head['cate_id'] = $cate_id;
+                $data_head['is_show'] =  isset($params['is_show']) ? 1 : 0;
+                $data_head['click'] = $params['click'];
                 $body = [
                     'id'=>$id,
                     'content'=>$params['content']
@@ -312,11 +335,18 @@ class IndexController extends AdminController
     }
     public function del(Request $request){
         $id = $request->get('id');
-        $status = $this->articleAllModel->delData($id);
+//        $status = $this->articleAllModel->delData($id);
+        $article = ArticleAll::find($id);
+        if($tags = $article->tags_id){
+            $tag_ids = explode(',',$tags);
+            $this->tagsModel->changeArticleCount($tag_ids,-1);
+            $tags_article = $this->tagsArticlesModel->delData($tag_ids,$id);
+        }
+
         $article_index_status = $this->articleModel->delData($id);
         $article_head_status = $this->articleHeadModel->delData($id);
         $article_body = $this->articleBodyModel->delete($id);
-        if($status){
+        if($article->delete()){
             return response()->json(['status'=>1,'msg'=>'删除成功']);
         }else{
             return response()->json(['status'=>0,'msg'=>'删除失败']);
@@ -335,6 +365,22 @@ class IndexController extends AdminController
             return response()->json(['status'=>1,'msg'=>'修改成功']);
         }else{
             return response()->json(['status'=>0,'msg'=>'修改失败']);
+        }
+    }
+
+    public function add_tag_article_id($article_id = 0,$tag_ids =[]){
+        $data = [];
+        if(empty($tag_ids)){
+            return false;
+        }else{
+            foreach($tag_ids as $id){
+                array_push($data,[
+                    'tag_id'=>$id,
+                    'article_id'=>$article_id,
+                    'created_at'=>Carbon::now()->toDateTimeString()
+                ]);
+            }
+            return TagsArticles::insert($data);
         }
     }
 }

@@ -19,4 +19,6 @@ class ArticleRepository{
             ->get();
         return $list;
     }
+
+
 }

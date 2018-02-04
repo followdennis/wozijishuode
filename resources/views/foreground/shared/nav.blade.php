@@ -16,34 +16,22 @@
             <ul class="nav navbar-nav nav-channel">
                 @foreach($nav as $item)
                     @if($item['is_leaf'] == 1)
-                    <li class="channel-item @if(url()->current() == url("ch/{$item['pinyin']}")) nav-active @endif">
+                    <li class="channel-item @if($current_route == $item['pinyin']) nav-active @endif">
                         <a href="{{ url("ch/{$item['pinyin']}") }}">{{ $item['name'] }} <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     @else
                     <li class="channel-item dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ $item['name'] }} <span class="caret"></span></a>
+                        <a href="{{ url("ch/{$item['pinyin']}") }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ $item['name'] }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             @foreach($item['children'] as $k => $subItem)
-                                <li><a href="{{url("ch/{$item['pinyin']}_{$subItem['pinyin']}")}}">{{ $subItem['name'] }}</a></li>
+                                <li class="subnav @if($current_route == "{$item['pinyin']}_{$subItem['pinyin']}") nav-active @endif"><a href="{{url("ch/{$item['pinyin']}_{$subItem['pinyin']}")}}">{{ $subItem['name'] }}</a></li>
                             @endforeach
-
                             {{--<li role="separator" class="divider"></li>--}}
-                            {{--<li><a href="#">Separated link</a></li>--}}
-                            {{--<li role="separator" class="divider"></li>--}}
-                            {{--<li><a href="#">One more separated link</a></li>--}}
                         </ul>
                     </li>
                     @endif
                 @endforeach
-                {{--<li class="channel-item dropdown">--}}
-                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>--}}
-                    {{--<ul class="dropdown-menu">--}}
-                        {{--<li><a href="#">Action</a></li>--}}
-                        {{--<li role="separator" class="divider"></li>--}}
-                        {{--<li><a href="#">One more separated link</a></li>--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

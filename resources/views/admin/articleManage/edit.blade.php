@@ -5,7 +5,8 @@
 @section('meta_keyword') 管理后台 @endsection
 
 @section('CUSTOM_STYLE')
-<style>
+    <link href="{{asset('vendor/bootstrap-switch/bootstrap-switch.css')}}" rel="stylesheet" type="text/css" />
+    <style>
     .input_select_2{
         width:150px;height:36px;
     }
@@ -28,6 +29,8 @@
 </style>
 @endsection
 @section('CUSTOM_SCRIPT')
+    <script src="{{asset('vendor/bootstrap-switch/bootstrap-switch.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
     @include('vendor.ueditor.assets')
     <script type="text/javascript">
         var ue = UE.getEditor('container1',{
@@ -224,7 +227,13 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
-                       创建时间：{{ $data['created_at'] }}
+                       <span>创建时间：{{ $data['created_at'] }}</span>
+                       <span>赞：{{ $data['like'] }}</span>
+                       <span>点击：{{ $data['click'] }}</span>
+                        <span>发布状态：  <input type="checkbox" name="is_show" @if($data['is_show']) checked @endif class="make-switch" data-on-text="已发布" data-off-text="未发布"></span>
+                        @if($data['is_show'] ==1)
+                            <span>发布时间:2018-01-01</span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
@@ -237,6 +246,7 @@
                     <label for="inputPassword3" class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         <input type="hidden" name="id" value="{{ $data['id'] }}">
+                        <input type="hidden" name="click" value="{{ $data['click'] }}">
                        <button type="submit" class="btn blue">保存</button>
                     </div>
                 </div>

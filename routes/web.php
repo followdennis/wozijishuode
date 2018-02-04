@@ -178,8 +178,10 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::any('/',['uses'=>'Foreground\IndexController@index']);
     Route::any('/index.html',['uses'=>'Foreground\IndexController@index']);
     Route::any('/ch/{cate?}',['uses'=>'Foreground\IndexController@lists']);
-    Route::any('/{cate?}/detail/{detail?}',['uses'=>'Foreground\IndexController@detail']);
-    Route::any('/search',['uses'=>'Foreground\IndexController@search']);
+    Route::any('/{cate}/{id}.html',['uses'=>'Foreground\IndexController@detail']);
+    Route::any('/search/{keywords}',['uses'=>'Foreground\SearchController@search_keywords']);//关键词搜索
+    Route::any('/search/t/{tag}/',['uses'=>'Foreground\SearchController@search_tag']);//tag搜索
+
     /**
      * 个人中心
      */

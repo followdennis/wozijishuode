@@ -12,31 +12,65 @@ class IndexController extends CommonController
     //
     protected $cateModel;
     protected $articleModel;
-    public function __construct(Category $category,Article $article)
+    protected $articleRepository;
+    protected $articleIndexModel;
+    public function __construct(Category $category,Article $article,\App\Repository\ArticleRepository $articleRepository,\App\Models\ArticleManage\Article $articleIndex)
     {
         parent::__construct();
         $this->cateModel = $category;
         $this->articleModel = $article;
+        $this->articleRepository = $articleRepository;
+        $this->articleIndexModel = $articleIndex;
     }
 
     public function index(ArticleRepository $articleRepository){
         $nav = $this->nav();
+        $cates = $this->getCategoryArr();
 //        $article_list = $this->articleModel->getArticleList();
         $article_list = $articleRepository->getArticleList();
-
-//        $category = Article::find(58574)->category;
-//        dd($category->pinyin);
-        return view('foreground.index',['nav'=>$nav,'articles'=>$article_list]);
+        foreach($article_list as $article){
+            $article->cate_pinyin = isset($cates[$article->cate_id]) ? $cates[$article->cate_id]: 'default';
+        }
+        return view('foreground.index',['nav'=>$nav,'articles'=>$article_list,'current_route'=>'']);
     }
 
-    public function lists(){
+    public function lists($cate){
         $nav = $this->nav();
-        return view('foreground.ch',['nav'=>$nav]);
+        if(!empty($cate)){
+            $cate_pinyin = last(explode('_',$cate));
+            $cate_key_val = $this->cateModel->getKeyVal();
+            $cate_id = isset($cate_key_val[$cate_pinyin]) ?$cate_key_val[$cate_pinyin]: 0;
+        }else{
+            $cate_id = 0;
+        }
+        $articles = $this->articleModel->getArticleList($cate_id);
+        foreach($articles as $article){
+            $article->cate_pinyin = isset($cate) ? $cate: 'default';
+        }
+        return view('foreground.ch',['nav'=>$nav,'articles'=>$articles,'current_route'=>$cate]);
     }
-    public function detail(){
-        return view('foreground.detail',['cate_name'=>'ddd']);
+    public function detail(Request $request,$cate = 'default',$id = 0){
+        $id = intval($id);
+        if(!empty($cate)){
+            $cate_pinyin = last(explode('_',$cate));
+            $cate_key_val = $this->cateModel->getKeyVal();
+            $cate_id = isset($cate_key_val[$cate_pinyin]) ?$cate_key_val[$cate_pinyin]: 0;
+        }else{
+            $cate_id = 0;
+        }
+        $check_article_exists = $this->articleIndexModel->checkArticleExists($cate_id,$id);
+        //判断文章是否已展示
+        if(!$check_article_exists){
+            return view('foreground.detail',['is_exist'=>0]);
+        }
+        $article = $this->articleRepository->getArticleData($id);
+        if(!empty($article['tags_name'])){
+            $article['tags_name'] = explode(',',$article['tags_name']);
+        }
+
+//        echo "<pre>";
+//        print_r($article);
+        return view('foreground.detail',['article'=>$article,'is_exist'=>1]);
     }
-    public function search(){
-        return view('foreground.search',['cate_name'=>'bb']);
-    }
+
 }

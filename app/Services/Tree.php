@@ -246,7 +246,7 @@ class Tree extends Model
     /**
      * 寻找祖先
      */
-    public function Ancestry($data,$pid,$pk = 'cate_id'){
+    public function Ancestry($data = array(),$pid,$pk = 'cate_id'){
         static $ancestry = [];
         foreach($data as $key => $val){
             if($val[$pk] == $pid){

@@ -71,7 +71,7 @@
 @endsection
 @section('nav')
 <div class="search-bar">
-    <form action="/search" method="get" name="searchForm">
+    <form action="/search/t/" method="get" name="searchForm">
         <div class="col-lg-12">
             <div class="input-group">
                 <input type="text" class="form-control y-left">
@@ -83,13 +83,14 @@
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
     </form>
+
 </div>
 @endsection
 @section('content')
     <div class="panel panel-default article-list">
         <div class="panel-body">
             <div class="">
-                aaa
+                tag
             </div>
         </div>
         <ul class="list-group">

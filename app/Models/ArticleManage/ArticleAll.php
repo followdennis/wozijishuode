@@ -39,6 +39,7 @@ class ArticleAll extends Model
                 'tags_name',
                 'inner_link_id',
                 'inner_link_name',
+                'is_show',
                 'cate_name',
                 'description',
                 'cate_id',
@@ -60,5 +61,14 @@ class ArticleAll extends Model
     //修改显示状态
     public function changeShow($condition = [],$update = []){
         return self::where($condition)->update($update);
+    }
+    //查询tag_ids
+    public function getTagIdsById($id = 0){
+        $article = self::where('id',$id)->select('tags_id')->first();
+        $tag_ids_arr = [];
+        if(!empty($article->tags_id)){
+            $tag_ids_arr = explode(',',$article->tags_id);
+        }
+        return $tag_ids_arr;
     }
 }

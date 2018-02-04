@@ -36,4 +36,12 @@ class Tags extends Model
    public function updateData($params,$id){
         return self::where('id',$id)->update($params);
    }
+   public function changeArticleCount($tag_id = [],$num = 1){
+        if($num >0 ){
+            return self::whereIn('id',$tag_id)->increment('article_count');
+        }else{
+            return self::whereIn('id',$tag_id)->decrement('article_count');
+        }
+   }
+
 }

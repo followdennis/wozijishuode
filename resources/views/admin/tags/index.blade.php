@@ -71,6 +71,8 @@
                     {data: 'name', name: 'name', title : '名称', sortable: false},
                     {data: 'pinyin', name: 'pinyin', title : '拼音', sortable: false},
                     {data: 'py', name: 'py', title : '简拼', sortable: false},
+                    {data: 'article_count', name: 'article_count', title : '文章数量', sortable: false},
+                    {data: 'click', name: 'click', title : '搜索量', sortable: false},
                     {data: 'description', name: 'description', title : '描述', sortable: false},
                     {data: 'created_at', name: 'created_at', title : '创建日期', sortable: false},
 //                    {

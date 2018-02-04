@@ -191,6 +191,14 @@
         .navbar{
             margin-bottom:5px;
         }
+        .nav-channel .nav-active{
+            -webkit-border-radius:4px;
+            -moz-border-radius:4px;
+            border-radius:4px;
+        }
+        .nav-channel .subnav{
+            margin:4px 0;
+        }
         .nav-brand{
             position:fixed;
             top:0;
