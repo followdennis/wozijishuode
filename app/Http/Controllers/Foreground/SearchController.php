@@ -12,7 +12,7 @@ class SearchController extends CommonController
         return view('foreground.search.search_keywords',['cate_name'=>'bb']);
     }
 
-    public function search_tag($tag = null){
-        return view('foreground.search.search_tag',['cate_name'=>'bbv']);
+    public function search_tag(Request $request,$tag = null){
+        return view('foreground.search.search_tag',['cate_name'=>'bbv','tag'=>$tag]);
     }
 }

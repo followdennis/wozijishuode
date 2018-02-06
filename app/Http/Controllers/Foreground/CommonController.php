@@ -29,6 +29,35 @@ class CommonController extends Controller
         }
         return $cate_arr;
     }
+    //面包屑导航
+    public function breadCrumb($cate_id = 23,$article_title = '标题'){
+        $category = new Category();
+        $list = $category->getListData();
+        $cate_arr = $this->getAncestry($list,$cate_id);
+        array_unshift($cate_arr,[
+            'name'=>'首页',
+            'pinyin'=>'/',
+            'prefix'=>''
+        ]);
+        array_push($cate_arr,[
+            'name'=> $article_title,
+            'pinyin'=>'/',
+            'is_title'=>1
+        ]);
+        return $cate_arr;
+    }
+    public function getAncestry($list = [],$cate_id){
+        static $bread_arr = [];
+        foreach($list as $k => $item){
+            if($cate_id == $item['id']){
+                array_unshift($bread_arr,$item);
+                if($item['parent_id'] > 0){
+                    $this->getAncestry($list,$item['parent_id']);
+                }
+            }
+        }
+        return $bread_arr;
+    }
     //热门文章
     public function hot(){
 
@@ -56,7 +85,6 @@ class CommonController extends Controller
                 $this->cate_key_val[$item['id']] = $item['pinyin'];
             }else{
                 $this->treeLoop($item['children'],$level+1);
-
             }
         }
     }

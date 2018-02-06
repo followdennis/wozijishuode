@@ -34,7 +34,7 @@ class IndexController extends CommonController
         return view('foreground.index',['nav'=>$nav,'articles'=>$article_list,'current_route'=>'']);
     }
 
-    public function lists($cate){
+    public function lists( $cate = null){
         $nav = $this->nav();
         if(!empty($cate)){
             $cate_pinyin = last(explode('_',$cate));
@@ -46,6 +46,9 @@ class IndexController extends CommonController
         $articles = $this->articleModel->getArticleList($cate_id);
         foreach($articles as $article){
             $article->cate_pinyin = isset($cate) ? $cate: 'default';
+        }
+        if($cate_id == 0){
+            return redirect(url('/'));
         }
         return view('foreground.ch',['nav'=>$nav,'articles'=>$articles,'current_route'=>$cate]);
     }
@@ -61,16 +64,14 @@ class IndexController extends CommonController
         $check_article_exists = $this->articleIndexModel->checkArticleExists($cate_id,$id);
         //判断文章是否已展示
         if(!$check_article_exists){
-            return view('foreground.detail',['is_exist'=>0]);
+            return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']]]);
         }
         $article = $this->articleRepository->getArticleData($id);
+        $bread = $this->breadCrumb($cate_id,$article['title']);
         if(!empty($article['tags_name'])){
             $article['tags_name'] = explode(',',$article['tags_name']);
         }
-
-//        echo "<pre>";
-//        print_r($article);
-        return view('foreground.detail',['article'=>$article,'is_exist'=>1]);
+        return view('foreground.detail',['article'=>$article,'breads'=>$bread,'is_exist'=>1]);
     }
 
 }

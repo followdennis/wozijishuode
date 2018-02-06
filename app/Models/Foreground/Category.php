@@ -17,7 +17,12 @@ class Category extends Model
 
     }
     public function getListData(){
-        $data = self::where('is_show',1)->select('id','name','pinyin','parent_id')->get()->toArray();
+        $data = self::where('is_show',1)->select('id','name','pinyin','parent_id')
+            ->get()
+            ->map(function($item){
+                return ['id'=>$item->id,'name'=>$item->name,'pinyin'=>$item->pinyin,'parent_id'=>$item->parent_id,'prefix'=>'ch/'];
+            })
+            ->toArray();
         return $data;
     }
     public function getKeyVal($key = 'pinyin',$val = 'id'){

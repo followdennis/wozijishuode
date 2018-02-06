@@ -42,7 +42,7 @@ class Article extends Model
         return $id;
     }
     public function updateData($params = []){
-        return self::where('id',$params['id'])->update(['cate_id'=>$params['cate_id']]);
+        return self::where('id',$params['id'])->update(['cate_id'=>$params['cate_id'],'is_show'=>$params['is_show']]);
     }
     //删除
     public function delData($id){

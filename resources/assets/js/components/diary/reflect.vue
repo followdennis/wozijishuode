@@ -60,6 +60,7 @@
                 </template>
             </el-table-column>
             <el-table-column
+                    width="145"
                     prop="answer.num"
                     label="数量"
             >
@@ -89,7 +90,7 @@
             </el-table-column>
             <el-table-column
                     label="操作"
-                    width="140"
+                    width="145"
             >
                 <template slot-scope="scope">
                     <el-button

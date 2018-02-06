@@ -163,7 +163,6 @@ class IndexController extends AdminController
                 }
                 $data_head = array_add($data_head,'tags_name',implode(',',$tags_name));
                 $data_head = array_add($data_head,'tags_id',implode(',',$tags_id));
-
             }
             if(!empty($params['author'])){
                 $data_head = array_add($data_head,'author',explode(',',$params['author'])[1]);
@@ -225,7 +224,7 @@ class IndexController extends AdminController
         if($request->isMethod('post')){
             $this->validate($request,[
                 'click'=>'required|integer',
-                'is_show'=>'required'
+                'is_show'=>''
             ]);
                 $params = $request->all();
                 $tags_name = [];
@@ -278,12 +277,13 @@ class IndexController extends AdminController
                     $data_head = array_add($data_head,'inner_link_id',1);
                     $inner_link_state = $this->innerLinkModel->updateOrCreate(['article_id'=>$id],['name'=>$params['inner_link'],'tables_id'=>1]);
                 }
+                $is_show = isset($params['is_show']) ? 1 : 0;
                 $data_head['id'] = $id;
                 $data_head['title'] = $params['title'];
                 $data_head['description'] = $params['description'];
                 $data_head['cate_name'] = $cate_name;
                 $data_head['cate_id'] = $cate_id;
-                $data_head['is_show'] =  isset($params['is_show']) ? 1 : 0;
+                $data_head['is_show'] = $is_show;
                 $data_head['click'] = $params['click'];
                 $body = [
                     'id'=>$id,
@@ -291,7 +291,7 @@ class IndexController extends AdminController
                 ];
                 try{
                     $article_state = $this->articleAllModel->editData($data_head);
-                    $article_index_state = $this->articleModel->updateData(['cate_id'=>$cate_id,'id'=>$id]);
+                    $article_index_state = $this->articleModel->updateData(['cate_id'=>$cate_id,'id'=>$id,'is_show'=>$is_show]);
                     $article_head_state = $this->articleHeadModel->updateData($data_head);
                     $article_content_state = $this->articleBodyModel->updateData($body);
                 }catch (\Exception $e){

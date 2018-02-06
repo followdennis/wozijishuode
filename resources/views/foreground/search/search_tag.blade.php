@@ -1,6 +1,4 @@
 @extends('foreground.layouts.main')
-@section('script')
-@endsection
 @section('style')
 <style>
     form{
@@ -68,13 +66,24 @@
         overflow:hidden;
     }
 </style>
+@section('script')
+    <script>
+        $(function(){
+            $("#search-btn").on('click',function(){
+                var tag_name = $("#search-keyword").val();
+                var path = "/search/t/"+ tag_name ;
+                window.location.href=path;
+            })
+        })
+    </script>
+@endsection
 @endsection
 @section('nav')
 <div class="search-bar">
-    <form action="/search/t/" method="get" name="searchForm">
+    <form action="/search/t/" method="get" name="searchForm" id="search-form-1">
         <div class="col-lg-12">
             <div class="input-group">
-                <input type="text" class="form-control y-left">
+                <input type="text" class="form-control y-left" value="{{ $tag }}" id="search-keyword">
                 <span class="input-group-btn y-right">
 						<button class="btn btn-default search-btn" id="search-btn" type="button">
 							搜索
@@ -83,7 +92,6 @@
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
     </form>
-
 </div>
 @endsection
 @section('content')

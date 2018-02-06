@@ -84470,6 +84470,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -84991,6 +84992,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "width": "145",
       "prop": "answer.num",
       "label": "数量"
     },
@@ -85075,7 +85077,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "操作",
-      "width": "140"
+      "width": "145"
     },
     scopedSlots: _vm._u([{
       key: "default",

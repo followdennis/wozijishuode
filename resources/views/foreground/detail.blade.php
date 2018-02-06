@@ -358,9 +358,13 @@
 @section('content')
     <div class="panel panel-default article-list">
         <ol class="breadcrumb">
-            <li><a href="#">首页</a></li>
-            <li><a href="#">2013</a></li>
-            <li class="active">十一月</li>
+            @foreach($breads as $bread)
+                @if(isset($bread['is_title']))
+                    <li class="active">{{ $bread['name'] }}</li>
+                @else
+                    <li><a href="{{ url("{$bread['prefix']}{$bread['pinyin']}") }}">{{ $bread['name'] }}</a></li>
+                @endif
+            @endforeach
         </ol>
         <div class="panel-body panel-body-detail">
             <div class="article_box">
