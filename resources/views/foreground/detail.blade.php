@@ -384,13 +384,13 @@
                     <div class="tag-left">
 
                         <ul class="tag-list">
-                            <li class="tag-item"><i class="fa fa-tags" aria-hidden="true"></i></li>
+
                             @if(!empty($article['tags_name']))
+                                <li class="tag-item"><i class="fa fa-tags" aria-hidden="true"></i></li>
                                 @foreach($article['tags_name'] as $tag)
-                                    <li class="tag-item"><a href="/search/tag_{{ $tag }}" target="_blank" class="label-link">{{ $tag }}</a></li>
+                                    <li class="tag-item"><a href="/search/t/{{ $tag }}" target="_blank" class="label-link">{{ $tag }}</a></li>
                                 @endforeach
                             @endif
-                            <li class="tag-item"><a href="/search/?keyword=历史" target="_blank" class="label-link">历史</a></li>
                         </ul>
                     </div>
                     <div class="tag-right">
@@ -413,7 +413,7 @@
                 </div>
             </div>
             <div class="article-ad">
-                我是一则广告
+                {{--我是一则广告--}}
             </div>
             <div class="detail-comment">
                 <div class="comment">

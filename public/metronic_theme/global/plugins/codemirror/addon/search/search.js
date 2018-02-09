@@ -98,7 +98,7 @@
   }
 
   var queryDialog =
-    'Search: <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">(Use /re/ syntax for regexp search)</span>';
+    'SearchRepository: <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">(Use /re/ syntax for regexp search)</span>';
 
   function startSearch(cm, state, query) {
     state.queryText = query;
@@ -124,7 +124,7 @@
         findNext(cm, event.shiftKey);
       });
     } else {
-      dialog(cm, queryDialog, "Search for:", q, function(query) {
+      dialog(cm, queryDialog, "SearchRepository for:", q, function(query) {
         if (query && !state.query) cm.operation(function() {
           startSearch(cm, state, query);
           state.posFrom = state.posTo = cm.getCursor();

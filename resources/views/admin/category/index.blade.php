@@ -92,7 +92,7 @@
 //                        }
 //                    },
 //                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
-                    {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}
+                    {data: 'action', name: 'action', title : '操作', width:"245px",sortable: false}
                 ],
                 //创建行回调
                 "createdRow": function ( row, data, index ) {

@@ -30,6 +30,7 @@ class IndexController extends CommonController
         $article_list = $articleRepository->getArticleList();
         foreach($article_list as $article){
             $article->cate_pinyin = isset($cates[$article->cate_id]) ? $cates[$article->cate_id]: 'default';
+            $article->tags_name = explode(',',$article->tags_name);
         }
         return view('foreground.index',['nav'=>$nav,'articles'=>$article_list,'current_route'=>'']);
     }
@@ -46,6 +47,7 @@ class IndexController extends CommonController
         $articles = $this->articleModel->getArticleList($cate_id);
         foreach($articles as $article){
             $article->cate_pinyin = isset($cate) ? $cate: 'default';
+            $article->tags_name = explode(',',$article->tags_name);
         }
         if($cate_id == 0){
             return redirect(url('/'));

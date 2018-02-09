@@ -6767,7 +6767,7 @@
 	};
 
 /**
- * ### Search plugin
+ * ### SearchRepository plugin
  *
  * Adds search functionality to jsTree.
  */

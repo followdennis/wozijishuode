@@ -353,7 +353,7 @@ UE.I18N['en'] = {
             'lang_alignment':"Alignment",
             'videoSearchTxt':{'value':"Enter the search keyword!"},
             'videoType':{'options':["All", "Hot", "Entertainment", "Funny", "Sports", "Science", "variety"]},
-            'videoSearchBtn':{'value':"Search in Baidu"},
+            'videoSearchBtn':{'value':"SearchRepository in Baidu"},
             'videoSearchReset':{'value':"Clear result"},
 
             'lang_input_fileStatus':' No file uploaded!',
@@ -463,7 +463,7 @@ UE.I18N['en'] = {
     'music':{
         'static':{
             'lang_input_tips':"Input singer/song/album, search you interested in music!",
-            'J_searchBtn':{value:'Search songs'}
+            'J_searchBtn':{value:'SearchRepository songs'}
         },
         'emptyTxt':'Not search to the relevant music results, please change a keyword try.',
         'chapter':'Songs',

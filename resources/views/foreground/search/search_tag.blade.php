@@ -66,6 +66,7 @@
         overflow:hidden;
     }
 </style>
+@endsection
 @section('script')
     <script>
         $(function(){
@@ -74,9 +75,17 @@
                 var path = "/search/t/"+ tag_name ;
                 window.location.href=path;
             })
+            $(window).keyup(function(e){
+                if(e.keyCode == 13){
+                    //模拟点击登陆按钮，触发上面的 Click 事件
+                    var tag_name = $("#search-keyword").val();
+                    var path = "/search/t/"+ tag_name ;
+                    window.location.href=path;
+                }
+            })
         })
+
     </script>
-@endsection
 @endsection
 @section('nav')
 <div class="search-bar">
@@ -101,7 +110,9 @@
                 tag
             </div>
         </div>
+        @include('foreground.shared.content_list')
         <ul class="list-group">
+
             <li class="list-group-item have-img">
                 <a href="#" class="wrap-img">
                     <img src="{{ asset('storage/headImg/head_img.jpeg') }}"/>

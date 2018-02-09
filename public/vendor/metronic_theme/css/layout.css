@@ -59,7 +59,7 @@ Page Header
   background-image: none;
   /* Fixed header */
   /* Header logo */
-  /* Search box */
+  /* SearchRepository box */
   /* Menu Toggler */
   /* Top menu */
 }
@@ -582,7 +582,7 @@ Page Header
 @media (min-width: 768px) {
   /* 768px */
   .page-header.navbar {
-    /* Search box */
+    /* SearchRepository box */
   }
   .page-header.navbar .search-form.search-form-expanded {
     width: 200px;
@@ -905,7 +905,7 @@ Horizontal Menu
   .page-header.navbar {
     padding: 0 10px 0 10px;
     /* Header logo */
-    /* Search box */
+    /* SearchRepository box */
     /* Top navigation menu*/
   }
   .page-header.navbar .page-logo {

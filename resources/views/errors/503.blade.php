@@ -45,9 +45,9 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">任有多重，道有多远。</div>
+                <div class="title">假期进行中。。。</div>
                 <div class="left_time">
-                    赶工中...
+                    等把这些增删改查的体力活弄的差不多了，就换个方向试试，太枯燥了
                 </div>
             </div>
         </div>

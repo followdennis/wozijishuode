@@ -22,7 +22,7 @@ icons:
     categories:
       - Web Application Icons
 
-  - name:       Search
+  - name:       SearchRepository
     id:         search
     unicode:    f002
     created:    1.0
@@ -179,7 +179,7 @@ icons:
     categories:
       - Web Application Icons
 
-  - name:       Search Plus
+  - name:       SearchRepository Plus
     id:         search-plus
     unicode:    f00e
     created:    1.0
@@ -192,7 +192,7 @@ icons:
       - Web Application Icons
 
 
-  - name:       Search Minus
+  - name:       SearchRepository Minus
     id:         search-minus
     unicode:    f010
     created:    1.0

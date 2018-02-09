@@ -18,7 +18,7 @@ var TableDatatablesManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": "Show _MENU_",
-                "search": "Search:",
+                "search": "SearchRepository:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
                     "previous":"Prev",
@@ -105,7 +105,7 @@ var TableDatatablesManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": "Show _MENU_",
-                "search": "Search:",
+                "search": "SearchRepository:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
                     "previous":"Prev",
@@ -216,7 +216,7 @@ var TableDatatablesManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": "Show _MENU_",
-                "search": "Search:",
+                "search": "SearchRepository:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
                     "previous":"Prev",
@@ -285,7 +285,7 @@ var TableDatatablesManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": "Show _MENU_",
-                "search": "Search:",
+                "search": "SearchRepository:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
                     "previous":"Prev",
@@ -353,7 +353,7 @@ var TableDatatablesManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": "Show _MENU_",
-                "search": "Search:",
+                "search": "SearchRepository:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
                     "previous":"Prev",
@@ -422,7 +422,7 @@ var TableDatatablesManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": "Show _MENU_",
-                "search": "Search:",
+                "search": "SearchRepository:",
                 "zeroRecords": "No matching records found",
                 "paginate": {
                     "previous":"Prev",
