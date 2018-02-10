@@ -36,8 +36,7 @@
                 margin-bottom: 40px;
             }
             .left_time {
-                font-size: 36px;
-                font-weight: 600;
+                font-size: 18px;
                 margin-bottom: 40px;
             }
         </style>
@@ -45,7 +44,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">假期进行中。。。</div>
+                <div class="title">假期进行中...</div>
                 <div class="left_time">
                     等把这些增删改查的体力活弄的差不多了，就换个方向试试，实在枯燥
                 </div>
@@ -79,6 +78,6 @@
         }
         FreshTime();
 
-        var sh=setInterval(FreshTime,1000);
+//        var sh=setInterval(FreshTime,1000);
     </script>
 </html>
