@@ -207,6 +207,32 @@
             background-color: #f8f8f8;
             border-color: #e7e7e7;
         }
+
+        /*分页样式*/
+        .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+            color: #fff;
+            background-color: #e7505a;
+            border-color: #e7505a;
+        }
+        .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+            z-index: 2;
+            color: red;
+            background-color: #eeeeee;
+            border-color: #ddd;
+        }
+        .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+            color: red;
+            border-color: #ddd;
+        }
+        .pagination > li > a, .pagination > li > span {
+            color: #555;
+        }
+        .row{
+            margin-left:-15px;
+        }
+        .portlet.box > .portlet-title {
+            padding: 0px 15px;
+        }
     </style>
     @yield('style')
 </head>

@@ -15,9 +15,15 @@ class ArticleRepository{
         $list = Article::where('is_show',1)
             ->select(['id','title','author','tags_name','description','created_at','click','like','img','cate_id'])
             ->orderBy('id','desc')
-            ->take(20)
-            ->get();
-        return $list;
+            ->paginate(20);
+        $data = new \stdClass();
+        $data->total = $list->total();
+        $data->currentPage = $list->currentPage();
+        $data->hasMore = $list->hasMorePages();
+        $data->from = $list->lastPage();
+        $data->to = $list->lastItem();
+        $data->perPage = $list->perPage();
+        return [$data,$list];
     }
 
 

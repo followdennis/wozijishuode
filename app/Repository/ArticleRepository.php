@@ -51,6 +51,10 @@ class ArticleRepository
         $body = $articlebody->getInfoById($id);
         return array_merge(collect($head)->toArray(),collect($body)->toArray());
     }
+    public function getArticleTitle($id){
+        $articleHead = new ArticleHead();
+        return $articleHead->getInfoById($id,['title','id']);
+    }
     /**
      * 通过article 表获取内容
      * retuan 数组

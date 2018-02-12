@@ -29,6 +29,9 @@ class CommonController extends Controller
         }
         return $cate_arr;
     }
+    public function getCateKeyVal(){
+        return Category::where('is_show',1)->pluck('pinyin','id')->toArray();
+    }
     //面包屑导航
     public function breadCrumb($cate_id = 23,$article_title = '标题'){
         $category = new Category();

@@ -86,7 +86,7 @@
 	 *    // pagination and sorting.
 	 *    $(document).ready( function {
 	 *      $('#example').dataTable( {
-	 *        "paginate": false,
+	 *        "pagination": false,
 	 *        "sort": false
 	 *      } );
 	 *    } );
@@ -10268,7 +10268,7 @@
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "srollY": "200px",
-		 *        "paginate": false
+		 *        "pagination": false
 		 *      } );
 		 *
 		 *      // Some time later....
@@ -10347,7 +10347,7 @@
 	
 		/**
 		 * Allows the end user to select the size of a formatted page from a select
-		 * menu (sizes are 10, 25, 50 and 100). Requires pagination (`paginate`).
+		 * menu (sizes are 10, 25, 50 and 100). Requires pagination (`pagination`).
 		 *  @type boolean
 		 *  @default true
 		 *
@@ -10427,7 +10427,7 @@
 		 *    {
 		 *      return $('#example').dataTable( {
 		 *        "scrollY": "200px",
-		 *        "paginate": false,
+		 *        "pagination": false,
 		 *        "retrieve": true
 		 *      } );
 		 *    }
@@ -11288,7 +11288,7 @@
 				 *    $(document).ready( function() {
 				 *      $('#example').dataTable( {
 				 *        "language": {
-				 *          "paginate": {
+				 *          "pagination": {
 				 *            "first": "First page"
 				 *          }
 				 *        }
@@ -11311,7 +11311,7 @@
 				 *    $(document).ready( function() {
 				 *      $('#example').dataTable( {
 				 *        "language": {
-				 *          "paginate": {
+				 *          "pagination": {
 				 *            "last": "Last page"
 				 *          }
 				 *        }
@@ -11334,7 +11334,7 @@
 				 *    $(document).ready( function() {
 				 *      $('#example').dataTable( {
 				 *        "language": {
-				 *          "paginate": {
+				 *          "pagination": {
 				 *            "next": "Next page"
 				 *          }
 				 *        }
@@ -11357,7 +11357,7 @@
 				 *    $(document).ready( function() {
 				 *      $('#example').dataTable( {
 				 *        "language": {
-				 *          "paginate": {
+				 *          "pagination": {
 				 *            "previous": "Previous page"
 				 *          }
 				 *        }
@@ -11954,7 +11954,7 @@
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "scrollY": "200px",
-		 *        "paginate": false
+		 *        "pagination": false
 		 *      } );
 		 *    } );
 		 */

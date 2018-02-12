@@ -26,7 +26,7 @@
             </div>
         </div>
         @include('foreground.shared.content_list')
-
+        {!! preg_replace(["~(/ch/[a-zA-Z]+)(/\d+)\?page=~","~(/ch/[a-zA-Z]+)(/)?(\d+)?\?page=~","~(/ch/[a-zA-Z]+)(/)?(\d+)~"], ['$1','$1$2$3','$1/$3'], $articles->links('foreground.pagination.page_ch')) !!}
     </div>
 @endsection
 @section('right_side')

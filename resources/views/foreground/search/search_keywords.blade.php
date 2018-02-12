@@ -71,15 +71,15 @@
 @endsection
 @section('nav')
     <div class="search-bar">
-        <form action="/search" method="get" name="searchForm">
+        <form action="{{ url('search') }}" method="get" name="searchForm">
             <div class="col-lg-12">
                 <div class="input-group">
-                    <input type="text" class="form-control y-left">
+                    <input type="text" value="{{ $kw }}" placeholder="请输入关键词" name="keywords" class="form-control y-left">
                     <span class="input-group-btn y-right">
-						<button class="btn btn-default search-btn" id="search-btn" type="button">
+						<button class="btn btn-default search-btn" id="search-btn" type="submit">
 							搜索
 						</button>
-                </span>
+                     </span>
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
         </form>
@@ -92,6 +92,7 @@
                 aaa
             </div>
         </div>
+        @include('foreground.shared.content_list')
         <ul class="list-group">
             <li class="list-group-item have-img">
                 <a href="#" class="wrap-img">

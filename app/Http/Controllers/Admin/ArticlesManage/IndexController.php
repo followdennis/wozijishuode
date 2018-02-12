@@ -97,7 +97,7 @@ class IndexController extends AdminController
 //        if($request->filled('perPage') && $request->get('perPage') < 101){
 //            $perPage = intval($request->get('perPage'));
 //        }
-//        $page = $this->articleAllModel->getList($cate_id)->paginate($perPage);
+//        $page = $this->articleAllModel->getList($cate_id)->pagination($perPage);
 //
 //        $response = array(
 //            'list'   => $page->toArray()['data'],
@@ -119,7 +119,7 @@ class IndexController extends AdminController
 //        if($request->filled('perPage') && $request->get('perPage') < 101){
 //            $perPage = intval($request->get('perPage'));
 //        }
-//        $page = $this->articleModel->getIds($cate_id)->paginate($perPage);
+//        $page = $this->articleModel->getIds($cate_id)->pagination($perPage);
 //        foreach($page as $k =>$v){
 //            $ids_arr[] = $v->id;
 //        }

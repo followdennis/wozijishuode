@@ -56,4 +56,22 @@ class Article extends Model
     public function checkArticleExists($cate_id,$id){
         return self::where('cate_id',$cate_id)->where('id',$id)->where('is_show',1)->first();
     }
+    /**
+     * 上一页下一页获取
+     * @param $cate_id
+     * @param $id
+     * @param int $flag 下还是上
+     * @param string $select
+     * @return mixed
+     */
+    public function getNextOrPrev($cate_id,$id,$flag = 1,$select = 'id'){
+        if($flag>0) {
+            $char = '>';
+            $order = 'asc';
+        }else{
+            $char = '<';
+            $order = 'desc';
+        }
+        return self::where(['cate_id'=>$cate_id,'is_show'=>1])->where('id',$char,$id)->orderBy('id',$order)->take(1)->select($select)->first();
+    }
 }

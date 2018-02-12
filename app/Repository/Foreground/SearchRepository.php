@@ -33,9 +33,29 @@ class SearchRepository
             $data->perPage = $article_ids->perPage();
 
             return [$data,$article_list];
+        }else{
+            $data->total = 0;
+            $article_list = [];
+            return [$data,$article_list];
         }
     }
-    public function getDataByKeyWords(){
-
+    public function getDataByKeyWords($keywords = null){
+        $data = ArticleAll::where('is_show',1)->where(function($query)use($keywords){
+            if(empty($keywords)){
+                $query->where('click',-100);
+            }else{
+                $query->where('title','like',"%".$keywords."%");
+            }
+        })
+            ->orderBy('click','desc')
+            ->paginate(20);
+        $paginate = new \stdClass();
+        $paginate->total = $data->total();
+        $paginate->currentPage = $data->currentPage();
+        $paginate->hasMore = $data->hasMorePages();
+        $paginate->from = $data->lastPage();
+        $paginate->to = $data->lastItem();
+        $paginate->perPage = $data->perPage();
+        return [$paginate,$data];
     }
 }

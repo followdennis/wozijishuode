@@ -23,6 +23,7 @@
             </div>
         </div>
         @include('foreground.shared.content_list')
+        {!! preg_replace("~(/p/\d+)?\?page=~", '/p/', $articles->links('foreground.pagination.page_index')) !!}
     </div>
 @endsection
 @section('nav')

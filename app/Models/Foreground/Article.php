@@ -21,9 +21,7 @@ class Article extends Model
                 $query->where('cate_id',-1);
             })
             ->orderBy('id','desc')
-            ->take(20)
-            ->with('category')
-            ->get();
+            ->paginate(20);
         return $data;
     }
 

@@ -176,10 +176,12 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
 
 
     Route::any('/',['uses'=>'Foreground\IndexController@index']);
+    Route::get('/p/{page}',['uses'=>'Foreground\IndexController@index']);//分页参数修改
     Route::any('/index.html',['uses'=>'Foreground\IndexController@index']);
-    Route::any('/ch/{cate?}',['uses'=>'Foreground\IndexController@lists']);
+    Route::any('/ch/{cate?}/',['uses'=>'Foreground\IndexController@lists']);
+    Route::any('/ch/{cate}/{page}/',['uses'=>'Foreground\IndexController@lists'])->where('page', '[0-9]+')->where('cate', '[A-Za-z]+');//分类中的分页参数修改
     Route::any('/{cate}/{id}.html',['uses'=>'Foreground\IndexController@detail']);
-    Route::any('/search/{keywords}',['uses'=>'Foreground\SearchController@search_keywords']);//关键词搜索
+    Route::any('/search',['uses'=>'Foreground\SearchController@search_keywords']);//关键词搜索
     Route::any('/search/t/{tag}/',['uses'=>'Foreground\SearchController@search_tag']);//tag搜索
 
     /**

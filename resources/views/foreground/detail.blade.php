@@ -406,10 +406,10 @@
             </div>
             <div class="row page-pre-next">
                 <div class="col-md-6">
-                    <span class="page-pre">上一篇：<a href="#">司马懿的因人数</a></span>
+                    <span class="page-pre">上一篇：<a href="{{ $prev_url }}">{{ $prev }}</a></span>
                 </div>
                 <div class="col-md-6">
-                    <span class="page-next">下一篇：<a href="#">司马昭家族</a></span>
+                    <span class="page-next">下一篇：<a href="{{ $next_url }}">{{ $next }}</a></span>
                 </div>
             </div>
             <div class="article-ad">

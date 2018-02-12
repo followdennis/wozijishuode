@@ -1,12 +1,14 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div >
-            <div class="input-group">
-                <input type="text" class="form-control">
-                <span class="input-group-btn">
-                     <button class="btn btn-info" type="button">搜索</button>
-                 </span>
-            </div><!-- /input-group -->
+            <form class="keywords_search" action="{{ url('search') }}" method="get">
+                <div class="input-group">
+                    <input type="text" name="keywords" class="form-control">
+                    <span class="input-group-btn">
+                     <input class="btn btn-info" type="submit" value="搜索"></input>
+                    </span>
+                </div><!-- /input-group -->
+            </form>
         </div><!-- /.col-lg-6 -->
     </div>
 </div>
