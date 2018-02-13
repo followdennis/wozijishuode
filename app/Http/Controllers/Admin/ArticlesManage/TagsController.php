@@ -54,6 +54,7 @@ class TagsController extends AdminController
                 'description'=>$params['description'],
                 'pinyin' => trim($params['pinyin']),
                 'py'=>trim($params['py']),
+                'is_show'=>intval($params['is_show']),
                 'updated_at'=>Carbon::now()->format('Y-m-d H:i:s')
             ];
             $status = $this->tagsModel->updateData($data,$id);
@@ -75,6 +76,7 @@ class TagsController extends AdminController
                 'description'=>$params['description'],
                 'py'=>pinyin_abbr($params['name']),
                 'tables_id'=>0,
+                'is_show'=>intval($params['is_show']),
                 'pinyin'=>pinyin_permalink($params['name'],''),
                 'updated_at'=>Carbon::now()->format('Y-m-d H:i:s')
             ];

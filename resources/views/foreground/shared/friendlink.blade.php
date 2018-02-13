@@ -5,8 +5,8 @@
         </h3>
     </div>
     <div class="panel-body">
-        <p>这是一个基本的面板内容。这是一个基本的面板内容。
-            友情链接
-        </p>
+        @foreach($friend_links as $friend_link)
+            <a href="{{ $friend_link->link_url }}" @if(!empty($friend_link->description)) title="{{ $friend_link->description }}" @endif>{{ $friend_link->name }}</a>
+        @endforeach
     </div>
 </div>

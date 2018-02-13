@@ -76,7 +76,15 @@
                     {data: 'sort', name: 'sort', title : '排序值', sortable: false},
                     {data: 'name', name: 'name', title : '网站名称', sortable: false},
                     {data: 'link_url', name: 'link_url', title : '链接地址', sortable: false},
-                    {data: 'is_front', name: 'is_front', title : '是否首页', sortable: false},
+                    {data: 'is_front', name: 'is_front', title : '是否首页', sortable: false,
+                        render:function(data,type,full){
+                            if(full.is_front == 1){
+                                return '<span  class="glyphicon glyphicon-ok is_finish_convert" style="color:green"></span>';
+                            }else{
+                                return '<span   class="glyphicon glyphicon-remove is_finish_convert" style="color:red"></span>';
+                            }
+                        }
+                    },
                     {data: 'description', name: 'description', title : '描述', sortable: false},
                     {data: 'created_at', name: 'created_at', title : '创建时间', sortable: false},
 

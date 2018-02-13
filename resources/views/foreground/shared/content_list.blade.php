@@ -8,7 +8,7 @@
                     </a>
                     <div class="list-item-content">
                         <h2>
-                            <a href="{{url($article->cate_pinyin."/".$article->id.".html")}}"  class="transition">{{ $article->title }}</a>
+                            <a href="{{url($article->cate_pinyin."/".$article->id.".html")}}"  class="transition">{!! $article->title !!} </a>
                         </h2>
 
                         <div class="author">
@@ -31,7 +31,7 @@
 
                     <div class="list-item-content">
                         <h2>
-                            <a href="{{url($article->cate_pinyin."/".$article['id'].".html")}}"  class="transition">{{ $article['title'] }}</a>
+                            <a href="{{url($article->cate_pinyin."/".$article['id'].".html")}}"  class="transition">{!! $article->title !!}</a>
                         </h2>
 
                         <div class="author">

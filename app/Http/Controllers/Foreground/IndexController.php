@@ -36,6 +36,8 @@ class IndexController extends CommonController
         $cates = $this->getCategoryArr();
 //        $article_list = $this->articleModel->getArticleList();
         list($paginate,$article_list) = $articleRepository->getArticleList();
+        //友情链接
+        $this->friendLink();
         foreach($article_list as $article){
             $article->cate_pinyin = isset($cates[$article->cate_id]) ? $cates[$article->cate_id]: 'default';
             $article->tags_name = empty($article->tags_name)?[]:explode(',',$article->tags_name);

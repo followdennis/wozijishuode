@@ -33,13 +33,6 @@ class FriendLinkController extends AdminController
             ->editColumn('created_at',function($record){
                 return Carbon::parse($record->created_at)->format('Y-m-d');
             })
-            ->editColumn('is_front',function($record){
-                if($record->is_front){
-                    return '是';
-                }else{
-                    return '否';
-                }
-            })
             ->filter(function($query) use ( $request){
                 if($request->has('keyword')){
                     $keyword = trim($request->get('keyword'));

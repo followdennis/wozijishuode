@@ -5,15 +5,13 @@
         </h3>
     </div>
     <div class="panel-body">
-        <p>这是一个基本的面板内容。这是一个基本的面板内容。
-            这是一个基本的面板内容。这是一个基本的面板内容。
+        <p>
+           分享网友最为喜爱的文章！
         </p>
     </div>
     <ul class="list-group">
-        <li class="list-group-item">免费域名注册</li>
-        <li class="list-group-item">免费 Window 空间托管</li>
-        <li class="list-group-item">图像的数量</li>
-        <li class="list-group-item">24*7 支持</li>
-        <li class="list-group-item">每年更新成本</li>
+        @foreach($hots as $hot)
+        <li class="list-group-item"><a href="{{ url($hot->cate_pinyin.'/'.$hot->id.'.html') }}">{{ $hot->title }}</a></li>
+        @endforeach
     </ul>
 </div>

@@ -395,23 +395,29 @@
                     </div>
                     <div class="tag-right">
                         <ul class="tag-list">
-                            <li class="tag-item"><a href="/search/?keyword=曹操" target="_blank" class="label-link">收藏</a></li>
-                            <li class="tag-item"><a href="/search/?keyword=历史" target="_blank" class="label-link">举报</a></li>
+                            <li class="tag-item"><a href="#" target="_blank" class="label-link">收藏</a></li>
+                            <li class="tag-item"><a href="#" target="_blank" class="label-link">举报</a></li>
                         </ul>
                     </div>
                 </div>
                 @else
                     <div class="page-not-found">对不起，你查找的文章走丢了，浏览其他文章试试！</div>
+                    <p>
+                        <a href="/">返回首页</a>
+                    </p>
                 @endif
             </div>
-            <div class="row page-pre-next">
-                <div class="col-md-6">
-                    <span class="page-pre">上一篇：<a href="{{ $prev_url }}">{{ $prev }}</a></span>
+            @if($is_exist)
+                <div class="row page-pre-next">
+                    <div class="col-md-6">
+                        <span class="page-pre">上一篇：<a href="{{ $prev_url }}">{{ $prev }}</a></span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="page-next">下一篇：<a href="{{ $next_url }}">{{ $next }}</a></span>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <span class="page-next">下一篇：<a href="{{ $next_url }}">{{ $next }}</a></span>
-                </div>
-            </div>
+            @endif
+
             <div class="article-ad">
                 {{--我是一则广告--}}
             </div>

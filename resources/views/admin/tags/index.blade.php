@@ -86,7 +86,15 @@
 //                            }
 //                        }
 //                    },
-//                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
+                    {data: 'is_show', name: 'is_show',width:"80px", title : '是否展示', sortable: false,
+                        render:function(data,type,full){
+                            if(full.is_show == 1){
+                                return '<span  class="glyphicon glyphicon-ok is_finish_convert" style="color:green"></span>';
+                            }else{
+                                return '<span   class="glyphicon glyphicon-remove is_finish_convert" style="color:red"></span>';
+                            }
+                        }
+                    },
                     {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}
                 ],
                 //创建行回调

@@ -46,6 +46,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3">是否展示
+                        <span class="required"> * </span>
+                    </label>
+                    <div class="col-xs-8">
+                        <div class="input-icon right">
+                            <label class="radio-inline">
+                                <input type="radio" name="is_show"  value="1" checked > 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="is_show"   value="0" > 否
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" name="category_id" id="category_id" value="0" />
                 <input type="submit" style="display: none;" name="dosubmit" id="dosubmit" value="dosubmit" />
             </form>

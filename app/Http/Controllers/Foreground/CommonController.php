@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Foreground;
 
+use App\Models\ArticleManage\ArticleAll;
+use App\Models\ArticleManage\Tags;
 use App\Models\Foreground\Category;
+use App\Models\System\FriendLink;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,7 +14,9 @@ class CommonController extends Controller
     protected $cate_key_val = [];
     public function __construct()
     {
-
+        $this->tags();
+        $this->hot();
+        $this->recommend();
     }
     public function nav(){
         $category = new Category();
@@ -30,7 +35,8 @@ class CommonController extends Controller
         return $cate_arr;
     }
     public function getCateKeyVal(){
-        return Category::where('is_show',1)->pluck('pinyin','id')->toArray();
+        $arr = Category::where('is_show',1)->pluck('pinyin','id')->toArray();
+        return $arr;
     }
     //面包屑导航
     public function breadCrumb($cate_id = 23,$article_title = '标题'){
@@ -63,19 +69,47 @@ class CommonController extends Controller
     }
     //热门文章
     public function hot(){
-
+        $cates = $this->getCategoryArr();
+        $hots = ArticleAll::where('is_show',1)->orderBy('id','desc')->orderBy('click','desc')->take(8)->get();
+        foreach($hots as $hot){
+            $hot->cate_pinyin = isset($cates[$hot->cate_id]) ? $cates[$hot->cate_id]: 'default';
+        }
+        return view()->share(['hots'=>$hots]);
     }
     //热门标签
     public function tags(){
-
+        $style = [
+            'label label-default',
+            'label label-primary',
+            'label label-success',
+            'label label-info',
+            'label label-warning',
+            'label label-danger'
+        ];
+        $tags = Tags::where('is_show',1)->orderBy('created_at','desc')->orderBy('click','desc')->select('id','name')->take(20)->get();
+        foreach($tags as $tag){
+            $key = $tag->id%6;
+            $tag->style = $style[$key];
+        }
+        return view()->share(['tags'=>$tags]);
     }
     //推荐
     public function recommend(){
-
+        $sub = \DB::table('article')->where('is_show',1)->select('id','title','cate_id')->orderBy('id','desc')->take('100');
+        $results = \DB::table(\DB::Raw('('.$sub->toSql().')'.' as '.\DB::getTablePrefix().'temp'))
+            ->mergeBindings($sub)
+            ->inRandomOrder()
+            ->take(8)->get();
+        $cates = $this->getCategoryArr();
+        foreach($results as $hot){
+            $hot->cate_pinyin = isset($cates[$hot->cate_id]) ? $cates[$hot->cate_id]: 'default';
+        }
+        return view()->share(['recommend'=>$results]);
     }
     //友情链接
     public function friendLink(){
-
+        $links = FriendLink::where('is_front',1)->orderBy('sort','desc')->select(['name','link_url','description'])->take(5)->get();
+        return view()->share(['friend_links'=>$links]);
     }
     //遍历树结构
     public function treeLoop($arr = array(),$level = 0){

@@ -67,6 +67,21 @@
                             <input type="text" id="description" name="description" value="{{ $info->description }}" data-required="1" class="form-control" />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">是否展示
+                            <span class="required"> * </span>
+                        </label>
+                        <div class="col-xs-8">
+                            <div class="input-icon right">
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_show"  value="1" @if($info->is_show)checked @endif> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_show"   value="0" @if(!$info->is_show)checked @endif> 否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <input type="hidden" name="id" id="id" value="{{ $hsid }}" />
                 <input type="submit" style="display: none;" name="dosubmit" id="dosubmit" value="dosubmit" />

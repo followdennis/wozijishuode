@@ -65,6 +65,14 @@
         margin-top:30px;
         overflow:hidden;
     }
+    .tag_show a{
+        margin:5px;
+        color:#717682;
+    }
+    .tag_show a:hover{
+        margin:5px;
+        color:black;
+    }
 </style>
 @endsection
 @section('script')
@@ -114,9 +122,11 @@
 @section('content')
     <div class="panel panel-default article-list">
         <div class="panel-body">
-            <div class="">
+            <div class="tag_show">
                 热门标签
-                <a href="{{ url('search/t/标签') }}" >标签</a>
+                @foreach($top_tag as $tag)
+                    <a href="{{ url('search/t/'.$tag->name) }}" >{{ $tag->name }}</a>
+                @endforeach
             </div>
         </div>
         @include('foreground.shared.content_list')

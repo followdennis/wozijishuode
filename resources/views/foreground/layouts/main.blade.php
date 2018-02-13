@@ -183,10 +183,20 @@
         #bs-example-navbar-collapse-1 .nav-active a{
             color:#fff;
         }
+        /*淡入淡出效果*/
         #bs-example-navbar-collapse-1 .channel-item a:hover{
             border-radius: 4px;
             color:#fff;
             background:#ed4040;
+
+            transition:all .1s ease-in 0s;
+            -webkit-transition:all .1s ease-in 0s;
+            -moz-transition:all .1s ease-in 0s;
+        }
+        #bs-example-navbar-collapse-1 .channel-item a{
+            border-radius: 4px;
+            transform: translate(0,0);
+            transition:all .1s ease-in 0s;
         }
         .navbar{
             margin-bottom:5px;
