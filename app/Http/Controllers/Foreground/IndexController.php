@@ -41,6 +41,7 @@ class IndexController extends CommonController
         //友情链接
         $this->friendLink();
         foreach($article_list as $article){
+            $article->article_id = \Hashids::encode($article->id);
             $article->cate_pinyin = isset($cates[$article->cate_id]) ? $cates[$article->cate_id]: 'default';
             $article->tags_name = empty($article->tags_name)?[]:explode(',',$article->tags_name);
         }
@@ -57,6 +58,7 @@ class IndexController extends CommonController
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
         $articles = $this->articleModel->getArticleList($cate_id);
         foreach($articles as $article){
+            $article->article_id = \Hashids::encode($article->id);
             $article->cate_pinyin = isset($cate) ? $cate: 'default';
             $article->tags_name = empty($article->tags_name)?[]:explode(',',$article->tags_name);
         }
@@ -75,9 +77,11 @@ class IndexController extends CommonController
         if(!$check_article_exists){
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']]]);
         }
+
         $this->next($cate,$cate_id,$id);
         $this->prev($cate,$cate_id,$id);
         $article = $this->articleRepository->getArticleData($id);
+        $article['article_id'] = \Hashids::encode($article['id']);
         $comments = $comments->getCommentsList($id);
         $bread = $this->breadCrumb($cate_id,$article['title']);
         if(!empty($article['tags_name'])){

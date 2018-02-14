@@ -1,5 +1,12 @@
 @extends('foreground.layouts.main')
 @section('script')
+    <script>
+        function article_click_like(){
+            var is_login = "{{ $is_login }}";
+            var article_id = "{{ $article['article_id'] }}";
+            alert(is_login);
+        }
+    </script>
 @endsection
 @section('style')
     <style>
@@ -353,6 +360,21 @@
             font-size: 28px;
             color: #f399a9;
         }
+        .like_support{
+           display: block;
+            text-align: center;
+        }
+        .like_support .like_btn{
+            margin:0 auto 20px;
+            padding: 8px 25px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #e63b1e;
+            border-radius: 20px;
+            display:inline-block;
+            *display:inline;
+            *zoom:1;
+        }
     </style>
 @endsection
 @section('content')
@@ -400,6 +422,9 @@
                         </ul>
                     </div>
                 </div>
+                    <div class="like_support">
+                        <a href="javascript:;" onclick="article_click_like()" class="like_btn">赞</a>
+                    </div>
                 @else
                     <div class="page-not-found">对不起，你查找的文章走丢了，浏览其他文章试试！</div>
                     <p>

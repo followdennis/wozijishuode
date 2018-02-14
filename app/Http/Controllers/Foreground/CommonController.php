@@ -17,6 +17,8 @@ class CommonController extends Controller
         $this->tags();
         $this->hot();
         $this->recommend();
+        $is_login = \Auth::guard('front')->check() ? 1:0;
+        view()->share(['is_login'=>$is_login]);
     }
     public function nav(){
         $category = new Category();
