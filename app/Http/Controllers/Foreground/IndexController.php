@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Foreground;
 
+use App\Models\ArticleManage\Comments;
 use App\Models\Foreground\Article;
+use App\Models\Foreground\ArticleUserLike;
 use App\Models\Foreground\Category;
 use App\Repository\Foreground\ArticleRepository;
 use App\Services\FrontCateService;
@@ -63,7 +65,7 @@ class IndexController extends CommonController
         }
         return view('foreground.ch',['nav'=>$nav,'articles'=>$articles,'current_route'=>$cate,'is_exists'=>1]);
     }
-    public function detail(Request $request,$cate = 'default',$id = 0){
+    public function detail(Request $request,Comments $comments,$cate = 'default',$id = 0){
         $id = intval($id);
         $cate_key_val = $this->cateModel->getKeyVal();
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
@@ -76,12 +78,53 @@ class IndexController extends CommonController
         $this->next($cate,$cate_id,$id);
         $this->prev($cate,$cate_id,$id);
         $article = $this->articleRepository->getArticleData($id);
+        $comments = $comments->getCommentsList($id);
         $bread = $this->breadCrumb($cate_id,$article['title']);
         if(!empty($article['tags_name'])){
             $article['tags_name'] = explode(',',$article['tags_name']);
         }
-        return view('foreground.detail',['article'=>$article,'breads'=>$bread,'is_exist'=>1]);
+        return view('foreground.detail',['article'=>$article,'breads'=>$bread,'comments'=>$comments,'is_exist'=>1]);
     }
+
+    /**
+     * 文章列表点赞功能
+     * @param Request $request
+     */
+    public function article_like(Request $request){
+        $this->validate($request,[
+            'article_id'=>'required|hashid',
+        ]);
+        $params = $request->all();
+        $article_id = \Hashids::decode($params['article_id'])[0];
+        $user_id = \Auth::guard('front')->user()->id;
+        $user_hash_id = \Hashids::encode($user_id);
+        $user_name = \Auth::guard('front')->user()->name;
+
+        if($request->cookie('article'.$params['article_id'].'user'.$user_hash_id)){
+            return response()->json(['state'=>0,'msg'=>'您已经赞过此评论']);
+        }
+        $data = [
+            'article_id'=>$article_id,
+            'user_id'=>$user_id,
+            'user_name'=>$user_name
+        ];
+        $insert = ArticleUserLike::insert($data);
+        $count_change = $this->articleRepository->articleLikeChange($article_id);
+        if($count_change && $insert){
+            $forever = 30*24*60;
+            $cookie = cookie('article'.$params['article_id'].'user'.$user_hash_id,1,$forever);
+            return response()->json(['state'=>1,'msg'=>'点赞成功'],200)->withCookie($cookie);
+        }else{
+            return response()->json(['state'=>0,'msg'=>'点赞失败'],500);
+        }
+    }
+    /**
+     * 翻页功能
+     * @param $cate
+     * @param $cate_id
+     * @param $id
+     * @return mixed
+     */
     public function next($cate,$cate_id,$id){
         //检查是否存在
         $new_id = $this->articleIndexModel->getNextOrPrev($cate_id,$id,1,'id');

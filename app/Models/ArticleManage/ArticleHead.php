@@ -57,4 +57,8 @@ class ArticleHead extends Model
         $update = ['updated_at'=>Carbon::now()->toDateTimeString(),'is_show'=>$update['is_show']];
         return \DB::table($this->table.$head_id)->where($condition)->update($update);
     }
+    public function likeCount($article_id = 0){
+        $head_id = get_article_head_id($article_id);
+        return \DB::table($this->table.$head_id)->whereNull('deleted_at')->where('id',$article_id)->increment('like');
+    }
 }

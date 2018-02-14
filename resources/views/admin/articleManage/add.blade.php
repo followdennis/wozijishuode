@@ -5,6 +5,7 @@
 @section('meta_keyword') 管理后台 @endsection
 
 @section('CUSTOM_STYLE')
+    <link href="{{asset('vendor/bootstrap-switch/bootstrap-switch.css')}}" rel="stylesheet" type="text/css" />
     <style>
 
         .input_select_2{
@@ -29,6 +30,8 @@
     </style>
 @endsection
 @section('CUSTOM_SCRIPT')
+    <script src="{{asset('vendor/bootstrap-switch/bootstrap-switch.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
     @include('vendor.ueditor.assets')
     <script type="text/javascript">
         var ue = UE.getEditor('container1',{
@@ -200,6 +203,12 @@
 
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">发布状态</label>
+                    <div class="col-sm-10">
+                         <input type="checkbox" name="is_show"   class="make-switch" data-on-text="是" data-off-text="否">
                     </div>
                 </div>
                 <div class="form-group">

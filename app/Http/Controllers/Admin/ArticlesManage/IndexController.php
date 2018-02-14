@@ -178,11 +178,14 @@ class IndexController extends AdminController
                 $data_head = array_add($data_head,'inner_link_id',1);
                 $inner_link_state = $this->innerLinkModel->insert(['article_id'=>$id,'name'=>$params['inner_link'],'tables_id'=>1]);
             }
+            $is_show = isset($params['is_show']) ? 1 : 0;
             $data_head['id'] = $id;
             $data_head['title'] = $params['title'];
             $data_head['description'] = $params['description'];
             $data_head['cate_name'] = $cate_name;
             $data_head['cate_id'] = $cate_id;
+            $data_head['is_show'] = $is_show;
+            $data_head['post_time'] = $is_show? Carbon::now()->toDateTimeString():null;
             $body = [
                 'id'=>$id,
                 'content'=>$params['content']
@@ -284,6 +287,7 @@ class IndexController extends AdminController
                 $data_head['cate_name'] = $cate_name;
                 $data_head['cate_id'] = $cate_id;
                 $data_head['is_show'] = $is_show;
+                $data_head['post_time'] = $is_show? Carbon::now()->toDateTimeString():null;
                 $data_head['click'] = $params['click'];
                 $body = [
                     'id'=>$id,

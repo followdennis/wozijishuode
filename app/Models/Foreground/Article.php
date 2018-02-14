@@ -14,7 +14,7 @@ class Article extends Model
 
     public function getArticleList($cate_id = 0){
         $data = self::where('is_show',1)
-            ->select(['id','title','author','tags_name','description','created_at','click','like','img'])
+            ->select(['id','title','author','tags_name','description','created_at','post_time','click','like','img'])
             ->when($cate_id,function($query) use($cate_id){
                 $query->where('cate_id',$cate_id);
             },function($query){

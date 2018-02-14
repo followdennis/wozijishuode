@@ -40,6 +40,7 @@ class ArticleAll extends Model
                 'inner_link_id',
                 'inner_link_name',
                 'is_show',
+                'post_time',
                 'cate_name',
                 'description',
                 'cate_id',

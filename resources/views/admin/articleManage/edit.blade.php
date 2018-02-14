@@ -227,13 +227,13 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
-                       <span>创建时间：{{ $data['created_at'] }}</span>
-                       <span>赞：{{ $data['like'] }}</span>
-                       <span>点击：{{ $data['click'] }}</span>
-                        <span>发布状态：  <input type="checkbox" name="is_show" @if($data['is_show']) checked @endif class="make-switch" data-on-text="已发布" data-off-text="未发布"></span>
+                        <span><input type="checkbox" name="is_show" @if($data['is_show']) checked @endif class="make-switch" data-on-text="已发布" data-off-text="未发布"></span>
+                        <span>&nbsp; 创建时间：<b>{{ $data['created_at'] }}</b></span>
                         @if($data['is_show'] ==1)
-                            <span>发布时间:2018-01-01</span>
+                            <span>&nbsp; 发布时间：<b>{{ $data['post_time'] }}</b></span>
                         @endif
+                       <span>赞：<font style="color:red">{{ $data['like'] }}</font></span>
+                       <span>点击：<font style="color:red">{{ $data['click'] }}</font></span>
                     </div>
                 </div>
                 <div class="form-group">

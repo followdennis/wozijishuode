@@ -91,6 +91,20 @@ class ArticleRepository
         $article = collect($article_head)->merge($article_body);
         return $article->toArray();
     }
-
+    /**
+     * 用户文章点赞
+     * @param $user_id
+     * @param $article_id
+     */
+    public function articleLikeChange($article_id){
+        $articleHead = new ArticleHead();
+        $articleAll_count = ArticleAll::where('id',$article_id)->increment('like');
+        $head_count = $articleHead->likeCount($article_id);
+        if($articleAll_count && $head_count){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }

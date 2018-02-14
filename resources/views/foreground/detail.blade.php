@@ -410,10 +410,10 @@
             @if($is_exist)
                 <div class="row page-pre-next">
                     <div class="col-md-6">
-                        <span class="page-pre">上一篇：<a href="{{ $prev_url }}">{{ $prev }}</a></span>
+                        <span class="page-pre">上一篇：<a href="{{ $prev_url }}" @if($prev_url == '#') style="color:#f99f9f"; @endif>{{ $prev }}</a></span>
                     </div>
                     <div class="col-md-6">
-                        <span class="page-next">下一篇：<a href="{{ $next_url }}">{{ $next }}</a></span>
+                        <span class="page-next">下一篇：<a href="{{ $next_url }}" @if($next_url == '#') style="color:#f99f9f"; @endif>{{ $next }}</a></span>
                     </div>
                 </div>
             @endif
@@ -421,71 +421,77 @@
             <div class="article-ad">
                 {{--我是一则广告--}}
             </div>
-            <div class="detail-comment">
-                <div class="comment">
-                    <div class="comment-count"><em>102&nbsp;</em>条评论</div>
-                    <div class="comment-input">
-                        <div class="comment-input-area">
-                            <textarea>写下您的评论</textarea>
+            <div class="detail-comment" id="comments">
+                @if($is_exist)
+                    <div class="comment">
+                        <div class="comment-count"><em>{{ $article['comments_count'] }}&nbsp;</em>条评论</div>
+                        <div class="comment-input">
+                            <form id="leave_comments" method="post">
+                                <div class="comment-input-area">
+                                    <textarea placeholder="写下您的评论"></textarea>
+                                </div>
+                                <div class="comment-input-button">
+                                    <div class="input-submit">评论</div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="comment-input-button">
-                            <div class="input-submit">评论</div>
-                        </div>
+                        <ul>
+                            @foreach($comments as $comment)
+                                <li class="comment-item">
+                                    <a class="avatar-wrap">
+                                        <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
+                                    </a>
+                                    <div class="comment-content">
+                                        <div class="comment-user-info">
+                                            <a href="#" target="" class="comment-user-name">{{ $comment->user_name }}</a>
+                                            <span class="comment-time">{{ $comment->created_at }}</span>
+                                        </div>
+                                        <p>{{ $comment->comment }}</p>
+                                        <div class="comment-footer">
+                                            <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
+                                            <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
+                                            <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                            <li class="comment-item">
+                                <a class="avatar-wrap">
+                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
+                                </a>
+                                <div class="comment-content">
+                                    <div class="comment-user-info">
+                                        <a href="#" target="_blank" class="comment-user-name">小白</a>
+                                        <span class="comment-time">14天前</span>
+                                    </div>
+                                    <p>这是条评论</p>
+                                    <div class="comment-footer">
+                                        <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
+                                        <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
+                                        <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="comment-item">
+                                <a class="avatar-wrap">
+                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
+                                </a>
+                                <div class="comment-content">
+                                    <div class="comment-user-info">
+                                        <a href="#" target="_blank" class="comment-user-name">小白</a>
+                                        <span class="comment-time">14天前</span>
+                                    </div>
+                                    <p>这是条评论</p>
+                                    <div class="comment-footer">
+                                        <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
+                                        <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
+                                        <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <ul>
-                        <li class="comment-item">
-                            <a class="avatar-wrap">
-                                <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
-                            </a>
-                            <div class="comment-content">
-                                <div class="comment-user-info">
-                                    <a href="#" target="_blank" class="comment-user-name">小白</a>
-                                    <span class="comment-time">14天前</span>
-                                </div>
-                                <p>这是条评论</p>
-                                <div class="comment-footer">
-                                    <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
-                                    <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
-                                    <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="comment-item">
-                            <a class="avatar-wrap">
-                                <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
-                            </a>
-                            <div class="comment-content">
-                                <div class="comment-user-info">
-                                    <a href="#" target="_blank" class="comment-user-name">小白</a>
-                                    <span class="comment-time">14天前</span>
-                                </div>
-                                <p>这是条评论</p>
-                                <div class="comment-footer">
-                                    <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
-                                    <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
-                                    <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="comment-item">
-                            <a class="avatar-wrap">
-                                <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
-                            </a>
-                            <div class="comment-content">
-                                <div class="comment-user-info">
-                                    <a href="#" target="_blank" class="comment-user-name">小白</a>
-                                    <span class="comment-time">14天前</span>
-                                </div>
-                                <p>这是条评论</p>
-                                <div class="comment-footer">
-                                    <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
-                                    <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
-                                    <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                @endif
             </div>
             <div class="relative">
                 <div class="title">相关推荐</div>

@@ -185,6 +185,17 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::any('/search/t/{tag}/',['uses'=>'Foreground\SearchController@search_tag']);//tag搜索
 
     /**
+     * 评论点赞的功能
+     */
+    Route::group(['middleware'=>'auth.front'],function(){
+        Route::post('comment/add',['uses'=>'Foreground\CommentsController@add']);
+        Route::get('comment/del',['uses'=>'Foreground\CommentsController@del']);
+        Route::get('comment/like',['uses'=>'Foreground\CommentsController@del']);
+        //文章点赞
+        Route::get('article/like',['uses'=>'Foreground\IndexController@article_like']);
+    });
+
+    /**
      * 个人中心
      */
     Route::get('/user_center',['uses'=>'Foreground\CommonUserController@index']);

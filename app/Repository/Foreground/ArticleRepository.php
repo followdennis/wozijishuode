@@ -13,7 +13,7 @@ class ArticleRepository{
 
     public function getArticleList(){
         $list = Article::where('is_show',1)
-            ->select(['id','title','author','tags_name','description','created_at','click','like','img','cate_id'])
+            ->select(['id','title','author','tags_name','description','created_at','click','post_time','like','img','cate_id'])
             ->orderBy('id','desc')
             ->paginate(20);
         $data = new \stdClass();
@@ -25,6 +25,4 @@ class ArticleRepository{
         $data->perPage = $list->perPage();
         return [$data,$list];
     }
-
-
 }
