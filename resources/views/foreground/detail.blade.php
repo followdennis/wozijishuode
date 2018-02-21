@@ -417,8 +417,8 @@
                     </div>
                     <div class="tag-right">
                         <ul class="tag-list">
-                            <li class="tag-item"><a href="#" target="_blank" class="label-link">收藏</a></li>
-                            <li class="tag-item"><a href="#" target="_blank" class="label-link">举报</a></li>
+                            <li class="tag-item"><a href="#" class="label-link">收藏</a></li>
+                            <li class="tag-item"><a href="#"  class="label-link">举报</a></li>
                         </ul>
                     </div>
                 </div>

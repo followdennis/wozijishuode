@@ -29,7 +29,7 @@ class CreateArticleTable extends Migration
             $table->tinyInteger('is_show')->default(0)->comment('是否展示');
             $table->timestamp('post_time')->nullable()->comment('发布时间');
             $table->tinyInteger('type')->default(0)->comment('文章类型，用于手机微信的标记');
-            $table->smallInteger('cate_id')->unsigned()->nullable()->comment('分类id');
+            $table->smallInteger('cate_id')->unsigned()->nullable()->default(0)->comment('分类id');
             $table->smallInteger('click')->unsigneg()->default(0)->comment('点击次数');
             $table->smallInteger('like')->unsigned()->default(0)->comment('赞');
             $table->integer('comments_count')->default(0)->comment('评论次数');
