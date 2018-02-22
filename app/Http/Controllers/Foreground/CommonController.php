@@ -8,17 +8,23 @@ use App\Models\Foreground\Category;
 use App\Models\System\FriendLink;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CommonController extends Controller
 {
     protected $cate_key_val = [];
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->tags();
-        $this->hot();
-        $this->recommend();
-        $is_login = \Auth::guard('front')->check() ? 1:0;
-        view()->share(['is_login'=>$is_login]);
+        $this->middleware(function($request,$next){
+            $this->tags();
+            $this->hot();
+            $this->recommend();
+            $is_login = Auth::guard('front')->check() ? 1:0;
+
+            view()->share(['is_login'=>$is_login]);
+            return $next($request);
+        });
+
     }
     public function nav(){
         $category = new Category();

@@ -39,7 +39,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest:front');
     }
 
     /**
@@ -52,14 +52,18 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:common_users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request $request)
     {
-        return view('foreground.auth.register');
+        if($request->filled('layer') && $request->get('layer') == 1){
+            return view('foreground.auth.register_layer');
+        }else{
+            return view('foreground.auth.register');
+        }
     }
     /**
      * Create a new user instance after a valid registration.

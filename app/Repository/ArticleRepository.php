@@ -101,7 +101,7 @@ class ArticleRepository
         $articleAll_count = ArticleAll::where('id',$article_id)->increment('like');
         $head_count = $articleHead->likeCount($article_id);
         if($articleAll_count && $head_count){
-            return true;
+            return $articleAll_count;
         }else{
             return false;
         }

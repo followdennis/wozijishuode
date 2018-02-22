@@ -11,11 +11,7 @@
                 $(bignav).removeClass('nav-brand')
             }
         }
-        function click_like(obj){
-            var is_login = $(obj).data('status');
-            var article_id = $(obj).data('id');
-            alert(article_id);
-        }
+
     </script>
 @endsection
 @section('style')

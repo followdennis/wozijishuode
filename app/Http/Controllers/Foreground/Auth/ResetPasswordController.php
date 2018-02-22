@@ -14,7 +14,7 @@ class ResetPasswordController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest:front');
     }
 
     public function showResetForm(Request $request, $token = null)
@@ -22,6 +22,10 @@ class ResetPasswordController extends Controller
         return view('Foreground.auth.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
+    }
+    protected function guard()
+    {
+        return auth()->guard('front');
     }
 
 }

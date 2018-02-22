@@ -8,6 +8,7 @@ use App\Models\Foreground\ArticleUserLike;
 use App\Models\Foreground\Category;
 use App\Repository\Foreground\ArticleRepository;
 use App\Services\FrontCateService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class IndexController extends CommonController
@@ -18,10 +19,10 @@ class IndexController extends CommonController
     protected $articleRepository;
     protected $articleIndexModel;
     protected $cateService;
-    public function __construct(Category $category,Article $article,\App\Repository\ArticleRepository $articleRepository,
+    public function __construct(Request $request,Category $category,Article $article,\App\Repository\ArticleRepository $articleRepository,
                                 \App\Models\ArticleManage\Article $articleIndex,FrontCateService $cateService)
     {
-        parent::__construct();
+        parent::__construct($request);
         $this->cateModel = $category;
         $this->articleModel = $article;
         $this->articleRepository = $articleRepository;
@@ -106,21 +107,22 @@ class IndexController extends CommonController
         $user_name = \Auth::guard('front')->user()->name;
 
         if($request->cookie('article'.$params['article_id'].'user'.$user_hash_id)){
-            return response()->json(['state'=>0,'msg'=>'您已经赞过此评论']);
+            return response()->json(['state'=>2,'msg'=>'您已经赞过此评论']);
         }
         $data = [
             'article_id'=>$article_id,
             'user_id'=>$user_id,
-            'user_name'=>$user_name
+            'user_name'=>$user_name,
+            'created_at'=>Carbon::now()->toDateTimeString()
         ];
         $insert = ArticleUserLike::insert($data);
         $count_change = $this->articleRepository->articleLikeChange($article_id);
         if($count_change && $insert){
             $forever = 30*24*60;
             $cookie = cookie('article'.$params['article_id'].'user'.$user_hash_id,1,$forever);
-            return response()->json(['state'=>1,'msg'=>'点赞成功'],200)->withCookie($cookie);
+            return response()->json(['state'=>1,'msg'=>'点赞成功','like_count'=>$count_change],200)->withCookie($cookie);
         }else{
-            return response()->json(['state'=>0,'msg'=>'点赞失败'],500);
+            return response()->json(['state'=>0,'msg'=>'点赞失败','like_count'=>'0'],500);
         }
     }
     /**

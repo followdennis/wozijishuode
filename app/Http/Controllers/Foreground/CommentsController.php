@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class CommentsController extends Controller
 {
     //
-    function __construct()
+    function __construct(Request $request)
     {
+
     }
     //添加留言
     public function add(Request $request){

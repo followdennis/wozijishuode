@@ -11,9 +11,9 @@ class SearchController extends CommonController
 {
     //
     protected $searchRepo;
-    public function __construct(SearchRepository $search)
+    public function __construct(Request $request,SearchRepository $search)
     {
-        parent::__construct();
+        parent::__construct($request);
         $this->searchRepo = $search;
     }
 
@@ -26,6 +26,7 @@ class SearchController extends CommonController
         $cate_key_val = $this->getCateKeyVal();
 
         foreach($list as $article){
+            $article->article_id = \Hashids::encode($article->id);
             $article->cate_pinyin = isset($cate_key_val[$article->cate_id])?$cate_key_val[$article->cate_id]:'default' ;
             $article->tags_name = empty($article->tags_name)?[]:explode(',',$article->tags_name);
             $article->title = str_replace($kw,'<font style="color:red">'.$kw.'</font>',$article->title);
@@ -42,6 +43,7 @@ class SearchController extends CommonController
         }
         $cate_key_val = $this->getCateKeyVal();
         foreach($article_list as $article){
+            $article->article_id = \Hashids::encode($article->id);
             $article->cate_pinyin = $cate_key_val[$article->cate_id];
             $article->tags_name = empty($article->tags_name)?[]:explode(',',$article->tags_name);
         }
