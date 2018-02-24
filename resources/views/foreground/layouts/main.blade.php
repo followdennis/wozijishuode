@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('logo/icon.png') }}" media="screen" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -254,65 +254,7 @@
 </head>
 <body>
 <div id="app">
-
-    <nav class="navbar navbar-default navbar-static-top s-top-bar">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="http://www.wozijishuode.com">
-                    我自己说的
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right" id="login_style">
-                    <!-- Authentication Links -->
-                    @if (Auth::guard('front')->guest())
-                        <li><a href="{{ route('front.login') }}">登陆</a></li>
-                        <li><a href="{{ route('front.register') }}">注册</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::guard('front')->user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ route('front.logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        退出
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('front.logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                                <li>
-                                    <a href="#" style="color:red">更多功能,敬请期待</a>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    @include('foreground.shared.top_bar')
     <div class="container">
         <div class="row">
             <div class="col-md-1">
@@ -390,7 +332,7 @@
                         msg = '登陆';
                     }else if(login_flag == 0){
                         url = "{{ url('register') }}";
-                        msg = '登陆';
+                        msg = '注册';
                     }
 
                     $.ajax({
@@ -413,7 +355,12 @@
                             }
                         },
                         error: function(data) {
-                            layer.msg(msg+'失败。。', {icon: 5});
+                            var error_msg = '';
+                            $.each(data.responseJSON.errors, function (index, obj) {
+                                error_msg += error_msg + index+" : "+obj[0] + "<br/>";
+                                return false;
+                            });
+                            layer.msg(error_msg, {icon: 5});
                         }
                     })
                 },

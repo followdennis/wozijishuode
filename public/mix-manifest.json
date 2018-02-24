@@ -1,6 +1,7 @@
 {
   "/js/wechat.js": "/js/wechat.js",
-  "/css/app.css": "/css/app.css",
   "/js/article.js": "/js/article.js",
-  "/vendor/jquery/jquery.js": "/vendor/jquery/jquery.js"
+  "/vendor/jquery/jquery.js": "/vendor/jquery/jquery.js",
+  "/js/app.js": "/js/app.js",
+  "/css/app.css": "/css/app.css"
 }

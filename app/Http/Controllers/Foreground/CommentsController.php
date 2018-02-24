@@ -20,7 +20,8 @@ class CommentsController extends Controller
         $this->validate($request,[
             'comment'=>'required|max:400',
             'article_id'=>'required|hashid',
-            'parent_id'=>'required|integer'
+            'comment_id'=>'required|integer',
+            'top_comment_id'=>'required|integer',
         ]);
         $params = $request->all();
         $user_id = Auth::guard('front')->user()->id;
@@ -31,22 +32,76 @@ class CommentsController extends Controller
             'user_name'=>$user_name,
             'comment'=>$params['comment'],
             'article_id'=>$article_id,
-            'parent_id'=>$params['parent_id'],
+            'parent_id'=>$params['comment_id'],//顶层为0，其余为对的comment_id
+            'top_parent_id'=>$params['top_comment_id'],//顶层默认为0，为顶层的comment_id
         ];
         $result = Comments::insertGetId($data);
+        if($params['top_comment_id'] > 0){
+            Comments::where(['id'=>$params['top_comment_id']])->increment('comment_count');
+        }
         if($result){
             return response()->json(['state'=>1,'message'=>'评论成功']);
         }else{
             return response()->json(['state'=>0,'message'=>'评论失败']);
         }
     }
+    //2018-02-24 17:10 获取评论列表
+    public function lists(Request $request){
+        $this->validate($request,[
+            'article_id'=>'required|hashid',
+            'parent_id'=>'required|integer',
+            'top_parent_id'=>'required|integer'
+        ]);
+        $article_id = \Hashids::decode($request->get('article_id'))[0];
+        $params = $request->all();
+        if(Auth::guard('front')->check()){
+            $user_id = \Auth::guard('front')->user()->id;
+        }else{
+            $user_id = 0;
+        }
+        $lists = Comments::where(['article_id'=>$article_id,'top_parent_id'=>$params['top_parent_id']])->paginate(10);
+        $data = [
+            'total' => $lists->total(),
+            'currentPage' => $lists->currentPage(),
+            'hasMore' => $lists->hasMorePages(),
+            'from' => $lists->lastPage(),
+            'to' => $lists->lastItem(),
+            'perPage' => $lists->perPage(),
+            'items'=>[]
+        ];
+        $items = $lists->map(function($item) use($user_id,$params){
+            return [
+                'article_id'=>$params['article_id'],
+                'comment_id'=>$item->id,
+                'user_id'=>\Hashids::encode($item->user_id),
+                'comment'=>$item->comment,
+                'like'=>$item->like,
+                'top_parent_id'=>$item->top_parent_id,
+                'parent_id'=>$item->parent_id,
+                'created_at'=>Carbon::parse($item->created_at)->toDateTimeString(),
+                'comment_count'=>$item->comment_count,
+                'del_flag'=>$item->user_id == $user_id ? 1:0,
+                'has_more'=>$item->comment_count > 0 ? 1:0,
+                'open'=>false
+            ];
+        });
+        if(!empty($items)){
+            $data['items'] = $items;
+        }
+        return response()->json($data,200);
+    }
     //删除留言
     public function del(Request $request){
         $this->validate($request,[
-            'comment_id'=>'required|hashid'
+            'comment_id'=>'required|integer',
+            'top_parent_id'=>'integer|required'
         ]);
+        $top_parent_id = $request->get('top_parent_id');
+        if($top_parent_id > 0){
+            Comments::where(['id'=>$top_parent_id])->decrement('comment_count');
+        }
         $user_id = Auth::guard('front')->user()->id;
-        $comment_id = \Hashids::decode($request->get('comment_id'))[0];
+        $comment_id = $request->get('comment_id');
         $comment = Comments::where('user_id',$user_id)->find($comment_id);
         $result = $comment->delete();
         if($result){

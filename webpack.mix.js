@@ -10,7 +10,7 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-//.js('resources/assets/js/app.js', 'public/js')
+mix.js('resources/assets/js/app.js', 'public/js')
 mix
     .sass('resources/assets/sass/app.scss', 'public/css');
 mix.js('resources/assets/js/wechat.js','public/js');

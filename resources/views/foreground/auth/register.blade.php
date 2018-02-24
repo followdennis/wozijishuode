@@ -1,5 +1,14 @@
 @extends('layouts.app_front')
-
+@section('style')
+    <style>
+        .navbar{
+            min-height:45px;
+        }
+        .s-top-bar{
+            background:#21292f;
+        }
+    </style>
+@endsection
 @section('content')
 <div class="container">
     <div class="row">

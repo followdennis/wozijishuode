@@ -33,6 +33,7 @@ class CreateArticleHeadTable extends Migration
                 $table->smallInteger('cate_id')->unsigned()->nullable()->default(0)->comment('分类id');
                 $table->smallInteger('click')->unsigneg()->default(0)->comment('点击次数');
                 $table->smallInteger('like')->unsigned()->default(0)->comment('赞');
+                $table->tinyInteger('recommend')->default(0)->comment('推荐,0,默认 1 推荐');
                 $table->integer('comments_count')->default(0)->comment('评论次数');
                 $table->softDeletes();
                 $table->timestamps();

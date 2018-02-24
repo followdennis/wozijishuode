@@ -1,5 +1,6 @@
 @extends('foreground.layouts.main')
 @section('script')
+    <script src="{{ mix('js/app.js') }}"></script>
     <script>
         function article_click_like(obj){
             var is_login = "{{ $is_login }}";
@@ -72,7 +73,12 @@
                                 }
                             },
                             error: function(data) {
-                                layer.msg(msg+'失败。。', {icon: 5});
+                                var error_msg = '';
+                                $.each(data.responseJSON.errors, function (index, obj) {
+                                    error_msg += error_msg + index+" : "+obj[0] + "<br/>";
+                                    return false;
+                                });
+                                layer.msg(error_msg, {icon: 5});
                             }
                         })
                     },
@@ -227,6 +233,11 @@
         .comment-content{
             margin-left:42px;
         }
+        /*子评论*/
+        .c-comment-reply{
+            margin-left: 42px;
+            margin-top: 20px;
+        }
         .comment-content p{
             font-size: 14px;
             line-height: 22px;
@@ -259,6 +270,16 @@
         }
         .comment-footer .comment-like{
             color: #777;
+            cursor: pointer;
+            font-size:16px;
+        }
+        .comment-footer .comment-del{
+            color:#a9a1a1;
+            cursor: pointer;
+            font-size:16px;
+        }
+        .comment-footer .comment-del:hover{
+            color: #ff463f;
             cursor: pointer;
             font-size:16px;
         }
@@ -542,61 +563,7 @@
                                 </div>
                             </form>
                         </div>
-                        <ul>
-                            @foreach($comments as $comment)
-                                <li class="comment-item">
-                                    <a class="avatar-wrap">
-                                        <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
-                                    </a>
-                                    <div class="comment-content">
-                                        <div class="comment-user-info">
-                                            <a href="#" target="" class="comment-user-name">{{ $comment->user_name }}</a>
-                                            <span class="comment-time">{{ $comment->created_at }}</span>
-                                        </div>
-                                        <p>{{ $comment->comment }}</p>
-                                        <div class="comment-footer">
-                                            <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
-                                            <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
-                                            <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                            <li class="comment-item">
-                                <a class="avatar-wrap">
-                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
-                                </a>
-                                <div class="comment-content">
-                                    <div class="comment-user-info">
-                                        <a href="#" target="_blank" class="comment-user-name">小白</a>
-                                        <span class="comment-time">14天前</span>
-                                    </div>
-                                    <p>这是条评论</p>
-                                    <div class="comment-footer">
-                                        <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
-                                        <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
-                                        <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="comment-item">
-                                <a class="avatar-wrap">
-                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64">
-                                </a>
-                                <div class="comment-content">
-                                    <div class="comment-user-info">
-                                        <a href="#" target="_blank" class="comment-user-name">小白</a>
-                                        <span class="comment-time">14天前</span>
-                                    </div>
-                                    <p>这是条评论</p>
-                                    <div class="comment-footer">
-                                        <span class="comment-reply">回复</span><span class="comment-expend-reply">4条评论</span>
-                                        <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
-                                        <span title="点赞" class="comment-like comment-float-right ">20 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                        <comment-list></comment-list>
                     </div>
                 @endif
             </div>

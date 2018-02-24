@@ -21,6 +21,8 @@ class CreateCommentsTable extends Migration
             $table->text('comment')->comment('评论内容');
             $table->smallInteger('like')->unsigned()->default(0)->comment('赞');
             $table->integer('parent_id')->unsigned()->default(0)->comment('父id');
+            $table->integer('top_parent_id')->default(0)->comment('记录顶层pid');
+            $table->smallInteger('comment_count')->default(0)->comment('评论个数');
             $table->tinyInteger('is_hidden')->default(0)->comment('是否屏蔽');
             $table->softDeletes();
             $table->timestamps();
