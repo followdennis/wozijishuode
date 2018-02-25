@@ -196,7 +196,7 @@
         .comment .input-submit{
             float: right;
             line-height: 44px;
-            background-color: #2392d4;
+            background-color: #3f404c;
             width: 110px;
             height: 100%;
             color: #fff;
@@ -551,20 +551,7 @@
             </div>
             <div class="detail-comment" id="comments">
                 @if($is_exist)
-                    <div class="comment">
-                        <div class="comment-count"><em>{{ $article['comments_count'] }}&nbsp;</em>条评论</div>
-                        <div class="comment-input">
-                            <form id="leave_comments" method="post">
-                                <div class="comment-input-area">
-                                    <textarea placeholder="写下您的评论"></textarea>
-                                </div>
-                                <div class="comment-input-button">
-                                    <div class="input-submit">评论</div>
-                                </div>
-                            </form>
-                        </div>
-                        <comment-list></comment-list>
-                    </div>
+                    <comment-list is_login="{{ $is_login }}" article_id="{{ $article['article_id'] }}" comment_count="{{ $article['comments_count'] }}"></comment-list>
                 @endif
             </div>
             <div class="relative">

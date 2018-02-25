@@ -20,7 +20,7 @@ class CommentsController extends Controller
         $this->validate($request,[
             'comment'=>'required|max:400',
             'article_id'=>'required|hashid',
-            'comment_id'=>'required|integer',
+            'comment_id'=>'required|integer',//顶层为0
             'top_comment_id'=>'required|integer',
         ]);
         $params = $request->all();
@@ -33,7 +33,8 @@ class CommentsController extends Controller
             'comment'=>$params['comment'],
             'article_id'=>$article_id,
             'parent_id'=>$params['comment_id'],//顶层为0，其余为对的comment_id
-            'top_parent_id'=>$params['top_comment_id'],//顶层默认为0，为顶层的comment_id
+            'top_parent_id'=>$params['top_comment_id'],//顶层默认为0，为顶层的comment_id,
+            'created_at'=>Carbon::now()->toDateTimeString()
         ];
         $result = Comments::insertGetId($data);
         if($params['top_comment_id'] > 0){
@@ -59,7 +60,7 @@ class CommentsController extends Controller
         }else{
             $user_id = 0;
         }
-        $lists = Comments::where(['article_id'=>$article_id,'top_parent_id'=>$params['top_parent_id']])->paginate(10);
+        $lists = Comments::where(['article_id'=>$article_id,'top_parent_id'=>$params['top_parent_id']])->orderBy('created_at','desc')->paginate(10);
         $data = [
             'total' => $lists->total(),
             'currentPage' => $lists->currentPage(),
@@ -79,7 +80,7 @@ class CommentsController extends Controller
                 'top_parent_id'=>$item->top_parent_id,
                 'parent_id'=>$item->parent_id,
                 'created_at'=>Carbon::parse($item->created_at)->toDateTimeString(),
-                'comment_count'=>$item->comment_count,
+                'comment_count'=>intval($item->comment_count),
                 'del_flag'=>$item->user_id == $user_id ? 1:0,
                 'has_more'=>$item->comment_count > 0 ? 1:0,
                 'open'=>false
