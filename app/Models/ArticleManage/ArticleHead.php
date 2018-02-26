@@ -61,4 +61,13 @@ class ArticleHead extends Model
         $head_id = get_article_head_id($article_id);
         return \DB::table($this->table.$head_id)->whereNull('deleted_at')->where('id',$article_id)->increment('like');
     }
+    public function commentCount($article_id = 0,$flag = 1){
+        $head_id = get_article_head_id($article_id);
+        $model = \DB::table($this->table.$head_id)->whereNull('deleted_at')->where('id',$article_id);
+        if($flag > 0){
+            return $model->increment('comments_count');
+        }else{
+            return $model->decrement('comments_count');
+        }
+    }
 }

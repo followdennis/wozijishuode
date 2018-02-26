@@ -28606,7 +28606,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         loadData: function loadData() {
-            var _this = this;
+            var _this2 = this;
 
             var params = {
                 page: this.page.currentPage,
@@ -28620,9 +28620,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 for (var i = 0; i < data.items.length; i++) {
                     data.items[i].reply_flag = false;
                 }
-                _this.page.items = data.items;
+                _this2.page.items = data.items;
 
-                _this.loading = false;
+                _this2.loading = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -28649,7 +28649,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             alert('0jbk');
         },
         handleSubmit: function handleSubmit() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.is_login == 0) {
                 var msg = '登陆';
@@ -28717,7 +28717,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.addForm.article_id = this.article_id;
                 var para = Object.assign({}, this.addForm);
                 axios.post('/comment/add', para).then(function (res) {
-                    _this2.addLoading = false;
+                    _this3.addLoading = false;
                     var response = res.data;
                     console.log(res);
                     if (response.state) {
@@ -28729,20 +28729,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             icon: 1,
                             time: 1000 //2秒关闭（如果不配置，默认是3秒）
                         }, function () {});
-                        _this2.addForm.comment = '';
+                        _this3.addForm.comment = '';
                         console.log(res);
                     } else {
                         console.log(res);
                         layer.msg('评论失败', { icon: 5 });
                     }
-                    _this2.addFormVisible = false;
-                    _this2.loadData();
+                    _this3.addFormVisible = false;
+                    _this3.loadData();
                     //错误处理
                 }).catch();
             }
         },
         handleMiddleSubmit: function handleMiddleSubmit(data) {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.is_login == 0) {
                 var msg = '登陆';
@@ -28810,7 +28810,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.addForm.article_id = this.article_id;
                 var para = Object.assign({}, data);
                 axios.post('/comment/add', para).then(function (res) {
-                    _this3.addLoading = false;
+                    _this4.addLoading = false;
                     var response = res.data;
                     console.log(res);
                     if (response.state) {
@@ -28822,18 +28822,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             icon: 1,
                             time: 1000 //2秒关闭（如果不配置，默认是3秒）
                         }, function () {});
-                        _this3.loadData();
-                        _this3.addForm.comment = '';
+                        _this4.loadData();
+                        _this4.addForm.comment = '';
                         console.log(res);
                     } else {
                         console.log(res);
                         layer.msg('评论失败', { icon: 5 });
                     }
-                    _this3.addFormVisible = false;
+                    _this4.addFormVisible = false;
 
                     //错误处理
                 }).catch();
             }
+        },
+        //删除评论
+        handleDel: function handleDel(item) {
+            var _this = this;
+            layer.msg('确定删除？', {
+                time: 0 //不自动关闭
+                , btn: ['确定', '取消'],
+                yes: function yes(index) {
+                    layer.close(index);
+                    var url = '/comment/del';
+                    var params = {
+                        comment_id: item.comment_id,
+                        top_parent_id: item.top_parent_id
+                    };
+                    axios.get(url, {
+                        params: params
+                    }).then(function (res) {
+                        var response = res.data;
+                        if (response.state == 1) {
+                            layer.msg('删除成功', {
+                                icon: 1,
+                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {});
+                            _this.loadData();
+                        } else {
+                            layer.msg('删除失败', { icon: 5 });
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            });
+        },
+        test: function test() {
+            alert('ok');
         }
     }
 
@@ -28930,8 +28965,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('a', {
       staticClass: "comment-user-name",
       attrs: {
-        "href": "#",
-        "target": "_blank"
+        "href": "#"
       }
     }, [_vm._v(_vm._s(item.user_name))]), _vm._v(" "), _c('span', {
       staticClass: "comment-time"
@@ -28968,9 +29002,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.del_flag),
         expression: "item.del_flag"
       }],
-      staticClass: "comment-del comment-float-right ",
+      staticClass: "comment-del comment-float-right",
       attrs: {
         "title": "删除"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleDel(item)
+        }
       }
     }, [_c('i', {
       staticClass: "fa fa-times",
@@ -29334,7 +29373,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         loadData: function loadData() {
-            var _this = this;
+            var _this2 = this;
 
             var params = {
                 page: this.page.currentPage,
@@ -29348,9 +29387,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 for (var i = 0; i < data.items.length; i++) {
                     data.items[i].reply_flag = false;
                 }
-                _this.page.items = data.items;
-                _this.page.hasMore = data.hasMore;
-                _this.loading = false;
+                _this2.page.items = data.items;
+                _this2.page.hasMore = data.hasMore;
+                _this2.loading = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -29379,7 +29418,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         //提交表单数据
         handleSubmit: function handleSubmit(data) {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.is_login == 0) {
                 var msg = '登陆';
@@ -29447,7 +29486,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.addForm.article_id = this.article_id;
                 var para = Object.assign({}, data);
                 axios.post('/comment/add', para).then(function (res) {
-                    _this2.addLoading = false;
+                    _this3.addLoading = false;
                     var response = res.data;
                     console.log(res);
                     if (response.state) {
@@ -29459,17 +29498,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             icon: 1,
                             time: 1000 //2秒关闭（如果不配置，默认是3秒）
                         }, function () {});
-                        _this2.addForm.comment = '';
-                        _this2.loadData();
+                        _this3.addForm.comment = '';
+                        _this3.loadData();
                         console.log(res);
                     } else {
                         console.log(res);
                         layer.msg('评论失败', { icon: 5 });
                     }
-                    _this2.addFormVisible = false;
+                    _this3.addFormVisible = false;
                     //错误处理
                 }).catch();
             }
+        },
+        //删除评论
+        handleDel: function handleDel(item) {
+            var _this = this;
+            layer.msg('确定删除？', {
+                time: 0 //不自动关闭
+                , btn: ['确定', '取消'],
+                yes: function yes(index) {
+                    layer.close(index);
+                    var url = '/comment/del';
+                    var params = {
+                        comment_id: item.comment_id,
+                        top_parent_id: item.top_parent_id
+                    };
+                    axios.get(url, {
+                        params: params
+                    }).then(function (res) {
+                        var response = res.data;
+                        if (response.state == 1) {
+                            layer.msg('删除成功', {
+                                icon: 1,
+                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {});
+                            _this.loadData();
+                        } else {
+                            layer.msg('删除失败', { icon: 5 });
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            });
         }
     }
 });
@@ -29526,8 +29597,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('a', {
       staticClass: "comment-user-name",
       attrs: {
-        "href": "#",
-        "target": "_blank"
+        "href": "#"
       }
     }, [_vm._v(_vm._s(item.user_name))]), _vm._v(" "), _c('span', {
       staticClass: "comment-time"
@@ -29559,9 +29629,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.del_flag),
         expression: "item.del_flag"
       }],
-      staticClass: "comment-del comment-float-right ",
+      staticClass: "comment-del comment-float-right",
       attrs: {
         "title": "删除"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleDel(item)
+        }
       }
     }, [_c('i', {
       staticClass: "fa fa-times",

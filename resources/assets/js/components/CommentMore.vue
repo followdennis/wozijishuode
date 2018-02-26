@@ -6,7 +6,7 @@
             </a>
             <div class="c-comment-reply">
                 <div class="comment-user-info">
-                    <a href="#" target="_blank" class="comment-user-name">{{ item.user_name }}</a>
+                    <a href="#" class="comment-user-name">{{ item.user_name }}</a>
                     <span class="comment-time">{{ item.created_at }}</span>
                 </div>
                 <p>{{ item.comment }}</p>
@@ -14,7 +14,7 @@
                     <span class="comment-reply" @click="comment(item)" >回复</span><span class="comment-expend-reply"></span>
                     <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
                     <span title="点赞" class="comment-like comment-float-right ">{{ item.like }} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                    <span title="删除" v-show="item.del_flag" class="comment-del comment-float-right "> <i class="fa fa-times" aria-hidden="true"></i></span>
+                    <span title="删除" v-show="item.del_flag" class="comment-del comment-float-right" @click="handleDel(item)"> <i class="fa fa-times" aria-hidden="true"></i></span>
                 </div>
                 <comment-input v-if="item.reply_flag" v-bind:article_id="item.article_id" v-bind:comment_id="item.comment_id" v-bind:top_comment_id="item.top_parent_id" @child_info="handleSubmit"></comment-input>
             </div>
@@ -212,6 +212,42 @@
 
                         }).catch()
                     }
+            },
+            //删除评论
+            handleDel:function(item){
+                var _this = this;
+                layer.msg('确定删除？', {
+                    time: 0 //不自动关闭
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index){
+                        layer.close(index);
+                        var url = '/comment/del';
+                        let params = {
+                            comment_id:item.comment_id,
+                            top_parent_id:item.top_parent_id
+                        }
+                        axios.get(url, {
+                            params: params
+                        }).then(function (res) {
+                            var response = res.data;
+                            if(response.state == 1){
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+
+                                });
+                                _this.loadData();
+                            }else{
+                                layer.msg('删除失败', {icon: 5});
+                            }
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+
+                    }
+                });
+
             }
         }
     }

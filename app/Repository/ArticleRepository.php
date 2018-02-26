@@ -107,4 +107,21 @@ class ArticleRepository
         }
     }
 
+    public function commentCountChange($article_id,$flag = 1){
+        $model = ArticleAll::where('id',$article_id);
+        if($flag >0){
+            $articleAll_count = $model->increment('comments_count');
+        }else{
+            $articleAll_count = $model->decrement('comments_count');
+        }
+        $articleHead = new ArticleHead();
+        $head_count = $articleHead->commentCount($article_id,$flag);
+        if($articleAll_count && $head_count){
+            return $articleAll_count;
+        }else{
+            return false;
+        }
+    }
+
+
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Foreground;
 
 use App\Models\ArticleManage\Comments;
+use App\Repository\ArticleRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,9 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class CommentsController extends Controller
 {
     //
-    function __construct(Request $request)
+    protected $articleRep;
+    function __construct(Request $request,ArticleRepository $articleRepo)
     {
-
+        $this->articleRep = $articleRepo;
     }
     //添加留言
     public function add(Request $request){
@@ -37,8 +39,13 @@ class CommentsController extends Controller
             'created_at'=>Carbon::now()->toDateTimeString()
         ];
         $result = Comments::insertGetId($data);
+        //某个回复下有多少评论
         if($params['top_comment_id'] > 0){
             Comments::where(['id'=>$params['top_comment_id']])->increment('comment_count');
+        }
+        //文章有多少评论
+        if($params['top_comment_id'] == 0){
+            $this->articleRep->commentCountChange($article_id,1);//加1
         }
         if($result){
             return response()->json(['state'=>1,'message'=>'评论成功']);
@@ -75,6 +82,7 @@ class CommentsController extends Controller
                 'article_id'=>$params['article_id'],
                 'comment_id'=>$item->id,
                 'user_id'=>\Hashids::encode($item->user_id),
+                'user_name'=>$item->user_name,
                 'comment'=>$item->comment,
                 'like'=>$item->like,
                 'top_parent_id'=>$item->top_parent_id,
@@ -104,11 +112,15 @@ class CommentsController extends Controller
         $user_id = Auth::guard('front')->user()->id;
         $comment_id = $request->get('comment_id');
         $comment = Comments::where('user_id',$user_id)->find($comment_id);
+        $article_id = $comment->article_id;//获取文章id
         $result = $comment->delete();
+        if($top_parent_id == 0){
+            $this->articleRep->commentCountChange($article_id,-1);//减1
+        }
         if($result){
-            return response()->json(['state'=>1,'message'=>'删除成功']);
+            return response()->json(['state'=>1,'message'=>'删除成功'],200);
         }else{
-            return response()->json(['state'=>0,'message'=>'删除失败']);
+            return response()->json(['state'=>0,'message'=>'删除失败'],500);
         }
     }
     //评论点赞
