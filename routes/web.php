@@ -189,7 +189,7 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::group(['middleware'=>'auth.front'],function(){
         Route::post('comment/add',['uses'=>'Foreground\CommentsController@add']);
         Route::get('comment/del',['uses'=>'Foreground\CommentsController@del']);
-        Route::get('comment/like',['uses'=>'Foreground\CommentsController@del']);
+        Route::get('comment/like',['uses'=>'Foreground\CommentsController@like']);
         //文章点赞
         Route::get('article/like',['uses'=>'Foreground\IndexController@article_like']);
     });

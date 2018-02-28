@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Foreground;
 
 use App\Models\ArticleManage\Comments;
+use App\Models\Foreground\CommentUserLike;
 use App\Repository\ArticleRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,9 +14,11 @@ class CommentsController extends Controller
 {
     //
     protected $articleRep;
-    function __construct(Request $request,ArticleRepository $articleRepo)
+    protected $commentUserLikeModel;
+    function __construct(Request $request,ArticleRepository $articleRepo,CommentUserLike $commentUserLike)
     {
         $this->articleRep = $articleRepo;
+        $this->commentUserLikeModel = $commentUserLike;
     }
     //添加留言
     public function add(Request $request){
@@ -126,25 +129,29 @@ class CommentsController extends Controller
     //评论点赞
     public function like(Request $request){
         $this->validate($request,[
-            'comment_id'=>'required|hashid',
+            'comment_id'=>'required|integer',
             'article_id'=>'required|hashid'
         ]);
-        $user_id = \Hashids::encode(Auth::guard('front')->user()->id);
         $params = $request->all();
-        if($request->cookie('comment'.$params['comment_id'].'user'.$user_id)){
-            return response()->json(['state'=>0,'msg'=>'您已经赞过此评论']);
+        $data = [
+            'comment_id'=>$params['comment_id'],
+            'article_id'=>\Hashids::decode($params['article_id'])[0],
+            'user_id'=>Auth::guard('front')->user()->id,
+            'user_name'=>Auth::guard('front')->user()->name
+        ];
+        $add_flag = $this->commentUserLikeModel->addCommentUser($data);
+        if(!$add_flag){
+            return response()->json(['state'=>2,'msg'=>'您已经赞过此评论']);
         }
         $where = [
-            'id'=>\Hashids::decode($params['comment_id'])[0],
+            'id'=>$params['comment_id'],
             'article_id'=>\Hashids::decode($params['article_id'])[0]
         ];
         $result = Comments::where($where)->increment('like');
-        $forever = 30*24*60;
-        $cookie = cookie('comment'.$params['comment_id'].'user'.$user_id,1,$forever);
-        if($result){
-            return response()->json(['state'=>1,'msg'=>'赞'])->withCookie($cookie);
+        if($result && $add_flag){
+            return response()->json(['state'=>1,'msg'=>'赞']);
         }else{
-            return response()->json(['state'=>0,'msg'=>'点赞失败']);
+            return response()->json(['state'=>0,'msg'=>'点赞失败'],500);
         }
     }
 }

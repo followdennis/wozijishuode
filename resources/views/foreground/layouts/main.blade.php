@@ -278,6 +278,7 @@
 <script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{asset('layui/src/layui.js')}}"></script>
+
 <script>
     //一般直接写在一个js文件中
     layui.use(['layer', 'form'], function(){

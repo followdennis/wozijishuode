@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 337);
+/******/ 	return __webpack_require__(__webpack_require__.s = 333);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -17157,7 +17157,7 @@
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25), __webpack_require__(113)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24), __webpack_require__(113)(module)))
 
 /***/ }),
 
@@ -17351,7 +17351,7 @@
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24), __webpack_require__(5)))
 
 /***/ }),
 
@@ -27863,7 +27863,7 @@ return jQuery;
 "use strict";
 
 
-var bind = __webpack_require__(40);
+var bind = __webpack_require__(39);
 
 /*global toString:true*/
 
@@ -28188,10 +28188,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(36);
+    adapter = __webpack_require__(35);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(36);
+    adapter = __webpack_require__(35);
   }
   return adapter;
 }
@@ -28269,148 +28269,6 @@ module.exports = defaults;
 /***/ 24:
 /***/ (function(module, exports) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-
-/***/ 240:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * include Vue and Vue Resource. This gives a great starting point for
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(138);
-window.Vue = __webpack_require__(4);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example', __webpack_require__(305));
-Vue.component('comment-list', __webpack_require__(348));
-// Vue.component(
-//     'passport-clients',
-//     require('./components/passport/Clients.vue')
-// );
-//
-// Vue.component(
-//     'passport-authorized-clients',
-//     require('./components/passport/AuthorizedClients.vue')
-// );
-//
-// Vue.component(
-//     'passport-personal-access-tokens',
-//     require('./components/passport/PersonalAccessTokens.vue')
-// );
-
-var app = new Vue({
-  el: '#comments'
-});
-
-/***/ }),
-
-/***/ 244:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 245:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {
-            msg: 'hei hei  ',
-            code: 200
-        };
-    }
-});
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, exports) {
-
 var g;
 
 // This works in non-strict mode
@@ -28436,22 +28294,26 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 305:
+/***/ 240:
 /***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(330)
 
 var Component = __webpack_require__(11)(
   /* script */
-  __webpack_require__(245),
+  __webpack_require__(246),
   /* template */
-  __webpack_require__(318),
+  __webpack_require__(323),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\Example.vue"
+Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\CommentInput.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] CommentInput.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -28460,9 +28322,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0fc8f8e0", Component.options)
+    hotAPI.createRecord("data-v-a263b416", Component.options)
   } else {
-    hotAPI.reload("data-v-0fc8f8e0", Component.options)
+    hotAPI.reload("data-v-a263b416", Component.options)
   }
 })()}
 
@@ -28471,52 +28333,139 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 318:
+/***/ 241:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8 col-md-offset-2"
-  }, [_c('div', {
-    staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_vm._v("\n                    I'm an example component!\n                    " + _vm._s(_vm.msg) + "\n                ")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0fc8f8e0", module.exports)
-  }
-}
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * include Vue and Vue Resource. This gives a great starting point for
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+__webpack_require__(138);
+window.Vue = __webpack_require__(4);
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+Vue.component('example', __webpack_require__(306));
+Vue.component('comment-list', __webpack_require__(304));
+// Vue.component(
+//     'passport-clients',
+//     require('./components/passport/Clients.vue')
+// );
+//
+// Vue.component(
+//     'passport-authorized-clients',
+//     require('./components/passport/AuthorizedClients.vue')
+// );
+//
+// Vue.component(
+//     'passport-personal-access-tokens',
+//     require('./components/passport/PersonalAccessTokens.vue')
+// );
+
+var app = new Vue({
+  el: '#comments'
+});
 
 /***/ }),
 
-/***/ 337:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 245:
+/***/ (function(module, exports) {
 
-__webpack_require__(240);
-module.exports = __webpack_require__(244);
-
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 347:
+/***/ 246:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentMore__ = __webpack_require__(351);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+
+    props: {
+        article_id: {
+            type: String,
+            required: true
+        },
+        comment_id: {
+            type: Number,
+            required: true
+        },
+        top_comment_id: {
+            type: Number,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            addForm: {
+                comment: '',
+                article_id: '',
+                comment_id: 0,
+                top_comment_id: 0
+            }
+        };
+    },
+
+    methods: {
+        handleSubmit: function handleSubmit() {
+            this.addForm.article_id = this.article_id;
+            this.addForm.comment_id = this.comment_id;
+            this.addForm.top_comment_id = this.top_comment_id;
+            this.$emit("child_info", this.addForm);
+            this.addForm.comment = '';
+        }
+
+    }
+});
+
+/***/ }),
+
+/***/ 247:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentMore__ = __webpack_require__(305);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentMore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CommentMore__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentInput__ = __webpack_require__(354);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentInput__ = __webpack_require__(240);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CommentInput__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -28619,6 +28568,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var data = response.data;
                 for (var i = 0; i < data.items.length; i++) {
                     data.items[i].reply_flag = false;
+                    data.items[i].liked = false;
                 }
                 _this2.page.items = data.items;
 
@@ -28636,7 +28586,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         //展示评论表单
         comment: function comment(item) {
             item.reply_flag = !item.reply_flag;
-
             for (var i = 0; i < this.page.items.length; i++) {
                 if (item.comment_id == this.page.items[i].comment_id) {
                     continue;
@@ -28652,67 +28601,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             if (this.is_login == 0) {
-                var msg = '登陆';
-                layer.open({
-                    type: 2,
-                    title: '请先' + msg,
-                    shadeClose: true,
-                    skin: 'my-skin',
-                    btn: ['确定', '取消'], //按钮
-                    yes: function yes(index, layero) {
-                        var formData = layer.getChildFrame('body');
-                        var form = formData.find('#doSubmit').serialize();
-                        var login_flag = formData.find('input[name="is_login"]').val();
-                        var url = '';
-
-                        if (login_flag == 1) {
-                            url = "/login";
-                            msg = '登陆';
-                        } else if (login_flag == 0) {
-                            url = "/register";
-                            msg = '登陆';
-                        }
-
-                        $.ajax({
-                            url: url,
-                            data: form,
-                            type: "post",
-                            dataType: "json",
-                            async: false,
-                            success: function success(data) {
-                                if (data.state == 1) {
-                                    layer.msg(msg + '成功', {
-                                        icon: 1,
-                                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
-                                    }, function () {
-                                        window.parent.location.reload();
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(msg + '失败。。', { icon: 5 });
-                                }
-                            },
-                            error: function error(data) {
-                                var error_msg = '';
-                                $.each(data.responseJSON.errors, function (index, obj) {
-                                    error_msg += error_msg + index + " : " + obj[0] + "<br/>";
-                                    return false;
-                                });
-                                layer.msg(error_msg, { icon: 5 });
-                            }
-                        });
-                    },
-                    shade: 0.8,
-                    area: ['400px', '500px'],
-                    content: '/login?layer=1', //iframe的url
-                    cancel: function cancel(index) {
-                        //或者使用btn2
-                        layer.closeAll();
-                    },
-                    end: function end(index) {
-                        //                    layer.closeAll();
-                    }
-                });
+                this.handleLoginCheck();
             } else {
                 this.addForm.article_id = this.article_id;
                 var para = Object.assign({}, this.addForm);
@@ -28745,68 +28634,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this4 = this;
 
             if (this.is_login == 0) {
-                var msg = '登陆';
-                layer.open({
-                    type: 2,
-                    title: '请先' + msg,
-                    shadeClose: true,
-                    skin: 'my-skin',
-                    btn: ['确定', '取消'], //按钮
-                    yes: function yes(index, layero) {
-                        var formData = layer.getChildFrame('body');
-                        var form = formData.find('#doSubmit').serialize();
-                        var login_flag = formData.find('input[name="is_login"]').val();
-                        var url = '';
-
-                        if (login_flag == 1) {
-                            url = "/login";
-                            msg = '登陆';
-                        } else if (login_flag == 0) {
-                            url = "/register";
-                            msg = '登陆';
-                        }
-
-                        $.ajax({
-                            url: url,
-                            data: form,
-                            type: "post",
-                            dataType: "json",
-                            async: false,
-                            success: function success(data) {
-                                if (data.state == 1) {
-                                    layer.msg(msg + '成功', {
-                                        icon: 1,
-                                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
-                                    }, function () {
-                                        window.parent.location.reload();
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(msg + '失败。。', { icon: 5 });
-                                }
-                            },
-                            error: function error(data) {
-                                var error_msg = '';
-                                $.each(data.responseJSON.errors, function (index, obj) {
-                                    error_msg += error_msg + index + " : " + obj[0] + "<br/>";
-                                    return false;
-                                });
-                                layer.msg(error_msg, { icon: 5 });
-                            }
-                        });
-                    },
-                    shade: 0.8,
-                    area: ['400px', '500px'],
-                    content: '/login?layer=1', //iframe的url
-                    cancel: function cancel(index) {
-                        //或者使用btn2
-                        layer.closeAll();
-                    },
-                    end: function end(index) {
-                        //                    layer.closeAll();
-                    }
-                });
+                this.handleLoginCheck();
             } else {
+                var _this = this;
                 this.addForm.article_id = this.article_id;
                 var para = Object.assign({}, data);
                 axios.post('/comment/add', para).then(function (res) {
@@ -28867,24 +28697,498 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        test: function test() {
-            alert('ok');
+        //举报处理
+        handleTipOffs: function handleTipOffs(item) {
+            layer.prompt({ title: '请输入举报原因', formType: 2 }, function (pass, index) {
+                console.log(pass);
+                layer.close(index);
+            });
+        },
+
+        handleLike: function handleLike(item) {
+            if (this.is_login == 0) {
+                this.handleLoginCheck();
+            } else {
+                var params = {
+                    comment_id: item.comment_id,
+                    article_id: item.article_id
+                };
+                if (item.liked == false) {
+                    var url = '/comment/like';
+                    axios.get(url, {
+                        params: params
+                    }).then(function (res) {
+                        var response = res.data;
+                        if (response.state == 1) {
+                            item.liked = true;
+                            item.like = item.like + 1;
+                            layer.tips('+1', '#like-tips-' + item.comment_id, {
+                                tips: [1, '#fb4c4c'],
+                                time: 1500
+                            });
+                        } else if (response.state == 2) {
+                            item.liked = true;
+                            layer.tips('您已经赞过了哦', '#like-tips-' + item.comment_id, {
+                                tips: [1, '#fb4c4c'],
+                                time: 1500
+                            });
+                        } else {
+                            layer.msg('点赞失败', { icon: 5 });
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    layer.tips('您已经赞过了哦', '#like-tips-' + item.comment_id, {
+                        tips: [1, '#fb4c4c'],
+                        time: 1500
+                    });
+                }
+            }
+        },
+        //判断登陆
+        handleLoginCheck: function handleLoginCheck() {
+            var msg = '登陆';
+            layer.open({
+                type: 2,
+                title: '请先' + msg,
+                shadeClose: true,
+                skin: 'my-skin',
+                btn: ['确定', '取消'], //按钮
+                yes: function yes(index, layero) {
+                    var formData = layer.getChildFrame('body');
+                    var form = formData.find('#doSubmit').serialize();
+                    var login_flag = formData.find('input[name="is_login"]').val();
+                    var url = '';
+
+                    if (login_flag == 1) {
+                        url = "/login";
+                        msg = '登陆';
+                    } else if (login_flag == 0) {
+                        url = "/register";
+                        msg = '登陆';
+                    }
+
+                    $.ajax({
+                        url: url,
+                        data: form,
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function success(data) {
+                            if (data.state == 1) {
+                                layer.msg(msg + '成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function () {
+                                    window.parent.location.reload();
+                                    layer.close(index);
+                                });
+                            } else {
+                                layer.msg(msg + '失败。。', { icon: 5 });
+                            }
+                        },
+                        error: function error(data) {
+                            var error_msg = '';
+                            $.each(data.responseJSON.errors, function (index, obj) {
+                                error_msg += error_msg + index + " : " + obj[0] + "<br/>";
+                                return false;
+                            });
+                            layer.msg(error_msg, { icon: 5 });
+                        }
+                    });
+                },
+                shade: 0.8,
+                area: ['400px', '500px'],
+                content: '/login?layer=1', //iframe的url
+                cancel: function cancel(index) {
+                    //或者使用btn2
+                    layer.closeAll();
+                },
+                end: function end(index) {
+                    //                    layer.closeAll();
+                }
+            });
         }
     }
-
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(19)))
 
 /***/ }),
 
-/***/ 348:
+/***/ 248:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CommentInput__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+        this.loadData();
+    },
+
+    props: {
+        article_id: {
+            type: String,
+            required: true
+        },
+        parent_id: {
+            type: Number,
+            required: true
+        },
+        top_parent_id: {
+            type: Number,
+            required: true
+        },
+        parent_items: {
+            required: true,
+            type: Array
+        },
+        is_login: {
+            type: String,
+            required: true
+        }
+    },
+    components: {
+        CommentInput: __WEBPACK_IMPORTED_MODULE_0__CommentInput___default.a
+    },
+    data: function data() {
+
+        return {
+            page: {
+                total: 0,
+                currentPage: 1,
+                hasMore: false,
+                from: 1,
+                to: 1,
+                items: []
+            },
+            addForm: {
+                comment: '',
+                comment_id: 0,
+                top_comment_id: 0,
+                article_id: ''
+            },
+            test: 'hello'
+        };
+    },
+
+    methods: {
+        loadData: function loadData() {
+            var _this2 = this;
+
+            var params = {
+                page: this.page.currentPage,
+                article_id: this.article_id,
+                parent_id: this.parent_id,
+                top_parent_id: this.top_parent_id
+            };
+            this.loading = true;
+            axios.get('/comment/lists', { params: params }).then(function (response) {
+                var data = response.data;
+                for (var i = 0; i < data.items.length; i++) {
+                    data.items[i].reply_flag = false;
+                    data.items[i].liked = false;
+                }
+                _this2.page.items = data.items;
+                _this2.page.hasMore = data.hasMore;
+                _this2.loading = false;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        //展示更多 每页10条
+        loadMore: function loadMore() {},
+        //展示评论表单
+        comment: function comment(item) {
+            console.log(this.parent_items);
+
+            item.reply_flag = !item.reply_flag;
+            //将父组件的文本框关闭
+            if (item.reply_flag == true) {
+                this.$emit('child_input_info');
+                for (var i = 0; i < this.parent_items.length; i++) {
+                    this.parent_items[i].reply_flag = false;
+                }
+            }
+            for (var i = 0; i < this.page.items.length; i++) {
+                if (item.comment_id == this.page.items[i].comment_id) {
+                    continue;
+                } else {
+                    this.page.items[i].reply_flag = false;
+                }
+            }
+        },
+        //提交表单数据
+        handleSubmit: function handleSubmit(data) {
+            var _this3 = this;
+
+            if (this.is_login == 0) {
+                this.handleLoginCheck();
+            } else {
+                var _this = this;
+                this.addForm.article_id = this.article_id;
+                var para = Object.assign({}, data);
+                axios.post('/comment/add', para).then(function (res) {
+                    _this3.addLoading = false;
+                    var response = res.data;
+                    console.log(res);
+                    if (response.state) {
+                        //                            this.$message({
+                        //                                message:response.msg,
+                        //                                type:'success'
+                        //                            });
+                        layer.msg('评论成功', {
+                            icon: 1,
+                            time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {});
+                        _this3.addForm.comment = '';
+                        _this.loadData();
+                        console.log(res);
+                    } else {
+                        console.log(res);
+                        layer.msg('评论失败', { icon: 5 });
+                    }
+                    _this3.addFormVisible = false;
+                    //错误处理
+                }).catch();
+            }
+        },
+        //删除评论
+        handleDel: function handleDel(item) {
+            var _this = this;
+            layer.msg('确定删除？', {
+                time: 0 //不自动关闭
+                , btn: ['确定', '取消'],
+                yes: function yes(index) {
+                    layer.close(index);
+                    var url = '/comment/del';
+                    var params = {
+                        comment_id: item.comment_id,
+                        top_parent_id: item.top_parent_id
+                    };
+                    axios.get(url, {
+                        params: params
+                    }).then(function (res) {
+                        var response = res.data;
+                        if (response.state == 1) {
+                            layer.msg('删除成功', {
+                                icon: 1,
+                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {});
+                            _this.loadData();
+                        } else {
+                            layer.msg('删除失败', { icon: 5 });
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            });
+        },
+        handleLike: function handleLike(item) {
+            if (this.is_login == 0) {
+                this.handleLoginCheck();
+            } else {
+                var params = {
+                    comment_id: item.comment_id,
+                    article_id: this.article_id
+                };
+                if (item.liked == false) {
+                    var url = '/comment/like';
+                    axios.get(url, {
+                        params: params
+                    }).then(function (res) {
+                        var response = res.data;
+                        if (response.state == 1) {
+                            item.liked = true;
+                            item.like = item.like + 1;
+                            layer.tips('+1', '#like-tips-' + item.comment_id, {
+                                tips: [1, '#fb4c4c'],
+                                time: 1500
+                            });
+                        } else if (response.state == 2) {
+                            item.liked = true;
+                            layer.tips('您已经赞过了哦', '#like-tips-' + item.comment_id, {
+                                tips: [1, '#fb4c4c'],
+                                time: 1500
+                            });
+                        } else {
+                            layer.msg('点赞失败', { icon: 5 });
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    layer.tips('您已经赞过了哦', '#like-tips-' + item.comment_id, {
+                        tips: [1, '#fb4c4c'],
+                        time: 1500
+                    });
+                }
+            }
+        },
+        //检验是否登陆
+        handleCheckLogin: function handleCheckLogin() {
+            var msg = '登陆';
+            layer.open({
+                type: 2,
+                title: '请先' + msg,
+                shadeClose: true,
+                skin: 'my-skin',
+                btn: ['确定', '取消'], //按钮
+                yes: function yes(index, layero) {
+                    var formData = layer.getChildFrame('body');
+                    var form = formData.find('#doSubmit').serialize();
+                    var login_flag = formData.find('input[name="is_login"]').val();
+                    var url = '';
+
+                    if (login_flag == 1) {
+                        url = "/login";
+                        msg = '登陆';
+                    } else if (login_flag == 0) {
+                        url = "/register";
+                        msg = '登陆';
+                    }
+
+                    $.ajax({
+                        url: url,
+                        data: form,
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function success(data) {
+                            if (data.state == 1) {
+                                layer.msg(msg + '成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function () {
+                                    window.parent.location.reload();
+                                    layer.close(index);
+                                });
+                            } else {
+                                layer.msg(msg + '失败。。', { icon: 5 });
+                            }
+                        },
+                        error: function error(data) {
+                            var error_msg = '';
+                            $.each(data.responseJSON.errors, function (index, obj) {
+                                error_msg += error_msg + index + " : " + obj[0] + "<br/>";
+                                return false;
+                            });
+                            layer.msg(error_msg, { icon: 5 });
+                        }
+                    });
+                },
+                shade: 0.8,
+                area: ['400px', '500px'],
+                content: '/login?layer=1', //iframe的url
+                cancel: function cancel(index) {
+                    //或者使用btn2
+                    layer.closeAll();
+                },
+                end: function end(index) {
+                    //                    layer.closeAll();
+                }
+            });
+        }
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(19)))
+
+/***/ }),
+
+/***/ 249:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            msg: 'hei hei  ',
+            code: 200
+        };
+    }
+});
+
+/***/ }),
+
+/***/ 301:
 /***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(33)();
+exports.push([module.i, "\n.inner_comment_box{\n    padding:5px 0;\n}\n", ""]);
+
+/***/ }),
+
+/***/ 304:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(344)
 
 var Component = __webpack_require__(11)(
   /* script */
-  __webpack_require__(347),
+  __webpack_require__(247),
   /* template */
-  __webpack_require__(349),
+  __webpack_require__(319),
   /* scopeId */
   null,
   /* cssModules */
@@ -28912,7 +29216,109 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 349:
+/***/ 305:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(346)
+
+var Component = __webpack_require__(11)(
+  /* script */
+  __webpack_require__(248),
+  /* template */
+  __webpack_require__(324),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\CommentMore.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CommentMore.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ec39670c", Component.options)
+  } else {
+    hotAPI.reload("data-v-ec39670c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 306:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(11)(
+  /* script */
+  __webpack_require__(249),
+  /* template */
+  __webpack_require__(315),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\Example.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0fc8f8e0", Component.options)
+  } else {
+    hotAPI.reload("data-v-0fc8f8e0", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 315:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8 col-md-offset-2"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_vm._v("\n                    I'm an example component!\n                    " + _vm._s(_vm.msg) + "\n                ")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0fc8f8e0", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 319:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28985,10 +29391,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           item.has_more && _vm.openMore(item)
         }
       }
-    }, [_vm._v(_vm._s(item.comment_count) + "条评论")]), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('span', {
-      staticClass: "comment-like comment-float-right ",
+    }, [_vm._v(_vm._s(item.comment_count) + "条评论")]), _vm._v(" "), _c('span', {
+      staticClass: "comment-report comment-float-right",
       attrs: {
-        "title": "点赞"
+        "title": "举报"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleTipOffs(item)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-info-circle"
+    })]), _vm._v(" "), _c('span', {
+      staticClass: " comment-float-right",
+      class: {
+        'comment-like': !item.liked, 'clicked-like': item.liked
+      },
+      attrs: {
+        "title": "点赞",
+        "id": 'like-tips-' + item.comment_id
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleLike(item)
+        }
       }
     }, [_vm._v(_vm._s(item.like) + " "), _c('i', {
       staticClass: "fa fa-thumbs-o-up",
@@ -29045,15 +29472,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": "//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"
     }
   })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "comment-report comment-float-right",
-    attrs: {
-      "title": "举报"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-info-circle"
-  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -29065,525 +29483,60 @@ if (false) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 323:
 /***/ (function(module, exports, __webpack_require__) {
 
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-var listToStyles = __webpack_require__(112)
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-module.exports = function (parentId, list, _isProduction) {
-  isProduction = _isProduction
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "inner_comment_box"
+  }, [_c('div', {
+    staticClass: "comment-input"
+  }, [_c('form', {
+    attrs: {
+      "id": "leave_comments",
+      "method": "post"
     }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
-
-
-/***/ }),
-
-/***/ 350:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput__ = __webpack_require__(354);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CommentInput__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-        this.loadData();
+  }, [_c('div', {
+    staticClass: "comment-input-area"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.addForm.comment),
+      expression: "addForm.comment"
+    }],
+    attrs: {
+      "placeholder": "写下您的评论"
     },
-
-    props: {
-        article_id: {
-            type: String,
-            required: true
-        },
-        parent_id: {
-            type: Number,
-            required: true
-        },
-        top_parent_id: {
-            type: Number,
-            required: true
-        },
-        parent_items: {
-            required: true,
-            type: Array
-        },
-        is_login: {
-            type: String,
-            required: true
-        }
+    domProps: {
+      "value": (_vm.addForm.comment)
     },
-    components: {
-        CommentInput: __WEBPACK_IMPORTED_MODULE_0__CommentInput___default.a
-    },
-    data: function data() {
-
-        return {
-            page: {
-                total: 0,
-                currentPage: 1,
-                hasMore: false,
-                from: 1,
-                to: 1,
-                items: []
-            },
-            addForm: {
-                comment: '',
-                comment_id: 0,
-                top_comment_id: 0,
-                article_id: ''
-            },
-            test: 'hello'
-        };
-    },
-
-    methods: {
-        loadData: function loadData() {
-            var _this2 = this;
-
-            var params = {
-                page: this.page.currentPage,
-                article_id: this.article_id,
-                parent_id: this.parent_id,
-                top_parent_id: this.top_parent_id
-            };
-            this.loading = true;
-            axios.get('/comment/lists', { params: params }).then(function (response) {
-                var data = response.data;
-                for (var i = 0; i < data.items.length; i++) {
-                    data.items[i].reply_flag = false;
-                }
-                _this2.page.items = data.items;
-                _this2.page.hasMore = data.hasMore;
-                _this2.loading = false;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        //展示更多 每页10条
-        loadMore: function loadMore() {},
-        //展示评论表单
-        comment: function comment(item) {
-            console.log(this.parent_items);
-
-            item.reply_flag = !item.reply_flag;
-            //将父组件的文本框关闭
-            if (item.reply_flag == true) {
-                this.$emit('child_input_info');
-                for (var i = 0; i < this.parent_items.length; i++) {
-                    this.parent_items[i].reply_flag = false;
-                }
-            }
-            for (var i = 0; i < this.page.items.length; i++) {
-                if (item.comment_id == this.page.items[i].comment_id) {
-                    continue;
-                } else {
-                    this.page.items[i].reply_flag = false;
-                }
-            }
-        },
-        //提交表单数据
-        handleSubmit: function handleSubmit(data) {
-            var _this3 = this;
-
-            if (this.is_login == 0) {
-                var msg = '登陆';
-                layer.open({
-                    type: 2,
-                    title: '请先' + msg,
-                    shadeClose: true,
-                    skin: 'my-skin',
-                    btn: ['确定', '取消'], //按钮
-                    yes: function yes(index, layero) {
-                        var formData = layer.getChildFrame('body');
-                        var form = formData.find('#doSubmit').serialize();
-                        var login_flag = formData.find('input[name="is_login"]').val();
-                        var url = '';
-
-                        if (login_flag == 1) {
-                            url = "/login";
-                            msg = '登陆';
-                        } else if (login_flag == 0) {
-                            url = "/register";
-                            msg = '登陆';
-                        }
-
-                        $.ajax({
-                            url: url,
-                            data: form,
-                            type: "post",
-                            dataType: "json",
-                            async: false,
-                            success: function success(data) {
-                                if (data.state == 1) {
-                                    layer.msg(msg + '成功', {
-                                        icon: 1,
-                                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
-                                    }, function () {
-                                        window.parent.location.reload();
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(msg + '失败。。', { icon: 5 });
-                                }
-                            },
-                            error: function error(data) {
-                                var error_msg = '';
-                                $.each(data.responseJSON.errors, function (index, obj) {
-                                    error_msg += error_msg + index + " : " + obj[0] + "<br/>";
-                                    return false;
-                                });
-                                layer.msg(error_msg, { icon: 5 });
-                            }
-                        });
-                    },
-                    shade: 0.8,
-                    area: ['400px', '500px'],
-                    content: '/login?layer=1', //iframe的url
-                    cancel: function cancel(index) {
-                        //或者使用btn2
-                        layer.closeAll();
-                    },
-                    end: function end(index) {
-                        //                    layer.closeAll();
-                    }
-                });
-            } else {
-                this.addForm.article_id = this.article_id;
-                var para = Object.assign({}, data);
-                axios.post('/comment/add', para).then(function (res) {
-                    _this3.addLoading = false;
-                    var response = res.data;
-                    console.log(res);
-                    if (response.state) {
-                        //                            this.$message({
-                        //                                message:response.msg,
-                        //                                type:'success'
-                        //                            });
-                        layer.msg('评论成功', {
-                            icon: 1,
-                            time: 1000 //2秒关闭（如果不配置，默认是3秒）
-                        }, function () {});
-                        _this3.addForm.comment = '';
-                        _this3.loadData();
-                        console.log(res);
-                    } else {
-                        console.log(res);
-                        layer.msg('评论失败', { icon: 5 });
-                    }
-                    _this3.addFormVisible = false;
-                    //错误处理
-                }).catch();
-            }
-        },
-        //删除评论
-        handleDel: function handleDel(item) {
-            var _this = this;
-            layer.msg('确定删除？', {
-                time: 0 //不自动关闭
-                , btn: ['确定', '取消'],
-                yes: function yes(index) {
-                    layer.close(index);
-                    var url = '/comment/del';
-                    var params = {
-                        comment_id: item.comment_id,
-                        top_parent_id: item.top_parent_id
-                    };
-                    axios.get(url, {
-                        params: params
-                    }).then(function (res) {
-                        var response = res.data;
-                        if (response.state == 1) {
-                            layer.msg('删除成功', {
-                                icon: 1,
-                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
-                            }, function () {});
-                            _this.loadData();
-                        } else {
-                            layer.msg('删除失败', { icon: 5 });
-                        }
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                }
-            });
-        }
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.addForm, "comment", $event.target.value)
+      }
     }
-});
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(19)))
-
-/***/ }),
-
-/***/ 351:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(11)(
-  /* script */
-  __webpack_require__(350),
-  /* template */
-  __webpack_require__(352),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\CommentMore.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CommentMore.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "comment-input-button"
+  }, [_c('div', {
+    staticClass: "input-submit",
+    on: {
+      "click": _vm.handleSubmit
+    }
+  }, [_vm._v("评论")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
   module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ec39670c", Component.options)
-  } else {
-    hotAPI.reload("data-v-ec39670c", Component.options)
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-a263b416", module.exports)
   }
-})()}
-
-module.exports = Component.exports
-
+}
 
 /***/ }),
 
-/***/ 352:
+/***/ 324:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29613,9 +29566,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("回复")]), _c('span', {
       staticClass: "comment-expend-reply"
     }), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('span', {
-      staticClass: "comment-like comment-float-right ",
+      staticClass: "comment-float-right ",
+      class: {
+        'comment-like': !item.liked, 'clicked-like': item.liked
+      },
       attrs: {
-        "title": "点赞"
+        "title": "点赞",
+        "id": 'like-tips-' + item.comment_id
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleLike(item)
+        }
       }
     }, [_vm._v(_vm._s(item.like) + " "), _c('i', {
       staticClass: "fa fa-thumbs-o-up",
@@ -29682,186 +29644,74 @@ if (false) {
 
 /***/ }),
 
-/***/ 353:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 33:
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
 
-    props: {
-        article_id: {
-            type: String,
-            required: true
-        },
-        comment_id: {
-            type: Number,
-            required: true
-        },
-        top_comment_id: {
-            type: Number,
-            required: true
-        }
-    },
-    data: function data() {
-        return {
-            addForm: {
-                comment: '',
-                article_id: '',
-                comment_id: 0,
-                top_comment_id: 0
-            }
-        };
-    },
-
-    methods: {
-        handleSubmit: function handleSubmit() {
-            this.addForm.article_id = this.article_id;
-            this.addForm.comment_id = this.comment_id;
-            this.addForm.top_comment_id = this.top_comment_id;
-            this.$emit("child_info", this.addForm);
-            this.addForm.comment = '';
-        }
-
-    }
-});
-
-/***/ }),
-
-/***/ 354:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(357)
-
-var Component = __webpack_require__(11)(
-  /* script */
-  __webpack_require__(353),
-  /* template */
-  __webpack_require__(355),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\CommentInput.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CommentInput.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a263b416", Component.options)
-  } else {
-    hotAPI.reload("data-v-a263b416", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
 
 
 /***/ }),
 
-/***/ 355:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "inner_comment_box"
-  }, [_c('div', {
-    staticClass: "comment-input"
-  }, [_c('form', {
-    attrs: {
-      "id": "leave_comments",
-      "method": "post"
-    }
-  }, [_c('div', {
-    staticClass: "comment-input-area"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.addForm.comment),
-      expression: "addForm.comment"
-    }],
-    attrs: {
-      "placeholder": "写下您的评论"
-    },
-    domProps: {
-      "value": (_vm.addForm.comment)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.addForm, "comment", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "comment-input-button"
-  }, [_c('div', {
-    staticClass: "input-submit",
-    on: {
-      "click": _vm.handleSubmit
-    }
-  }, [_vm._v("评论")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-a263b416", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 356:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(24)();
-exports.push([module.i, "\n.inner_comment_box{\n    padding:5px 0;\n}\n", ""]);
-
-/***/ }),
-
-/***/ 357:
+/***/ 330:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(356);
+var content = __webpack_require__(301);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(35)("73d1f9c6", content, false);
+var update = __webpack_require__(63)("73d1f9c6", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -29878,7 +29728,86 @@ if(false) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 333:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(241);
+module.exports = __webpack_require__(245);
+
+
+/***/ }),
+
+/***/ 343:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(33)();
+exports.push([module.i, "\n.clicked-like{\n    color: #ff443a;\n    cursor: pointer;\n    font-size: 16px;\n}\n", ""]);
+
+/***/ }),
+
+/***/ 344:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(343);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(63)("02f1756a", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-31b6157a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentList.vue", function() {
+     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-31b6157a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 345:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(33)();
+exports.push([module.i, "\n.clicked-like{\n    color: #ff443a;\n    cursor: pointer;\n    font-size: 16px;\n}\n", ""]);
+
+/***/ }),
+
+/***/ 346:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(345);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(63)("4ab461dc", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-ec39670c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentMore.vue", function() {
+     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-ec39670c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentMore.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29889,7 +29818,7 @@ var settle = __webpack_require__(76);
 var buildURL = __webpack_require__(79);
 var parseHeaders = __webpack_require__(85);
 var isURLSameOrigin = __webpack_require__(83);
-var createError = __webpack_require__(39);
+var createError = __webpack_require__(38);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(78);
 
 module.exports = function xhrAdapter(config) {
@@ -30064,7 +29993,7 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30091,7 +30020,7 @@ module.exports = Cancel;
 
 /***/ }),
 
-/***/ 38:
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30104,7 +30033,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30124,6 +30053,25 @@ var enhanceError = __webpack_require__(75);
 module.exports = function createError(message, config, code, response) {
   var error = new Error(message);
   return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
 };
 
 
@@ -40870,26 +40818,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(25), __webpack_require__(111).setImmediate))
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(24), __webpack_require__(111).setImmediate))
 
 /***/ }),
 
@@ -41084,6 +41013,228 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ 63:
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(112)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction) {
+  isProduction = _isProduction
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
 /***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41098,7 +41249,7 @@ module.exports = __webpack_require__(70);
 
 
 var utils = __webpack_require__(2);
-var bind = __webpack_require__(40);
+var bind = __webpack_require__(39);
 var Axios = __webpack_require__(72);
 var defaults = __webpack_require__(20);
 
@@ -41133,9 +41284,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(37);
+axios.Cancel = __webpack_require__(36);
 axios.CancelToken = __webpack_require__(71);
-axios.isCancel = __webpack_require__(38);
+axios.isCancel = __webpack_require__(37);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -41157,7 +41308,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(37);
+var Cancel = __webpack_require__(36);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -41377,7 +41528,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(2);
 var transformData = __webpack_require__(77);
-var isCancel = __webpack_require__(38);
+var isCancel = __webpack_require__(37);
 var defaults = __webpack_require__(20);
 
 /**
@@ -41489,7 +41640,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(39);
+var createError = __webpack_require__(38);
 
 /**
  * Resolve or reject a Promise based on response status.

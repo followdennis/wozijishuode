@@ -47,7 +47,8 @@ class ArticleHead extends Model
     }
     //删除数据
     public function delData($id){
-        $data = ['is_show'=>0,'deleted_at'=>Carbon::now()->format('Y-m-d H:i:s')];
+        //is_show的条件不需要
+        $data = ['deleted_at'=>Carbon::now()->format('Y-m-d H:i:s')];
         $head_id = get_article_head_id($id);
         return \DB::table($this->table.$head_id)->where('id',$id)->update($data);
     }

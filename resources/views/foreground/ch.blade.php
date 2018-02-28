@@ -2,7 +2,7 @@
 @section('script')
     <script type="text/javascript">
         window.onscroll=function(){
-            var topScroll =document.body.scrollTop;//滚动的距离,距离顶部的距离
+            var topScroll =document.documentElement.scrollTop;//滚动的距离,距离顶部的距离
             console.log(topScroll);
             var bignav  = document.getElementById("navbar");//获取到导航栏id
             if(topScroll > 50){  //当滚动距离大于250px时执行下面的东西

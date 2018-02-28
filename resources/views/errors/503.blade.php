@@ -44,9 +44,9 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">收收心</div>
+                <div class="title">其实还在进行</div>
                 <div class="left_time">
-
+                    有许多bug,和微功能要添加，疲了
                 </div>
             </div>
         </div>
