@@ -79,7 +79,7 @@ class IndexController extends CommonController
             $article['article_id'] = 0;
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']],'article'=>$article]);
         }
-
+        $this->detail_recommend();
         $this->next($cate,$cate_id,$id);//下一页
         $this->prev($cate,$cate_id,$id);//上一页
         $article = $this->articleRepository->getArticleData($id);
@@ -90,6 +90,11 @@ class IndexController extends CommonController
             $article['tags_name'] = explode(',',$article['tags_name']);
         }
         return view('foreground.detail',['article'=>$article,'breads'=>$bread,'comments'=>$comments,'is_exist'=>1]);
+    }
+    //获取详情底部推荐2018-03-03 15:50:22 by libo
+    public function detail_recommend(){
+        $recommends = $this->articleModel->getRecommends();
+        return view()->share(['bottom_recommend'=>$recommends]);
     }
 
     /**

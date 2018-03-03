@@ -14,7 +14,7 @@ class Article extends Model
 
     public function getArticleList($cate_id = 0){
         $data = self::where('is_show',1)
-            ->select(['id','title','author','tags_name','description','created_at','post_time','click','like','img'])
+            ->select(['id','title','author','tags_name','description','created_at','post_time','click','like','img','comments_count'])
             ->when($cate_id,function($query) use($cate_id){
                 $query->where('cate_id',$cate_id);
             },function($query){
@@ -24,7 +24,11 @@ class Article extends Model
             ->paginate(20);
         return $data;
     }
-
+    public function getRecommends(){
+        return self::where('recommend',1)->where('is_show',1)->take(6)->select(
+            ['id','title','author','author_id','description','tags_name','tags_id','click','like','comments_count','post_time','img']
+        )->get();
+    }
     public function category(){
         return $this->belongsTo('App\Models\Foreground\Category','cate_id')->withDefault(function($category){
             $category->pinyin = 'default';

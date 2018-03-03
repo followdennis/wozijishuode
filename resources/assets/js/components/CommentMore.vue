@@ -12,7 +12,7 @@
                 <p>{{ item.comment }}</p>
                 <div class="comment-footer">
                     <span class="comment-reply" @click="comment(item)" >回复</span><span class="comment-expend-reply"></span>
-                    <span title="举报" class="comment-report comment-float-right"><i class="fa fa-info-circle"></i></span>
+                    <span title="举报" class="comment-report comment-float-right" @click="handleTipOffs(item)"><i class="fa fa-info-circle"></i></span>
                     <span title="点赞" class="comment-float-right " :id="'like-tips-'+item.comment_id" v-bind:class="{ 'comment-like':!item.liked,'clicked-like':item.liked}"  @click="handleLike(item)">{{ item.like }} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
                     <span title="删除" v-show="item.del_flag" class="comment-del comment-float-right" @click="handleDel(item)"> <i class="fa fa-times" aria-hidden="true"></i></span>
                 </div>
@@ -130,7 +130,7 @@
             //提交表单数据
             handleSubmit:function(data){
                     if(this.is_login == 0){
-                        this.handleLoginCheck();
+                        this.handleCheckLogin();
                     }else{
                         var _this = this;
                         this.addForm.article_id = this.article_id;
@@ -202,7 +202,8 @@
             },
             handleLike:function(item){
                 if(this.is_login == 0){
-                    this.handleLoginCheck();
+                    console.log(this);
+                    this.handleCheckLogin();
                 }else{
                     let params = {
                         comment_id:item.comment_id,
@@ -239,6 +240,38 @@
                             time: 1500
                         });
                     }
+                }
+            },
+            handleTipOffs:function(item){
+                if(this.is_login == 0){
+                    this.handleLoginCheck();
+                }else{
+                    layer.prompt({title: '请输入举报原因', formType: 2}, function(pass, index){
+                        let params = {
+                            article_id:item.article_id,
+                            comment_id:item.comment_id,
+                            type:2,//评论举报
+                            description:pass
+                        };
+                        let para = Object.assign({}, params);
+                        axios.post('/article_comment/report',para).then((res)=>{
+                            var response = res.data;
+
+                            if(response.state == 1){
+                                layer.msg('举报成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+
+                                });
+                                console.log(res);
+                            }else{
+                                console.log(res);
+                                layer.msg('举报失败', {icon: 5});
+                            }
+                        });
+                        layer.close(index);
+                    });
                 }
             },
             //检验是否登陆

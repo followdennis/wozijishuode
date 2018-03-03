@@ -7,6 +7,46 @@
             var article_id = "{{ $article['article_id'] }}";
             like_process(is_login,article_id,obj);
         }
+        function article_report(){
+            var is_login = "{{ $is_login }}";
+            if(is_login == 1){
+                layer.prompt({title: '请输入举报原因', formType: 2}, function(pass, index){
+                    var url = '/article_comment/report';
+                    var data = {
+                        type:1,
+                        article_id:"{{ $article['article_id'] }}",
+                        description:pass,
+                        comment_id:0
+                    }
+                    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+                    $.ajax({
+                        url: url,
+                        data: data,
+                        type: "post",
+                        dataType: "json",
+                        async: true,
+                        success: function (data) {
+                            if(data.state == 1){
+                                layer.msg('举报成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+
+                                });
+                            }else{
+                                layer.msg('举报失败', {icon: 5});
+                            }
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    })
+                    layer.close(index);
+                });
+            }else{
+                checkLogin();
+            }
+        }
         function like_process(is_login,article_id,obj){
 
             if(is_login == 1){
@@ -32,67 +72,70 @@
                 })
 
             }else{
-                var msg = '登陆';
-                layer.open({
-                    type: 2,
-                    title: '请先'+msg,
-                    shadeClose: true,
-                    skin:'my-skin',
-                    btn: ['确定','取消'], //按钮
-                    yes:function(index, layero){
-                        var formData = layer.getChildFrame('body');
-                        var form = formData.find('#doSubmit').serialize();
-                        var login_flag = formData.find('input[name="is_login"]').val();
-                        var url = '';
-
-                        if(login_flag == 1){
-                            url = "{{ url('login') }}";
-                            msg = '登陆';
-                        }else if(login_flag == 0){
-                            url = "{{ url('register') }}";
-                            msg = '登陆';
-                        }
-
-                        $.ajax({
-                            url: url,
-                            data: form,
-                            type: "post",
-                            dataType: "json",
-                            async: false,
-                            success: function (data) {
-                                if(data.state == 1){
-                                    layer.msg(msg+'成功', {
-                                        icon: 1,
-                                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
-                                    }, function(){
-                                        window.parent.location.reload();
-                                        layer.close(index);
-                                    });
-                                }else{
-                                    layer.msg(msg+'失败。。', {icon: 5});
-                                }
-                            },
-                            error: function(data) {
-                                var error_msg = '';
-                                $.each(data.responseJSON.errors, function (index, obj) {
-                                    error_msg += error_msg + index+" : "+obj[0] + "<br/>";
-                                    return false;
-                                });
-                                layer.msg(error_msg, {icon: 5});
-                            }
-                        })
-                    },
-                    shade: 0.8,
-                    area: ['400px', '500px'],
-                    content: '/login?layer=1', //iframe的url
-                    cancel: function(index){ //或者使用btn2
-                        layer.closeAll();
-                    },
-                    end:function(index){
-//                    layer.closeAll();
-                    }
-                });
+                checkLogin();
             }
+        }
+        function checkLogin(){
+            var msg = '登陆';
+            layer.open({
+                type: 2,
+                title: '请先'+msg,
+                shadeClose: true,
+                skin:'my-skin',
+                btn: ['确定','取消'], //按钮
+                yes:function(index, layero){
+                    var formData = layer.getChildFrame('body');
+                    var form = formData.find('#doSubmit').serialize();
+                    var login_flag = formData.find('input[name="is_login"]').val();
+                    var url = '';
+
+                    if(login_flag == 1){
+                        url = "{{ url('login') }}";
+                        msg = '登陆';
+                    }else if(login_flag == 0){
+                        url = "{{ url('register') }}";
+                        msg = '登陆';
+                    }
+
+                    $.ajax({
+                        url: url,
+                        data: form,
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            if(data.state == 1){
+                                layer.msg(msg+'成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                    window.parent.location.reload();
+                                    layer.close(index);
+                                });
+                            }else{
+                                layer.msg(msg+'失败。。', {icon: 5});
+                            }
+                        },
+                        error: function(data) {
+                            var error_msg = '';
+                            $.each(data.responseJSON.errors, function (index, obj) {
+                                error_msg += error_msg + index+" : "+obj[0] + "<br/>";
+                                return false;
+                            });
+                            layer.msg(error_msg, {icon: 5});
+                        }
+                    })
+                },
+                shade: 0.8,
+                area: ['400px', '500px'],
+                content: '/login?layer=1', //iframe的url
+                cancel: function(index){ //或者使用btn2
+                    layer.closeAll();
+                },
+                end:function(index){
+//                    layer.closeAll();
+                }
+            });
         }
     </script>
 @endsection
@@ -520,8 +563,8 @@
                     </div>
                     <div class="tag-right">
                         <ul class="tag-list">
-                            <li class="tag-item"><a href="#" class="label-link">收藏</a></li>
-                            <li class="tag-item"><a href="#"  class="label-link">举报</a></li>
+                            <li class="tag-item"><a href="javascript:void(0)" class="label-link" >收藏</a></li>
+                            <li class="tag-item"><a  href="javascript:void(0)"  onclick="article_report()" class="label-link">举报</a></li>
                         </ul>
                     </div>
                 </div>
@@ -543,6 +586,7 @@
                     <div class="col-md-6">
                         <span class="page-next">下一篇：<a href="{{ $next_url }}" @if($next_url == '#') style="color:#f99f9f"; @endif>{{ $next }}</a></span>
                     </div>
+
                 </div>
             @endif
 
@@ -555,104 +599,7 @@
                 @endif
             </div>
             <div class="relative">
-                <div class="title">相关推荐</div>
-                <div class="relative-wrap">
-                    <ul>
-                        <li>
-                            <div class="relative-item">
-                                <div class="relative-lbox">
-                                    <a href="#" class="img-wrap"><img src="//p1.pstatp.com/list/190x124/50ed00093e440810e7f5"/></a>
-                                </div>
-                                <div class="relative-rbox">
-                                    <div class="inner">
-                                        <div class="title-box">
-                                            <a href="#" class="link">
-                                                司马懿失权后一兵一卒不能调动 凭他养的三千死士成功反杀
-                                            </a>
-                                        </div>
-                                        <div class="relative-footer">
-                                            <div class="footer-bar-left">
-                                                <a href="#" class="media-avatar">
-                                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
-                                                </a>
-                                                <a href="#" class="source">鲁迅</a>
-                                                <a href="#" class="comment-count">32 评论</a>
-                                            </div>
-                                            <div class="footer-bar-right">
-                                                <div class="action-dislike">
-                                                    <i class="fa fa-times" aria-hidden="true" style="font-size: 16px; color: rgb(221, 221, 221);"></i>
-                                                    不感兴趣
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="relative-item">
-                                <div class="relative-lbox">
-                                    <a href="#" class="img-wrap"><img src="//p1.pstatp.com/list/190x124/50ed00093e440810e7f5"/></a>
-                                </div>
-                                <div class="relative-rbox">
-                                    <div class="inner">
-                                        <div class="title-box">
-                                            <a href="#" class="link">
-                                                司马懿失权后一兵一卒不能调动 凭他养的三千死士成功反杀
-                                            </a>
-                                        </div>
-                                        <div class="relative-footer">
-                                            <div class="footer-bar-left">
-                                                <a href="#" class="media-avatar">
-                                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
-                                                </a>
-                                                <a href="#" class="source">鲁迅</a>
-                                                <a href="#" class="comment-count">32 评论</a>
-                                            </div>
-                                            <div class="footer-bar-right">
-                                                <div class="action-dislike">
-                                                    <i class="fa fa-times" aria-hidden="true" style="font-size: 16px; color: rgb(221, 221, 221);"></i>
-                                                    不感兴趣
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="relative-item">
-                                <div class="relative-lbox">
-                                    <a href="#" class="img-wrap"><img src="//p1.pstatp.com/list/190x124/50ed00093e440810e7f5"/></a>
-                                </div>
-                                <div class="relative-rbox">
-                                    <div class="inner">
-                                        <div class="title-box">
-                                            <a href="#" class="link">
-                                                司马懿失权后一兵一卒不能调动 凭他养的三千死士成功反杀
-                                            </a>
-                                        </div>
-                                        <div class="relative-footer">
-                                            <div class="footer-bar-left">
-                                                <a href="#" class="media-avatar">
-                                                    <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
-                                                </a>
-                                                <a href="#" class="source">鲁迅</a>
-                                                <a href="#" class="comment-count">32 评论</a>
-                                            </div>
-                                            <div class="footer-bar-right">
-                                                <div class="action-dislike">
-                                                    <i class="fa fa-times" aria-hidden="true" style="font-size: 16px; color: rgb(221, 221, 221);"></i>
-                                                    不感兴趣
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                @include('foreground.shared.bottom_recomment')
             </div>
         </div>
     </div>

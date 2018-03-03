@@ -15,9 +15,8 @@
                             <a href="#" class="author-face"><img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/></a>
                             <a class="author-name">{{ $article['author'] }}</a>
                             <span class="time">{{ $article['created_at'] }}</span>
-                            <a href="{{url($article->cate_pinyin."/".$article['id'].".html")}}#comments" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> 20</a>
+                            <a href="{{url($article->cate_pinyin."/".$article['id'].".html")}}#comments" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> {{ $article['comments_count'] }}</a>
                             <a href="javascript:;" data-status="{{ $is_login }}"  data-id="{{ $article->article_id }}" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ $article['like'] }}</a>
-
                         </div>
                         <p>{{ $article['description'] }}
                         </p>
@@ -38,7 +37,7 @@
                             <a href="#" class="author-face"><img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/></a>
                             <a class="author-name">{{ $article['author'] }}</a>
                             <span class="time">{{ $article['post_time'] }}</span>
-                            <a href="{{url($article->cate_pinyin."/".$article['id'].".html")}}#comments" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> 29</a>
+                            <a href="{{url($article->cate_pinyin."/".$article['id'].".html")}}#comments" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> {{ $article['comments_count'] }}</a>
                             <a href="javascript:;" onclick="click_like(this)" data-status="{{ $is_login }}"   data-id="{{ $article->article_id }}" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ $article['like'] }}</a>
 
                         </div>

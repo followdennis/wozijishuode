@@ -245,10 +245,36 @@
             },
             //举报处理
             handleTipOffs(item){
-                layer.prompt({title: '请输入举报原因', formType: 2}, function(pass, index){
-                    console.log(pass);
-                    layer.close(index);
-                });
+                if(this.is_login == 0){
+                    this.handleLoginCheck();
+                }else{
+                    layer.prompt({title: '请输入举报原因', formType: 2}, function(pass, index){
+                        let params = {
+                            article_id:item.article_id,
+                            comment_id:item.comment_id,
+                            type:2,//评论举报
+                            description:pass
+                        };
+                        let para = Object.assign({}, params);
+                        axios.post('/article_comment/report',para).then((res)=>{
+                            var response = res.data;
+
+                            if(response.state == 1){
+                                layer.msg('举报成功', {
+                                    icon: 1,
+                                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+
+                                });
+                                console.log(res);
+                            }else{
+                                console.log(res);
+                                layer.msg('举报失败', {icon: 5});
+                            }
+                        });
+                        layer.close(index);
+                    });
+                }
             },
             handleLike:function(item){
                if(this.is_login == 0){
