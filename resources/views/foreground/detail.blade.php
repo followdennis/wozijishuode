@@ -599,7 +599,7 @@
                 @endif
             </div>
             <div class="relative">
-                @include('foreground.shared.bottom_recomment')
+                @include('foreground.shared.bottom_recommend')
             </div>
         </div>
     </div>

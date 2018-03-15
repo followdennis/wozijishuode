@@ -74,12 +74,13 @@ class IndexController extends CommonController
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
 
         $check_article_exists = $this->articleIndexModel->checkArticleExists($cate_id,$id);
+        $this->detail_recommend();
         //判断文章是否已展示
         if(!$check_article_exists){
             $article['article_id'] = 0;
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']],'article'=>$article]);
         }
-        $this->detail_recommend();
+
         $this->next($cate,$cate_id,$id);//下一页
         $this->prev($cate,$cate_id,$id);//上一页
         $article = $this->articleRepository->getArticleData($id);

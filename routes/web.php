@@ -165,6 +165,8 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
 });
 //前台
 Route::group(['domain'=>'www.wozijishuode.com'],function(){
+    Route::any('login/qq',['uses'=>'Foreground\Auth\QQLoginController@qq']);
+    Route::any('login/qq_login',['uses'=>'Foreground\Auth\QQLoginController@qqlogin']);
     Route::get('/login',['uses'=>'Foreground\Auth\LoginController@showLoginForm','as'=>'front.login']);
     Route::post('/login',['uses'=>'Foreground\Auth\LoginController@login']);
     Route::get('/register',['uses'=>'Foreground\Auth\RegisterController@showRegistrationForm','as'=>'front.register']);

@@ -186,6 +186,8 @@ return [
         Vinkla\Hashids\HashidsServiceProvider::class,
         Overtrue\LaravelPinyin\ServiceProvider::class,//拼音插件
         Laravel\Tinker\TinkerServiceProvider::class,//laravel thinker
+        //第三方登陆
+        SocialiteProviders\Manager\ServiceProvider::class, //
 
     ],
 
@@ -240,6 +242,8 @@ return [
         'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'Hashids' =>Vinkla\Hashids\Facades\Hashids::class,
         'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
+        //第三方登陆
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
