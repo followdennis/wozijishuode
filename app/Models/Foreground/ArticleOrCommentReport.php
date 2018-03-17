@@ -20,4 +20,14 @@ class ArticleOrCommentReport extends Model
     public function updateData($params = []){
         return self::where('id',$params['id'])->update($params);
     }
+    public function article(){
+        return $this->hasOne('App\Models\ArticleManage\ArticleAll','id','article_id');
+    }
+    public function comment(){
+        return $this->hasOne('App\Models\ArticleManage\Comments','id','comment_id')->withDefault([
+            'article_id'=>0,
+            'comment'=>'无'
+        ]);
+    }
+
 }

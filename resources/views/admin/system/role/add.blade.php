@@ -55,7 +55,7 @@
 
             </div>
             <input type="hidden" name="id" id="id" value="0" />
-            <input type="submit" style="display: none;" name="dosubmit" id="dosubmit" value="dosubmit" />
+            <input type="submit"  name="dosubmit" id="dosubmit" value="dosubmit" />
         </form>
         <!-- END FORM-->
     </div>

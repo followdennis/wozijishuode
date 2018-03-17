@@ -17,10 +17,8 @@
          * */
         var routes = {
             list: {
-                fetch : 'user/list',
-                add : '{{route('user/add')}}',
+                fetch : 'report/get_list',
                 edit : '{{route('user/edit')}}',
-                del : '{{route('user/del')}}'
             }
         };
 
@@ -73,13 +71,15 @@
                 },
                 columns: [
                     {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
-                    {data: 'thumb', name: 'thumb', title : '头像',width:"35px", sortable: false},
-                    {data: 'name', name: 'name', title : '登陆名', sortable: false},
-                    {data:'email',name:'email',title:'账号名',sortable:false},
-                    {data: 'nickname', name: 'nickname', title : '昵称', sortable: false},
-                    {data: 'description', name: 'description', title : '描述', sortable: false},
-                    {data: 'sex', name: 'sex', title : '性别', sortable: false},
-                    {data: 'phone', name: 'phone', title : '电话', sortable: false},
+                    {data: 'article_id', name: 'article_id', title : '文章id',width:"35px", sortable: false},
+                    {data: 'title', name: 'title', title : '文章标题',width:"200px", sortable: false},
+                    {data: 'comment_id', name: 'comment_id', title : '评论id', sortable: false},
+                    {data: 'comment', name: 'comment', title : '评论内容', sortable: false},
+                    {data: 'description', name: 'description', title : '问题描述', sortable: false},
+                    {data: 'user_name', name: 'user_name', title : '投诉人',width:"80px", sortable: false},
+                    {data:'report_time',name:'report_time',title:'投诉事件',width:"90px",sortable:false},
+                    {data: 'process_user_name', name: 'process_user_name', title : '处理人', sortable: false},
+                    {data: 'process_time', name: 'process_time', title : '处理时间', sortable: false},
 
 //                    {
 //                        data: 'source_url', name: 'source_url', title : '文章来源', sortable: false,
@@ -93,7 +93,7 @@
 //                        }
 //                    },
 //                    {data: 'created_at', name: 'created_at',width:"100px", title : '采集时间', sortable: false},
-                    {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}
+//                    {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}
                 ],
                 //创建行回调
                 "createdRow": function ( row, data, index ) {
@@ -109,9 +109,7 @@
                     $('.is_finish_convert',row).click(function(){
                         change_finish_status(this);
                     })
-
                 }
-
             });
 
             $('#search-form').on('submit', function(e) {
@@ -289,7 +287,7 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h1 class="page-title"> 用户管理
+            <h1 class="page-title"> 投诉与反馈
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
@@ -300,12 +298,9 @@
                         {{--<div class="portlet box blue-steel">--}}
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>用户列表 </div>
+                                <i class="fa fa-cogs"></i>问题列表 </div>
 
                             <div class="actions">
-                                <button type="button" data-url="{{route('user/add')}}" class="btn btn-default btn-sm user_add" >
-                                    <i class="fa fa-plus"></i> 添加用户
-                                </button>
                             </div>
                         </div>
                         <div class="portlet-body">

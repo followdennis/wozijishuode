@@ -118,6 +118,13 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::match(['get', 'post'], 'author/edit', ['uses' => 'Admin\ArticlesManage\AuthorController@edit', 'as' => 'author/edit']);
         Route::get('author/del', ['uses' => 'Admin\ArticlesManage\AuthorController@del', 'as' => 'author/del']);
 
+
+        /**
+         * 投诉与举报
+         */
+        Route::get('report',['uses'=>'Admin\Report\ReportController@index','as'=>'report']);//投诉信息列表
+        Route::get('report/get_list',['uses'=>'Admin\Report\ReportController@get_list','as'=>'report/get_list']);
+        Route::get('report/process',['uses'=>'Admin\Report\ReportController@edit','as'=>'report/process']);
         /**
          * 系统管理
          */

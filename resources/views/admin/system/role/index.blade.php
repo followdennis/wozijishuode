@@ -99,10 +99,10 @@
                         deleteItem($(this).data('id'));
                     });
                     $('.item_add',row).click(function(){
+
                         item_add($(this).data('id'));
                     })
-                    $('.item_edit',row).
-                    click(function(){
+                    $('.item_edit',row).click(function(){
                         item_edit($(this).data('id'),$(this).data('name'));
                     });
                     $('.power_set',row).click(function(){
@@ -231,6 +231,7 @@
             });
         }
         function item_add(id){
+
             var url = jsRoute(routes.list.add,{parent_id:id});
             layer.open({
                 title: '添加菜单',

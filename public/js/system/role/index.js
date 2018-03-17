@@ -92,12 +92,15 @@ $(document).ready(function () {
     $('.role_add').click(function () {
         var url = $(this).data('url');
         //页面层
+        alert(url);
         layer.open({
             title: '添加角色',
             type: 2,
             btn: ['保存','取消'], //按钮
             yes: function(index, layero){ //或者使用btn1
+
                 var formData = layer.getChildFrame('body');
+                console.log(formData);
                 formData.find('#dosubmit').click();
                 // layer.closeAll();
             },cancel: function(index){ //或者使用btn2

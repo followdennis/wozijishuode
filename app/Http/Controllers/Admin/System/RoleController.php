@@ -47,6 +47,7 @@ class RoleController extends AdminController
             ->make(true);
     }
     public function add(Request $request){
+
         if($request->isMethod('post')){
             $params = $request->all();
             $status = $this->roleModel->insertRole($params);
@@ -128,7 +129,9 @@ class RoleController extends AdminController
         if($request->isMethod('post')){
             $id = $request->get('id');
             $permision_id = $request->get('permision_id');
+            //角色id和权限permission_id
             $state = $this->roleModel->saveRolePermision($id,$permision_id);
+
             if($state)
             {
                 $data = ['status'=>1];
