@@ -66,7 +66,12 @@ class IndexController extends CommonController
         if($cate_id == 0){
             return redirect(url('/'));
         }
-        return view('foreground.ch',['nav'=>$nav,'articles'=>$articles,'current_route'=>$cate,'is_exists'=>1]);
+        return view('foreground.ch',[
+            'nav'=>$nav,
+            'articles'=>$articles,
+            'current_route'=>$cate,
+            'is_exists'=>1,
+        ]);
     }
     public function detail(Request $request,Comments $comments,$cate = 'default',$id = 0){
         $id = intval($id);

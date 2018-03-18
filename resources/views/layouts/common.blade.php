@@ -103,8 +103,11 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 
-
+{{--和ajaxfrom 有冲突--}}
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
+
+{{--<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>--}}
+
 {{--这个j可能和validate有依赖关系--}}
 <script src="{{asset('vendor/metronic_theme/js/app.js')}}" type="text/javascript"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>

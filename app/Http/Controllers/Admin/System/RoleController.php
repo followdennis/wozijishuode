@@ -26,6 +26,7 @@ class RoleController extends AdminController
     }
 
     public function index(){
+
         return view('admin.system.role.index');
     }
     public function get_list(Request $request){
@@ -163,6 +164,7 @@ class RoleController extends AdminController
                     $role_menus[$r['id']] = $r;
                 }
             }
+
             $Roletree = new Tree();
             $Roletree->icon = array('└─ ','├─ ','│ ');
             $Roletree->nbsp = '&nbsp;&nbsp;&nbsp;';

@@ -187,6 +187,7 @@ class Role extends EntrustRole
                 {
                     array_push($insert_data,['permission_id'=>$v,'role_id'=>$id]);
                 }
+
                 $insert_status = DB::table('permission_role')->insert($insert_data);
             }
 

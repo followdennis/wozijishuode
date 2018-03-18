@@ -22,7 +22,7 @@
     <div class="panel panel-default article-list">
         <div class="panel-body">
             <div class="">
-              ch
+
             </div>
         </div>
         @include('foreground.shared.content_list')

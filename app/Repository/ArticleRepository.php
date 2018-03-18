@@ -1,5 +1,6 @@
 <?php
 namespace App\Repository;
+use App\Events\ArticleView;
 use App\Models\ArticleManage\Article;
 use App\Models\ArticleManage\ArticleAll;
 use App\Models\ArticleManage\ArticleBody;
@@ -45,8 +46,14 @@ class ArticleRepository
      * @return array
      */
     public static function getArticleData($id){
+        $article = \App\Models\Foreground\Article::where('is_show',1)->find($id);
+        //浏览次数加1事件
+        event(new ArticleView($article));
+
         $articleHead = new ArticleHead();
         $articlebody = new ArticleBody();
+        $articleHeadView = clone $articleHead;
+        $articleHeadView->view_count($id);//浏览次数加1
         $head = $articleHead->getInfoById($id);
         $body = $articlebody->getInfoById($id);
         return array_merge(collect($head)->toArray(),collect($body)->toArray());

@@ -5,13 +5,50 @@
 @endsection
 
 @section('CUSTOM_SCRIPT')
-    {{--<script type="text/javascript" src="{{ URL::asset('/js/jquery-validation-1.13.1/lib/jquery.form.js')}}"></script>--}}
+
     <script src="{{asset('metronic_theme/global/plugins/jquery-validation/js/jquery.validate.js')}}" type="text/javascript"></script>
+    {{--<script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>--}}
     <script src="{{asset('js/jquery.form.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
+
     <script src="{{asset('js/jquery.cookie.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/utils/xsrf_ajax.js')}}" type="text/javascript"></script>
+
     <script src="{{asset('js/system/role/form.js')}}" type="text/javascript"></script>
+    <script>
+
+//        form.ajaxForm({success:showResponse });
+        function showResponse(data, statusText)  {
+
+            // $('#model_close').click();
+            var id = $('#id').val();
+
+            if(id == 0){
+                var title = '添加角色';
+            }else{
+                var title = '编辑角色';
+            }
+            if(data.status == 1){
+                swal({
+                    title: title,
+                    text: "操作成功!",
+                    type: "success",
+                    closeOnConfirm: false,
+                    width:"250px"
+                }).then(function () {
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                    // parent.window.location.href='/back/role';
+                });
+            }else {
+                swal({
+                    title: title,
+                    text: "操作失败!",
+                    type: "error",
+                });
+            }
+
+        }
+    </script>
 @endsection
 
 @section('body')

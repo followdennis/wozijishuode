@@ -538,7 +538,14 @@
             <div class="article_box">
                 @if($is_exist)
                 <h2 class="article-title">{{ $article['title'] }}</h2>
-                <div class="article-sub"><!----> <span>@if(empty($article['author']))佚名 @else{{ $article['author'] }} @endif</span> <span>@if(empty($article['created_at']))2018-01-01 20:11:32 @else {{ $article['created_at'] }} @endif </span></div>
+                <div class="article-sub"><!---->
+                    <span>@if(empty($article['author']))佚名 @else{{ $article['author'] }} @endif</span>
+                    <span>@if(empty($article['created_at']))2018-01-01 20:11:32 @else {{ $article['created_at'] }} @endif
+                    </span>
+                    <span>
+                        浏览 {{ $article['click'] }}
+                    </span>
+                </div>
                 <div class="article-content">
                     <div>
                         {!! $article['content'] !!}

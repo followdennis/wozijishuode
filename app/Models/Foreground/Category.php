@@ -28,6 +28,9 @@ class Category extends Model
     public function getKeyVal($key = 'pinyin',$val = 'id'){
         return self::where('is_show',1)->pluck($val,$key);
     }
+    public function getCateDescription($id){
+        return self::where('is_show',1)->select('description')->find($id);
+    }
     //(限制层级后，效率提升)
     public function tree($cates = array(),$parent_id = 0,$level = 0){
         $cate_arr = [];

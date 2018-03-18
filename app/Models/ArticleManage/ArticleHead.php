@@ -71,4 +71,9 @@ class ArticleHead extends Model
             return $model->decrement('comments_count');
         }
     }
+    //浏览次数加1
+    public function view_count($article_id){
+        $head_id = get_article_head_id($article_id);
+        return \DB::table($this->table.$head_id)->whereNull('deleted_at')->where('id',$article_id)->increment('click',1);
+    }
 }

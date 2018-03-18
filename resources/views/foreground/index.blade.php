@@ -21,7 +21,7 @@
     <div class="panel panel-default article-list">
         <div class="panel-body">
             <div class="">
-                aaa
+                我自己说的，你说
             </div>
         </div>
         @include('foreground.shared.content_list')

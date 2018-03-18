@@ -12,21 +12,24 @@ $(document).ready(function() {
         ignore: "",  // validate all fields including form hidden input
 
         rules: {
-            name: {
-                required: true,
-                remote: {
-                     url: '/back/ajax_role/check_role_exist',
-                     type: "post",
-                     dataType: "json",
-                     data: {
-                         'id': function () {
-                             return $("#id").val();
-                         },
-                         'name': function () {
-                             return $("#name").val();
-                         }
-                     }
-                 }
+            // name: {
+            //     required: true,
+            //     remote: {
+            //          url: '/back/ajax_role/check_role_exist',
+            //          type: "post",
+            //          dataType: "json",
+            //          data: {
+            //              'id': function () {
+            //                  return $("#id").val();
+            //              },
+            //              'name': function () {
+            //                  return $("#name").val();
+            //              }
+            //          }
+            //      }
+            // },
+            name:{
+               required:true
             },
             display_name:{
                 required: true
@@ -86,11 +89,19 @@ $(document).ready(function() {
             var icon = $(element).parent('.input-icon').children('i');
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success'); // set success class to the control group
             icon.removeClass("fa-warning").addClass("fa-check");
-        },
+
+        }
     });
 
     form.ajaxForm({success: showResponse});
 
+    // form.submit(function() {
+    //     // 提交表单
+    //     $(this).ajaxForm({success: showResponse});
+    //     // $(this).ajaxForm({success: showResponse});
+    //     // 为了防止普通浏览器进行表单提交和产生页面导航（防止页面刷新？）返回false
+    //     return false;
+    // });
     // post-submit callback
     function showResponse(data, statusText)  {
 
@@ -123,5 +134,4 @@ $(document).ready(function() {
         }
 
     }
-
 });
