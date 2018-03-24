@@ -31,6 +31,7 @@ class IndexController extends CommonController
     }
 
     public function index(Request $request,ArticleRepository $articleRepository,$page = 1){
+        $this->globalClick();
         if($page>100){
             $page = 100;
         }
@@ -66,6 +67,7 @@ class IndexController extends CommonController
         if($cate_id == 0){
             return redirect(url('/'));
         }
+        $this->globalClick($cate_id);//统计点击量
         return view('foreground.ch',[
             'nav'=>$nav,
             'articles'=>$articles,
@@ -85,7 +87,7 @@ class IndexController extends CommonController
             $article['article_id'] = 0;
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']],'article'=>$article]);
         }
-
+        $this->globalClick($cate_id);
         $this->next($cate,$cate_id,$id);//下一页
         $this->prev($cate,$cate_id,$id);//上一页
         $article = $this->articleRepository->getArticleData($id);

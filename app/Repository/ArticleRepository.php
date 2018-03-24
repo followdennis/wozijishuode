@@ -48,8 +48,9 @@ class ArticleRepository
     public static function getArticleData($id){
         $article = \App\Models\Foreground\Article::where('is_show',1)->find($id);
         //浏览次数加1事件
-        event(new ArticleView($article));
-
+        if($article){
+            event(new ArticleView($article));
+        }
         $articleHead = new ArticleHead();
         $articlebody = new ArticleBody();
         $articleHeadView = clone $articleHead;

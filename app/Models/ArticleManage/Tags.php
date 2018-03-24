@@ -43,5 +43,12 @@ class Tags extends Model
             return self::whereIn('id',$tag_id)->decrement('article_count');
         }
    }
+   public function updateClick($tag_name = null){
+        $tag  = self::where('name',$tag_name)->first();
+        if($tag){
+            $tag->click += 1;
+            $tag->save();
+        }
+   }
 
 }

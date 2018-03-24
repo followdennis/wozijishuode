@@ -34,8 +34,9 @@ class SearchController extends CommonController
         return view('foreground.search.search_keywords',['kw'=>$kw,'articles'=>$list,'is_exists'=>1]);
     }
 
-    public function search_tag(Request $request,$tag = null){
+    public function search_tag(Request $request,Tags $tags,$tag = null){
         list($paginate,$article_list) = $this->searchRepo->getDataByTag($tag);
+        $tags->updateClick($tag);
         $top_tag = Tags::orderBy('click','desc')->take(10)->select('name')->get();
         $this->message = '标签';
         if($paginate->total == 0){

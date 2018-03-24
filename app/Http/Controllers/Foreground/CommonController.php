@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Foreground;
 
 use App\Models\ArticleManage\ArticleAll;
+use App\Models\ArticleManage\ClickStatics;
 use App\Models\ArticleManage\Tags;
 use App\Models\Foreground\Category;
 use App\Models\System\FriendLink;
@@ -20,7 +21,6 @@ class CommonController extends Controller
             $this->hot();
             $this->recommend();
             $is_login = Auth::guard('front')->check() ? 1:0;
-
             view()->share(['is_login'=>$is_login]);
             return $next($request);
         });
@@ -164,4 +164,14 @@ class CommonController extends Controller
         }
         return $newArr;
     }
+
+    /**
+     * @param int $cate_id
+     * 在首页，列表页，和详细页执行
+     */
+    public function globalClick($cate_id = 0){
+        $m = new ClickStatics();
+        $m->updateClick($cate_id);
+    }
+
 }
