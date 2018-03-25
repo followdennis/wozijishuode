@@ -27,8 +27,28 @@ class CommentsController extends AdminController
         return view('admin.comments.index');
     }
     public function get_list(Request $request){
-        $record = $this->commentsModel->getAllList();
+        $record = $this->commentsModel->getAllList()->with('commonUser','article')->where(function($query) use($request){
+            if($request->filled('user_name')){
+                $name = trim($request->get('user_name'));
+                $query->whereHas('commonUser',function($subQuery) use($name){
+                    $subQuery->where('name','like','%'.$name.'%');
+                });
+            }
+            if($request->filled('title')){
+                $title = trim($request->get('title'));
+                $query->whereHas('article',function($subQuery) use($title){
+                    $subQuery->where('title','like','%'.$title.'%');
+                });
+            }
+        });
+
         return DataTables::of($record)
+            ->addColumn('title',function($record){
+                return $record->article->title;
+            })
+            ->addColumn('user_name',function($record){
+                return $record->commonUser->name;
+            })
             ->addColumn('action',function($record){
                 $id = \Hashids::encode($record->id);
                 $real_id = $record->id;
@@ -49,8 +69,17 @@ class CommentsController extends AdminController
                     $kw = trim($request->get('keyword'));
                     $query->where('comment','like',"%$kw%");
                 }
+                if($request->filled('sort_order')){
+                    $order_flag = $request->get('sort_order');
+                    if($order_flag == 1){
+                        $query->orderBy('like','desc');
+                    }else if($order_flag == 2){
+                        $query->orderBy('like','asc');
+                    }else{
+                        $query->orderBy('id','desc');
+                    }
+                }
             })->make(true);
-
     }
     public function del(Request $request){
         $id = $request->get('id');

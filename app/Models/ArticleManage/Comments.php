@@ -15,7 +15,7 @@ class Comments extends Model
         return self::find($id);
     }
     public function getAllList(){
-        return self::orderBy('id','desc');
+        return self::select('*');
     }
     //删除数据
     public function delData($id){
@@ -29,4 +29,15 @@ class Comments extends Model
     public function getCommentsList($article_id = 0){
         return self::where('is_hidden',0)->where('parent_id',0)->where('article_id',$article_id)->take(10)->get();
     }
+    public function article(){
+        return $this->hasOne('App\Models\ArticleManage\ArticleAll','id','article_id')->withDefault(function($article){
+            return $article->title = '无对应文章';
+        });
+    }
+    public function commonUser(){
+        return $this->belongsTo('App\Models\CommonUser','user_id','id')->withDefault(function($user){
+            $user->name = '无';
+        });
+    }
+
 }

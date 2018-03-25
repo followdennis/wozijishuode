@@ -62,12 +62,15 @@
                     url: jsRoute(routes.list.fetch),
                     data: function (d) {
                         d.keyword = $('#keyword').val();
+                        d.sort_order = $("#sort_order").val();
+                        d.title = $("#article_title").val();
+                        d.user_name = $("#user_name").val();
                     }
                 },
                 columns: [
                     {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
-                    {data: 'article_id', name: 'article_id', title : '文章id', sortable: false},
-                    {data: 'user_id', name: 'user_id', title : '用户id', sortable: false},
+                    {data: 'title', name: 'title', title : '对应文章', sortable: false},
+                    {data: 'user_name', name: 'user_name', title : '用户名', sortable: false},
                     {data: 'comment', name: 'comment', title : '评论', sortable: false},
                     {data: 'parent_id', name: 'parent_id', title : '父id', sortable: false},
                     {data: 'like', name: 'like', title : '赞', sortable: false},
@@ -240,8 +243,19 @@
                         <div class="portlet-body">
                             <form method="POST" id="search-form" class="form-inline pull-right" role="form">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="keyword" id="keyword" placeholder="标签名称">
+                                    <input type="text" class="form-control" name="user_name" id="user_name" placeholder="用户名">
                                 </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="title" id="article_title" placeholder="文章标题">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="keyword" id="keyword" placeholder="评论关键词">
+                                </div>
+                                <select name="sort_order" id="sort_order" class="form-control">
+                                    <option value="0">排序</option>
+                                    <option value="1">赞降序</option>
+                                    <option value="2">赞升序</option>
+                                </select>
                                 <button type="submit" class="btn btn-primary red">搜索</button>
                             </form>
                             <table class="table table-striped table-bordered table-hover order-column" style="width: 100%" id="main_table">
