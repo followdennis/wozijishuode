@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Foreground;
 
+use App\Models\ArticleManage\SearchKeyWords;
 use App\Models\ArticleManage\Tags;
 use App\Repository\Foreground\SearchRepository;
 use Illuminate\Http\Request;
@@ -17,8 +18,10 @@ class SearchController extends CommonController
         $this->searchRepo = $search;
     }
 
-    public function search_keywords(Request $request){
+    public function search_keywords(Request $request,SearchKeyWords $searchKeyWords){
+
         $kw = trim($request->get('keywords'));
+        $searchKeyWords->updateWordsClick($kw);
         list($paginate,$list) = $this->searchRepo->getDataByKeyWords($kw);
         if($paginate->total == 0){
             return view('foreground.search.search_keywords',['kw'=>$kw,'is_exists'=>0]);
