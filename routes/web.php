@@ -75,6 +75,14 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::any('diary/today/thoughts/lists', ['uses' => 'Admin\Diary\ReflectController@lists', 'as' => 'diary/today/thoughts/lists']);
         Route::any('diary/today/thoughts/add', ['uses' => 'Admin\Diary\ReflectController@add', 'as' => 'diary/today/thoughts/add']);
         Route::any('diary/today_get_task_list', ['uses' => 'Admin\Diary\ReflectController@get_task_list', 'as' => 'public_diary/today/tasks']);
+        /**
+         *  大计划小步骤 迭代日志
+         */
+        Route::any('diary/steps', ['uses' => 'Admin\Diary\StepsController@index', 'as' => 'diary/steps']);//视图
+        Route::any('diary/steps/lists', ['uses' => 'Admin\Diary\StepsController@lists', 'as' => 'diary/steps/lists']);
+        Route::any('diary/steps/add', ['uses' => 'Admin\Diary\StepsController@add', 'as' => 'diary/steps/add']);
+        Route::any('diary/steps/edit', ['uses' => 'Admin\Diary\StepsController@edit', 'as' => 'diary/steps/edit']);
+        Route::any('diary/steps/del', ['uses' => 'Admin\Diary\StepsController@del', 'as' => 'diary/steps/del']);
 
         /**
          * 分类管理category

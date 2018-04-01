@@ -19,6 +19,7 @@ Vue.use(ElementUI);    //把引入的ElementUI装入我们的Vue
 Vue.component('mass', require('./components/article/Mass.vue'));
 Vue.component('my_question',require('./components/diary/question.vue'));
 Vue.component('my_reflect',require('./components/diary/reflect.vue'));
+Vue.component('my_steps',require('./components/diary/steps.vue'));
 const app = new Vue({
     el: '#article_mass'
 });

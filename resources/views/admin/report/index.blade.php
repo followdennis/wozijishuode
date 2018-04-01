@@ -62,11 +62,7 @@
                     url: jsRoute(routes.list.fetch),
                     data: function (d) {
                         d.keyword = $('#keyword').val();
-                        d.description = $('#description').val();
-                        d.search_order = $('#search_order').val();
-                        d.is_finish = $('#is_finish').val();
-                        d.start_date = $('#start_date').val();
-                        d.end_date = $('#end_date').val();
+                        d.report_type = $('#report_type').val();
                     }
                 },
                 columns: [
@@ -304,6 +300,17 @@
                             </div>
                         </div>
                         <div class="portlet-body">
+                            <form method="POST" id="search-form" class="form-inline pull-right" role="form">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="keyword" id="keyword" placeholder="评论关键词">
+                                </div>
+                                <select name="report_type" id="report_type" class="form-control">
+                                    <option value="0">搜索内容</option>
+                                    <option value="1">文章投诉</option>
+                                    <option value="2">留言投诉</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary red">搜索</button>
+                            </form>
                             <table class="table table-striped table-bordered table-hover order-column" style="width: 100%" id="main_table">
                             </table>
                         </div>

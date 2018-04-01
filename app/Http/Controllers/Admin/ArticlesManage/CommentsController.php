@@ -51,7 +51,7 @@ class CommentsController extends AdminController
             })
             ->addColumn('action',function($record){
                 $id = \Hashids::encode($record->id);
-                $real_id = $record->id;
+                $real_id = $record->article->id;
                 if($record->is_hidden == 1){
                     $is_hidden = '<a  data-id="'.$id.'" data-is_hidden="'.$record->is_hidden.'" class="btn btn-sm default item_hide"><i class="fa fa-edit"></i>展示</a>';
                 }else{
