@@ -111,7 +111,7 @@
             <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
                 <el-form-item label="内容" prop="content">
                     <el-col :span="22">
-                        <el-input v-model="addForm.content" auto-complete="off"></el-input>
+                        <el-input type="textarea"  v-model="addForm.content"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="类型" prop="type">
@@ -136,19 +136,19 @@
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                 <el-form-item label="内容" prop="content">
                     <el-col :span="22">
-                        <el-input v-model="editForm.content" auto-complete="off"></el-input>
+                        <el-input type="textarea"  v-model="editForm.content"></el-input>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="是否显示" prop="is_show"  auto-complete="off">
+                <el-form-item label="类型" prop="type"  auto-complete="off">
                     <el-col :span="22">
-                        <el-input v-model="editForm.is_show" auto-complete="off"></el-input>
+                        <el-input v-model="editForm.type" auto-complete="off"></el-input>
                     </el-col>
-                </el-form-item>
-                <el-form-item label="类型" prop="type">
-                    <el-input-number v-model="editForm.type" :min="0" :max="3"></el-input-number>
                 </el-form-item>
                 <el-form-item label="等级" prop="level">
-                    <el-input-number v-model="editForm.level" :min="0" :max="10"></el-input-number>
+                    <el-input-number v-model="editForm.level" :min="0" :max="3"></el-input-number>
+                </el-form-item>
+                <el-form-item label="显示" prop="is_show">
+                    <el-input-number v-model="editForm.is_show" :min="0" :max="10"></el-input-number>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -175,7 +175,7 @@
                 msg:'hei hei  ',
                 code:200,
                 tableData: [],
-                options:[{value:0,label:'迭代日志'},{value:1,label:'大步骤'},{value:2,label:'小计划'}],
+                options:[{value:0,label:'迭代日志'},{value:1,label:'大步骤'},{value:2,label:'小计划'},{value:3,label:'展示所有'}],
                 show_select:[{value:'',label:'请选择'},{value:1,label:"是"},{value:0,label:"否"}],
                 page:{
                     total:0,

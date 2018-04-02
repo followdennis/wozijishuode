@@ -176,6 +176,12 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::any('sidebar', function () {
             return view('partial.leftmenu');
         });
+        /**
+         * 系统日志
+         */
+        Route::any('system_log', ['uses' => 'Admin\System\SystemLogController@index', 'as' => 'system_log']);
+        Route::any('system_log/lists', ['uses' => 'Admin\System\SystemLogController@lists', 'as' => 'system_log/lists']);
+
     });
 });
 //前台

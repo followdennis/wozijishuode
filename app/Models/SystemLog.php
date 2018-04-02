@@ -24,4 +24,7 @@ class SystemLog extends Model
         return DB::table($this->table)->where(['id'=>$id,'user_type'=>$user_type])->where('is_login',1)
             ->update(['updated_at'=>Carbon::now()->format('Y-m-d H:i:s'),'is_login'=>2]);
     }
+    public function getList(){
+        return self::orderBy('id','desc');
+    }
 }

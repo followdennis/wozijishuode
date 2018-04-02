@@ -49,8 +49,6 @@
 
 
             function getList(params){
-
-
                 $.ajax({
                     url:url,
                     dataType:"json",

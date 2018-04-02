@@ -13,6 +13,11 @@ class StepsController extends AdminController
 {
     //
     protected $stepsModel;
+    public $type = [
+        0=>'迭代日志',
+        1=>'大计划',
+        2=>'小步骤'
+    ];
     public function __construct(Request $request,Steps $steps)
     {
         parent::__construct($request);
@@ -36,7 +41,9 @@ class StepsController extends AdminController
                 $query->where('content','like','%'.$kw.'%');
             }
             $type = intval($request->get('type') );
-            $query->where('type',$type);
+            if($type<3){
+                $query->where('type',$type);
+            }
             if($request->get('date')){
                 $date = Carbon::parse($request->get('date'))->toDateString();
                 $query->where('created_at',$date);
@@ -60,7 +67,7 @@ class StepsController extends AdminController
                 'content'=>$item->content,
                 'is_show'=>$item->is_show,
                 'level'=>$item->level,
-                'type'=>$item->type,
+                'type'=>isset($this->type[$item->type]) ?$this->type[$item->type]:'未定义',
                 'date'=>Carbon::parse($item->created_at)->toDateString()
             ];
         });
@@ -82,7 +89,7 @@ class StepsController extends AdminController
             'user_id'=>Auth::user()->id,
             'content'=>trim($request->get('content')),
             'is_show'=>intval($request->get('is_show')) ? 1:0,
-            'type'=>intval($request->get('type')),
+            'type'=>$request->get('type'),
             'level'=>intval($request->get('level')),
             'created_at'=>Carbon::now()->toDateTimeString()
         ];

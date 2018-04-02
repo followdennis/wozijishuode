@@ -84861,7 +84861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             msg: 'hei hei  ',
             code: 200,
             tableData: [],
-            options: [{ value: 0, label: '迭代日志' }, { value: 1, label: '大步骤' }, { value: 2, label: '小计划' }],
+            options: [{ value: 0, label: '迭代日志' }, { value: 1, label: '大步骤' }, { value: 2, label: '小计划' }, { value: 3, label: '展示所有' }],
             show_select: [{ value: '', label: '请选择' }, { value: 1, label: "是" }, { value: 0, label: "否" }],
             page: {
                 total: 0,
@@ -86221,7 +86221,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-input', {
     attrs: {
-      "auto-complete": "off"
+      "type": "textarea"
     },
     model: {
       value: (_vm.addForm.content),
@@ -86334,7 +86334,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-input', {
     attrs: {
-      "auto-complete": "off"
+      "type": "textarea"
     },
     model: {
       value: (_vm.editForm.content),
@@ -86345,8 +86345,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "是否显示",
-      "prop": "is_show",
+      "label": "类型",
+      "prop": "type",
       "auto-complete": "off"
     }
   }, [_c('el-col', {
@@ -86358,30 +86358,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "auto-complete": "off"
     },
     model: {
-      value: (_vm.editForm.is_show),
-      callback: function($$v) {
-        _vm.$set(_vm.editForm, "is_show", $$v)
-      },
-      expression: "editForm.is_show"
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "类型",
-      "prop": "type"
-    }
-  }, [_c('el-input-number', {
-    attrs: {
-      "min": 0,
-      "max": 3
-    },
-    model: {
       value: (_vm.editForm.type),
       callback: function($$v) {
         _vm.$set(_vm.editForm, "type", $$v)
       },
       expression: "editForm.type"
     }
-  })], 1), _vm._v(" "), _c('el-form-item', {
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "等级",
       "prop": "level"
@@ -86389,7 +86372,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('el-input-number', {
     attrs: {
       "min": 0,
-      "max": 10
+      "max": 3
     },
     model: {
       value: (_vm.editForm.level),
@@ -86397,6 +86380,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.editForm, "level", $$v)
       },
       expression: "editForm.level"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "显示",
+      "prop": "is_show"
+    }
+  }, [_c('el-input-number', {
+    attrs: {
+      "min": 0,
+      "max": 10
+    },
+    model: {
+      value: (_vm.editForm.is_show),
+      callback: function($$v) {
+        _vm.$set(_vm.editForm, "is_show", $$v)
+      },
+      expression: "editForm.is_show"
     }
   })], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "dialog-footer",
