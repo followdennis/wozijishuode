@@ -67,7 +67,7 @@ class StepsController extends AdminController
                 'content'=>$item->content,
                 'is_show'=>$item->is_show,
                 'level'=>$item->level,
-                'type'=>isset($this->type[$item->type]) ?$this->type[$item->type]:'未定义',
+                'type'=>$item->type,
                 'date'=>Carbon::parse($item->created_at)->toDateString()
             ];
         });

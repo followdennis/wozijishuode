@@ -176,6 +176,27 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::any('sidebar', function () {
             return view('partial.leftmenu');
         });
+
+        /**
+         * 技能提升计划和业余项目进展记录功能
+         */
+        Route::any('skill_task',['uses'=>'Admin\Diary\SkillTaskController@index','as'=>'skill_task']);
+        Route::any('skill_task/list',['uses'=>'Admin\Diary\SkillTaskController@get_list','as'=>'skill_task/list']);
+        Route::any('skill_task/show',['uses'=>'Admin\Diary\SkillTaskController@show','as'=>'skill_task/show']);
+        Route::any('skill_task/add',['uses'=>'Admin\Diary\SkillTaskController@add','as'=>'skill_task/add']);
+        Route::any('skill_task/edit',['uses'=>'Admin\Diary\SkillTaskController@edit','as'=>'skill_task/edit']);
+        Route::any('skill_task/del',['uses'=>'Admin\Diary\SkillTaskController@del','as'=>'skill_task/del']);
+        Route::any('public_skill_task/change_status',['uses'=>'Admin\Diary\SkillTaskController@change_status','as'=>'public_skill_task/change_status']);
+
+
+        Route::any('project_task',['uses'=>'Admin\Diary\ProjectTaskController@index','as'=>'project_task']);
+        Route::any('project_task/list',['uses'=>'Admin\Diary\ProjectTaskController@get_list','as'=>'project_task/list']);
+        Route::any('project_task/show',['uses'=>'Admin\Diary\ProjectTaskController@show','as'=>'project_task/show']);
+        Route::any('project_task/add',['uses'=>'Admin\Diary\ProjectTaskController@add','as'=>'project_task/add']);
+        Route::any('project_task/edit',['uses'=>'Admin\Diary\ProjectTaskController@edit','as'=>'project_task/edit']);
+        Route::any('project_task/del',['uses'=>'Admin\Diary\ProjectTaskController@del','as'=>'project_task/del']);
+        Route::any('public_project_task/change_status',['uses'=>'Admin\Diary\ProjectTaskController@change_status','as'=>'public_project_task/change_status']);
+
         /**
          * 系统日志
          */
