@@ -147,8 +147,8 @@
                                 <div class="form-group" >
                                     <select name="user_type" id="user_type" class="form-control">
                                         <option value="">用户类型</option>
-                                        <option value="0">前台用户</option>
-                                        <option value="1">后台用户</option>
+                                        <option value="0">后台用户</option>
+                                        <option value="1">前台用户</option>
                                     </select>
                                 </div>
                                 <div class="form-group" >

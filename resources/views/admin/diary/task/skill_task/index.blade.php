@@ -370,3 +370,5 @@
         <!-- END CONTENT BODY -->
     </div>
 @endsection
+@section('footer')
+@endsection

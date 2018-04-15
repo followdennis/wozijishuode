@@ -1,4 +1,4 @@
-@extends('layouts.popup_layout')
+@extends('layouts.common')
 
 @section('CUSTOM_STYLE')
     <link href="{{asset('metronic_theme/global/plugins/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet" type="text/css" />

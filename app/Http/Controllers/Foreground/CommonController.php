@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class CommonController extends Controller
 {
     protected $cate_key_val = [];
+    protected $is_login;
     public function __construct(Request $request)
     {
         $this->middleware(function($request,$next){
@@ -21,6 +22,7 @@ class CommonController extends Controller
             $this->hot();
             $this->recommend();
             $is_login = Auth::guard('front')->check() ? 1:0;
+            $this->is_login = $is_login;
             view()->share(['is_login'=>$is_login]);
             return $next($request);
         });
@@ -101,7 +103,7 @@ class CommonController extends Controller
         }
         return view()->share(['tags'=>$tags]);
     }
-    //推荐
+    //最新推荐
     public function recommend(){
         $sub = \DB::table('article')->where('is_show',1)->select('id','title','cate_id')->orderBy('id','desc')->take('100');
         $results = \DB::table(\DB::Raw('('.$sub->toSql().')'.' as '.\DB::getTablePrefix().'temp'))

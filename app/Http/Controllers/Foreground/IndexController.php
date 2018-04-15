@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Foreground;
 use App\Models\ArticleManage\Comments;
 use App\Models\Foreground\Article;
 use App\Models\Foreground\ArticleUserLike;
+use App\Models\Foreground\Browse;
 use App\Models\Foreground\Category;
 use App\Repository\Foreground\ArticleRepository;
 use App\Services\FrontCateService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class IndexController extends CommonController
 {
@@ -76,18 +79,20 @@ class IndexController extends CommonController
         ]);
     }
     public function detail(Request $request,Comments $comments,$cate = 'default',$id = 0){
+
         $id = intval($id);
         $cate_key_val = $this->cateModel->getKeyVal();
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
 
         $check_article_exists = $this->articleIndexModel->checkArticleExists($cate_id,$id);
-        $this->detail_recommend();
+        $this->detail_recommend($request);
         //判断文章是否已展示
         if(!$check_article_exists){
             $article['article_id'] = 0;
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']],'article'=>$article]);
         }
         $this->globalClick($cate_id);
+
         $this->next($cate,$cate_id,$id);//下一页
         $this->prev($cate,$cate_id,$id);//上一页
         $article = $this->articleRepository->getArticleData($id);
@@ -97,12 +102,69 @@ class IndexController extends CommonController
         if(!empty($article['tags_name'])){
             $article['tags_name'] = explode(',',$article['tags_name']);
         }
+
         return view('foreground.detail',['article'=>$article,'breads'=>$bread,'comments'=>$comments,'is_exist'=>1]);
     }
-    //获取详情底部推荐2018-03-03 15:50:22 by libo
-    public function detail_recommend(){
-        $recommends = $this->articleModel->getRecommends();
+    /**
+     * 获取详情底部推荐2018-03-03 15:50:22 by libo
+     *  更新于  2018-04-15 12:41
+     */
+     public function detail_recommend(Request $request){
+         $browse = [];
+         $user_id = 0;
+         $is_login = $this->is_login;
+         if($is_login){
+             $user_id = Auth::guard('front')->user()->id;
+         }else{
+            if($request->cookie('guest')){
+                $browse = unserialize($request->cookie('guest'));
+            }
+         }
+        $recommends = $this->articleModel->getRecommends($is_login,$user_id,$browse);
         return view()->share(['bottom_recommend'=>$recommends]);
+    }
+
+    /**
+     * 浏览处理
+     *  2018-04-15 10:42
+     * @author gavin
+     * guest 游客访问
+     * account 用户访问
+     */
+    public function browse(Request $request,Browse $browseModel){
+        $this->validate($request,[
+            'article_id'=>'hashid'
+        ]);
+        $article_id = \Hashids::decode($request->get('article_id'))[0];
+        if($this->is_login){
+            $user_id = Auth::guard('front')->user()->id;
+            $ip = $request->getClientIp();
+            $browseModel->insertSingleData($article_id,$ip,1,$user_id);
+            return response()->json(['msg'=>'login']);
+        }else{
+            $browse_list = [];
+            if($request->cookie('guest')){
+                $browse = unserialize($request->cookie('guest'));
+                $browse_list = $browse;
+                if(count($browse_list) > 100){
+                    $browse_list = array_slice($browse_list,-50);
+                }
+                array_push($browse_list,$article_id);
+                $week = Carbon::now()->startOfWeek();
+                $today = Carbon::now()->startOfDay();
+                if($week == $today){
+                    //save
+                    $clientip = $request->getClientIp();
+                    $browseModel->insertData($browse_list,$clientip,$is_login = 0,$user_id = 0);
+                    $cookie = Cookie::forget('guest');
+                    return response()->json(['msg'=>''])->withCookie($cookie);
+                }
+            }else{
+                $browse_list[] = $article_id;
+            }
+            $browse = serialize($browse_list);
+            return response()->json(['msg'=>'oo'])->cookie('guest',$browse,30*24*60);
+        }
     }
 
     /**

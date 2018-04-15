@@ -2,6 +2,19 @@
 @section('script')
     <script src="{{ mix('js/app.js') }}"></script>
     <script>
+        $(document).ready(function(){
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+           $.ajax({
+               url:'{{ url('browse') }}',
+               type:'post',
+               dataType:'json',
+               data:{article_id:'{{$article['article_id'] }}'},
+               success:function(data){
+                   console.log(data.msg);
+
+               }
+           })
+        });
         function article_click_like(obj){
             var is_login = "{{ $is_login }}";
             var article_id = "{{ $article['article_id'] }}";

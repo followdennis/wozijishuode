@@ -38,7 +38,7 @@
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
             <div class="note note-info">
-                <p> 功能：添加家宴备案 </p>
+                <p> 功能：添加技能任务 </p>
             </div>
 
             <!-- BEGIN FORM-->
@@ -134,4 +134,6 @@
         </div>
         <!-- END CONTENT BODY -->
     </div>
+@endsection
+@section('footer')
 @endsection
