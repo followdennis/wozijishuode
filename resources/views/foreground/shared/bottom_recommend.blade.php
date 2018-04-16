@@ -10,7 +10,7 @@
                     <div class="relative-rbox">
                         <div class="inner">
                             <div class="title-box">
-                                <a href="#" class="link">
+                                <a href="{{ url($article->cate->pinyin.'/'.$article->id.'.html') }}" class="link">
                                     {{ $article->title }}
                                 </a>
                             </div>
@@ -20,7 +20,8 @@
                                         <img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"/>
                                     </a>
                                     <a href="#" class="source">{{ $article->author_name }}</a>
-                                    <a href="#" class="comment-count">{{ $article->comments_count }} 评论</a>
+                                    <a href="{{ url($article->cate->pinyin.'/'.$article->id.'.html') }}#comments" class="comment-count">{{ $article->comments_count }} 评论</a>
+
                                 </div>
                                 <div class="footer-bar-right">
                                     <div class="action-dislike">

@@ -11,7 +11,6 @@
                data:{article_id:'{{$article['article_id'] }}'},
                success:function(data){
                    console.log(data.msg);
-
                }
            })
         });

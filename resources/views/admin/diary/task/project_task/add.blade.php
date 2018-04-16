@@ -33,12 +33,12 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h1 class="page-title"> 添加技能任务
+            <h1 class="page-title"> 添加项目任务
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
             <div class="note note-info">
-                <p> 功能：添加技能任务 </p>
+                <p> 功能：添加项目任务 </p>
             </div>
 
             <!-- BEGIN FORM-->

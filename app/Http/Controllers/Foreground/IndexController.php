@@ -85,7 +85,7 @@ class IndexController extends CommonController
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
 
         $check_article_exists = $this->articleIndexModel->checkArticleExists($cate_id,$id);
-        $this->detail_recommend($request);
+        $this->detail_recommend($request,$id);
         //判断文章是否已展示
         if(!$check_article_exists){
             $article['article_id'] = 0;
@@ -109,7 +109,7 @@ class IndexController extends CommonController
      * 获取详情底部推荐2018-03-03 15:50:22 by libo
      *  更新于  2018-04-15 12:41
      */
-     public function detail_recommend(Request $request){
+     public function detail_recommend(Request $request,$article_id = 0){
          $browse = [];
          $user_id = 0;
          $is_login = $this->is_login;
@@ -120,7 +120,7 @@ class IndexController extends CommonController
                 $browse = unserialize($request->cookie('guest'));
             }
          }
-        $recommends = $this->articleModel->getRecommends($is_login,$user_id,$browse);
+        $recommends = $this->articleModel->getRecommends($is_login,$user_id,$browse,$article_id);
         return view()->share(['bottom_recommend'=>$recommends]);
     }
 
@@ -146,8 +146,8 @@ class IndexController extends CommonController
             if($request->cookie('guest')){
                 $browse = unserialize($request->cookie('guest'));
                 $browse_list = $browse;
-                if(count($browse_list) > 100){
-                    $browse_list = array_slice($browse_list,-50);
+                if(count($browse_list) > 75){
+                    $browse_list = array_slice($browse_list,-35);
                 }
                 array_push($browse_list,$article_id);
                 $week = Carbon::now()->startOfWeek();
@@ -163,7 +163,7 @@ class IndexController extends CommonController
                 $browse_list[] = $article_id;
             }
             $browse = serialize($browse_list);
-            return response()->json(['msg'=>'oo'])->cookie('guest',$browse,30*24*60);
+            return response()->json(['msg'=>''])->cookie('guest',$browse,30*24*60);
         }
     }
 
