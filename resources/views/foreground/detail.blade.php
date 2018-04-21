@@ -87,6 +87,42 @@
                 checkLogin();
             }
         }
+        function collect_article(){
+            var is_login = "{{ $is_login }}";
+            if(is_login == 1){
+                var article_id = "{{$article['article_id']}}";
+                index = layer.confirm('确定收藏该文章？', {
+                    btn: ['确定','取消'], //按钮
+                    shade: false //不显示遮罩
+                }, function(){
+                    $.ajax({
+                        type: "GET",
+                        url: "/article/collect",
+                        data: {article_id:article_id},
+                        dataType:'json',
+                        success: function(data){
+                            if(data.code == 1){
+                                layer.msg(data.msg,{
+                                    icon:1
+                                });
+                            }else if(data.code == 2){
+                                layer.msg(data.msg,{
+                                    icon:5
+                                });
+                            }else{
+                                layer.msg(data.msg,{
+                                    icon:5
+                                });
+                            }
+                        }
+                    });
+                }, function(){
+                    layer.close(index);
+                });
+            }else{
+                checkLogin();
+            }
+        }
         function checkLogin(){
             var msg = '登陆';
             layer.open({
@@ -582,7 +618,7 @@
                     </div>
                     <div class="tag-right">
                         <ul class="tag-list">
-                            <li class="tag-item"><a href="javascript:void(0)" class="label-link" >收藏</a></li>
+                            <li class="tag-item"><a href="javascript:void(0)" class="label-link" onclick="collect_article()" >收藏</a></li>
                             <li class="tag-item"><a  href="javascript:void(0)"  onclick="article_report()" class="label-link">举报</a></li>
                         </ul>
                     </div>

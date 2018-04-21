@@ -200,6 +200,7 @@ class IndexController extends CommonController
             return response()->json(['state'=>0,'msg'=>'点赞失败','like_count'=>'0'],500);
         }
     }
+
     /**
      * 翻页功能
      * @param $cate

@@ -34,7 +34,6 @@ class Article extends Model
             $article_ids = array_keys($browse);
             $tag_ids = \DB::table('tags_articles')->whereIn('article_id',$article_ids)->groupBy('tag_id')->pluck('tag_id')->toArray();
         }
-
         return self::where('recommend',0)
             ->where('is_show',1)
             ->with('cate')

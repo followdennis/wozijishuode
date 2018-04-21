@@ -5,6 +5,8 @@
         </h3>
     </div>
     <div class="panel-body label_style">
-        <a href="#" class="label label-default">标签</a>
+        <div>
+            ©2018 wozijishuode.com我自己说的版权所有
+        </div>
     </div>
 </div>

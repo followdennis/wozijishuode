@@ -239,6 +239,8 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
         Route::get('article/like',['uses'=>'Foreground\IndexController@article_like']);
         //文章或评论举报1 文章 2评论
         Route::post('article_comment/report',['uses'=>'Foreground\ReportController@add']);
+        //文章收藏
+        Route::get('article/collect',['uses'=>'Foreground\CollectionController@add']);
     });
     /**
      * 评论列表

@@ -31,7 +31,7 @@ class Comments extends Model
     }
     public function article(){
         return $this->hasOne('App\Models\ArticleManage\ArticleAll','id','article_id')->withDefault(function($article){
-            return $article->title = '无对应文章';
+            $article->title = '无对应文章';
         });
     }
     public function commonUser(){
