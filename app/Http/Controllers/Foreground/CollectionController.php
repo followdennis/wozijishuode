@@ -18,9 +18,15 @@ class CollectionController extends Controller
        $this->collectionModel = $collection;
    }
 
-    public function index(Request $request){git
+    public function index(Request $request){
 
     }
+
+    /**
+     *  2018-04-22
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function add(Request $request){
         $this->validate($request,[
             'article_id'=>'required|hashid'

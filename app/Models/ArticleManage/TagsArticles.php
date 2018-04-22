@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TagsArticles extends Model
 {
     //
-    use SoftDeletes;
     protected $table = 'tags_articles';
     protected $guarded = [];
 

@@ -58,5 +58,8 @@ class Article extends Model
             $cate->pinyin = 'default';
         });
     }
+    public function tags(){
+        return $this->belongsToMany('App\Models\ArticleManage\Tags','tags_articles','article_id','tag_id')->wherePivot('deleted_at',null);
+    }
 
 }

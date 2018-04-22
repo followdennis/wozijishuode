@@ -17,8 +17,7 @@ class CreateTagsArticleTable extends Migration
             $table->increments('id');
             $table->integer('tag_id')->default(0)->comment('标签的id');
             $table->integer('article_id')->default(0)->comment('文章id');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestamps();//不用软删除
         });
     }
 

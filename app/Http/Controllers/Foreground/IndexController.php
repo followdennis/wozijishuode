@@ -34,10 +34,7 @@ class IndexController extends CommonController
     }
 
     public function index(Request $request,ArticleRepository $articleRepository,$page = 1){
-        $this->globalClick();
-        if($page>100){
-            $page = 100;
-        }
+
         $request->merge(['page'=>$page]);
         $nav = $this->nav();
         $cates = $this->getCategoryArr();
@@ -51,6 +48,19 @@ class IndexController extends CommonController
             $article->tags_name = empty($article->tags_name)?[]:explode(',',$article->tags_name);
         }
         return view('foreground.index',['nav'=>$nav,'articles'=>$article_list,'current_route'=>'','is_exists'=>1]);
+    }
+
+    /**
+     * 首页瀑布流数据
+     */
+    public function more(Request $request,ArticleRepository $articleRepository){
+        $page = intval($request->get('page'));
+        if($page>20){
+            $page = 20;
+            $request->merge(['page'=>$page]);
+        }
+        $more = $articleRepository->more();
+        return response()->json($more);
     }
 
     public function lists(Request $request,$cate = null,$page = 1){

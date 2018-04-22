@@ -50,5 +50,8 @@ class Tags extends Model
             $tag->save();
         }
    }
+   public function articles(){
+       return $this->belongsToMany('App\Models\Foreground\Article','tags_articles','tag_id','article_id');
+   }
 
 }

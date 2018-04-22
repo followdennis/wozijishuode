@@ -1,6 +1,7 @@
 @extends('foreground.layouts.main')
 @section('script')
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
     <script>
         $(document).ready(function(){
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
@@ -23,6 +24,10 @@
             var is_login = "{{ $is_login }}";
             if(is_login == 1){
                 layer.prompt({title: '请输入举报原因', formType: 2}, function(pass, index){
+                    if(pass.length > 255){
+                        layer.msg('输入的字符过长');
+                        return false;
+                    }
                     var url = '/article_comment/report';
                     var data = {
                         type:1,

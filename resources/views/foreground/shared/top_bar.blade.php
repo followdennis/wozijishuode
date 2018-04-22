@@ -22,7 +22,7 @@
             </ul>
 
             <!-- Right Side Of Navbar -->
-            <ul class="nav navbar-nav navbar-right" id="login_style">
+            <ul class="nav navbar-nav navbar-right u-top-slide" id="login_style">
                 <!-- Authentication Links -->
                 @if (Auth::guard('front')->guest())
                     <li><a href="{{ route('front.login') }}">登陆</a></li>
@@ -46,12 +46,14 @@
                                 </form>
                             </li>
                             <li>
-                                <a href="#" style="color:red">更多功能,敬请期待</a>
+                                <a href="#" style="color:black">更多功能,敬请期待</a>
                             </li>
                         </ul>
                     </li>
                 @endif
             </ul>
+
         </div>
+
     </div>
 </nav>

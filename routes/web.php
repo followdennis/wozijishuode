@@ -220,6 +220,7 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
 
     Route::any('/',['uses'=>'Foreground\IndexController@index']);
     Route::get('/p/{page}',['uses'=>'Foreground\IndexController@index']);//分页参数修改
+    Route::get('/article/more',['uses'=>'Foreground\IndexController@more']);//瀑布流
     Route::any('/index.html',['uses'=>'Foreground\IndexController@index']);
     Route::any('/ch/{cate?}/',['uses'=>'Foreground\IndexController@lists']);
     Route::any('/ch/{cate}/{page}/',['uses'=>'Foreground\IndexController@lists'])->where('page', '[0-9]+')->where('cate', '[A-Za-z]+');//分类中的分页参数修改
