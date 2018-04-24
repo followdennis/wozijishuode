@@ -11,7 +11,11 @@ class Article extends Model
     //
     use SoftDeletes;
     protected $table = 'article';
-
+    protected $appends = ['hash_id'];
+    //自定义属性 hashId
+    public function getHashIdAttribute(){
+        return $this->attributes['hash_id'] = \Hashids::encode($this->id);
+    }
     public function getArticleList($cate_id = 0){
         $data = self::where('is_show',1)
             ->select(['id','title','author','tags_name','description','created_at','post_time','click','like','img','comments_count'])

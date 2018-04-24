@@ -26,6 +26,8 @@ class ArticleRepository{
         return [$data,$list];
     }
     public function more(){
+        $one = Article::limit(1)->first();
+
         $list = Article::where('is_show',1)
             ->with(['cate'=>function($query){
                 $query->select('id','pinyin','name');

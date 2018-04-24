@@ -13,7 +13,7 @@
  }
  $(function(){
      var winH = $(window).height();
-
+     var is_login = "{{ $is_login }}";
      var i = 2; //当前页数
      var hasMore = true;
      $(window).scroll(function(){
@@ -28,6 +28,7 @@
                  if(lists){
                      $.each(lists,function(index,array){
                          var id = array['id'];
+                         var hash_id = array['hash_id'];
                          var title = array['title'];
                          var author = array['author'] ? array['author']:'未知';
                          var cate_py = array['cate']['pinyin'];
@@ -58,7 +59,7 @@
                          str += '<span class="time">'+ post_time +'</span>';
                          str += '<span class="time"><i class="fa fa-eye" aria-hidden="true"></i> '+ click +'</span>';
                          str += '<a href="'+ comment_url +'" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> '+ comments_count +'</a>';
-                         str += '<a href="javascript:;" onclick="click_like(this)" data-status="1" data-id="573LzE8m3l49NkK0" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> '+ like +'</a>';
+                         str += '<a href="javascript:;" onclick="click_like(this)" data-status="'+ is_login +'" data-id="'+ hash_id +'" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> '+ like +'</a>';
                          str += '</div>';
                          str +='<p>';
                          str +='</p>';
