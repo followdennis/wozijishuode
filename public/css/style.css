@@ -252,3 +252,8 @@ a{
     color: #fff;
     background: #ed4040;
 }
+/*正在加载图片样式*/
+#loading img{
+    margin: 0 auto;
+    display: block;
+}
