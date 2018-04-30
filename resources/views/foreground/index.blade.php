@@ -1,4 +1,5 @@
 @extends('foreground.layouts.main')
+
 @section('script')
 <script type="text/javascript">
  window.onscroll=function(){
@@ -10,17 +11,24 @@
       }else{//当滚动距离小于50的时候执行下面的内容，也就是让导航栏恢复原状
          $(bignav).removeClass('nav-brand');
       }
+
  }
  $(function(){
-     var winH = $(window).height();
+     var winH = $(window).height();//生命了doctype时的，浏览器可视区的高度
      var is_login = "{{ $is_login }}";
      var i = 2; //当前页数
      var hasMore = true;
      var is_loading = false;
+     var scrollHeight=document.getElementById("right").offsetHeight;//div的真实高度 好像只能原生
+     var initRightTop = scrollHeight + $("#right").offset().top;//这是高度加上偏移高度
+     var init_W = $("#right").width()+30;
+     var init_L = $("#right").offset().left;//动态获取偏移量
+
      $(window).scroll(function(){
          var pageH = $(document.body).height();
          var scrollT = $(window).scrollTop();//滚动条top
          var bottom = (pageH-winH-scrollT)/winH; //
+
          //初始隐藏翻页
          $('ul.pagination').hide();
          if(bottom < 0.01 && !is_loading){
@@ -100,12 +108,21 @@
                  }
              });
          }
+         //下拉到底部时，固定右侧
+         if(scrollT > initRightTop -winH){
+             //动态赋值
+             $("#right").css({'position':'fixed','left':init_L,'bottom':'15px','width':init_W});
+         }else{
+             $("#right").css({'position':'','left':'','bottom':'','width':''});
+             $("#right").addClass("col-md-3 ");
+         }
+
      })
  });
  $(document).ready(function(){
      $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
      $("#search_input").bigAutocomplete({
-         width:543,
+         width:228,
          url:'{{ url('search/auto') }}',
          callback:function(data){
              //alert(data.title);

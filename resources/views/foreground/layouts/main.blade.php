@@ -32,7 +32,7 @@
                 @yield('nav')
                 @yield('content')
             </div>
-            <div class="col-md-3 ">
+            <div class="col-md-3 " id="right">
                 <div style="height:15px;"></div>
                 @yield('right_side')
             </div>
