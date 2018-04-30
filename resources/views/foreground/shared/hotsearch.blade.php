@@ -5,10 +5,13 @@
         </h3>
     </div>
     <ul class="list-group">
-        <li class="list-group-item">免费域名注册</li>
-        <li class="list-group-item">免费 Window 空间托管</li>
-        <li class="list-group-item">图像的数量</li>
-        <li class="list-group-item">24*7 支持</li>
-        <li class="list-group-item">每年更新成本</li>
+        @foreach($words as $k =>$word)
+            <li class="list-group-item">
+                <a href="{{ url('search?keywords='.$word->keywords) }}">{{ $word->keywords }}</a>
+                @if($k < 3)
+                    <span class="circle circle_{{$k}}">{{ $k+1 }}</span>
+                @endif
+            </li>
+        @endforeach
     </ul>
 </div>

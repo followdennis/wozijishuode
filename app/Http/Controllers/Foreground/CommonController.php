@@ -80,7 +80,7 @@ class CommonController extends Controller
     //热门文章
     public function hot(){
         $cates = $this->getCategoryArr();
-        $hots = ArticleAll::where('is_show',1)->orderBy('id','desc')->orderBy('click','desc')->take(8)->get();
+        $hots = ArticleAll::where('is_show',1)->orderBy('id','desc')->orderBy('click','desc')->take(16)->get();
         foreach($hots as $hot){
             $hot->cate_pinyin = isset($cates[$hot->cate_id]) ? $cates[$hot->cate_id]: 'default';
         }
@@ -89,16 +89,17 @@ class CommonController extends Controller
     //热门标签
     public function tags(){
         $style = [
-            'label label-default',
-            'label label-primary',
-            'label label-success',
-            'label label-info',
-            'label label-warning',
-            'label label-danger'
+            'tag_label tag_label_0',
+            'tag_label tag_label_1',
+            'tag_label tag_label_2',
+            'tag_label tag_label_3',
+            'tag_label tag_label_4',
+            'tag_label tag_label_5',
+            'tag_label tag_label_6'
         ];
         $tags = Tags::where('is_show',1)->orderBy('created_at','desc')->orderBy('click','desc')->select('id','name')->take(20)->get();
         foreach($tags as $tag){
-            $key = $tag->id%6;
+            $key = $tag->id%7;
             $tag->style = $style[$key];
         }
         return view()->share(['tags'=>$tags]);
@@ -115,6 +116,24 @@ class CommonController extends Controller
             $hot->cate_pinyin = isset($cates[$hot->cate_id]) ? $cates[$hot->cate_id]: 'default';
         }
         return view()->share(['recommend'=>$results]);
+    }
+
+    /**
+     *  换一批调用
+     * @return mixed
+     */
+    public function ajaxRecommend(){
+        $sub = \DB::table('article')->where('is_show',1)->select('id','title','cate_id')->orderBy('id','desc')->take('100');
+        $results = \DB::table(\DB::Raw('('.$sub->toSql().')'.' as '.\DB::getTablePrefix().'temp'))
+            ->mergeBindings($sub)
+            ->inRandomOrder()
+            ->take(8)->get();
+        $cates = $this->getCategoryArr();
+        foreach($results as $hot){
+            $hot->cate_pinyin = isset($cates[$hot->cate_id]) ? $cates[$hot->cate_id]: 'default';
+            $hot->url = url($hot->cate_pinyin.'/'.$hot->id.'.html');
+        }
+        return $results;
     }
     //友情链接
     public function friendLink(){

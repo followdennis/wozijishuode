@@ -123,16 +123,24 @@ class IndexController extends CommonController
          $browse = [];
          $user_id = 0;
          $is_login = $this->is_login;
+         if($request->cookie('guest')){
+             $browse = unserialize($request->cookie('guest'));
+         }
          if($is_login){
              $user_id = Auth::guard('front')->user()->id;
-         }else{
-            if($request->cookie('guest')){
-                $browse = unserialize($request->cookie('guest'));
-            }
          }
         $recommends = $this->articleModel->getRecommends($is_login,$user_id,$browse,$article_id);
         return view()->share(['bottom_recommend'=>$recommends]);
     }
+    /**
+     *  换一批(随机推荐)
+     */
+    public function another_batch(){
+        $recommend = $this->ajaxRecommend();
+        $view = view('foreground.shared.ajax_recommend',['recommend'=>$recommend]);
+        return $view;
+    }
+
 
     /**
      * 浏览处理
@@ -140,6 +148,7 @@ class IndexController extends CommonController
      * @author gavin
      * guest 游客访问
      * account 用户访问
+     * 更新，取消按周记录，改为按照总数记录
      */
     public function browse(Request $request,Browse $browseModel){
         $this->validate($request,[
@@ -156,19 +165,14 @@ class IndexController extends CommonController
             if($request->cookie('guest')){
                 $browse = unserialize($request->cookie('guest'));
                 $browse_list = $browse;
-                if(count($browse_list) > 75){
+                if(count($browse_list) > 70){
                     $browse_list = array_slice($browse_list,-35);
-                }
-                array_push($browse_list,$article_id);
-                $week = Carbon::now()->startOfWeek();
-                $today = Carbon::now()->startOfDay();
-                if($week == $today){
-                    //save
                     $clientip = $request->getClientIp();
                     $browseModel->insertData($browse_list,$clientip,$is_login = 0,$user_id = 0);
-                    $cookie = Cookie::forget('guest');
-                    return response()->json(['msg'=>''])->withCookie($cookie);
                 }
+                array_push($browse_list,$article_id);
+                $cookie = serialize($browse_list);
+                return response()->json(['msg'=>'yes'])->cookie('guest',$cookie,30*24*60);
             }else{
                 $browse_list[] = $article_id;
             }

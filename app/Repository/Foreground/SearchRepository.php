@@ -58,4 +58,53 @@ class SearchRepository
         $paginate->perPage = $data->perPage();
         return [$paginate,$data];
     }
+
+    /**
+     * @param array $cate_key_val 由 cate_id 查找cate_pinyin
+     * @return mixed
+     */
+    public function latestHotArticle($cate_key_val = []){
+        $sub = \DB::table('article')->where('is_show',1)->select('id','title','cate_id','click')->orderBy('post_time','desc')->take('200');
+        $results = \DB::table(\DB::Raw('('.$sub->toSql().')'.' as '.\DB::getTablePrefix().'temp'))
+            ->mergeBindings($sub)
+            ->orderBy('click','desc')
+            ->take(8)->get()->map(function($item) use($cate_key_val){
+              $item->cate_pinyin = isset($cate_key_val[$item->cate_id])?$cate_key_val[$item->cate_id]:'default' ;
+              return $item;
+            });
+        return $results;
+    }
+    public function autoLoad($keywords = null){
+        if(!$keywords){
+            return [];
+        }
+        $data = \DB::table('search_keywords')->where('is_show',1)
+            ->select('keywords')
+            ->where('keywords','like','%'.$keywords.'%')
+            ->orderBy('click','desc')
+            ->take(8)->get()->map(function($item){
+                return ['title'=>$item->keywords];
+            })->unique()->toArray();
+        return $data;
+    }
+
+    /**
+     * 扫描全库
+     * @param null $keywords
+     * @return array
+     */
+    public function autoLoad2($keywords = null){
+        if(!$keywords){
+            return [];
+        }
+        $data = \DB::table('article')->where('is_show',1)
+            ->select('title')
+            ->where('title','like','%'.$keywords.'%')
+            ->orderBy('click','desc')
+            ->take(8)->get()->map(function($item){
+                return ['title'=>$item->title];
+            })->toArray();
+        return $data;
+    }
+
 }

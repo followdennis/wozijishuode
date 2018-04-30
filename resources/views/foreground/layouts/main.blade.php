@@ -15,6 +15,7 @@
     <link href="{{ asset('admin/assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
     <link  href="{{asset('layui/src/css/layui.css')}}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('js/bigautocomplete/bigautocomplete.css') }}" rel="stylesheet">
     @yield('style')
 </head>
 <body>
@@ -43,6 +44,7 @@
 <script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{asset('layui/src/layui.js')}}"></script>
+<script src="{{ asset('js/bigautocomplete/bigautocomplete.js') }}" type="text/javascript"></script>
 
 <script>
     //一般直接写在一个js文件中
@@ -142,6 +144,52 @@
             });
         }
     }
+    function another_batch(){
+        $.ajax({
+            url:'{{url('article/another_batch')}}',
+            type:'get',
+            dataType:'html',
+            success:function(data){
+                $("#another_batch").html(data);
+//                var list = '';
+//                $.each(data.recommend,function(index,item){
+//                    list += '<li class="list-group-item"><a href="'+ item.url +'"></a>'+ item.title +'</li>';
+//                });
+//                var html = '<div class="panel-heading">'
+//                    +'<h3 class="panel-title" style="display:inline">'
+//                    + '相关推荐'
+//                    + '</h3>'
+//                    + '<span class="change-one" onclick="another_batch()">'
+//                    + '换一批'
+//                    + '</span>'
+//                    + '</div>'
+//                    + '<div class="panel-body">'
+//                    + '为您推送相关的文章！'
+//                    + '</div>'
+//                    + '<ul class="list-group">';
+//                    html += list;
+//                   html +='</ul>';
+//                $("#another_batch").html(html);
+
+            }
+        });
+    }
+    $(document).ready(function(){
+        var hot = $("#slide_more li:gt(6):not(:last)");
+        hot.hide();
+        var toggleBtn = $("#slide_more li.more");
+       toggleBtn.on('click',function(){
+           hot.slideToggle('fast',function(){
+               if($(this).is(':visible')){
+                   toggleBtn.text('收起');
+               }else{
+                   toggleBtn.text('更多');
+               }
+           });
+           return false;
+       })
+    })
+
 </script>
 @yield('script')
 </body>

@@ -1,5 +1,17 @@
 @extends('foreground.layouts.main')
 @section('script')
+<script>
+    $(document).ready(function(){
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        $("#auto_search").bigAutocomplete({
+            width:618,
+            url:'{{ url('search/auto') }}',
+            callback:function(data){
+                //alert(data.title);
+            }
+        });
+    })
+</script>
 @endsection
 @section('style')
     <style>
@@ -74,7 +86,7 @@
         <form action="{{ url('search') }}" method="get" name="searchForm">
             <div class="col-lg-12">
                 <div class="input-group">
-                    <input type="text" value="{{ $kw }}" placeholder="请输入关键词" name="keywords" class="form-control y-left">
+                    <input type="text" value="{{ $kw }}" placeholder="请输入关键词" name="keywords" id="auto_search" class="form-control y-left">
                     <span class="input-group-btn y-right">
 						<button class="btn btn-default search-btn" id="search-btn" type="submit">
 							搜索
@@ -89,7 +101,10 @@
     <div class="panel panel-default article-list">
         <div class="panel-body">
             <div class="">
-                aaa
+               热门搜索：
+                @foreach($words as $word)
+                    <a href="{{ url('search?keywords='.$word->keywords) }}" >{{ $word->keywords }}</a>
+                @endforeach
             </div>
         </div>
         @include('foreground.shared.content_list')
@@ -97,5 +112,6 @@
 @endsection
 @section('right_side')
     @include('foreground.shared.hotsearch')
+    @include('foreground.shared.latest_hot')
     @include('foreground.shared.tags')
 @endsection

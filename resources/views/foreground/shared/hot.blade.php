@@ -9,9 +9,10 @@
            分享网友最为喜爱的文章！
         </p>
     </div>
-    <ul class="list-group">
+    <ul class="list-group" id="slide_more">
         @foreach($hots as $hot)
         <li class="list-group-item"><a href="{{ url($hot->cate_pinyin.'/'.$hot->id.'.html') }}">{{ $hot->title }}</a></li>
         @endforeach
+        <li class="list-group-item more" >更多</li>
     </ul>
 </div>

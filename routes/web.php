@@ -228,6 +228,8 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::post('/browse',['uses'=>'Foreground\IndexController@browse']);//浏览
     Route::any('/search',['uses'=>'Foreground\SearchController@search_keywords']);//关键词搜索
     Route::any('/search/t/{tag}/',['uses'=>'Foreground\SearchController@search_tag']);//tag搜索
+    Route::any('/search/auto',['uses'=>'Foreground\SearchController@autoload2']);//搜素自动完成
+    Route::any('/article/another_batch',['uses'=>'Foreground\IndexController@another_batch']);//换一批
 
     /**
      * 评论点赞的功能

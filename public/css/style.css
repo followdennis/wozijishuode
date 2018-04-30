@@ -257,3 +257,75 @@ a{
     margin: 0 auto;
     display: block;
 }
+/*标签的边框颜色控制*/
+#tag_label .tag_label{
+    padding:5px;
+}
+.tag_label_1{
+    border: 1px solid #663399;
+    border-radius: 5px;
+}
+.tag_label_2{
+    border: 1px solid #3379b7;
+    border-radius: 5px;
+}
+.tag_label_3{
+    border: 1px solid #4dc34d;
+    border-radius: 5px;
+}
+.tag_label_4{
+    border: 1px solid #777777;
+    border-radius: 5px;
+}
+.tag_label_5{
+    border: 1px solid #f19e45;
+    border-radius: 5px;
+}
+.tag_label_6{
+    border: 1px solid #d9524f;
+    border-radius: 5px;
+}
+.tag_label_0{
+    border: 1px solid #5bc0de;
+    border-radius: 5px;
+}
+/*css3  画圆*/
+span.circle{
+    display: inherit;
+    width: 20px;
+    height: 20px;
+    background: #f1c751;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    float: right;
+    padding: 5px;
+    text-align: center;
+    line-height: 11px;
+    font-size: 14px;
+    color:#f9eada;
+
+}
+span.circle_0{
+    background: #FFD700;
+}
+span.circle_1{
+    background: silver;
+}
+span.circle_2{
+    background:#FF7F00;
+}
+/*换一批*/
+span.change-one{
+    display:block;
+    float:right;
+    color: #676464;
+}
+span.change-one:hover{
+    color:#667a9e;
+    cursor: pointer;
+}
+/*slide more样式*/
+#slide_more li.more:hover{
+    cursor:pointer;
+}

@@ -102,6 +102,16 @@
          }
      })
  });
+ $(document).ready(function(){
+     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+     $("#search_input").bigAutocomplete({
+         width:543,
+         url:'{{ url('search/auto') }}',
+         callback:function(data){
+             //alert(data.title);
+         }
+     });
+ })
 </script>
 @endsection
 @section('style')

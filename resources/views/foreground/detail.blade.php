@@ -2,6 +2,7 @@
 @section('script')
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/bigautocomplete/bigautocomplete.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function(){
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
@@ -14,6 +15,13 @@
                    console.log(data.msg);
                }
            })
+            $("#search_input").bigAutocomplete({
+                width:228,
+                url:'{{ url('search/auto') }}',
+                callback:function(data){
+                    //alert(data.title);
+                }
+            });
         });
         function article_click_like(obj){
             var is_login = "{{ $is_login }}";
@@ -665,6 +673,7 @@
     </div>
 @endsection
 @section('right_side')
+    @include('foreground.shared.search')
     @include('foreground.shared.hot')
     @include('foreground.shared.recommend')
     @include('foreground.shared.tags')
