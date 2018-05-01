@@ -13,16 +13,20 @@
       }
 
  }
+ var resizeTimer = undefined;
  $(function(){
      var winH = $(window).height();//生命了doctype时的，浏览器可视区的高度
+     var winW = $(window).width();
      var is_login = "{{ $is_login }}";
      var i = 2; //当前页数
      var hasMore = true;
      var is_loading = false;
+
      var scrollHeight=document.getElementById("right").offsetHeight;//div的真实高度 好像只能原生
      var initRightTop = scrollHeight + $("#right").offset().top;//这是高度加上偏移高度
      var init_W = $("#right").width()+30;
      var init_L = $("#right").offset().left;//动态获取偏移量
+
 
      $(window).scroll(function(){
          var pageH = $(document.body).height();
@@ -110,13 +114,38 @@
          }
          //下拉到底部时，固定右侧
          if(scrollT > initRightTop -winH){
+             $(window).resize(function () {
+                 $('#right').width($('#right').width());
+                 var newWinW = $(window).width();
+                 clearTimeout(resizeTimer); //清楚时间，解决resize执行两次的问题
+                 resizeTimer = setTimeout(function () {
+                     var new_offset = (newWinW - winW)/2;
+                     console.log(parseInt(new_offset));
+                     var left = $("#right").offset().left + new_offset; //还动到底部的时候加偏移量
+                     winW = newWinW;
+                     $('body,html').animate({'scrollTop':scrollT+1},10);//模拟滚动条滚动一个像素
+                     init_L = left;
+                 }, 100);
+             });
              //动态赋值
-             $("#right").css({'position':'fixed','left':init_L,'bottom':'15px','width':init_W});
+             $("#right").css({'position':'fixed','left':init_L,'bottom':'5px','width':init_W});
          }else{
+             $(window).resize(function () {
+                 $('#right').width($('#right').width());
+                 var newWinW = $(window).width();
+                 clearTimeout(resizeTimer);//
+                 resizeTimer = setTimeout(function () {
+                     var new_offset = (newWinW - winW)/2;
+                     console.log(parseInt(new_offset));
+                     var left = $("#right").offset().left; //未滑动到底部的时候，不加偏移量
+                     winW = newWinW;
+                     init_L = left;
+                 }, 100);
+//             $("#right").offset({"left":left});
+             });
              $("#right").css({'position':'','left':'','bottom':'','width':''});
              $("#right").addClass("col-md-3 ");
          }
-
      })
  });
  $(document).ready(function(){
