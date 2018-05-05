@@ -6,6 +6,7 @@
 
 @section('CUSTOM_STYLE')
     <link href="{{asset('vendor/bootstrap-switch/bootstrap-switch.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('vendor/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
     <style>
 
         .input_select_2{
@@ -30,14 +31,17 @@
     </style>
 @endsection
 @section('CUSTOM_SCRIPT')
+
     <script src="{{asset('vendor/bootstrap-switch/bootstrap-switch.js')}}" type="text/javascript"></script>
+    <script src="{{asset('vendor/select2/dist/js/select2.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('vendor/select2/dist/js/i18n/zh-Cn.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
     @include('vendor.ueditor.assets')
     <script type="text/javascript">
         var ue = UE.getEditor('container1',{
             initialFrameHeight:600,
             toolbars: [
-                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen']
+                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source']
             ],
             elementPathEnabled: false,
             enableContextMenu: false,
@@ -64,6 +68,52 @@
                     $("#_input_tag_bridge").val('0,'+$("#_input_tag").val());
                 });
             });
+            $("#inner_link_search").select2({
+                ajax: {
+                    type:'GET',
+                    url: "{{ route('public_links/load') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term 请求参数
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        /*var itemList = [];//当数据对象不是{id:0,text:'ANTS'}这种形式的时候，可以使用类似此方法创建新的数组对象
+                         var arr = data.result.list
+                         for(item in arr){
+                         itemList.push({id: item, text: arr[item]})
+                         }*/
+                        return {
+                            results: data.items,//itemList
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: false
+                },
+                placeholder:'请选择',//默认文字提示
+                language: "zh-CN",
+                tags: false,//允许手动添加
+                allowClear: true,//允许清空
+                escapeMarkup: function (markup) { return markup; }, // 自定义格式化防止xss注入
+                minimumInputLength: 1,//最少输入多少个字符后开始查询
+                formatResult: function formatRepo(repo){
+                    return repo.text;}, // 函数用来渲染结果
+                formatSelection: function formatRepoSelection(repo){
+                    return repo.text;} // 函数用于呈现当前的选择
+
+            });
+            $("#inner_link_search").on("select2:select",function(e){
+//                var text_selected = e.params.data.text;
+                var text_selected = e.params.data.a;
+                $("#show_inner_link").html(text_selected);
+            });
+
         });
         function get_tag() {
             $("#_input_tag").val($("#input_select_tag option:selected").text());
@@ -210,6 +260,19 @@
                     <div class="col-sm-10">
                          <input type="checkbox" name="is_show"   class="make-switch" data-on-text="是" data-off-text="否">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">搜索内链</label>
+                    <div class="col-sm-4">
+                        <select class="form-control input-sm downList2"  id="inner_link_search">
+                            <option></option>
+                        </select>
+
+                    </div>
+                    <div class="form-group" id="show_inner_link">
+
+                    </div>
+
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">描述</label>

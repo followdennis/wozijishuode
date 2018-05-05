@@ -73,6 +73,7 @@ class Article extends Model
     public function cate(){
         return $this->hasOne('App\Models\Foreground\Category','id','cate_id')->withDefault(function($cate){
             $cate->pinyin = 'default';
+            $cate->name = '无';
         });
     }
     public function tags(){

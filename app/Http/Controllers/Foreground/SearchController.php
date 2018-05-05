@@ -43,6 +43,7 @@ class SearchController extends CommonController
     public function search_tag(Request $request,Tags $tags,$tag = null){
         list($paginate,$article_list) = $this->searchRepo->getDataByTag($tag);
         $tags->updateClick($tag);
+        $this->hot_words();
         $top_tag = Tags::orderBy('click','desc')->take(10)->select('name')->get();
         $this->message = '标签';
         if($paginate->total == 0){

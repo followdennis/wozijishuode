@@ -72,4 +72,10 @@ class ArticleAll extends Model
         }
         return $tag_ids_arr;
     }
+    public function cate(){
+        return $this->hasOne('App\Models\Foreground\Category','id','cate_id')->withDefault(function($cate){
+            $cate->pinyin = 'default';
+            $cate->name = '无';
+        });
+    }
 }

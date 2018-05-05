@@ -85,4 +85,16 @@ class InnerLinkController extends AdminController
             return response()->json(['status'=>0,'msg'=>'删除失败']);
         }
     }
+
+    /**
+     *  文章页搜索内链
+     */
+    public function links_load(Request $request){
+        $query = trim($request->get('q'));
+        if(empty($query)){
+            return response()->json([]);
+        }
+        $data = $this->innerLinkModel->getListData($query);
+        return response()->json(['items'=>$data]);
+    }
 }

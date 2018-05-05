@@ -394,7 +394,11 @@
 
 @section('EXTRA_JS')
 @show
+<!--
+2018-05-05 15:30:20 更新位jquery3.3.1
 <script src="{{ asset('admin/assets/js/jquery-1.8.3.min.js') }}"></script>
+-->
+<script src="{{ asset('js/jquery-1.3.1.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/sidebar-menu.js') }}"></script>
 
