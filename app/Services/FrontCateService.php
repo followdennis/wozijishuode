@@ -9,6 +9,8 @@
 namespace App\Services;
 
 
+use App\Models\Foreground\Category;
+
 class FrontCateService
 {
     //由拼音获取cate_id
@@ -29,4 +31,9 @@ class FrontCateService
         }
         return $cate;
     }
+    public function getCateInfo($category_id){
+        $category = Category::where(['is_show'=>1])->select(['name','keywords','description'])->find($category_id);
+        return $category;
+    }
+
 }

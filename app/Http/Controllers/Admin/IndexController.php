@@ -26,11 +26,6 @@ class IndexController extends AdminController
     //后台功能实现
     public function index(Request $request){
         $data['name'] = 'bb';
-//        $list = $this->menusModel->getAllList();
-//        $tree = new Tree();
-//        $new_list = $tree->tree($list);
-//        $tree->makehtml($new_list);
-//        $data['menu'] = $tree->str;
 
         return view('admin.main.index',$data);
     }

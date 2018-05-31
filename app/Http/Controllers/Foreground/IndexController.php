@@ -75,7 +75,6 @@ class IndexController extends CommonController
         $cate_key_val = $this->cateModel->getKeyVal();
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
         $articles = $this->articleModel->getArticleList($cate_id);
-
         foreach($articles as $article){
             $article->article_id = \Hashids::encode($article->id);
             $article->cate_pinyin = isset($cate) ? $cate: 'default';
@@ -84,12 +83,14 @@ class IndexController extends CommonController
         if($cate_id == 0){
             return redirect(url('/'));
         }
+        $category = $this->cateService->getCateInfo($cate_id);
         $this->globalClick($cate_id);//统计点击量
         return view('foreground.ch',[
             'nav'=>$nav,
             'articles'=>$articles,
             'current_route'=>$cate,
             'is_exists'=>1,
+            'category'=>$category
         ]);
     }
     public function detail(Request $request,Comments $comments,$cate = 'default',$id = 0){

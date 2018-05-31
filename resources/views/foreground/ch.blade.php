@@ -1,4 +1,9 @@
 @extends('foreground.layouts.main')
+@section('seo')
+<title>@isset($category['name']){{ $category['name'] }} @endisset _{{ config('app.front_name', 'Laravel') }}网(wozijishuode.com)</title>
+    <meta name="keywords" content="@isset($category['keywords']){{ $category['keywords'] }}@endisset" />
+    <meta name="description" content="@isset($category['description']){{ $category['description'] }}@endisset" />
+@endsection
 @section('script')
 <script src="{{ asset('js/front/ch.js') }}" type="text/javascript"></script>
 @endsection
