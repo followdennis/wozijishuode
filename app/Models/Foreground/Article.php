@@ -11,10 +11,14 @@ class Article extends Model
     //
     use SoftDeletes;
     protected $table = 'article';
-    protected $appends = ['hash_id'];
+    protected $appends = ['hash_id','have_img'];
     //自定义属性 hashId
     public function getHashIdAttribute(){
         return $this->attributes['hash_id'] = \Hashids::encode($this->id);
+    }
+    public function getHaveImgAttribute(){
+//        return $this->attributes['have_img'] = empty($this->img)?0 :1;
+        return  $this->attributes['have_img'] = empty($this->img) ? 0 : 1;
     }
     public function getArticleList($cate_id = 0){
         $data = self::where('is_show',1)
@@ -25,7 +29,7 @@ class Article extends Model
                 $query->where('cate_id',-1);
             })
             ->orderBy('id','desc')
-            ->paginate(20);
+            ->simplePaginate(20);
         return $data;
     }
     public function getRecommends($is_login,$user_id,$browse,$article_id){

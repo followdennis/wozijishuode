@@ -12,7 +12,7 @@ class Category extends Model
     protected $table = 'category';
 
     public function getList(){
-        $data = self::where('is_show',1)->select('id','name','pinyin','parent_id')->get()->toArray();
+        $data = self::where('is_show',1)->select('id','name','pinyin','parent_id')->orderBy('sort','desc')->get()->toArray();
         return $this->tree($data,0);
 
     }

@@ -29,7 +29,6 @@
     <![endif]-->
   @yield('CUSTOM_STYLE')
     <link href="{{asset('admin/css/global.css')}}" rel="stylesheet" type="text/css" />
-
 </head>
 <body>
 <section id="container" >

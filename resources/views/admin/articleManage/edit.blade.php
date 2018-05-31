@@ -39,7 +39,7 @@
     <script type="text/javascript">
         var ue = UE.getEditor('container1',{
             toolbars:[
-                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source']
+                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote','simpleupload','insertimage', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source']
             ],
             initialFrameHeight:600
         });
@@ -57,7 +57,8 @@
                     $("#_input_tag_bridge").val('0,'+$("#_input_tag").val());
                 });
             });
-
+            //作者下拉部分
+            $("#input_select").select2();
             $("#inner_link_search").select2({
                 ajax: {
                     type:'GET',
@@ -102,6 +103,9 @@
 //                var text_selected = e.params.data.text;
                 var text_selected = e.params.data.a;
                 $("#show_inner_link").html(text_selected);
+                //讲内容追加到文本
+                UE.getEditor('container1').focus();
+                UE.getEditor('container1').execCommand('inserthtml',text_selected);
             });
 
         });
@@ -192,6 +196,12 @@
                     <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="title" name="title" value="{{ $data['title'] }}" placeholder="请输入标题">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">meta关键词</label>
+                    <div class="col-sm-10">
+                        <input type="test" class="form-control" id="keywords" value="{{ $data['keywords'] }}" name="keywords" maxlength="100" placeholder="请输入关键词">
                     </div>
                 </div>
                 <div class="form-group">

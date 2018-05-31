@@ -70,7 +70,8 @@ class CategoryController extends AdminController
                 'description'=>strval($params['description']),
                 'py'=>pinyin_abbr($params['name']),
                 'pinyin'=>pinyin_permalink($params['name'],''),
-                'alias'=>strval($params['alias'])
+                'alias'=>strval($params['alias']),
+                'sort'=>intval($params['sort']),
             ];
             $status = $this->categoryModel->insertData($data);
             if($status){
@@ -109,6 +110,7 @@ class CategoryController extends AdminController
                 'pinyin' => trim($params['pinyin']),
                 'py'=>trim($params['py']),
                 'alias'=>strval($params['alias']),
+                'sort'=>intval($params['sort']),
                 'updated_at'=>$now
             ];
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Foreground;
 
 use App\Models\ArticleManage\Comments;
+use App\Models\Foreground\Ad;
 use App\Models\Foreground\Article;
 use App\Models\Foreground\ArticleUserLike;
 use App\Models\Foreground\Browse;
@@ -40,6 +41,7 @@ class IndexController extends CommonController
         $cates = $this->getCategoryArr();
 //        $article_list = $this->articleModel->getArticleList();
         list($paginate,$article_list) = $articleRepository->getArticleList();
+
         //友情链接
         $this->friendLink();
         foreach($article_list as $article){
@@ -69,9 +71,11 @@ class IndexController extends CommonController
         }
         $request->merge(['page'=>$page]);
         $nav = $this->nav();
+        $this->ad('ch_top_1','ch_top_2','ch_right');
         $cate_key_val = $this->cateModel->getKeyVal();
         $cate_id = $this->cateService->getCateIdByCate($cate,$cate_key_val);
         $articles = $this->articleModel->getArticleList($cate_id);
+
         foreach($articles as $article){
             $article->article_id = \Hashids::encode($article->id);
             $article->cate_pinyin = isset($cate) ? $cate: 'default';
@@ -97,6 +101,7 @@ class IndexController extends CommonController
         $check_article_exists = $this->articleIndexModel->checkArticleExists($cate_id,$id);
         $this->detail_recommend($request,$id);
         //判断文章是否已展示
+        $this->ad('detail_middle_1','detail_middle_2','detail_right');
         if(!$check_article_exists){
             $article['article_id'] = 0;
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']],'article'=>$article]);
@@ -241,5 +246,20 @@ class IndexController extends CommonController
             return view()->share(['prev'=>$head->title,'prev_url'=>url($cate.'/'.$head->id.'.html')]);
         }
     }
+    /**
+     * 广告展示
+     * 2018-05-30 20:05:32
+     *  position 位置描述如 ch_top_1 defail_right等
+     */
+     public function ad($position1,$position2,$position3){
+         $position_id_1 = Ad::$position[$position1]['position_id'];
+         $position_id_2 = Ad::$position[$position2]['position_id'];
+         $position_id_3 = Ad::$position[$position3]['position_id'];
+         $adModel= new Ad();
+         $ad1 = $adModel->getAdByPosition($position_id_1);
+         $ad2 = $adModel->getAdByPosition($position_id_2);
+         $ad3 = $adModel->getAdByPosition($position_id_3);
+         return view()->share(['ad1'=>$ad1,'ad2'=>$ad2,'ad3'=>$ad3]);
+     }
 
 }

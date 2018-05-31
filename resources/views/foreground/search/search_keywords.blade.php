@@ -10,6 +10,88 @@
                 //alert(data.title);
             }
         });
+        var hasMore = true;
+        var is_loading = false;
+        var is_login = "{{ $is_login }}";
+        var i = 2; //当前页数
+        $("#load_more").on('click',function(){
+            var kw = $("#auto_search").val().trim();
+            $.ajax({
+                type:'get',
+                dataType:'json',
+                data:{page:i,kw:kw},
+                url:'/search/more',
+                beforeSend:function(){
+                    var html = '<img src="{{ asset('images/loading_1.gif') }}">';
+                    is_loading = true;
+                    $("#loading").show();
+                },
+                success:function(json){
+                    var lists = json.data;
+                    if(lists.length > 0){
+                        $.each(lists,function(index,array){
+                            var id = array['id'];
+                            var hash_id = array['hash_id'];
+                            var title = array['title'].replace(kw,'<font color="red">'+ kw + '</font>');
+                            var author = array['author'] ? array['author']:'未知';
+                            var cate_py = array['cate']['pinyin'];
+                            var comments_count = array['comments_count'];
+                            var created_at = array['created_at'];
+                            var description = array['description'];
+                            var img = array['img'];
+                            var post_time = array['post_time'];
+                            var tags = ''
+                            if(array['tags'].length > 0){
+                                $.each(array['tags'],function(index,item){
+                                    tags += '<span><i class="fa fa-tags" aria-hidden="true"></i> <a href="/search/t/'+ item['name']+'">'+ item['name'] +'</a></span>';
+                                    item['name']
+                                })
+                            }
+                            var click = array['click'];
+                            var like = array['like'];
+                            var comment_url = '/'+ cate_py +'/'+ id +'.html#comments';
+                            var article_url = '/' + cate_py + '/' + id + '.html';
+                            //alert(array['id']+array['title']+array['author']+array['content']);
+                            var str = '';
+                            str += '<li class="list-group-item">';
+                            str += '<div class="list-item-content"><h2>';
+                            str += '<a href="'+ article_url +'" class="transition">'+title+'</a>';
+                            str += '</h2><div class="author">';
+                            str += '<a href="#" class="author-face"><img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"></a>';
+                            str += '<a class="author-name">'+ author +'</a>';
+                            str += '<span class="time">'+ post_time +'</span>';
+                            str += '<span class="time"><i class="fa fa-eye" aria-hidden="true"></i> '+ click +'</span>';
+                            str += '<a href="'+ comment_url +'" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> '+ comments_count +'</a>';
+                            str += '<a href="javascript:;" onclick="click_like(this)" data-status="'+ is_login +'" data-id="'+ hash_id +'" class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> '+ like +'</a>';
+                            str += '</div>';
+                            str +='<p>';
+                            str +='</p>';
+                            str +='<div class="tag">';
+                            str += tags;
+                            str +='</div>';
+                            str +='</div>';
+                            str += '</li>';
+                            $(".article-list .list-group").append(str);
+
+                        });
+                        i++;
+                    }else{
+                        //$(".nodata").show().html("别滚动了，已经到底了。。。");
+                        alert('没有数据了');
+                        $("#load_more").hide();
+                        hasMore = false;
+                        //return false;
+                    }
+                },
+                complete:function(){
+                    is_loading = false;
+                    $("#loading").hide();
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            });
+        })
     })
 </script>
 @endsection
@@ -79,6 +161,10 @@
             margin-top:30px;
             overflow:hidden;
         }
+        #load_more{
+            background-color:#ea5c5c;
+            border-color:#ea5c5c;
+        }
     </style>
 @endsection
 @section('nav')
@@ -108,6 +194,8 @@
             </div>
         </div>
         @include('foreground.shared.content_list')
+        <div id="loading" style="display:none"><img src="{{ asset('images/loading_1.gif') }}"></div>
+        <button class="btn btn-primary" data-loading-text="加载更多" id="load_more">加载更多</button>
     </div>
 @endsection
 @section('right_side')

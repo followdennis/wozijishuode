@@ -119,7 +119,7 @@
 //        $("#penalty_start_date").datepicker({
 //            todayBtn: "linked",
 //            clearBtn: true,
-//            language: "zh-CN",
+//            language: "cn",
 //            calendarWeeks: true,
 //            autoclose: true,
 //            todayHighlight: true
@@ -128,7 +128,7 @@
 //        $("#penalty_end_date").datepicker({
 //            todayBtn: "linked",
 //            clearBtn: true,
-//            language: "zh-CN",
+//            language: "cn",
 //            calendarWeeks: true,
 //            autoclose: true,
 //            todayHighlight: true
@@ -256,7 +256,7 @@
 //    $("#penalty_start_date").datepicker({
 //        todayBtn: "linked",
 //        clearBtn: true,
-//        language: "zh-CN",
+//        language: "cn",
 //        calendarWeeks: true,
 //        autoclose: true,
 //        todayHighlight: true
@@ -265,7 +265,7 @@
 //    $("#penalty_end_date").datepicker({
 //        todayBtn: "linked",
 //        clearBtn: true,
-//        language: "zh-CN",
+//        language: "cn",
 //        calendarWeeks: true,
 //        autoclose: true,
 //        todayHighlight: true

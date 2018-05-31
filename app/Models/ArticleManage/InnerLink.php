@@ -31,7 +31,7 @@ class InnerLink extends Model
                     'text'=>$item->name." &nbsp;".$title."&nbsp;".$item->article->cate->name,
                     'article_id'=>$item->article_id,
                     'pinyin'=>$item->article->cate->pinyin,
-                    'a'=>htmlspecialchars("<a href='/{$item->article->cate->pinyin}/{$item->article_id}.html'>{$item->name}</a>")
+                    'a'=>"<a href='/{$item->article->cate->pinyin}/{$item->article_id}.html'>{$item->name}</a>"
                 ];
             });
     }

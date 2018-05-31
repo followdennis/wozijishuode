@@ -1,28 +1,16 @@
 @extends('foreground.layouts.main')
 
 @section('script')
+<script type="text/javascript" src="{{ asset('js/front/index.js') }}"></script>
 <script type="text/javascript">
- window.onscroll=function(){
-      var topScroll = document.documentElement.scrollTop;//滚动的距离,距离顶部的距离
-      var bignav  = document.getElementById("navbar");//获取到导航栏id
-//      var brand = document.getElementById('site-brand');
-      if(topScroll > 50){  //当滚动距离大于250px时执行下面的东西
-          $(bignav).addClass('nav-brand');
-      }else{//当滚动距离小于50的时候执行下面的内容，也就是让导航栏恢复原状
-         $(bignav).removeClass('nav-brand');
-      }
-
- }
  var resizeTimer = undefined;
  $(function(){
      var winH = $(window).height();//生命了doctype时的，浏览器可视区的高度
      var winW = $(window).width();
-
      var is_login = "{{ $is_login }}";
      var i = 2; //当前页数
      var hasMore = true;
      var is_loading = false;
-
      var scrollHeight=document.getElementById("right").offsetHeight;//div的真实高度 好像只能原生
      var initRightTop = scrollHeight + $("#right").offset().top;//这是高度加上偏移高度
      var init_W = $("#right").width()+30;
@@ -52,7 +40,7 @@
                  },
                  success:function(json){
                      var lists = json.data;
-                     if(lists){
+                     if(lists.length > 0){
                          $.each(lists,function(index,array){
                              var id = array['id'];
                              var hash_id = array['hash_id'];
@@ -99,7 +87,6 @@
 
                          });
                          i++;
-
                      }else{
                          //$(".nodata").show().html("别滚动了，已经到底了。。。");
                          alert('没有数据了');
@@ -116,8 +103,6 @@
                  }
              });
          }
-
-
          //下拉到底部时，固定右侧
          var  plus = {state:0};
          var new_offset;
@@ -175,16 +160,6 @@
          }
      })
  });
- $(document).ready(function(){
-     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-     $("#search_input").bigAutocomplete({
-         width:228,
-         url:'{{ url('search/auto') }}',
-         callback:function(data){
-             //alert(data.title);
-         }
-     });
- })
 </script>
 @endsection
 @section('style')

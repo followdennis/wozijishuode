@@ -43,6 +43,12 @@
         </div>
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
+                关键词:
+                {{ $data['keywords'] }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
                 <p class="lead">
                     {{ $data['description'] }}
                 </p>

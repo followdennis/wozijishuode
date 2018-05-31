@@ -18,6 +18,7 @@ class CreateArticleHeadTable extends Migration
                 $table->increments('id');
                 $table->tinyInteger('table_head_id')->default($i)->comment('head table 的id');
                 $table->string('title',255)->comment('文章标题');
+                $table->string('keywords',100)->default('')->comment('meta的关键词');
                 $table->string('author',20)->nullable()->comment('作者');
                 $table->smallInteger('author_id')->unsigned()->nullable()->comment('作者id');
                 $table->string('description',255)->nullable()->comment('文章描述');

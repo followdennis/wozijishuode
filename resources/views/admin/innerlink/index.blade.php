@@ -122,7 +122,7 @@
 //            $("#end_date").datepicker({
 //                todayBtn: "linked",
 //                clearBtn: true,
-//                language: "zh-CN",
+//                language: "cn",
 //                calendarWeeks: true,
 //                autoclose: true,
 //                todayHighlight: true

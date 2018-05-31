@@ -33,6 +33,7 @@ class ArticleAll extends Model
             ->select([
                 'id',
                 'title',
+                'keywords',
                 'author',
                 'author_id',
                 'tags_id',

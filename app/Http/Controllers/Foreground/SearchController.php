@@ -39,6 +39,16 @@ class SearchController extends CommonController
         }
         return view('foreground.search.search_keywords',['kw'=>$kw,'articles'=>$list,'is_exists'=>1]);
     }
+    public function more(Request $request){
+        $kw = trim($request->get('kw'));
+        $page = $request->get('page',1);
+        if($page>10){
+            $page = 10;
+            $request->merge(['page'=>$page]);
+        }
+        $more = $this->searchRepo->more($kw);
+        return response()->json($more);
+    }
 
     public function search_tag(Request $request,Tags $tags,$tag = null){
         list($paginate,$article_list) = $this->searchRepo->getDataByTag($tag);

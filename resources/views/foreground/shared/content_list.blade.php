@@ -3,8 +3,8 @@
         @foreach($articles as $k =>$article)
             @if($article->have_img == 1)
                 <li class="list-group-item have-img">
-                    <a href="#" class="wrap-img">
-                        <img src="http://p3.pstatp.com/large/5e3f00055a0d7bfc6ed7"/>
+                    <a href="{{url($article->cate_pinyin."/".$article->id.".html")}}" class="wrap-img">
+                        <img src="{{ asset($article->img) }}"/>
                     </a>
                     <div class="list-item-content">
                         <h2>
@@ -22,7 +22,11 @@
                         <p>{{ $article['description'] }}
                         </p>
                         <div class="tag">
-                            <span><i class="fa fa-tags" aria-hidden="true"></i> <a href="#">{{ $article['tags_name'] }}</a></span>
+                            @if(!empty($article->tags_name))
+                                @foreach($article->tags_name as $tag)
+                                    <span><i class="fa fa-tags" aria-hidden="true"></i> <a href="{{ url("/search/t/$tag") }}">{{ $tag }}</a></span>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </li>

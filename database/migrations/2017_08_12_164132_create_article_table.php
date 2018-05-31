@@ -16,6 +16,7 @@ class CreateArticleTable extends Migration
         Schema::create('article', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title',255)->comment('文章标题');
+            $table->string('keywords',100)->default('')->comment('seo meta的关键词');
             $table->string('author',20)->nullable()->comment('作者');
             $table->smallInteger('author_id')->unsigned()->nullable()->comment('作者id');
             $table->string('description',255)->nullable()->comment('文章描述');

@@ -181,6 +181,7 @@ class IndexController extends AdminController
             $is_show = isset($params['is_show']) ? 1 : 0;
             $data_head['id'] = $id;
             $data_head['title'] = $params['title'];
+            $data_head['keywords'] = isset($params['keywords'])?$params['keywords'] : '';
             $data_head['description'] = $params['description'];
             $data_head['cate_name'] = $cate_name;
             $data_head['cate_id'] = $cate_id;
@@ -283,6 +284,7 @@ class IndexController extends AdminController
                 $is_show = isset($params['is_show']) ? 1 : 0;
                 $data_head['id'] = $id;
                 $data_head['title'] = $params['title'];
+                $data_head['keywords'] = isset($params['keywords']) ? trim($params['keywords']) : '';
                 $data_head['description'] = $params['description'];
                 $data_head['cate_name'] = $cate_name;
                 $data_head['cate_id'] = $cate_id;

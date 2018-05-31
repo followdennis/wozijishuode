@@ -14,8 +14,11 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse " style="margin-left:36px;" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav nav-channel">
-                @foreach($nav as $item)
+                @php $i = 0; @endphp
+                @foreach($nav as $k => $item)
+
                     @if($item['is_leaf'] == 1)
+                        @php if($i == 6) break; $i++; @endphp
                     <li class="channel-item @if($current_route == $item['pinyin']) nav-active @endif">
                         <a href="{{ url("ch/{$item['pinyin']}") }}">{{ $item['name'] }} <span class="sr-only">(current)</span>
                         </a>
