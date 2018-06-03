@@ -52,6 +52,7 @@
                              var description = array['description'];
                              var img = array['img'];
                              var post_time = array['post_time'];
+                             var have_img = array['have_img'];
                              var tags = ''
                              if(array['tags'].length > 0){
                                  $.each(array['tags'],function(index,item){
@@ -59,6 +60,12 @@
                                      item['name']
                                  })
                              }
+                             if(have_img == 0){
+
+                             }else {
+                                 var  img_url = array['img'];
+                             }
+                             var img_url = '{{ asset('images/default/thumb/timg.jpg') }}';
                              var click = array['click'];
                              var like = array['like'];
                              var comment_url = '/'+ cate_py +'/'+ id +'.html#comments';
@@ -69,7 +76,7 @@
                              str += '<div class="list-item-content"><h2>';
                              str += '<a href="'+ article_url +'" class="transition">'+title+'</a>';
                              str += '</h2><div class="author">';
-                             str += '<a href="#" class="author-face"><img src="//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"></a>';
+                             str += '<a href="#" class="author-face"><img src="'+ img_url +'"></a>';
                              str += '<a class="author-name">'+ author +'</a>';
                              str += '<span class="time">'+ post_time +'</span>';
                              str += '<span class="time"><i class="fa fa-eye" aria-hidden="true"></i> '+ click +'</span>';
