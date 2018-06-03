@@ -198,6 +198,10 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::any('public_project_task/change_status',['uses'=>'Admin\Diary\ProjectTaskController@change_status','as'=>'public_project_task/change_status']);
 
         /**
+         *  文件上传
+         */
+        Route::post('upload',['uses'=>'Admin\UploadController@run','as'=>'upload']);
+        /**
          * 系统日志
          */
         Route::any('system_log', ['uses' => 'Admin\System\SystemLogController@index', 'as' => 'system_log']);
@@ -245,6 +249,10 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
         Route::post('article_comment/report',['uses'=>'Foreground\ReportController@add']);
         //文章收藏
         Route::get('article/collect',['uses'=>'Foreground\CollectionController@add']);
+        /**
+         *  文件上传
+         */
+        Route::post('upload',['uses'=>'Foreground\UploadController@run']);
     });
     /**
      * 评论列表
