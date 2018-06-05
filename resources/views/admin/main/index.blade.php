@@ -5,10 +5,45 @@
 @section('meta_keyword') 管理后台 @endsection
 
 @section('CUSTOM_STYLE')
+<link  href="{{ asset('vendor/bootstrap-fileinput/css/fileinput.css') }}" rel="stylesheet" type="text/css"/>
+<script>
 
+    function initFileInput(ctrlName,uploadUrl) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: uploadUrl,  //上传地址
+            showUpload: false, //是否显示上传按钮
+            showRemove:true,
+            dropZoneEnabled: false,
+            showCaption: true,//是否显示标题
+            allowedPreviewTypes: ['image'],
+            allowedFileTypes: ['image'],
+            allowedFileExtensions:  ['jpg', 'png'],
+            uploadExtraData:{'path':'brand','type':'image'},
+            maxFileSize : 2000,
+            maxFileCount: 1,
+            //initialPreview: [
+            //预览图片的设置
+            //      "<img src='http://127.0.0.1:8080/NewsManageSys/plugin/umeditor1_2_2/jsp/upload/20161030/55061                       477813913474.jpg' class='file-preview-image' alt='肖像图片' title='肖像图片'>",
+            //],
+
+        }).on("filebatchselected", function(event, files) {
+            $(this).fileinput("upload");
+        }).on("fileuploaded", function(event, data) {
+            $("#path").attr("value",data.response);
+        });
+    }
+
+    $(function () {
+        var path="/upload/run.html";
+        initFileInput("uploadify",path);
+
+    })
+</script>
 @endsection
 @section('CUSTOM_SCRIPT')
-
+<script src="{{ asset('vendor/bootstrap-fileinput/js/fileinput.js') }}"></script>
 @endsection
 @section('content')
     <div class="row">
@@ -20,6 +55,8 @@
                             <label for="exampleInputEmail1"></label>
                             <img src="{{ asset('images/default/thumb/timg.jpg') }}" style="width:120px;">
                             <input type="hidden" name="img" value="">
+                            <input id="fish_file" name="fish_file" type="file" multiple  class="file"  data-show-upload="false" data-show-caption="true">
+
                         </div>
                         <div class="form-group">
                             <label for="name">账号名</label>

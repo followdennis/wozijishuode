@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->integer('article_id')->unsigned()->default(0)->comment('文章id');
             $table->smallInteger('user_id')->unsigned()->default(0)->comment('用户id');
-            $table->string('user_name',20)->unsigned()->default(0)->comment('用户名称');
+            $table->string('user_name',20)->default('')->comment('用户名称');
             $table->text('comment')->comment('评论内容');
             $table->smallInteger('like')->unsigned()->default(0)->comment('赞');
             $table->integer('parent_id')->unsigned()->default(0)->comment('父id');
