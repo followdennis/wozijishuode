@@ -20,6 +20,7 @@ class CreateCategoryTable extends Migration
             $table->string('py',100)->nullable()->comment('拼音:简拼');
             $table->smallInteger('parent_id')->unsigned()->default(0);
             $table->string('description',255)->nullable()->comment('描述');
+            $table->string('keywords')->default('')->comment('关键词');
             $table->integer('sort')->default(0)->comment('排序');
             $table->softDeletes();
             $table->timestamps();
