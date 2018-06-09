@@ -198,6 +198,39 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::any('public_project_task/change_status',['uses'=>'Admin\Diary\ProjectTaskController@change_status','as'=>'public_project_task/change_status']);
 
         /**
+         * 项目管理
+         */
+        Route::any('project/index',['uses'=>'Admin\Project\IndexController@index','as'=>'project/index']);
+        Route::any('project/lists',['uses'=>'Admin\Project\IndexController@lists','as'=>'project/lists']);
+        Route::any('project/edit',['uses'=>'Admin\Project\IndexController@edit','as'=>'project/edit']);
+        Route::any('project/add',['uses'=>'Admin\Project\IndexController@add','as'=>'project/add']);
+        Route::any('project/del',['uses'=>'Admin\Project\IndexController@del','as'=>'project/del']);
+        /**
+         * 需求/进展管理
+         */
+        Route::any('requirement/index',['uses'=>'Admin\Project\Requirement@index','as'=>'requirement/index']);
+        Route::any('requirement/edit',['uses'=>'Admin\Project\Requirement@edit','as'=>'requirement/edit']);
+        Route::any('requirement/add',['uses'=>'Admin\Project\Requirement@add','as'=>'requirement/add']);
+        Route::any('requirement/lists',['uses'=>'Admin\Project\Requirement@lists','as'=>'requirement/lists']);
+        Route::any('requirement/del',['uses'=>'Admin\Project\Requirement@del','as'=>'requirement/del']);
+        /**
+         *  表名称
+         */
+        Route::any('table/index',['uses'=>'Admin\Project\Table@index','as'=>'requirement/index']);
+        Route::any('table/edit',['uses'=>'Admin\Project\Table@edit','as'=>'requirement/edit']);
+        Route::any('table/add',['uses'=>'Admin\Project\Table@add','as'=>'requirement/add']);
+        Route::any('table/lists',['uses'=>'Admin\Project\Table@lists','as'=>'requirement/lists']);
+        Route::any('table/del',['uses'=>'Admin\Project\Table@del','as'=>'requirement/del']);
+        /**
+         * 表字段
+         */
+        Route::any('field/index',['uses'=>'Admin\Project\TableController@index','as'=>'field/index']);
+        Route::any('field/add',['uses'=>'Admin\Project\TableController@add','as'=>'field/add']);
+        Route::any('field/edit',['uses'=>'Admin\Project\TableController@edit','as'=>'field/edit']);
+        Route::any('field/lists',['uses'=>'Admin\Project\TableController@lists','as'=>'field/lists']);
+        Route::any('field/del',['uses'=>'Admin\Project\TableController@del','as'=>'field/del']);
+
+        /**
          *  文件上传
          */
         Route::post('upload',['uses'=>'Admin\UploadController@run','as'=>'upload']);

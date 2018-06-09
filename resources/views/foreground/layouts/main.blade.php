@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="cn">
 <head>
+    <meta name="baidu-site-verification" content="qLfFj4snEk" />
     @section('seo')
 <title>{{ config('app.front_name', 'Laravel') }}_我自己说的网（wozijishuode.com）</title>
     <meta name="keywords" content="我自己说的,沃兹基硕德,名人语录,至理名言,励志故事,励志大全,心灵鸡汤" />
