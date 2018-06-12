@@ -192,7 +192,7 @@ class CommonController extends Controller
      */
     public function globalClick($cate_id = 0){
         $m = new ClickStatics();
-        $m->updateClick($cate_id);
+        return $m->updateClick($cate_id);
     }
 
 }

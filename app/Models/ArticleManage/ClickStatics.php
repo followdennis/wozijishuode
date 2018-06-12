@@ -30,7 +30,6 @@ class ClickStatics extends Model
             }
             $cate_id = 'cate_'.$cate_id;
             $model->$cate_id += 1;
-            Log::info('click');
         }
         return $model->save();
     }
