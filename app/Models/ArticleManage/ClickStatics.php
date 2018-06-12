@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Self_;
 
 class ClickStatics extends Model
@@ -29,6 +30,7 @@ class ClickStatics extends Model
             }
             $cate_id = 'cate_'.$cate_id;
             $model->$cate_id += 1;
+            Log::info('click');
         }
         return $model->save();
     }
