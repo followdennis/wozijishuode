@@ -15,7 +15,7 @@ return [
     'route' => [
         'name' => '/ueditor/server',
         'options' => [
-            // middleware => 'auth',
+//             'middleware' => 'auth',
         ],
     ],
 
@@ -31,7 +31,7 @@ return [
         'imageMaxSize' => 2 * 1024 * 1024, /* 上传大小限制，单位B */
         'imageAllowFiles' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp'], /* 上传图片格式显示 */
         'imageCompressEnable' => true, /* 是否压缩图片,默认是true */
-        'imageCompressBorder' => 1000, /* 图片压缩最长边限制 */
+        'imageCompressBorder' => 600, /* 图片压缩最长边限制 */
         'imageInsertAlign' => 'none', /* 插入的图片浮动方式 */
         'imageUrlPrefix' => '', /* 图片访问路径前缀 */
         'imagePathFormat' => '/uploads/image/{yyyy}/{mm}/{dd}/', /* 上传保存路径,可以自定义保存路径和文件名格式 */

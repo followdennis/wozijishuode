@@ -23754,7 +23754,8 @@ UE.plugin.register('autoupload', function (){
                 if (loader) {
                     loader.setAttribute('src', link);
                     loader.setAttribute('_src', link);
-                    loader.setAttribute('title', data.title || '');
+                    // loader.setAttribute('title', data.title || '');
+                    loader.setAttribute('title','');
                     loader.setAttribute('alt', data.original || '');
                     loader.removeAttribute('id');
                     domUtils.removeClasses(loader, 'loadingclass');
@@ -24511,7 +24512,8 @@ UE.plugin.register('simpleupload', function (){
                             loader = me.document.getElementById(loadingId);
                             loader.setAttribute('src', link);
                             loader.setAttribute('_src', link);
-                            loader.setAttribute('title', json.title || '');
+                            // loader.setAttribute('title', json.title || '');
+                            loader.setAttribute('title','');
                             loader.setAttribute('alt', json.original || '');
                             loader.removeAttribute('id');
                             domUtils.removeClasses(loader, 'loadingclass');

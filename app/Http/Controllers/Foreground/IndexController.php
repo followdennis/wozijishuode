@@ -108,8 +108,7 @@ class IndexController extends CommonController
             $article['article_id'] = 0;
             return view('foreground.detail',['is_exist'=>0,'breads'=>[['name'=>'首页','pinyin'=>'','prefix'=>'']],'article'=>$article]);
         }
-        $status = $this->globalClick($cate_id);
-        Log::info($status);
+        $this->globalClick($cate_id);
         $this->next($cate,$cate_id,$id);//下一页
         $this->prev($cate,$cate_id,$id);//上一页
         $article = $this->articleRepository->getArticleData($id);

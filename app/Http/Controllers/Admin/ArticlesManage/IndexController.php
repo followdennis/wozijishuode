@@ -172,13 +172,13 @@ class IndexController extends AdminController
             $cate_id = @$cate[0];
             $cate_name = @$cate[1];
             //获取id
-            $id = $this->articleModel->insertData(['cate_id'=>$cate_id]);
-            if(!empty($params['inner_link'])){
-                $data_head = array_add($data_head,'inner_link_name',$params['inner_link']);
-                $data_head = array_add($data_head,'inner_link_id',1);
-                $inner_link_state = $this->innerLinkModel->insert(['article_id'=>$id,'name'=>$params['inner_link'],'tables_id'=>1]);
-            }
             $is_show = isset($params['is_show']) ? 1 : 0;
+            $id = $this->articleModel->insertData(['cate_id'=>$cate_id,'is_show'=>$is_show]);
+            if(!empty($params['inner_link'])) {
+                $data_head = array_add($data_head, 'inner_link_name', $params['inner_link']);
+                $data_head = array_add($data_head, 'inner_link_id', 1);
+                $inner_link_state = $this->innerLinkModel->insert(['article_id' => $id, 'name' => $params['inner_link'], 'tables_id' => 1]);
+            }
             $data_head['id'] = $id;
             $data_head['title'] = $params['title'];
             $data_head['keywords'] = isset($params['keywords'])?$params['keywords'] : '';
@@ -289,7 +289,7 @@ class IndexController extends AdminController
                 $data_head['cate_name'] = $cate_name;
                 $data_head['cate_id'] = $cate_id;
                 $data_head['is_show'] = $is_show;
-                $data_head['post_time'] = $is_show? Carbon::now()->toDateTimeString():null;
+                $data_head['updated_at'] = $is_show? Carbon::now()->toDateTimeString():null;
                 $data_head['click'] = $params['click'];
                 $body = [
                     'id'=>$id,
@@ -361,9 +361,10 @@ class IndexController extends AdminController
     //文章是否在前台展示
     public function is_show(Request $request){
         $id = $request->get('id');
-        $is_show = $request->get('is_show');
+        $is_show = intval($request->get('is_show'));
         $condition = ['id'=>$id];
         $update = ['is_show'=>$is_show];
+
         $article_index_status = $this->articleModel->changeShow($condition,$update);
         $article_all_status = $this->articleAllModel->changeShow($condition,$update);
         $article_head_status = $this->articleHeadModel->changeShow($condition,$update);

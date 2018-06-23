@@ -55,8 +55,14 @@ class ArticleHead extends Model
     //修改显示状态
     public function changeShow($condition = [],$update = []){
         $head_id = get_article_head_id($condition['id']);
-        $update = ['updated_at'=>Carbon::now()->toDateTimeString(),'is_show'=>$update['is_show']];
-        return \DB::table($this->table.$head_id)->where($condition)->update($update);
+        $one = \DB::table($this->table.$head_id)->where($condition)->first();
+        if($one){
+            if($one->is_show == 0 && $update['is_show'] == 1){
+                $update['post_time'] = Carbon::now()->toDateTimeString();
+            }
+            return \DB::table($this->table.$head_id)->where($condition)->update($update);
+        }
+        return false;
     }
     public function likeCount($article_id = 0){
         $head_id = get_article_head_id($article_id);

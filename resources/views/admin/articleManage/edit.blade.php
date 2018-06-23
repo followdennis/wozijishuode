@@ -39,7 +39,9 @@
     <script type="text/javascript">
         var ue = UE.getEditor('container1',{
             toolbars:[
-                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote','simpleupload','insertimage', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source']
+                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote','simpleupload','insertimage', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source',
+                    'paragraph','fontsize','anchor','emotion','inserttable','deletetable','justifycenter','justifyleft','lineheight'
+                ]
             ],
             initialFrameHeight:600
         });

@@ -41,7 +41,9 @@
         var ue = UE.getEditor('container1',{
             initialFrameHeight:600,
             toolbars: [
-                ['bold', 'italic', 'underline', 'strikethrough', 'simpleupload','insertimage','blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source']
+                ['bold', 'italic', 'underline', 'strikethrough', 'simpleupload','insertimage','blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source',
+                'paragraph','fontsize','anchor','emotion','inserttable','deletetable','justifycenter','justifyleft','lineheight'
+                ]
             ],
             elementPathEnabled: false,
             enableContextMenu: false,

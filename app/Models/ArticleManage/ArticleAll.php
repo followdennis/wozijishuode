@@ -62,7 +62,15 @@ class ArticleAll extends Model
     }
     //修改显示状态
     public function changeShow($condition = [],$update = []){
-        return self::where($condition)->update($update);
+        $one = \DB::table($this->table)->where($condition)->first();
+        if($one){
+            //laravel 的小bug post_time 字段会自动填充
+            if($one->post_time != null){
+                $update['post_time'] = $one->post_time;
+            }
+            return \DB::table($this->table)->where($condition)->update($update);
+        }
+        return false;
     }
     //查询tag_ids
     public function getTagIdsById($id = 0){
