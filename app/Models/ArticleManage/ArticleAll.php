@@ -67,6 +67,10 @@ class ArticleAll extends Model
             //laravel 的小bug post_time 字段会自动填充
             if($one->post_time != null){
                 $update['post_time'] = $one->post_time;
+            }else{
+                if($update['is_show']){
+                    $update['post_time'] = Carbon::now()->toDateTimeString();
+                }
             }
             return \DB::table($this->table)->where($condition)->update($update);
         }
