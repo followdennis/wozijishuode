@@ -127,6 +127,7 @@
 //                autoclose: true,
 //                todayHighlight: true
 //            });
+            $(".dataTables_length").parent().removeClass('col-sm-6').addClass('col-sm-4');//修改样式
         } );
 
         function deleteItem(id) {

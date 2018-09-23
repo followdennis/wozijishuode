@@ -12,10 +12,15 @@
     var is_login = "{{ $is_login }}";
     var article_id = "{{$article['article_id']}}";
 </script>
+<script src="{{ asset('vendor/ueditor/third-party/SyntaxHighlighter/shCore.js') }}"></script>
+<script>
+    SyntaxHighlighter.all();
+</script>
 <script src="{{ asset('js/front/detail.js') }}"></script>
 @endsection
 @section('style')
-<link href="{{ asset('css/detail.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/detail.css') }}" rel="stylesheet">
 @endsection
 @section('content')
     <div class="panel panel-default article-list">

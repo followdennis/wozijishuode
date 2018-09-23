@@ -5,10 +5,13 @@
 @section('meta_keyword') 管理后台 @endsection
 
 @section('CUSTOM_STYLE')
-
+    <link href="{{ asset('vendor/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('CUSTOM_SCRIPT')
-
+    <script src="{{ asset('vendor/ueditor/third-party/SyntaxHighlighter/shCore.js') }}"></script>
+    <script>
+        SyntaxHighlighter.all();
+    </script>
 @endsection
 @section('content')
     <div class="container-fluid ">

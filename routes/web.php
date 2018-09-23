@@ -239,6 +239,8 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
          */
         Route::any('system_log', ['uses' => 'Admin\System\SystemLogController@index', 'as' => 'system_log']);
         Route::any('system_log/lists', ['uses' => 'Admin\System\SystemLogController@lists', 'as' => 'system_log/lists']);
+        Route::any('system_log/browse',['uses'=>'Admin\System\SystemLogController@browse_history','as'=>'system_log/browse']);//用户访问历史
+        Route::any('system_log/browse_list',['uses'=>'Admin\System\SystemLogController@browse_list','as'=>'system_log/browse_list']);//列表
 
     });
 });

@@ -7,6 +7,7 @@
 @section('CUSTOM_STYLE')
     <link href="{{asset('vendor/bootstrap-switch/bootstrap-switch.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('vendor/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset('vendor/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css') }}" rel="stylesheet" type="text/css" />
 
     <style>
     .input_select_2{
@@ -35,12 +36,13 @@
     <script src="{{asset('vendor/select2/dist/js/select2.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('vendor/select2/dist/js/i18n/zh-Cn.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/ueditor/third-party/SyntaxHighlighter/shCore.js') }}"></script>
     @include('vendor.ueditor.assets')
     <script type="text/javascript">
         var ue = UE.getEditor('container1',{
             toolbars:[
                 ['bold', 'italic', 'underline', 'strikethrough', 'blockquote','simpleupload','insertimage', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source',
-                    'paragraph','fontsize','anchor','emotion','inserttable','deletetable','justifycenter','justifyleft','lineheight'
+                    'paragraph','fontsize','anchor','emotion','inserttable','deletetable','justifycenter','justifyleft','lineheight','insertcode'
                 ]
             ],
             initialFrameHeight:600
@@ -49,6 +51,7 @@
             ue.setContent("{!! $data['content'] !!}");
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
         });
+
     </script>
     <script>
         $(document).ready(function(){

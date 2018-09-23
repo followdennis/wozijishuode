@@ -171,8 +171,8 @@ class IndexController extends CommonController
             if($request->cookie('guest')){
                 $browse = unserialize($request->cookie('guest'));
                 $browse_list = $browse;
-                if(count($browse_list) > 70){
-                    $browse_list = array_slice($browse_list,-35);
+                if(count($browse_list) > 4){
+                    $browse_list = array_slice($browse_list,-2);
                     $clientip = $request->getClientIp();
                     $browseModel->insertData($browse_list,$clientip,$is_login = 0,$user_id = 0);
                 }

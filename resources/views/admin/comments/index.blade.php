@@ -105,6 +105,7 @@
                 table.draw();
                 e.preventDefault();
             });
+            $(".dataTables_length").parent().removeClass('col-sm-6').addClass('col-sm-4');//修改样式
         } );
 
         function change_finish_status(obj){

@@ -42,7 +42,7 @@
             initialFrameHeight:600,
             toolbars: [
                 ['bold', 'italic', 'underline', 'strikethrough', 'simpleupload','insertimage','blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen','source',
-                'paragraph','fontsize','anchor','emotion','inserttable','deletetable','justifycenter','justifyleft','lineheight'
+                'paragraph','fontsize','anchor','emotion','inserttable','deletetable','justifycenter','justifyleft','lineheight','insertcode'
                 ]
             ],
             elementPathEnabled: false,

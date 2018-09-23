@@ -85,7 +85,6 @@ return [
     'unique'               => 'The :attribute 已经存在.',
     'uploaded'             => 'The :attribute 上传失败.',
     'url'                  => 'The :attribute 格式存在.',
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -100,7 +99,7 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
-        ],
+        ]
     ],
 
     /*
@@ -114,6 +113,7 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+    ],
 
 ];
