@@ -69,6 +69,9 @@ class SystemLogController extends AdminController
         $browse = $request->cookie('guest');
         $client_ip = $request->getClientIp();
         $browse_list = unserialize($browse);
+        if(empty($browse_list)){
+            $browse_list = [];
+        }
         return view('admin.system.browse.index',['brand_list' => $browse_list,'client_ip'=>$client_ip]);
     }
     //列表数据
