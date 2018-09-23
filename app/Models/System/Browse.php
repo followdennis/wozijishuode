@@ -22,5 +22,20 @@ class Browse extends Model
     public function del($id){
         return self::destroy($id);
     }
-
+    /**
+     * 获取用户名
+     */
+    public function user(){
+        return $this->hasOne('App\Models\CommonUser','id','user_id')->withDefault(function($article){
+            $article->name = '无对应用户';
+        });
+    }
+    /**
+     * 获取文章标题
+     */
+    public function article(){
+        return $this->hasOne('App\Models\ArticleManage\ArticleAll','id','article_id')->withDefault(function($article){
+            $article->title = '无对应文章';
+        });
+    }
 }

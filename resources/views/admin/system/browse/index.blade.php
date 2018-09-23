@@ -75,7 +75,9 @@
                     {data: 'id', name: 'id', title : 'ID', width:"35px",sortable: false},
                     {data: 'is_login', name: 'is_login', title : '是否登陆', sortable: false},
                     {data: 'user_id', name: 'user_id', title : '用户id', sortable: false},
+                    {data: 'user_name', name: 'user_name', title : '用户名', sortable: false},
                     {data: 'article_id', name: 'article_id', title : '文章id', sortable: false},
+                    {data: 'article_title', name: 'article_title', title : '文章标题', sortable: false},
                     {data: 'ip', name: 'ip', title : '客户端ip', sortable: false,sortable:false},
                     {data: 'created_at', name: 'created_at', title : '创建时间', sortable: false},
                     {data: 'action', name: 'action', title : '操作', width:"235px",sortable: false}

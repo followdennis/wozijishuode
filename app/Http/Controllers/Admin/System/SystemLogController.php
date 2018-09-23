@@ -81,6 +81,12 @@ class SystemLogController extends AdminController
             ->addColumn('action',function($record){
                 return 'aa';
             })
+            ->addColumn('article_title',function($record){
+                return $record->article->title;
+            })
+            ->addColumn('user_name',function($record){
+                return $record->user->name;
+            })
             ->filter(function($query) use($request){
                 if($request->filled('keyword')){
                     $user_name = $request->get('keyword');
