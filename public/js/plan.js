@@ -83972,6 +83972,113 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -84001,16 +84108,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 list: []
             },
             saveForm: {
-                questionId: 0,
-                num: 0,
-                numDesc: '',
-                assess: 0,
-                taskId: 0,
-                start: 0,
-                description: ''
+                name: '',
+                desc: '',
+                content: '',
+                day: 0,
+                start_time: null,
+                end_time: null,
+                true_start_time: null,
+                true_end_time: null,
+                importance: 0,
+                status: 0,
+                satisfaction: ''
+            },
+            rules: {
+                name: [{ required: true, message: '标题必填', trigger: 'blur' }, { max: 255, min: '1', message: '不能超过255个字', trigger: 'blur' }],
+                content: [{ required: true, message: '必填', trigger: 'blur' }],
+                day: [{ type: 'number', message: '必须为数字类型' }]
+
             },
             loading: false,
-            time_count: null
+            time_count: null,
+            dialogVisible: false,
+            type: 0 //0 新增 1 编辑
         };
     },
 
@@ -84044,41 +84163,149 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         handleAdd: function handleAdd() {
-            this.addFormVisible = true;
-            this.addForm = {
-                question: '',
-                sort: 0
+            this.dialogVisible = true;
+            this.type = 0; //新增
+            this.saveForm = {
+                name: '',
+                desc: '',
+                content: '',
+                day: 0,
+                start_time: null,
+                end_time: null,
+                true_start_time: null,
+                true_end_time: null,
+                importance: 0,
+                status: 0,
+                satisfaction: ''
             };
         },
-        handleSave: function handleSave(index, row) {
-            console.log('save');
-            //                this.saveForm = Object.assign({}, row);
-            this.saveForm = {
-                questionId: row.questionId,
-                num: row.answer.num,
-                numDesc: row.answer.numDesc,
-                assess: row.answer.assess,
-                taskId: row.answer.taskId,
-                description: row.answer.description,
-                today: this.filters.today
-            };
-            axios.post('/back/diary/today/thoughts/add', this.saveForm).then(function (res) {}).catch(function () {
-                console.log('save failed');
+        handleEdit: function handleEdit(index, row) {
+            var _this3 = this;
+
+            this.dialogVisible = true;
+            this.type = 1;
+            var that = this;
+            axios.get('/back/plan/show', { params: { id: row.id } }).then(function (res) {
+                if (res.data.code == 0) {
+                    var data = res.data.data;
+                    that.saveForm = {
+                        id: data.id,
+                        name: data.name,
+                        desc: data.desc,
+                        content: data.content,
+                        day: data.day,
+                        start_time: data.start_time,
+                        end_time: data.end_time,
+                        true_start_time: data.true_start_time,
+                        true_end_time: data.true_end_time,
+                        importance: data.importance,
+                        status: data.status,
+                        satisfaction: data.satisfaction
+                    };
+                } else {
+                    _this3.$message({
+                        type: 'error',
+                        duration: 2000,
+                        message: '获取详情失败'
+                    });
+                }
             });
+        },
+
+
+        handleSave: function handleSave() {
+            var _this4 = this;
+
+            //                this.saveForm = Object.assign({}, row);
+            var that = this;
+            if (this.type == 0) {
+                //新增
+                this.$refs['saveForm'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/back/plan/add', _this4.saveForm).then(function (res) {
+                            if (res.data.code == 0) {
+                                _this4.$message({
+                                    type: 'success',
+                                    message: '添加成功!',
+                                    duration: 2000
+                                });
+                                that.dialogVisible = false;
+                                that.loadData();
+                            } else {
+                                _this4.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration: 2000
+                                });
+                            }
+                        }).catch(function () {
+                            console.log('save failed');
+                        });
+                    }
+                });
+            } else if (this.type == 1) {
+                //编辑
+                this.$refs['saveForm'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/back/plan/edit', _this4.saveForm).then(function (res) {
+                            if (res.data.code == 0) {
+                                _this4.$message({
+                                    type: 'success',
+                                    message: '编辑成功!',
+                                    duration: 2000
+                                });
+                                that.dialogVisible = false;
+                                that.loadData();
+                            } else {
+                                _this4.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration: 2000
+                                });
+                            }
+                        }).catch(function () {
+                            _this4.$message({
+                                type: 'error',
+                                message: '操作失败!',
+                                duration: 2000
+                            });
+                        });
+                    }
+                });
+            }
+
             console.log(this.saveForm);
         },
-        handleStart: function handleStart(index, row) {
-            row.answer.start = !row.answer.start;
-            var count = function count() {
-                row.answer.num++;
-            };
-            if (row.answer.start === true) {
-                this.time_count = setInterval(count, 1000);
-            } else {
-                clearInterval(this.time_count);
-            }
-            console.log(row.answer.start);
+        handleDel: function handleDel(index, row) {
+            var _this5 = this;
+
+            var that = this;
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                axios.get('/back/plan/del', { params: { id: row.id } }).then(function (res) {
+                    if (res.data.code == 0) {
+                        _this5.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                            duration: 2000
+                        });
+                        that.loadData();
+                    } else {
+                        _this5.$message({
+                            type: 'error',
+                            message: '删除失败!',
+                            duration: 2000
+                        });
+                    }
+                });
+            }).catch(function () {});
         },
+
+
         startChange: function startChange(data) {
             console.log('start-change');
             console.log(data);
@@ -84097,6 +84324,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         selsChange: function selsChange(sels) {
             this.sels = sels;
+        },
+        handleClose: function handleClose() {
+            this.dialogVisible = false;
+        },
+        formatTime1: function formatTime1(time) {
+            this.saveForm.start_time = time;
+        },
+        formatTime2: function formatTime2(time) {
+            this.saveForm.end_time = time;
+        },
+        formatTime3: function formatTime3(time) {
+            this.saveForm.true_start_time = time;
+        },
+        formatTime4: function formatTime4(time) {
+            this.saveForm.true_end_time = time;
         }
     }
 });
@@ -84309,7 +84551,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "label": "任务名称"
+      "label": "任务名称",
+      "prop": "name"
     },
     scopedSlots: _vm._u([{
       key: "default",
@@ -84357,6 +84600,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "完成数",
       "prop": "sub_task_finished_num"
     }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "操作",
+      "width": "145"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "primary"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleEdit(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("编辑")]), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "danger"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleDel(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("删除")])]
+      }
+    }])
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "block"
   }, [_c('el-col', {
@@ -84390,7 +84664,281 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "font-size": "13px",
       "color": "#48576a"
     }
-  }, [_vm._v("第" + _vm._s(_vm.page.from) + "到" + _vm._s(_vm.page.to) + "条")])], 1)], 1)], 1)
+  }, [_vm._v("第" + _vm._s(_vm.page.from) + "到" + _vm._s(_vm.page.to) + "条")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "提示",
+      "visible": _vm.dialogVisible,
+      "width": "30%",
+      "before-close": _vm.handleClose,
+      "center": ""
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogVisible = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "saveForm",
+    attrs: {
+      "model": _vm.saveForm,
+      "rules": _vm.rules,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "任务名称",
+      "prop": "name"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.name),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "name", $$v)
+      },
+      expression: "saveForm.name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "简介"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.desc),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "desc", $$v)
+      },
+      expression: "saveForm.desc"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "正文",
+      "prop": "content"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "textarea"
+    },
+    model: {
+      value: (_vm.saveForm.content),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "content", $$v)
+      },
+      expression: "saveForm.content"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "预估天数",
+      "prop": "day"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.day),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "day", _vm._n($$v))
+      },
+      expression: "saveForm.day"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "起止时间"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "type": "datetime",
+      "placeholder": "选择日期",
+      "format": "yyyy-MM-dd HH:mm:ss",
+      "value-format": "yyyy-MM-dd HH:mm:ss"
+    },
+    on: {
+      "change": _vm.formatTime1
+    },
+    model: {
+      value: (_vm.saveForm.start_time),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "start_time", $$v)
+      },
+      expression: "saveForm.start_time"
+    }
+  })], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "line",
+    attrs: {
+      "span": 2
+    }
+  }, [_vm._v("-")]), _vm._v(" "), _c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "type": "datetime",
+      "placeholder": "选择时间",
+      "format": "yyyy-MM-dd HH:mm:ss",
+      "value-format": "yyyy-MM-dd HH:mm:ss"
+    },
+    on: {
+      "change": _vm.formatTime2
+    },
+    model: {
+      value: (_vm.saveForm.end_time),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "end_time", $$v)
+      },
+      expression: "saveForm.end_time"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "实际时间"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "type": "datetime",
+      "placeholder": "选择日期",
+      "format": "yyyy-MM-dd HH:mm:ss",
+      "value-format": "yyyy-MM-dd HH:mm:ss"
+    },
+    on: {
+      "change": _vm.formatTime3
+    },
+    model: {
+      value: (_vm.saveForm.true_start_time),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "true_start_time", $$v)
+      },
+      expression: "saveForm.true_start_time"
+    }
+  })], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "line",
+    attrs: {
+      "span": 2
+    }
+  }, [_vm._v("-")]), _vm._v(" "), _c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "type": "datetime",
+      "placeholder": "选择时间",
+      "format": "yyyy-MM-dd HH:mm:ss",
+      "value-format": "yyyy-MM-dd HH:mm:ss"
+    },
+    on: {
+      "change": _vm.formatTime4
+    },
+    model: {
+      value: (_vm.saveForm.true_end_time),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "true_end_time", $$v)
+      },
+      expression: "saveForm.true_end_time"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "重要性"
+    }
+  }, [_c('el-select', {
+    attrs: {
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.saveForm.importance),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "importance", $$v)
+      },
+      expression: "saveForm.importance"
+    }
+  }, [_c('el-option', {
+    attrs: {
+      "label": "重要",
+      "value": 3
+    }
+  }), _vm._v(" "), _c('el-option', {
+    attrs: {
+      "label": "一般",
+      "value": 2
+    }
+  }), _vm._v(" "), _c('el-option', {
+    attrs: {
+      "label": "不重要",
+      "value": 1
+    }
+  }), _vm._v(" "), _c('el-option', {
+    attrs: {
+      "label": "请选择",
+      "value": 0
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "满意度"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.satisfaction),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "satisfaction", $$v)
+      },
+      expression: "saveForm.satisfaction"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "状态"
+    }
+  }, [_c('el-radio-group', {
+    model: {
+      value: (_vm.saveForm.status),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "status", $$v)
+      },
+      expression: "saveForm.status"
+    }
+  }, [_c('el-radio', {
+    attrs: {
+      "label": 1
+    }
+  }, [_vm._v("完成")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": 0
+    }
+  }, [_vm._v("未完成")])], 1)], 1)], 1), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.dialogVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.handleSave
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

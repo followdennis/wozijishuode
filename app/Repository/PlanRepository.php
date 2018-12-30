@@ -13,6 +13,7 @@ class PlanRepository extends Model
     public function getPlanList($page = 15){
         $user_id =  Auth::user()->id;
         $pageData = Plan::where('user_id',$user_id)->select([
+            'id',
             'name',
             'desc',
             'content',
@@ -26,7 +27,7 @@ class PlanRepository extends Model
             'satisfaction',
             'sub_task_num',
             'sub_task_finished_num'
-        ])->orderBy('sort','desc')->paginate($page);
+        ])->orderBy('sort','desc')->paginate();
         return $pageData;
     }
     public function  addPlan($params = []){

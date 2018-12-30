@@ -37,6 +37,7 @@
             </el-table-column>
             <el-table-column
                     label="任务名称"
+                    prop="name"
             >
                 <template slot-scope="scope">
                     {{ scope.row.name }}
@@ -82,6 +83,21 @@
                     prop="sub_task_finished_num"
             >
             </el-table-column>
+            <el-table-column
+                    label="操作"
+                    width="145"
+            >
+                <template slot-scope="scope">
+                    <el-button
+                            size="small"
+                            type="primary"
+                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button
+                            size="small"
+                            type="danger"
+                            @click="handleDel(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
         </el-table>
         <div class="block">
             <el-col :span="24" class="toolbar" style="margin:4px;">
@@ -99,6 +115,97 @@
                 <span style="display:block;float:right;padding-top:6px;font-size:13px;color: #48576a;">第{{page.from}}到{{page.to}}条</span>
             </el-col>
         </div>
+        <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :before-close="handleClose"
+                center
+        >
+
+            <el-form ref="saveForm" :model="saveForm" :rules="rules" label-width="80px">
+                <el-form-item label="任务名称" prop="name">
+                    <el-input v-model="saveForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="简介">
+                    <el-input v-model="saveForm.desc"></el-input>
+                </el-form-item>
+                <el-form-item label="正文" prop="content">
+                    <el-input type="textarea" v-model="saveForm.content"></el-input>
+                </el-form-item>
+                <el-form-item label="预估天数" prop="day">
+                    <el-input v-model.number="saveForm.day"></el-input>
+                </el-form-item>
+                <el-form-item label="起止时间">
+                    <el-col :span="11">
+                        <el-date-picker
+                                type="datetime"
+                                placeholder="选择日期"
+                                v-model="saveForm.start_time"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                @change="formatTime1"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                style="width: 100%;"></el-date-picker>
+                    </el-col>
+                    <el-col class="line" :span="2">-</el-col>
+                    <el-col :span="11">
+                        <el-date-picker
+                                type="datetime"
+                                placeholder="选择时间"
+                                v-model="saveForm.end_time"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                @change="formatTime2"
+                                style="width: 100%;"></el-date-picker>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="实际时间">
+                    <el-col :span="11">
+                        <el-date-picker
+                                type="datetime"
+                                placeholder="选择日期"
+                                v-model="saveForm.true_start_time"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                @change="formatTime3"
+                                style="width: 100%;"></el-date-picker>
+                    </el-col>
+                    <el-col class="line" :span="2">-</el-col>
+                    <el-col :span="11">
+                        <el-date-picker
+                                type="datetime"
+                                placeholder="选择时间"
+                                v-model="saveForm.true_end_time"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                @change="formatTime4"
+                                style="width: 100%;"></el-date-picker>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="重要性" >
+                    <el-select v-model="saveForm.importance" placeholder="请选择">
+                        <el-option label="重要" :value="3"></el-option>
+                        <el-option label="一般" :value="2"></el-option>
+                        <el-option label="不重要" :value="1"></el-option>
+                        <el-option label="请选择" :value="0"></el-option>
+
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="满意度">
+                    <el-input v-model="saveForm.satisfaction"></el-input>
+                </el-form-item>
+                <el-form-item label="状态">
+                    <el-radio-group v-model="saveForm.status">
+                        <el-radio   :label="1"  >完成</el-radio>
+                        <el-radio  :label="0" >未完成</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="handleSave">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -131,16 +238,35 @@
                     list:[]
                 },
                 saveForm:{
-                    questionId:0,
-                    num:0,
-                    numDesc:'',
-                    assess:0,
-                    taskId:0,
-                    start:0,
-                    description:''
+                    name:'',
+                    desc:'',
+                    content:'',
+                    day:0,
+                    start_time:null,
+                    end_time:null,
+                    true_start_time:null,
+                    true_end_time:null,
+                    importance:0,
+                    status:0,
+                    satisfaction:''
+                },
+                rules:{
+                    name:[
+                        {required:true,message:'标题必填',trigger:'blur'},
+                        {max:255,min:'1',message:'不能超过255个字',trigger:'blur'}
+                    ],
+                    content:[
+                        {required:true,message:'必填',trigger:'blur'}
+                    ],
+                    day:[
+                        {type:'number',message:'必须为数字类型'}
+                    ]
+
                 },
                 loading:false,
-                time_count:null
+                time_count:null,
+                dialogVisible: false,
+                type:0  //0 新增 1 编辑
             }
         },
         methods:{
@@ -170,43 +296,146 @@
                 })
             },
             handleAdd:function(){
-                this.addFormVisible = true;
-                this.addForm = {
-                    question: '',
-                    sort: 0,
+                this.dialogVisible = true;
+                this.type = 0;//新增
+                this.saveForm = {
+                    name:'',
+                    desc:'',
+                    content:'',
+                    day:0,
+                    start_time:null,
+                    end_time:null,
+                    true_start_time:null,
+                    true_end_time:null,
+                    importance:0,
+                    status:0,
+                    satisfaction:''
                 };
             },
-            handleSave:function(index,row){
-                console.log('save');
-//                this.saveForm = Object.assign({}, row);
-                this.saveForm = {
-                    questionId:row.questionId,
-                    num:row.answer.num,
-                    numDesc:row.answer.numDesc,
-                    assess:row.answer.assess,
-                    taskId:row.answer.taskId,
-                    description:row.answer.description,
-                    today:this.filters.today
-                }
-                axios.post('/back/diary/today/thoughts/add',this.saveForm).then((res)=>{
+            handleEdit(index,row){
+              this.dialogVisible = true;
+              this.type = 1;
+              let that = this;
+              axios.get('/back/plan/show',{params:{id:row.id}}).then( res => {
+                  if ( res.data.code == 0){
+                      let data = res.data.data;
+                      that.saveForm = {
+                          id:data.id,
+                          name:data.name,
+                          desc:data.desc,
+                          content:data.content,
+                          day:data.day,
+                          start_time:data.start_time,
+                          end_time:data.end_time,
+                          true_start_time:data.true_start_time,
+                          true_end_time:data.true_end_time,
+                          importance:data.importance,
+                          status:data.status,
+                          satisfaction:data.satisfaction
+                      };
+                  }else {
+                      this.$message({
+                          type:'error',
+                          duration:2000,
+                          message:'获取详情失败'
+                      })
+                  }
+              })
+            },
 
-                }).catch(()=>{
-                    console.log('save failed');
-                })
+            handleSave:function(){
+//                this.saveForm = Object.assign({}, row);
+                let that = this;
+                if( this.type == 0){
+                    //新增
+                    this.$refs['saveForm'].validate( valid =>{
+                        if( valid ){
+                            axios.post('/back/plan/add',this.saveForm).then((res)=>{
+                                if( res.data.code == 0){
+                                    this.$message({
+                                        type: 'success',
+                                        message: '添加成功!',
+                                        duration:2000
+                                    });
+                                    that.dialogVisible = false;
+                                    that.loadData();
+                                } else{
+                                    this.$message({
+                                        type: 'error',
+                                        message: '操作失败!',
+                                        duration:2000
+                                    });
+                                }
+                            }).catch(()=>{
+                                console.log('save failed');
+                            })
+                        }
+                    })
+
+                } else if( this.type == 1){
+                    //编辑
+                    this.$refs['saveForm'].validate( valid =>{
+                        if( valid ){
+                            axios.post('/back/plan/edit',this.saveForm).then((res)=>{
+                                if( res.data.code == 0){
+                                    this.$message({
+                                        type: 'success',
+                                        message: '编辑成功!',
+                                        duration:2000
+                                    });
+                                    that.dialogVisible = false;
+                                    that.loadData();
+                                } else{
+                                    this.$message({
+                                        type: 'error',
+                                        message: '操作失败!',
+                                        duration:2000
+                                    });
+                                }
+                            }).catch(()=>{
+                                this.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration:2000
+                                });
+                            })
+                        }
+                    })
+                }
+
                 console.log(this.saveForm);
             },
-            handleStart:function(index,row){
-                row.answer.start = !row.answer.start;
-                let count=function(){
-                    row.answer.num++;
-                }
-                if(row.answer.start === true){
-                    this.time_count =  setInterval(count,1000);
-                }else{
-                    clearInterval(this.time_count);
-                }
-                console.log(row.answer.start);
+            handleDel(index,row){
+                let that = this;
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    axios.get('/back/plan/del',{params:{id:row.id}}).then(res => {
+                        if( res.data.code == 0){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!',
+                                duration:2000
+                            });
+                            that.loadData();
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '删除失败!',
+                                duration:2000
+                            });
+                        }
+                    })
+
+                }).catch(() => {
+
+                });
+
             },
+
             startChange:function(data){
                 console.log('start-change');
                 console.log(data);
@@ -227,6 +456,22 @@
             selsChange:function(sels){
                 this.sels = sels;
             },
+            handleClose(){
+                this.dialogVisible = false;
+            },
+            formatTime1(time){
+                this.saveForm.start_time = time;
+            },
+            formatTime2(time){
+                this.saveForm.end_time = time;
+            },
+            formatTime3(time){
+                this.saveForm.true_start_time = time;
+
+            },
+            formatTime4(time){
+                this.saveForm.true_end_time = time;
+            }
         }
     }
 </script>
