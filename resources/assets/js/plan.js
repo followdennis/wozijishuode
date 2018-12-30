@@ -17,6 +17,8 @@ import ElementUI from 'element-ui'    //引入element－ui
 import 'element-ui/lib/theme-default/index.css' //引入element－ui所需的css样式资源文件
 Vue.use(ElementUI);    //把引入的ElementUI装入我们的Vue
 Vue.component('my_plan',require('./components/plan/index.vue'));
+Vue.component('my_plan_task',require('./components/plan/planTask/index.vue'));
+Vue.component('my_plan_task_job',require('./components/plan/planTaskJob/index.vue'));
 
 const app = new Vue({
     el: '#plan'

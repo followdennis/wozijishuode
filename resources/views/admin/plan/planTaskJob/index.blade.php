@@ -25,7 +25,7 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h1 class="page-title"> 计划任务
+            <h1 class="page-title"> 计划执行
             </h1>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
@@ -36,14 +36,14 @@
                         {{--<div class="portlet box blue-steel">--}}
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>计划列表 </div>
+                                <i class="fa fa-cogs"></i>执行列表 </div>
 
                             <div class="actions">
 
                             </div>
                         </div>
                         <div class="portlet-body" >
-
+                            <my_plan_task_job></my_plan_task_job>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->

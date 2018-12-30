@@ -46,7 +46,7 @@ class PlanTaskJobController extends AdminController
     {
         $params = $this->req->all();
         $id = $this->req->get('id');
-        $res = $this->planRep->editPlan($id,$params);
+        $res = $this->planRep->editPlanTaskJob($id,$params);
         if($res){
             $code = 0;
             $msg = '编辑成功';

@@ -30,6 +30,7 @@ class CreatePlanTaskTable extends Migration
             $table->timestamp('end_time')->nullable()->comment('结束时间');
             $table->integer('day_num')->default(0)->comment('天数');
             $table->integer('true_day_num')->default(0)->comment('实际天数');
+            $table->integer('sort')->default(0)->comment('排序');
 
             $table->softDeletes();
             $table->timestamps();

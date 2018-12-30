@@ -4,6 +4,8 @@ namespace App\Repository;
 
 
 use App\Models\Plan\Plan;
+use App\Models\Plan\PlanTask;
+use App\Models\Plan\PlanTaskJob;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,11 +55,11 @@ class PlanRepository extends Model
      */
     public function getPlanTaskList( $page = 15){
         $user_id =  Auth::user()->id;
-        $pageData = Plan::where('user_id',$user_id)->select([
+        $pageData = PlanTask::where('user_id',$user_id)->select([
+            'id',
             'name',
             'desc',
             'content',
-            'day',
             'status',
             'is_satisfy',
             'advice',
@@ -68,6 +70,7 @@ class PlanRepository extends Model
             'end_time',
             'day_num',
             'true_day_num',
+            'sort',
             'created_at',
             'updated_at'
         ])->orderBy('sort','desc')->paginate($page);
@@ -75,27 +78,28 @@ class PlanRepository extends Model
     }
     public function  addPlanTask(){
         $params['user_id']= Auth::user()->id;
-        return Plan::insert($params);
+        return PlanTask::insert($params);
     }
     public function  editPlanTask($id,$params){
         $user_id = Auth::user()->id;
-        return Plan::where('user_id',$user_id)->where('id',$id)->update($params);
+        return PlanTask::where('user_id',$user_id)->where('id',$id)->update($params);
     }
     public function  delPlanTask($id){
         $user_id = Auth::user()->id;
-        return Plan::where('user_id',$user_id)->where('id',$id)->delete();
+        return PlanTask::where('user_id',$user_id)->where('id',$id)->delete();
     }
 
     public function  showPlanTask($plan_id){
         $user_id = Auth::user()->id;
-        return Plan::where('user_id',$user_id)->find($plan_id);
+        return PlanTask::where('user_id',$user_id)->find($plan_id);
     }
     /**
      * plan task job
      */
     public function getPlanTaskJobList($page = 15){
         $user_id =  Auth::user()->id;
-        $pageData = Plan::where('user_id',$user_id)->select([
+        $pageData = PlanTaskJob::where('user_id',$user_id)->select([
+            'id',
             'name',
             'content',
             'day',
@@ -111,19 +115,19 @@ class PlanRepository extends Model
     }
     public function  addPlanTaskJob(){
         $params['user_id']= Auth::user()->id;
-        return Plan::insert($params);
+        return PlanTaskJob::insert($params);
     }
     public function  editPlanTaskJob($id,$params){
         $user_id = Auth::user()->id;
-        return Plan::where('user_id',$user_id)->where('id',$id)->update($params);
+        return PlanTaskJob::where('user_id',$user_id)->where('id',$id)->update($params);
     }
     public function  delPlanTaskJob($id){
         $user_id = Auth::user()->id;
-        return Plan::where('user_id',$user_id)->where('id',$id)->delete();
+        return PlanTaskJob::where('user_id',$user_id)->where('id',$id)->delete();
     }
 
     public function  showPlanTaskJob($plan_id){
         $user_id = Auth::user()->id;
-        return Plan::where('user_id',$user_id)->find($plan_id);
+        return PlanTaskJob::where('user_id',$user_id)->find($plan_id);
     }
 }

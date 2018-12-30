@@ -83847,6 +83847,8 @@ window.Vue = __webpack_require__(4);
  //引入element－ui所需的css样式资源文件
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a); //把引入的ElementUI装入我们的Vue
 Vue.component('my_plan', __webpack_require__(318));
+Vue.component('my_plan_task', __webpack_require__(361));
+Vue.component('my_plan_task_job', __webpack_require__(366));
 
 var app = new Vue({
   el: '#plan'
@@ -84998,6 +85000,1887 @@ if(false) {
 
 module.exports = __webpack_require__(243);
 
+
+/***/ }),
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.getTaskList();
+        this.loadData();
+        console.log('Component mounted.');
+    },
+
+    computed: {},
+    data: function data() {
+        return {
+            msg: '开始',
+            filters: {
+                query: '',
+                today: ''
+            },
+            tableData: [],
+            page: {
+                total: 0,
+                perPage: 10,
+                currentPage: 1,
+                lastPage: 0,
+                from: 0,
+                to: 0
+            },
+            todayTask: {
+                list: []
+            },
+            saveForm: {
+                name: '',
+                plan_name: '', //父级任务
+                desc: '',
+                content: '',
+                plan_id: 0,
+                is_satisfy: 0,
+                advice: '',
+                quantization: 0,
+                quantization_unit: '',
+                start_time: null,
+                end_time: null,
+                day_num: 0,
+                created_at: null,
+                importance: 0,
+                status: 0,
+                sort: 0
+            },
+            rules: {
+                name: [{ required: true, message: '标题必填', trigger: 'blur' }, { max: 255, min: '1', message: '不能超过255个字', trigger: 'blur' }],
+                content: [{ required: true, message: '必填', trigger: 'blur' }],
+                day_num: [{ required: true, message: '必填' }, { type: 'number', message: '必须为数字类型' }]
+            },
+            loading: false,
+            time_count: null,
+            dialogVisible: false,
+            type: 0 //0 新增 1 编辑
+        };
+    },
+
+    methods: {
+        loadData: function loadData() {
+            var _this = this;
+
+            var params = {
+                page: this.page.currentPage,
+                perPage: this.page.perPage,
+                query: this.filters.query,
+                today: this.filters.today
+            };
+            this.loading = true;
+            axios.get('/back/plan_task/list', { params: params }).then(function (res) {
+
+                var data = res.data.items;
+                _this.tableData = data;
+                _this.page.total = data.total;
+                _this.page.from = data.from;
+                _this.page.to = data.to;
+                _this.loading = false;
+            });
+        },
+        getTaskList: function getTaskList() {
+            var _this2 = this;
+
+            axios.get('/back/diary/today_get_task_list').then(function (res) {
+                var list = res.data;
+                _this2.todayTask.list = list;
+            });
+        },
+        handleAdd: function handleAdd() {
+            this.dialogVisible = true;
+            this.type = 0; //新增
+            this.saveForm = {
+                name: '',
+                plan_name: '', //父级任务
+                desc: '',
+                content: '',
+                is_satisfy: 0,
+                advice: '',
+                quantization: 0,
+                quantization_unit: '',
+                start_time: null,
+                end_time: null,
+                day_num: 0,
+                created_at: null,
+                importance: 0,
+                status: 0,
+                sort: 0
+            };
+        },
+        handleEdit: function handleEdit(index, row) {
+            var _this3 = this;
+
+            this.dialogVisible = true;
+            this.type = 1;
+            var that = this;
+            axios.get('/back/plan_task/show', { params: { id: row.id } }).then(function (res) {
+                if (res.data.code == 0) {
+                    var data = res.data.data;
+                    that.saveForm = {
+                        id: data.id,
+                        name: data.name,
+                        desc: data.desc,
+                        content: data.content,
+                        is_satisfy: data.is_satisfy,
+                        advice: data.advice,
+                        quantization: data.quantization,
+                        quantization_unit: data.quantization_unit,
+                        start_time: data.start_time,
+                        end_time: data.end_time,
+                        day_num: data.day_num,
+                        created_at: data.created_at,
+                        importance: data.importance,
+                        status: data.status,
+                        sort: data.sort
+                    };
+                } else {
+                    _this3.$message({
+                        type: 'error',
+                        duration: 2000,
+                        message: '获取详情失败'
+                    });
+                }
+            });
+        },
+
+
+        handleSave: function handleSave() {
+            var _this4 = this;
+
+            //                this.saveForm = Object.assign({}, row);
+            var that = this;
+            if (this.type == 0) {
+                //新增
+                this.$refs['saveForm'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/back/plan_task/add', _this4.saveForm).then(function (res) {
+                            if (res.data.code == 0) {
+                                _this4.$message({
+                                    type: 'success',
+                                    message: '添加成功!',
+                                    duration: 2000
+                                });
+                                that.dialogVisible = false;
+                                that.loadData();
+                            } else {
+                                _this4.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration: 2000
+                                });
+                            }
+                        }).catch(function () {
+                            console.log('save failed');
+                        });
+                    }
+                });
+            } else if (this.type == 1) {
+                //编辑
+                this.$refs['saveForm'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/back/plan_task/edit', _this4.saveForm).then(function (res) {
+                            if (res.data.code == 0) {
+                                _this4.$message({
+                                    type: 'success',
+                                    message: '编辑成功!',
+                                    duration: 2000
+                                });
+                                that.dialogVisible = false;
+                                that.loadData();
+                            } else {
+                                _this4.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration: 2000
+                                });
+                            }
+                        }).catch(function () {
+                            _this4.$message({
+                                type: 'error',
+                                message: '操作失败!',
+                                duration: 2000
+                            });
+                        });
+                    }
+                });
+            }
+
+            console.log(this.saveForm);
+        },
+        handleDel: function handleDel(index, row) {
+            var _this5 = this;
+
+            var that = this;
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                axios.get('/back/plan_task/del', { params: { id: row.id } }).then(function (res) {
+                    if (res.data.code == 0) {
+                        _this5.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                            duration: 2000
+                        });
+                        that.loadData();
+                    } else {
+                        _this5.$message({
+                            type: 'error',
+                            message: '删除失败!',
+                            duration: 2000
+                        });
+                    }
+                });
+            }).catch(function () {});
+        },
+
+
+        startChange: function startChange(data) {
+            console.log('start-change');
+            console.log(data);
+        },
+        tableRowClassName: function tableRowClassName(row, rowIndex) {},
+        handleSizeChange: function handleSizeChange(val) {
+            console.log('\u6BCF\u9875 ' + val + ' \u6761');
+            this.page.perPage = val;
+            this.loadData();
+        },
+        handleCurrentChange: function handleCurrentChange(val) {
+            console.log('\u5F53\u524D\u9875: ' + val + ' ' + this.page.perPage);
+            this.page.currentPage = val;
+            this.loadData();
+        },
+
+        selsChange: function selsChange(sels) {
+            this.sels = sels;
+        },
+        handleClose: function handleClose() {
+            this.dialogVisible = false;
+        },
+        formatTime1: function formatTime1(time) {
+            this.saveForm.start_time = time;
+        },
+        formatTime2: function formatTime2(time) {
+            this.saveForm.end_time = time;
+        },
+        formatTime3: function formatTime3(time) {
+            this.saveForm.true_start_time = time;
+        },
+        formatTime4: function formatTime4(time) {
+            this.saveForm.true_end_time = time;
+        }
+    }
+});
+
+/***/ }),
+/* 360 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(22)();
+exports.push([module.i, "\n.table_list{\n    margin:0px;\n}\n.el-table .warning-row{\n    background:#d9f7c9;\n}\n.el-table .success-row{\n    background: #f0f9eb;\n}\n.number_count{\n    width:118px;\n}\n", ""]);
+
+/***/ }),
+/* 361 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(363)
+
+var Component = __webpack_require__(19)(
+  /* script */
+  __webpack_require__(359),
+  /* template */
+  __webpack_require__(362),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\plan\\planTask\\index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c1880b86", Component.options)
+  } else {
+    hotAPI.reload("data-v-c1880b86", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 362 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row table_list"
+  }, [_c('el-col', {
+    staticClass: "toolbar",
+    staticStyle: {
+      "padding-bottom": "0px"
+    },
+    attrs: {
+      "span": 24
+    }
+  }, [_c('el-form', {
+    attrs: {
+      "inline": true,
+      "model": _vm.filters
+    }
+  }, [_c('el-form-item', [_c('el-input', {
+    attrs: {
+      "placeholder": "请输入关键词"
+    },
+    model: {
+      value: (_vm.filters.query),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "query", $$v)
+      },
+      expression: "filters.query"
+    }
+  })], 1), _vm._v(" "), _c('el-select', {
+    attrs: {
+      "clearable": "",
+      "placeholder": "请选择日期"
+    },
+    model: {
+      value: (_vm.filters.today),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "today", $$v)
+      },
+      expression: "filters.today"
+    }
+  }, _vm._l((_vm.todayTask.list), function(item) {
+    return _c('el-option', {
+      key: item.taskId,
+      attrs: {
+        "label": item.today,
+        "value": item.taskId
+      }
+    })
+  })), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.loadData
+    }
+  }, [_vm._v("查询")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.handleAdd
+    }
+  }, [_vm._v("新增")])], 1)], 1)], 1), _vm._v(" "), _c('el-table', {
+    directives: [{
+      name: "loading",
+      rawName: "v-loading",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.tableData,
+      "border": "",
+      "element-loading-text": "加载中...",
+      "element-loading-spinner": "el-icon-loading",
+      "element-loading-background": "rgba(0, 0, 0, 0.8)",
+      "row-class-name": _vm.tableRowClassName
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "index",
+      "label": "ID",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "任务名称",
+      "prop": "name"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_vm._v("\n                " + _vm._s(scope.row.name) + "\n            ")]
+      }
+    }])
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "简记",
+      "prop": "desc"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "重要性",
+      "prop": "importance"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "是否满意",
+      "prop": "is_satisfy"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "建议",
+      "prop": "advice"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "重要性",
+      "prop": "importance"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "量化值",
+      "prop": "quantization"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "量化单位",
+      "prop": "quantization_unit"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "开始时间",
+      "prop": "start_time"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "结束时间",
+      "prop": "end_time"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "天数",
+      "prop": "day_num"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "实际天数",
+      "prop": "true_day_num"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "创建时间",
+      "prop": "created_at"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "操作",
+      "width": "145"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "primary"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleEdit(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("编辑")]), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "danger"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleDel(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("删除")])]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "block"
+  }, [_c('el-col', {
+    staticClass: "toolbar",
+    staticStyle: {
+      "margin": "4px"
+    },
+    attrs: {
+      "span": 24
+    }
+  }, [_c('el-pagination', {
+    staticStyle: {
+      "float": "right"
+    },
+    attrs: {
+      "current-page": _vm.page.currentPage,
+      "page-sizes": [10, 20, 50, 100],
+      "page-size": _vm.page.perPage,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.page.total
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  }), _vm._v(" "), _c('span', {
+    staticStyle: {
+      "display": "block",
+      "float": "right",
+      "padding-top": "6px",
+      "font-size": "13px",
+      "color": "#48576a"
+    }
+  }, [_vm._v("第" + _vm._s(_vm.page.from) + "到" + _vm._s(_vm.page.to) + "条")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "提示",
+      "visible": _vm.dialogVisible,
+      "width": "30%",
+      "before-close": _vm.handleClose,
+      "center": ""
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogVisible = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "saveForm",
+    attrs: {
+      "model": _vm.saveForm,
+      "rules": _vm.rules,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "任务名称",
+      "prop": "name"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.name),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "name", $$v)
+      },
+      expression: "saveForm.name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "父级任务"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.plan_name),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "plan_name", $$v)
+      },
+      expression: "saveForm.plan_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "简介"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.desc),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "desc", $$v)
+      },
+      expression: "saveForm.desc"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "正文",
+      "prop": "content"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "textarea"
+    },
+    model: {
+      value: (_vm.saveForm.content),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "content", $$v)
+      },
+      expression: "saveForm.content"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "预估天数",
+      "prop": "day_num"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.day_num),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "day_num", _vm._n($$v))
+      },
+      expression: "saveForm.day_num"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "量化值",
+      "prop": "quantization"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 10
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.quantization),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "quantization", _vm._n($$v))
+      },
+      expression: "saveForm.quantization"
+    }
+  })], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "line",
+    attrs: {
+      "span": 3
+    }
+  }, [_vm._v("量化单位")]), _vm._v(" "), _c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.quantization_unit),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "quantization_unit", $$v)
+      },
+      expression: "saveForm.quantization_unit"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "起止时间"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "type": "datetime",
+      "placeholder": "选择日期",
+      "format": "yyyy-MM-dd HH:mm:ss",
+      "value-format": "yyyy-MM-dd HH:mm:ss"
+    },
+    on: {
+      "change": _vm.formatTime1
+    },
+    model: {
+      value: (_vm.saveForm.start_time),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "start_time", $$v)
+      },
+      expression: "saveForm.start_time"
+    }
+  })], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "line",
+    attrs: {
+      "span": 2
+    }
+  }, [_vm._v("-")]), _vm._v(" "), _c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "type": "datetime",
+      "placeholder": "选择时间",
+      "format": "yyyy-MM-dd HH:mm:ss",
+      "value-format": "yyyy-MM-dd HH:mm:ss"
+    },
+    on: {
+      "change": _vm.formatTime2
+    },
+    model: {
+      value: (_vm.saveForm.end_time),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "end_time", $$v)
+      },
+      expression: "saveForm.end_time"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "重要性"
+    }
+  }, [_c('el-select', {
+    attrs: {
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.saveForm.importance),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "importance", $$v)
+      },
+      expression: "saveForm.importance"
+    }
+  }, [_c('el-option', {
+    attrs: {
+      "label": "重要",
+      "value": 3
+    }
+  }), _vm._v(" "), _c('el-option', {
+    attrs: {
+      "label": "一般",
+      "value": 2
+    }
+  }), _vm._v(" "), _c('el-option', {
+    attrs: {
+      "label": "不重要",
+      "value": 1
+    }
+  }), _vm._v(" "), _c('el-option', {
+    attrs: {
+      "label": "请选择",
+      "value": 0
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否满意"
+    }
+  }, [_c('el-radio-group', {
+    model: {
+      value: (_vm.saveForm.is_satisfy),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "is_satisfy", $$v)
+      },
+      expression: "saveForm.is_satisfy"
+    }
+  }, [_c('el-radio', {
+    attrs: {
+      "label": 1
+    }
+  }, [_vm._v("满意")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": 0
+    }
+  }, [_vm._v("不满意")])], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "改进方法"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.advice),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "advice", $$v)
+      },
+      expression: "saveForm.advice"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "状态"
+    }
+  }, [_c('el-radio-group', {
+    model: {
+      value: (_vm.saveForm.status),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "status", $$v)
+      },
+      expression: "saveForm.status"
+    }
+  }, [_c('el-radio', {
+    attrs: {
+      "label": 1
+    }
+  }, [_vm._v("完成")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": 0
+    }
+  }, [_vm._v("未完成")])], 1)], 1)], 1), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.dialogVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.handleSave
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-c1880b86", module.exports)
+  }
+}
+
+/***/ }),
+/* 363 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(360);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(33)("c1639190", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-c1880b86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-c1880b86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 364 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.getTaskList();
+        this.loadData();
+        console.log('Component mounted.');
+    },
+
+    computed: {},
+    data: function data() {
+        return {
+            msg: '开始',
+            filters: {
+                query: '',
+                today: ''
+            },
+            tableData: [],
+            page: {
+                total: 0,
+                perPage: 10,
+                currentPage: 1,
+                lastPage: 0,
+                from: 0,
+                to: 0
+            },
+            todayTask: {
+                list: []
+            },
+            saveForm: {
+                name: '',
+                plan_name: '', //父级任务
+                content: '',
+                plan_id: 0,
+                is_satisfy: 0,
+                asses: '',
+                quantization: 0
+            },
+            rules: {
+                name: [{ required: true, message: '标题必填', trigger: 'blur' }, { max: 255, min: '1', message: '不能超过255个字', trigger: 'blur' }],
+                content: [{ required: true, message: '必填', trigger: 'blur' }],
+                day: [{ type: 'number', message: '必须为数字类型' }]
+
+            },
+            loading: false,
+            time_count: null,
+            dialogVisible: false,
+            type: 0 //0 新增 1 编辑
+        };
+    },
+
+    methods: {
+        loadData: function loadData() {
+            var _this = this;
+
+            var params = {
+                page: this.page.currentPage,
+                perPage: this.page.perPage,
+                query: this.filters.query,
+                today: this.filters.today
+            };
+            this.loading = true;
+            axios.get('/back/plan_task/list', { params: params }).then(function (res) {
+
+                var data = res.data.items;
+                _this.tableData = data;
+                _this.page.total = data.total;
+                _this.page.from = data.from;
+                _this.page.to = data.to;
+                _this.loading = false;
+            });
+        },
+        getTaskList: function getTaskList() {
+            var _this2 = this;
+
+            axios.get('/back/diary/today_get_task_list').then(function (res) {
+                var list = res.data;
+                _this2.todayTask.list = list;
+            });
+        },
+        handleAdd: function handleAdd() {
+            this.dialogVisible = true;
+            this.type = 0; //新增
+            this.saveForm = {
+                name: '',
+                plan_name: '', //父级任务
+                content: '',
+                plan_id: 0,
+                plan_task_id: 0,
+                asses: '',
+                quantization: 0
+            };
+        },
+        handleEdit: function handleEdit(index, row) {
+            var _this3 = this;
+
+            this.dialogVisible = true;
+            this.type = 1;
+            var that = this;
+            axios.get('/back/plan_task_job/show', { params: { id: row.id } }).then(function (res) {
+                if (res.data.code == 0) {
+                    var data = res.data.data;
+                    that.saveForm = {
+                        id: data.id,
+                        name: data.name,
+                        plan_task_name: data.plan_task_name, //父级任务
+                        content: data.content,
+                        asses: data.asses,
+                        quantization: 0
+                    };
+                } else {
+                    _this3.$message({
+                        type: 'error',
+                        duration: 2000,
+                        message: '获取详情失败'
+                    });
+                }
+            });
+        },
+
+
+        handleSave: function handleSave() {
+            var _this4 = this;
+
+            //                this.saveForm = Object.assign({}, row);
+            var that = this;
+            if (this.type == 0) {
+                //新增
+                this.$refs['saveForm'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/back/plan_task_job/add', _this4.saveForm).then(function (res) {
+                            if (res.data.code == 0) {
+                                _this4.$message({
+                                    type: 'success',
+                                    message: '添加成功!',
+                                    duration: 2000
+                                });
+                                that.dialogVisible = false;
+                                that.loadData();
+                            } else {
+                                _this4.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration: 2000
+                                });
+                            }
+                        }).catch(function () {
+                            console.log('save failed');
+                        });
+                    }
+                });
+            } else if (this.type == 1) {
+                //编辑
+                this.$refs['saveForm'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/back/plan_task_job/edit', _this4.saveForm).then(function (res) {
+                            if (res.data.code == 0) {
+                                _this4.$message({
+                                    type: 'success',
+                                    message: '编辑成功!',
+                                    duration: 2000
+                                });
+                                that.dialogVisible = false;
+                                that.loadData();
+                            } else {
+                                _this4.$message({
+                                    type: 'error',
+                                    message: '操作失败!',
+                                    duration: 2000
+                                });
+                            }
+                        }).catch(function () {
+                            _this4.$message({
+                                type: 'error',
+                                message: '操作失败!',
+                                duration: 2000
+                            });
+                        });
+                    }
+                });
+            }
+
+            console.log(this.saveForm);
+        },
+        handleDel: function handleDel(index, row) {
+            var _this5 = this;
+
+            var that = this;
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                axios.get('/back/plan_task_job/del', { params: { id: row.id } }).then(function (res) {
+                    if (res.data.code == 0) {
+                        _this5.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                            duration: 2000
+                        });
+                        that.loadData();
+                    } else {
+                        _this5.$message({
+                            type: 'error',
+                            message: '删除失败!',
+                            duration: 2000
+                        });
+                    }
+                });
+            }).catch(function () {});
+        },
+
+
+        startChange: function startChange(data) {
+            console.log('start-change');
+            console.log(data);
+        },
+        tableRowClassName: function tableRowClassName(row, rowIndex) {},
+        handleSizeChange: function handleSizeChange(val) {
+            console.log('\u6BCF\u9875 ' + val + ' \u6761');
+            this.page.perPage = val;
+            this.loadData();
+        },
+        handleCurrentChange: function handleCurrentChange(val) {
+            console.log('\u5F53\u524D\u9875: ' + val + ' ' + this.page.perPage);
+            this.page.currentPage = val;
+            this.loadData();
+        },
+
+        selsChange: function selsChange(sels) {
+            this.sels = sels;
+        },
+        handleClose: function handleClose() {
+            this.dialogVisible = false;
+        },
+        formatTime1: function formatTime1(time) {
+            this.saveForm.start_time = time;
+        },
+        formatTime2: function formatTime2(time) {
+            this.saveForm.end_time = time;
+        },
+        formatTime3: function formatTime3(time) {
+            this.saveForm.true_start_time = time;
+        },
+        formatTime4: function formatTime4(time) {
+            this.saveForm.true_end_time = time;
+        }
+    }
+});
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(22)();
+exports.push([module.i, "\n.table_list{\n    margin:0px;\n}\n.el-table .warning-row{\n    background:#d9f7c9;\n}\n.el-table .success-row{\n    background: #f0f9eb;\n}\n.number_count{\n    width:118px;\n}\n", ""]);
+
+/***/ }),
+/* 366 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(368)
+
+var Component = __webpack_require__(19)(
+  /* script */
+  __webpack_require__(364),
+  /* template */
+  __webpack_require__(367),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\wamp64\\www\\wozijishuode\\resources\\assets\\js\\components\\plan\\planTaskJob\\index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5a9b6c16", Component.options)
+  } else {
+    hotAPI.reload("data-v-5a9b6c16", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row table_list"
+  }, [_c('el-col', {
+    staticClass: "toolbar",
+    staticStyle: {
+      "padding-bottom": "0px"
+    },
+    attrs: {
+      "span": 24
+    }
+  }, [_c('el-form', {
+    attrs: {
+      "inline": true,
+      "model": _vm.filters
+    }
+  }, [_c('el-form-item', [_c('el-input', {
+    attrs: {
+      "placeholder": "请输入关键词"
+    },
+    model: {
+      value: (_vm.filters.query),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "query", $$v)
+      },
+      expression: "filters.query"
+    }
+  })], 1), _vm._v(" "), _c('el-select', {
+    attrs: {
+      "clearable": "",
+      "placeholder": "请选择日期"
+    },
+    model: {
+      value: (_vm.filters.today),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "today", $$v)
+      },
+      expression: "filters.today"
+    }
+  }, _vm._l((_vm.todayTask.list), function(item) {
+    return _c('el-option', {
+      key: item.taskId,
+      attrs: {
+        "label": item.today,
+        "value": item.taskId
+      }
+    })
+  })), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.loadData
+    }
+  }, [_vm._v("查询")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.handleAdd
+    }
+  }, [_vm._v("新增")])], 1)], 1)], 1), _vm._v(" "), _c('el-table', {
+    directives: [{
+      name: "loading",
+      rawName: "v-loading",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.tableData,
+      "border": "",
+      "element-loading-text": "加载中...",
+      "element-loading-spinner": "el-icon-loading",
+      "element-loading-background": "rgba(0, 0, 0, 0.8)",
+      "row-class-name": _vm.tableRowClassName
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "index",
+      "label": "ID",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "任务名称",
+      "prop": "name"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_vm._v("\n                " + _vm._s(scope.row.name) + "\n            ")]
+      }
+    }])
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "量化值",
+      "prop": "quantization"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "评价",
+      "prop": "asses"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "创建时间",
+      "prop": "created_at"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "操作",
+      "width": "145"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "primary"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleEdit(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("编辑")]), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "size": "small",
+            "type": "danger"
+          },
+          on: {
+            "click": function($event) {
+              _vm.handleDel(scope.$index, scope.row)
+            }
+          }
+        }, [_vm._v("删除")])]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "block"
+  }, [_c('el-col', {
+    staticClass: "toolbar",
+    staticStyle: {
+      "margin": "4px"
+    },
+    attrs: {
+      "span": 24
+    }
+  }, [_c('el-pagination', {
+    staticStyle: {
+      "float": "right"
+    },
+    attrs: {
+      "current-page": _vm.page.currentPage,
+      "page-sizes": [10, 20, 50, 100],
+      "page-size": _vm.page.perPage,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.page.total
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  }), _vm._v(" "), _c('span', {
+    staticStyle: {
+      "display": "block",
+      "float": "right",
+      "padding-top": "6px",
+      "font-size": "13px",
+      "color": "#48576a"
+    }
+  }, [_vm._v("第" + _vm._s(_vm.page.from) + "到" + _vm._s(_vm.page.to) + "条")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "提示",
+      "visible": _vm.dialogVisible,
+      "width": "30%",
+      "before-close": _vm.handleClose,
+      "center": ""
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogVisible = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "saveForm",
+    attrs: {
+      "model": _vm.saveForm,
+      "rules": _vm.rules,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "任务名称",
+      "prop": "name"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.name),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "name", $$v)
+      },
+      expression: "saveForm.name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "父级任务"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.plan_name),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "plan_name", $$v)
+      },
+      expression: "saveForm.plan_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "简介"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.desc),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "desc", $$v)
+      },
+      expression: "saveForm.desc"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "正文",
+      "prop": "content"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "textarea"
+    },
+    model: {
+      value: (_vm.saveForm.content),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "content", $$v)
+      },
+      expression: "saveForm.content"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "量化值",
+      "prop": "day_num"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 10
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.quantization),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "quantization", _vm._n($$v))
+      },
+      expression: "saveForm.quantization"
+    }
+  })], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "line",
+    attrs: {
+      "span": 3
+    }
+  }, [_vm._v("量化单位")]), _vm._v(" "), _c('el-col', {
+    attrs: {
+      "span": 11
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.quantization_unit),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "quantization_unit", $$v)
+      },
+      expression: "saveForm.quantization_unit"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "评价"
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.asses),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "asses", $$v)
+      },
+      expression: "saveForm.asses"
+    }
+  })], 1)], 1), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.dialogVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": _vm.handleSave
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-5a9b6c16", module.exports)
+  }
+}
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(365);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(33)("38cf26e2", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5a9b6c16\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5a9b6c16\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 /******/ ]);
