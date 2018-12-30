@@ -16,6 +16,8 @@ mix
 mix.js('resources/assets/js/wechat.js','public/js');
 mix.js('resources/assets/js/article.js','public/js');
 
+mix.js('resources/assets/js/plan.js','public/js');
+
 //安装jquery
 mix.js('resources/assets/vendor/jquery/src/jquery','public/vendor/jquery');
 

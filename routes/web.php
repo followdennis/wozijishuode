@@ -133,6 +133,35 @@ Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
         Route::get('report',['uses'=>'Admin\Report\ReportController@index','as'=>'report']);//投诉信息列表
         Route::get('report/get_list',['uses'=>'Admin\Report\ReportController@get_list','as'=>'report/get_list']);
         Route::get('report/process',['uses'=>'Admin\Report\ReportController@edit','as'=>'report/process']);
+
+        /**
+         * 任务管理
+         * 共分为三级目录
+         * 1，大的任务类型
+         * 2，条目，大任务的拆分
+         * 3，条目的执行
+         */
+        Route::get('plan/index',['uses'=>'Admin\Plan\PlanController@index','as'=>'plan/index']);
+        Route::get('plan/list',['uses'=>'Admin\Plan\PlanController@get_list','as'=>'plan/list']);
+        Route::get('plan/add',['uses'=>'Admin\Plan\PlanController@add','as'=>'plan/add']);
+        Route::get('plan/show',['uses'=>'Admin\Plan\PlanController@show','as'=>'plan/show']);
+        Route::get('plan/del',['uses'=>'Admin\Plan\PlanController@del','as'=>'plan/del']);
+        Route::get('plan/edit',['uses'=>'Admin\Plan\PlanController@edit','as'=>'plan/edit']);
+
+        Route::get('plan_task/index',['uses'=>'Admin\Plan\PlanTaskController@index','as'=>'plan_task/index']);
+        Route::get('plan_task/list',['uses'=>'Admin\Plan\PlanTaskController@get_list','as'=>'plan_task/list']);
+        Route::get('plan_task/add',['uses'=>'Admin\Plan\PlanTaskController@add','as'=>'plan_task/add']);
+        Route::get('plan_task/show',['uses'=>'Admin\Plan\PlanTaskController@show','as'=>'plan_task/show']);
+        Route::get('plan_task/del',['uses'=>'Admin\Plan\PlanTaskController@del','as'=>'plan_task/del']);
+        Route::get('plan_task/edit',['uses'=>'Admin\Plan\PlanTaskController@edit','as'=>'plan_task/edit']);
+
+        Route::get('plan_task_job/index',['uses'=>'Admin\Plan\PlanTaskJobController@index','as'=>'plan_task_job/index']);
+        Route::get('plan_task_job/list',['uses'=>'Admin\Plan\PlanTaskJobController@get_list','as'=>'plan_task_job/list']);
+        Route::get('plan_task_job/add',['uses'=>'Admin\Plan\PlanTaskJobController@add','as'=>'plan_task_job/add']);
+        Route::get('plan_task_job/show',['uses'=>'Admin\Plan\PlanTaskJobController@show','as'=>'plan_task_job/show']);
+        Route::get('plan_task_job/del',['uses'=>'Admin\Plan\PlanTaskJobController@del','as'=>'plan_task_job/del']);
+        Route::get('plan_task_job/edit',['uses'=>'Admin\Plan\PlanTaskJobController@edit','as'=>'plan_task_job/edit']);
+
         /**
          * 系统管理
          */

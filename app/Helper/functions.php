@@ -102,3 +102,20 @@ if(!function_exists('get_article_body_id')){
         return ceil($id/5000);
     }
 }
+
+if(!function_exists('setPageData')){
+    function setPageData($pageObj){
+        $results = [
+            'total'=>$pageObj->total(),
+            'perPage' => $pageObj->perPage(),
+            'currentPage' => $pageObj->currentPage(),
+            'lastPage' => $pageObj->lastPage(),
+            'from' => $pageObj->firstItem(),
+            'to' => $pageObj->lastItem(),
+            'items' => $pageObj->map(function($item){
+                return $item->toArray();
+            })
+        ];
+        return $results;
+    }
+}

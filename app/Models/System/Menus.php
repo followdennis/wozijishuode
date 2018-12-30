@@ -137,7 +137,7 @@ class Menus extends Model
             $now_time = Carbon::now()->format('Y-m-d H:i:s');
             DB::beginTransaction();
             //权限 新建
-            $exist_permission = $permissions->where('name',$permission_data['name'])->first();
+            $exist_permission = $permissions->where('name',$permission_data['name'])->where('name','<>','')->first();
             $permission_data['created_at'] = $now_time;
             $permission_data['updated_at'] = $now_time;
             if($exist_permission){
