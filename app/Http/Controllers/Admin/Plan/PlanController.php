@@ -27,7 +27,13 @@ class PlanController extends AdminController
     }
     public function get_list()
     {
-        $pageData = $this->planRep->getPlanList();
+
+
+        $id = $this->req->get('id',0);
+        $query = $this->req->get('query','');
+        $importance = $this->req->get('importance',0);
+        $pageData = $this->planRep->getPlanList($id,$query,$importance);
+
         $res = setPageData($pageData);
         return response()->json($res);
     }

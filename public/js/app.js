@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 348);
+/******/ 	return __webpack_require__(__webpack_require__.s = 376);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2449,7 +2449,7 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
 
 /***/ }),
 
@@ -19542,7 +19542,7 @@ if (typeof jQuery === 'undefined') {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24), __webpack_require__(107)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25), __webpack_require__(107)(module)))
 
 /***/ }),
 
@@ -19736,7 +19736,7 @@ if (typeof jQuery === 'undefined') {
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25), __webpack_require__(5)))
 
 /***/ }),
 
@@ -19876,7 +19876,7 @@ window._ = __webpack_require__(103);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(23);
+  window.$ = window.jQuery = __webpack_require__(24);
 
   __webpack_require__(102);
 } catch (e) {}
@@ -19887,11 +19887,11 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(82);
+window.axios = __webpack_require__(59);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-window.$http = __webpack_require__(82);
+window.$http = __webpack_require__(59);
 
 window.$http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -19927,60 +19927,59 @@ if (token) {
 
 /***/ }),
 
-/***/ 19:
+/***/ 17:
 /***/ (function(module, exports) {
 
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
 
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
 
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = Object.create(options.computed || null)
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-    options.computed = computed
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
 
 
 /***/ }),
@@ -20292,7 +20291,229 @@ module.exports = {
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(106)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction) {
+  isProduction = _isProduction
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20394,64 +20615,7 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-
-/***/ 23:
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -30712,46 +30876,18 @@ return jQuery;
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 240:
+/***/ 241:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(344)
+__webpack_require__(371)
 
-var Component = __webpack_require__(19)(
+var Component = __webpack_require__(9)(
   /* script */
-  __webpack_require__(247),
+  __webpack_require__(252),
   /* template */
-  __webpack_require__(334),
+  __webpack_require__(357),
   /* scopeId */
   null,
   /* cssModules */
@@ -30779,7 +30915,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 241:
+/***/ 244:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -30797,8 +30933,8 @@ window.Vue = __webpack_require__(4);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(313));
-Vue.component('comment-list', __webpack_require__(311));
+Vue.component('example', __webpack_require__(329));
+Vue.component('comment-list', __webpack_require__(327));
 // Vue.component(
 //     'passport-clients',
 //     require('./components/passport/Clients.vue')
@@ -30820,14 +30956,42 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 246:
+/***/ 249:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 247:
+/***/ 25:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 252:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30896,14 +31060,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 248:
+/***/ 253:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentMore__ = __webpack_require__(312);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentMore__ = __webpack_require__(328);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentMore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CommentMore__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentInput__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentInput__ = __webpack_require__(241);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CommentInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CommentInput__);
 //
 //
@@ -31282,16 +31446,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(24)))
 
 /***/ }),
 
-/***/ 249:
+/***/ 254:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput__ = __webpack_require__(240);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput__ = __webpack_require__(241);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CommentInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CommentInput__);
 //
 //
@@ -31629,11 +31793,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(24)))
 
 /***/ }),
 
-/***/ 250:
+/***/ 255:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31670,42 +31834,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 303:
+/***/ 313:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(22)();
+exports = module.exports = __webpack_require__(17)();
 exports.push([module.i, "\n.clicked-like{\n    color: #ff443a;\n    cursor: pointer;\n    font-size: 16px;\n}\n", ""]);
 
 /***/ }),
 
-/***/ 307:
+/***/ 319:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(22)();
+exports = module.exports = __webpack_require__(17)();
 exports.push([module.i, "\n.inner_comment_box{\n    padding:5px 0;\n}\n", ""]);
 
 /***/ }),
 
-/***/ 308:
+/***/ 321:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(22)();
+exports = module.exports = __webpack_require__(17)();
 exports.push([module.i, "\n.clicked-like{\n    color: #ff443a;\n    cursor: pointer;\n    font-size: 16px;\n}\n", ""]);
 
 /***/ }),
 
-/***/ 311:
+/***/ 327:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(340)
+__webpack_require__(365)
 
-var Component = __webpack_require__(19)(
+var Component = __webpack_require__(9)(
   /* script */
-  __webpack_require__(248),
+  __webpack_require__(253),
   /* template */
-  __webpack_require__(328),
+  __webpack_require__(347),
   /* scopeId */
   null,
   /* cssModules */
@@ -31733,18 +31897,18 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 312:
+/***/ 328:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(345)
+__webpack_require__(373)
 
-var Component = __webpack_require__(19)(
+var Component = __webpack_require__(9)(
   /* script */
-  __webpack_require__(249),
+  __webpack_require__(254),
   /* template */
-  __webpack_require__(335),
+  __webpack_require__(359),
   /* scopeId */
   null,
   /* cssModules */
@@ -31772,14 +31936,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 313:
+/***/ 329:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(19)(
+var Component = __webpack_require__(9)(
   /* script */
-  __webpack_require__(250),
+  __webpack_require__(255),
   /* template */
-  __webpack_require__(324),
+  __webpack_require__(342),
   /* scopeId */
   null,
   /* cssModules */
@@ -31804,585 +31968,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 324:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8 col-md-offset-2"
-  }, [_c('div', {
-    staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_vm._v("\n                    I'm an example component!\n                    " + _vm._s(_vm.msg) + "\n                ")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0fc8f8e0", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 328:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "comment"
-  }, [_c('div', {
-    staticClass: "comment-count"
-  }, [_c('em', [_vm._v(_vm._s(_vm.comment_count) + " ")]), _vm._v("条评论")]), _vm._v(" "), _c('div', {
-    staticClass: "comment-input"
-  }, [_c('form', {
-    attrs: {
-      "id": "leave_comments",
-      "method": "post"
-    }
-  }, [_c('div', {
-    staticClass: "comment-input-area"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.addForm.comment),
-      expression: "addForm.comment"
-    }],
-    attrs: {
-      "placeholder": "写下您的评论"
-    },
-    domProps: {
-      "value": (_vm.addForm.comment)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.addForm, "comment", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "comment-input-button"
-  }, [_c('div', {
-    staticClass: "input-submit",
-    on: {
-      "click": _vm.handleSubmit
-    }
-  }, [_vm._v("评论")])])])]), _vm._v(" "), _c('ul', _vm._l((_vm.page.items), function(item) {
-    return _c('li', {
-      staticClass: "comment-item"
-    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
-      staticClass: "comment-content"
-    }, [_c('div', {
-      staticClass: "comment-user-info"
-    }, [_c('a', {
-      staticClass: "comment-user-name",
-      attrs: {
-        "href": "#"
-      }
-    }, [_vm._v(_vm._s(item.user_name))]), _vm._v(" "), _c('span', {
-      staticClass: "comment-time"
-    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(item.comment))]), _vm._v(" "), _c('div', {
-      staticClass: "comment-footer"
-    }, [_c('span', {
-      staticClass: "comment-reply",
-      on: {
-        "click": function($event) {
-          _vm.comment(item)
-        }
-      }
-    }, [_vm._v("回复")]), _vm._v(" "), _c('span', {
-      staticClass: "comment-expend-reply",
-      on: {
-        "click": function($event) {
-          item.has_more && _vm.openMore(item)
-        }
-      }
-    }, [_vm._v(_vm._s(item.comment_count) + "条评论")]), _vm._v(" "), _c('span', {
-      staticClass: "comment-report comment-float-right",
-      attrs: {
-        "title": "举报"
-      },
-      on: {
-        "click": function($event) {
-          _vm.handleTipOffs(item)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-info-circle"
-    })]), _vm._v(" "), _c('span', {
-      staticClass: " comment-float-right",
-      class: {
-        'comment-like': !item.liked, 'clicked-like': item.liked
-      },
-      attrs: {
-        "title": "点赞",
-        "id": 'like-tips-' + item.comment_id
-      },
-      on: {
-        "click": function($event) {
-          _vm.handleLike(item)
-        }
-      }
-    }, [_vm._v(_vm._s(item.like) + " "), _c('i', {
-      staticClass: "fa fa-thumbs-o-up",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    })]), _vm._v(" "), _c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (item.del_flag),
-        expression: "item.del_flag"
-      }],
-      staticClass: "comment-del comment-float-right",
-      attrs: {
-        "title": "删除"
-      },
-      on: {
-        "click": function($event) {
-          _vm.handleDel(item)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-times",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    })])]), _vm._v(" "), (item.reply_flag) ? _c('comment-input', {
-      attrs: {
-        "article_id": item.article_id,
-        "comment_id": item.comment_id,
-        "top_comment_id": item.comment_id
-      },
-      on: {
-        "child_info": _vm.handleMiddleSubmit
-      }
-    }) : _vm._e(), _vm._v(" "), _c('div', {
-      staticClass: "c_comment_input_0"
-    }), _vm._v(" "), (item.open) ? _c('comment-more', {
-      attrs: {
-        "is_login": _vm.is_login,
-        "parent_items": _vm.page.items,
-        "article_id": item.article_id,
-        "parent_id": item.comment_id,
-        "top_parent_id": item.comment_id
-      }
-    }) : _vm._e()], 1)])
-  }))])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "avatar-wrap"
-  }, [_c('img', {
-    attrs: {
-      "src": "//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"
-    }
-  })])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-31b6157a", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-var listToStyles = __webpack_require__(106)
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-module.exports = function (parentId, list, _isProduction) {
-  isProduction = _isProduction
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
-    }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
-
-
-/***/ }),
-
-/***/ 334:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "inner_comment_box"
-  }, [_c('div', {
-    staticClass: "comment-input"
-  }, [_c('form', {
-    attrs: {
-      "id": "leave_comments",
-      "method": "post"
-    }
-  }, [_c('div', {
-    staticClass: "comment-input-area"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.addForm.comment),
-      expression: "addForm.comment"
-    }],
-    attrs: {
-      "placeholder": "写下您的评论"
-    },
-    domProps: {
-      "value": (_vm.addForm.comment)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.addForm, "comment", $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "comment-input-button"
-  }, [_c('div', {
-    staticClass: "input-submit",
-    on: {
-      "click": _vm.handleSubmit
-    }
-  }, [_vm._v("评论")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-a263b416", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 335:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', _vm._l((_vm.page.items), function(item) {
-    return _c('div', {
-      staticClass: "comment-children"
-    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
-      staticClass: "c-comment-reply"
-    }, [_c('div', {
-      staticClass: "comment-user-info"
-    }, [_c('a', {
-      staticClass: "comment-user-name",
-      attrs: {
-        "href": "#"
-      }
-    }, [_vm._v(_vm._s(item.user_name))]), _vm._v(" "), _c('span', {
-      staticClass: "comment-time"
-    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(item.comment))]), _vm._v(" "), _c('div', {
-      staticClass: "comment-footer"
-    }, [_c('span', {
-      staticClass: "comment-reply",
-      on: {
-        "click": function($event) {
-          _vm.comment(item)
-        }
-      }
-    }, [_vm._v("回复")]), _c('span', {
-      staticClass: "comment-expend-reply"
-    }), _vm._v(" "), _c('span', {
-      staticClass: "comment-report comment-float-right",
-      attrs: {
-        "title": "举报"
-      },
-      on: {
-        "click": function($event) {
-          _vm.handleTipOffs(item)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-info-circle"
-    })]), _vm._v(" "), _c('span', {
-      staticClass: "comment-float-right ",
-      class: {
-        'comment-like': !item.liked, 'clicked-like': item.liked
-      },
-      attrs: {
-        "title": "点赞",
-        "id": 'like-tips-' + item.comment_id
-      },
-      on: {
-        "click": function($event) {
-          _vm.handleLike(item)
-        }
-      }
-    }, [_vm._v(_vm._s(item.like) + " "), _c('i', {
-      staticClass: "fa fa-thumbs-o-up",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    })]), _vm._v(" "), _c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (item.del_flag),
-        expression: "item.del_flag"
-      }],
-      staticClass: "comment-del comment-float-right",
-      attrs: {
-        "title": "删除"
-      },
-      on: {
-        "click": function($event) {
-          _vm.handleDel(item)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-times",
-      attrs: {
-        "aria-hidden": "true"
-      }
-    })])]), _vm._v(" "), (item.reply_flag) ? _c('comment-input', {
-      attrs: {
-        "article_id": item.article_id,
-        "comment_id": item.comment_id,
-        "top_comment_id": item.top_parent_id
-      },
-      on: {
-        "child_info": _vm.handleSubmit
-      }
-    }) : _vm._e()], 1)])
-  }))
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "avatar-wrap"
-  }, [_c('img', {
-    attrs: {
-      "src": "//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"
-    }
-  })])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-ec39670c", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -32572,93 +32157,196 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 340:
+/***/ 342:
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(303);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(33)("02f1756a", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-31b6157a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentList.vue", function() {
-     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-31b6157a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8 col-md-offset-2"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_vm._v("\n                    I'm an example component!\n                    " + _vm._s(_vm.msg) + "\n                ")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0fc8f8e0", module.exports)
+  }
 }
 
 /***/ }),
 
-/***/ 344:
+/***/ 347:
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(307);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(33)("73d1f9c6", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-a263b416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentInput.vue", function() {
-     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-a263b416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentInput.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "comment"
+  }, [_c('div', {
+    staticClass: "comment-count"
+  }, [_c('em', [_vm._v(_vm._s(_vm.comment_count) + " ")]), _vm._v("条评论")]), _vm._v(" "), _c('div', {
+    staticClass: "comment-input"
+  }, [_c('form', {
+    attrs: {
+      "id": "leave_comments",
+      "method": "post"
+    }
+  }, [_c('div', {
+    staticClass: "comment-input-area"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.addForm.comment),
+      expression: "addForm.comment"
+    }],
+    attrs: {
+      "placeholder": "写下您的评论"
+    },
+    domProps: {
+      "value": (_vm.addForm.comment)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.addForm, "comment", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "comment-input-button"
+  }, [_c('div', {
+    staticClass: "input-submit",
+    on: {
+      "click": _vm.handleSubmit
+    }
+  }, [_vm._v("评论")])])])]), _vm._v(" "), _c('ul', _vm._l((_vm.page.items), function(item) {
+    return _c('li', {
+      staticClass: "comment-item"
+    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
+      staticClass: "comment-content"
+    }, [_c('div', {
+      staticClass: "comment-user-info"
+    }, [_c('a', {
+      staticClass: "comment-user-name",
+      attrs: {
+        "href": "#"
+      }
+    }, [_vm._v(_vm._s(item.user_name))]), _vm._v(" "), _c('span', {
+      staticClass: "comment-time"
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(item.comment))]), _vm._v(" "), _c('div', {
+      staticClass: "comment-footer"
+    }, [_c('span', {
+      staticClass: "comment-reply",
+      on: {
+        "click": function($event) {
+          _vm.comment(item)
+        }
+      }
+    }, [_vm._v("回复")]), _vm._v(" "), _c('span', {
+      staticClass: "comment-expend-reply",
+      on: {
+        "click": function($event) {
+          item.has_more && _vm.openMore(item)
+        }
+      }
+    }, [_vm._v(_vm._s(item.comment_count) + "条评论")]), _vm._v(" "), _c('span', {
+      staticClass: "comment-report comment-float-right",
+      attrs: {
+        "title": "举报"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleTipOffs(item)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-info-circle"
+    })]), _vm._v(" "), _c('span', {
+      staticClass: " comment-float-right",
+      class: {
+        'comment-like': !item.liked, 'clicked-like': item.liked
+      },
+      attrs: {
+        "title": "点赞",
+        "id": 'like-tips-' + item.comment_id
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleLike(item)
+        }
+      }
+    }, [_vm._v(_vm._s(item.like) + " "), _c('i', {
+      staticClass: "fa fa-thumbs-o-up",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    })]), _vm._v(" "), _c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.del_flag),
+        expression: "item.del_flag"
+      }],
+      staticClass: "comment-del comment-float-right",
+      attrs: {
+        "title": "删除"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleDel(item)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-times",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    })])]), _vm._v(" "), (item.reply_flag) ? _c('comment-input', {
+      attrs: {
+        "article_id": item.article_id,
+        "comment_id": item.comment_id,
+        "top_comment_id": item.comment_id
+      },
+      on: {
+        "child_info": _vm.handleMiddleSubmit
+      }
+    }) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "c_comment_input_0"
+    }), _vm._v(" "), (item.open) ? _c('comment-more', {
+      attrs: {
+        "is_login": _vm.is_login,
+        "parent_items": _vm.page.items,
+        "article_id": item.article_id,
+        "parent_id": item.comment_id,
+        "top_parent_id": item.comment_id
+      }
+    }) : _vm._e()], 1)])
+  }))])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "avatar-wrap"
+  }, [_c('img', {
+    attrs: {
+      "src": "//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-31b6157a", module.exports)
+  }
 }
-
-/***/ }),
-
-/***/ 345:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(308);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(33)("4ab461dc", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-ec39670c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentMore.vue", function() {
-     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-ec39670c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentMore.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 348:
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(241);
-module.exports = __webpack_require__(246);
-
 
 /***/ }),
 
@@ -32689,6 +32377,170 @@ module.exports = Cancel;
 
 /***/ }),
 
+/***/ 357:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "inner_comment_box"
+  }, [_c('div', {
+    staticClass: "comment-input"
+  }, [_c('form', {
+    attrs: {
+      "id": "leave_comments",
+      "method": "post"
+    }
+  }, [_c('div', {
+    staticClass: "comment-input-area"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.addForm.comment),
+      expression: "addForm.comment"
+    }],
+    attrs: {
+      "placeholder": "写下您的评论"
+    },
+    domProps: {
+      "value": (_vm.addForm.comment)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.addForm, "comment", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "comment-input-button"
+  }, [_c('div', {
+    staticClass: "input-submit",
+    on: {
+      "click": _vm.handleSubmit
+    }
+  }, [_vm._v("评论")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-a263b416", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 359:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', _vm._l((_vm.page.items), function(item) {
+    return _c('div', {
+      staticClass: "comment-children"
+    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
+      staticClass: "c-comment-reply"
+    }, [_c('div', {
+      staticClass: "comment-user-info"
+    }, [_c('a', {
+      staticClass: "comment-user-name",
+      attrs: {
+        "href": "#"
+      }
+    }, [_vm._v(_vm._s(item.user_name))]), _vm._v(" "), _c('span', {
+      staticClass: "comment-time"
+    }, [_vm._v(_vm._s(item.created_at))])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(item.comment))]), _vm._v(" "), _c('div', {
+      staticClass: "comment-footer"
+    }, [_c('span', {
+      staticClass: "comment-reply",
+      on: {
+        "click": function($event) {
+          _vm.comment(item)
+        }
+      }
+    }, [_vm._v("回复")]), _c('span', {
+      staticClass: "comment-expend-reply"
+    }), _vm._v(" "), _c('span', {
+      staticClass: "comment-report comment-float-right",
+      attrs: {
+        "title": "举报"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleTipOffs(item)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-info-circle"
+    })]), _vm._v(" "), _c('span', {
+      staticClass: "comment-float-right ",
+      class: {
+        'comment-like': !item.liked, 'clicked-like': item.liked
+      },
+      attrs: {
+        "title": "点赞",
+        "id": 'like-tips-' + item.comment_id
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleLike(item)
+        }
+      }
+    }, [_vm._v(_vm._s(item.like) + " "), _c('i', {
+      staticClass: "fa fa-thumbs-o-up",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    })]), _vm._v(" "), _c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.del_flag),
+        expression: "item.del_flag"
+      }],
+      staticClass: "comment-del comment-float-right",
+      attrs: {
+        "title": "删除"
+      },
+      on: {
+        "click": function($event) {
+          _vm.handleDel(item)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-times",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    })])]), _vm._v(" "), (item.reply_flag) ? _c('comment-input', {
+      attrs: {
+        "article_id": item.article_id,
+        "comment_id": item.comment_id,
+        "top_comment_id": item.top_parent_id
+      },
+      on: {
+        "child_info": _vm.handleSubmit
+      }
+    }) : _vm._e()], 1)])
+  }))
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "avatar-wrap"
+  }, [_c('img', {
+    attrs: {
+      "src": "//upload.jianshu.io/users/upload_avatars/8415343/485bd37f-6e41-4445-9a85-71b6baec3728.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-ec39670c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32699,6 +32551,33 @@ module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
+
+/***/ }),
+
+/***/ 365:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(313);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(21)("02f1756a", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-31b6157a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentList.vue", function() {
+     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-31b6157a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 
@@ -32723,6 +32602,69 @@ module.exports = function createError(message, config, code, response) {
   var error = new Error(message);
   return enhanceError(error, config, code, response);
 };
+
+
+/***/ }),
+
+/***/ 371:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(319);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(21)("73d1f9c6", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-a263b416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentInput.vue", function() {
+     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-a263b416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentInput.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 373:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(321);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(21)("4ab461dc", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-ec39670c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentMore.vue", function() {
+     var newContent = require("!!../../../../node_modules/_css-loader@0.14.5@css-loader/index.js!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-ec39670c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/_vue-loader@11.3.4@vue-loader/lib/selector.js?type=styles&index=0!./CommentMore.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 376:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(244);
+module.exports = __webpack_require__(249);
 
 
 /***/ }),
@@ -43487,7 +43429,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(24), __webpack_require__(105).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(25), __webpack_require__(105).setImmediate))
 
 /***/ }),
 
@@ -43682,7 +43624,7 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 82:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(83);
@@ -43698,7 +43640,7 @@ module.exports = __webpack_require__(83);
 var utils = __webpack_require__(2);
 var bind = __webpack_require__(38);
 var Axios = __webpack_require__(85);
-var defaults = __webpack_require__(20);
+var defaults = __webpack_require__(22);
 
 /**
  * Create an instance of Axios
@@ -43820,7 +43762,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(20);
+var defaults = __webpack_require__(22);
 var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(86);
 var dispatchRequest = __webpack_require__(87);
@@ -43976,7 +43918,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(2);
 var transformData = __webpack_require__(90);
 var isCancel = __webpack_require__(36);
-var defaults = __webpack_require__(20);
+var defaults = __webpack_require__(22);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -44110,6 +44052,64 @@ module.exports = function settle(resolve, reject, response) {
     ));
   }
 };
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
 
 
 /***/ }),

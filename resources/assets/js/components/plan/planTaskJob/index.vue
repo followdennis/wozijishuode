@@ -5,12 +5,16 @@
                 <el-form-item>
                     <el-input v-model="filters.query" placeholder="请输入关键词"></el-input>
                 </el-form-item>
-                <el-select v-model="filters.today" clearable  placeholder="请选择日期">
+                <el-select v-model="filters.plan_id"
+                           filterable
+                           remote
+                           :remote-method="remoteMethodPlan"
+                           clearable  placeholder="请选择计划">
                     <el-option
-                            v-for="item in todayTask.list"
-                            :key="item.taskId"
-                            :label="item.today"
-                            :value="item.taskId">
+                            v-for="item in planList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
                     </el-option>
                 </el-select>
                 <el-form-item>
@@ -90,49 +94,20 @@
                 <span style="display:block;float:right;padding-top:6px;font-size:13px;color: #48576a;">第{{page.from}}到{{page.to}}条</span>
             </el-col>
         </div>
-        <el-dialog
-                title="提示"
-                :visible.sync="dialogVisible"
-                width="30%"
-                :before-close="handleClose"
-                center
-        >
-
-            <el-form ref="saveForm" :model="saveForm" :rules="rules" label-width="80px">
-                <el-form-item label="任务名称" prop="name">
-                    <el-input v-model="saveForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="父级任务" >
-                    <el-input v-model="saveForm.plan_name"></el-input>
-                </el-form-item>
-                <el-form-item label="简介">
-                    <el-input v-model="saveForm.desc"></el-input>
-                </el-form-item>
-                <el-form-item label="正文" prop="content">
-                    <el-input type="textarea" v-model="saveForm.content"></el-input>
-                </el-form-item>
-                <el-form-item label="量化值" prop="day_num">
-                    <el-col :span="10"><el-input v-model.number="saveForm.quantization"></el-input></el-col>
-                    <el-col class="line" :span="3">量化单位</el-col>
-                    <el-col :span="11"><el-input v-model="saveForm.quantization_unit"></el-input></el-col>
-                </el-form-item>
-                <el-form-item label="评价">
-                    <el-input v-model="saveForm.asses"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleSave">确 定</el-button>
-            </span>
-        </el-dialog>
+        <add-job ref="addJob" @fromChild="loadData"></add-job>
     </div>
 </template>
 <script>
+    import ElButton from "../../../../../../node_modules/element-ui/packages/button/src/button";
+    import addJob from "./addJob.vue";
     export default {
+        components: {
+            ElButton,
+            addJob:addJob
+        },
         mounted() {
-            this.getTaskList();
+            this.getPlanList();
             this.loadData();
-            console.log('Component mounted.')
         },
         computed:{
 
@@ -142,7 +117,7 @@
                 msg: '开始',
                 filters:{
                     query:'',
-                    today:''
+                    plan_id:''
                 },
                 tableData:[],
                 page:{
@@ -153,9 +128,8 @@
                     from:0,
                     to:0
                 },
-                todayTask:{
-                    list:[]
-                },
+
+                planList:[],
                 saveForm:{
                     name:'',
                     plan_name:'',//父级任务
@@ -190,10 +164,10 @@
                     page:this.page.currentPage,
                     perPage:this.page.perPage,
                     query:this.filters.query,
-                    today:this.filters.today
+                    plan_id:this.filters.plan_id
                 }
                 this.loading = true;
-                axios.get('/back/plan_task/list',{params:params}).then( (res) =>{
+                axios.get('/back/plan_task_job/list',{params:params}).then( (res) =>{
 
                     let data = res.data.items;
                     this.tableData = data;
@@ -204,112 +178,35 @@
                 })
 
             },
+            getPlanList(){
+                let that = this;
+                axios.get("/back/plan/list").then( res => {
+                    if( res.status == 200){
+                        that.planList = res.data.items.map(function(item){
+                            let obj = {
+                                label:item.name,
+                                value:item.id
+                            };
+                            return obj;
+                        })
+                    }
+                });
+            },
             getTaskList:function(){
                 axios.get('/back/diary/today_get_task_list').then((res)=>{
-                    let list = res.data;
-                    this.todayTask.list = list;
-                })
-            },
-            handleAdd:function(){
-                this.dialogVisible = true;
-                this.type = 0;//新增
-                this.saveForm = {
-                    name:'',
-                    plan_name:'',//父级任务
-                    content:'',
-                    plan_id:0,
-                    plan_task_id:0,
-                    asses:'',
-                    quantization:0,
-                };
-            },
-            handleEdit(index,row){
-                this.dialogVisible = true;
-                this.type = 1;
-                let that = this;
-                axios.get('/back/plan_task_job/show',{params:{id:row.id}}).then( res => {
-                    if ( res.data.code == 0){
-                        let data = res.data.data;
-                        that.saveForm = {
-                            id:data.id,
-                            name:data.name,
-                            plan_task_name:data.plan_task_name,//父级任务
-                            content:data.content,
-                            asses:data.asses,
-                            quantization:0
-                        };
-                    }else {
-                        this.$message({
-                            type:'error',
-                            duration:2000,
-                            message:'获取详情失败'
-                        })
+                    if( res.status == 200){
+                        let list = res.data;
+                        this.todayTask.list = list;
                     }
                 })
             },
-
-            handleSave:function(){
-//                this.saveForm = Object.assign({}, row);
-                let that = this;
-                if( this.type == 0){
-                    //新增
-                    this.$refs['saveForm'].validate( valid =>{
-                        if( valid ){
-                            axios.post('/back/plan_task_job/add',this.saveForm).then((res)=>{
-                                if( res.data.code == 0){
-                                    this.$message({
-                                        type: 'success',
-                                        message: '添加成功!',
-                                        duration:2000
-                                    });
-                                    that.dialogVisible = false;
-                                    that.loadData();
-                                } else{
-                                    this.$message({
-                                        type: 'error',
-                                        message: '操作失败!',
-                                        duration:2000
-                                    });
-                                }
-                            }).catch(()=>{
-                                console.log('save failed');
-                            })
-                        }
-                    })
-
-                } else if( this.type == 1){
-                    //编辑
-                    this.$refs['saveForm'].validate( valid =>{
-                        if( valid ){
-                            axios.post('/back/plan_task_job/edit',this.saveForm).then((res)=>{
-                                if( res.data.code == 0){
-                                    this.$message({
-                                        type: 'success',
-                                        message: '编辑成功!',
-                                        duration:2000
-                                    });
-                                    that.dialogVisible = false;
-                                    that.loadData();
-                                } else{
-                                    this.$message({
-                                        type: 'error',
-                                        message: '操作失败!',
-                                        duration:2000
-                                    });
-                                }
-                            }).catch(()=>{
-                                this.$message({
-                                    type: 'error',
-                                    message: '操作失败!',
-                                    duration:2000
-                                });
-                            })
-                        }
-                    })
-                }
-
-                console.log(this.saveForm);
+            handleAdd:function(){
+               this.$refs.addJob.handleAdd(0);
             },
+            handleEdit(index,row){
+               this.$refs.addJob.handleEdit(index,row);
+            },
+
             handleDel(index,row){
                 let that = this;
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -340,7 +237,23 @@
                 });
 
             },
-
+            remoteMethodPlan(query){
+                let that = this;
+                setTimeout(function(){
+                    axios.get('/back/plan/list',{
+                        params:{query:query}
+                    }).then( res =>{
+                        if( res.status == 200){
+                            that.planList = res.data.items.map(item => {
+                                return {
+                                    value:item.id,
+                                    label:item.name
+                                }
+                            });
+                        }
+                    })
+                },200);
+            },
             startChange:function(data){
                 console.log('start-change');
                 console.log(data);

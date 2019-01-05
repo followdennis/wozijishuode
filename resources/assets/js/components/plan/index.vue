@@ -5,12 +5,12 @@
                 <el-form-item>
                     <el-input v-model="filters.query" placeholder="请输入关键词"></el-input>
                 </el-form-item>
-                <el-select v-model="filters.today" clearable  placeholder="请选择日期">
+                <el-select v-model="filters.importance" clearable  placeholder="请选择">
                     <el-option
-                            v-for="item in todayTask.list"
-                            :key="item.taskId"
-                            :label="item.today"
-                            :value="item.taskId">
+                            v-for="item in importanceList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
                     </el-option>
                 </el-select>
                 <el-form-item>
@@ -65,7 +65,7 @@
             </el-table-column>
             <el-table-column
                     label="重要性"
-                    prop="importance"
+                    prop="importance_name"
             >
             </el-table-column>
             <el-table-column
@@ -75,23 +75,36 @@
             </el-table-column>
             <el-table-column
                     label="数量"
-                    prop="sub_task_num"
+                    prop="tasks_count"
             >
             </el-table-column>
             <el-table-column
                     label="完成数"
-                    prop="sub_task_finished_num"
+                    prop="finished_tasks_count"
             >
             </el-table-column>
             <el-table-column
                     label="操作"
-                    width="145"
+                    width="130"
             >
                 <template slot-scope="scope">
                     <el-button
                             size="small"
                             type="primary"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button
+                            size="small"
+                            type="info"
+                            @click="handleAddTask(scope.row)"
+                    >
+                        新增
+                    </el-button>
+                    <el-button
+                            size="small"
+                            type="success"
+                    >
+                        列表
+                    </el-button>
                     <el-button
                             size="small"
                             type="danger"
@@ -116,8 +129,8 @@
             </el-col>
         </div>
         <el-dialog
-                title="提示"
-                :visible.sync="dialogVisible"
+                :title="planTitle"
+                :visible.sync="dialogPlan"
                 width="30%"
                 :before-close="handleClose"
                 center
@@ -202,13 +215,15 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button @click="dialogPlan = false">取 消</el-button>
                 <el-button type="primary" @click="handleSave">确 定</el-button>
             </span>
         </el-dialog>
+        <add-task ref="addTask" @eventFromChild="loadData"></add-task>
     </div>
 </template>
 <script>
+    import addTask from "./planTask/addTask.vue"
     export default {
         mounted() {
             this.getTaskList();
@@ -218,12 +233,17 @@
         computed:{
 
         },
+        components:{
+          addTask:addTask
+        },
         data(){
             return {
                 msg: '开始',
+                planTitle:"新增计划",
                 filters:{
                     query:'',
-                    today:''
+                    today:'',
+                    importance:0,
                 },
                 tableData:[],
                 page:{
@@ -237,6 +257,12 @@
                 todayTask:{
                     list:[]
                 },
+                importanceList:[
+                    {label:'重要性',value:0},
+                    {label:'不重要',value:1},
+                    {label:'一般',value:2},
+                    {label:'重要',value:3}
+                ],
                 saveForm:{
                     name:'',
                     desc:'',
@@ -265,7 +291,7 @@
                 },
                 loading:false,
                 time_count:null,
-                dialogVisible: false,
+                dialogPlan: false,
                 type:0  //0 新增 1 编辑
             }
         },
@@ -275,12 +301,26 @@
                     page:this.page.currentPage,
                     perPage:this.page.perPage,
                     query:this.filters.query,
-                    today:this.filters.today
-                }
+                    importance:this.filters.importance
+                };
+                console.log(params);
+
                 this.loading = true;
                 axios.get('/back/plan/list',{params:params}).then( (res) =>{
-                    console.log(res);
-                    let data = res.data.items;
+                    let data = res.data.items.map( item => {
+                        let importance_name = null;
+                        if( item.importance == 0){
+                            importance_name = '未选择';
+                        } else if( item.importance == 1){
+                            importance_name = '不重要';
+                        }else if( item.importance == 2){
+                            importance_name = '一般';
+                        } else if( item.importance == 1){
+                            importance_name = '重要';
+                        }
+                        item.importance_name = importance_name;
+                        return item;
+                    });
                     this.tableData = data;
                     this.page.total = data.total;
                     this.page.from = data.from;
@@ -296,7 +336,7 @@
                 })
             },
             handleAdd:function(){
-                this.dialogVisible = true;
+                this.dialogPlan = true;
                 this.type = 0;//新增
                 this.saveForm = {
                     name:'',
@@ -313,7 +353,8 @@
                 };
             },
             handleEdit(index,row){
-              this.dialogVisible = true;
+                this.planTitle = "修改计划";
+              this.dialogPlan = true;
               this.type = 1;
               let that = this;
               axios.get('/back/plan/show',{params:{id:row.id}}).then( res => {
@@ -357,7 +398,7 @@
                                         message: '添加成功!',
                                         duration:2000
                                     });
-                                    that.dialogVisible = false;
+                                    that.dialogPlan = false;
                                     that.loadData();
                                 } else{
                                     this.$message({
@@ -383,7 +424,7 @@
                                         message: '编辑成功!',
                                         duration:2000
                                     });
-                                    that.dialogVisible = false;
+                                    that.dialogPlan = false;
                                     that.loadData();
                                 } else{
                                     this.$message({
@@ -404,6 +445,9 @@
                 }
 
                 console.log(this.saveForm);
+            },
+            handleAddTask(row){
+                this.$refs.addTask.handleAdd(row.id);
             },
             handleDel(index,row){
                 let that = this;
@@ -457,7 +501,7 @@
                 this.sels = sels;
             },
             handleClose(){
-                this.dialogVisible = false;
+                this.dialogPlan = false;
             },
             formatTime1(time){
                 this.saveForm.start_time = time;
@@ -487,5 +531,12 @@
     }
     .number_count{
         width:118px;
+    }
+.el-button +.el-button{
+        margin-left:0px;
+
+            }
+    .el-button--small{
+        margin-bottom:2px;
     }
 </style>

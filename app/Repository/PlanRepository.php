@@ -6,30 +6,28 @@ namespace App\Repository;
 use App\Models\Plan\Plan;
 use App\Models\Plan\PlanTask;
 use App\Models\Plan\PlanTaskJob;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class PlanRepository extends Model
 {
     //计划任务 仓库
-    public function getPlanList($page = 15){
+    public function getPlanList($id = 0,$query = '',$importance = 0,$page = 15){
         $user_id =  Auth::user()->id;
-        $pageData = Plan::where('user_id',$user_id)->select([
-            'id',
-            'name',
-            'desc',
-            'content',
-            'day',
-            'start_time',
-            'end_time',
-            'true_start_time',
-            'true_end_time',
-            'importance',
-            'status',
-            'satisfaction',
-            'sub_task_num',
-            'sub_task_finished_num'
-        ])->orderBy('sort','desc')->paginate();
+        $pageData = Plan::withCount(['tasks','tasks as finished_tasks_count'=>function($query){
+            $query->where('status',1);//完成的数量
+        }])->where('user_id',$user_id)->where(function($sub) use( $id ){
+            if( $id> 0){
+                $sub->where('id',$id);
+            }
+        })->where(function($sub) use( $query ){
+            if( $query != ''){
+                $sub->where('name','like','%'.$query.'%');
+            }
+        })->when($importance,function($query) use( $importance){
+            return $query->where('importance',intval($importance));
+        })->orderBy('sort','desc')->paginate();
         return $pageData;
     }
     public function  addPlan($params = []){
@@ -53,31 +51,34 @@ class PlanRepository extends Model
     /**
      * plan task
      */
-    public function getPlanTaskList( $page = 15){
+    public function getPlanTaskList($id = 0 , $query = '', $importance = 0,$page = 15){
         $user_id =  Auth::user()->id;
-        $pageData = PlanTask::where('user_id',$user_id)->select([
-            'id',
-            'name',
-            'desc',
-            'content',
-            'status',
-            'is_satisfy',
-            'advice',
-            'importance',
-            'quantization',
-            'quantization_unit',
-            'start_time',
-            'end_time',
-            'day_num',
-            'true_day_num',
-            'sort',
-            'created_at',
-            'updated_at'
-        ])->orderBy('sort','desc')->paginate($page);
+        $pageData = PlanTask::withCount(['days'])
+            ->where('user_id',$user_id)->where(function($sub) use( $id) {
+            if( $id > 0 ){
+                $sub->where('id',$id);
+            }
+        })->with('days')->where(function($sub) use($query){
+            if( $query != ''){
+                $sub->where('name','like','%'.$query.'%');
+            }
+        })->when( $importance ,function($query) use ($importance){
+            $query->where('importance',intval($importance));
+        })
+            ->orderBy('id','desc')->orderBy('sort','desc')->paginate();
+        //添加量化值的总数
+        foreach($pageData->items() as $item){
+             if( $item->days()->count()){
+                 $item->quantization_sum = $item->days()->sum('quantization');
+             }else {
+                 $item->quantization_sum = 0;
+             }
+        }
         return $pageData;
     }
-    public function  addPlanTask(){
+    public function  addPlanTask($params){
         $params['user_id']= Auth::user()->id;
+        $params['created_at'] = Carbon::now()->format('Y-m-m H:i:s');
         return PlanTask::insert($params);
     }
     public function  editPlanTask($id,$params){
@@ -96,24 +97,26 @@ class PlanRepository extends Model
     /**
      * plan task job
      */
-    public function getPlanTaskJobList($page = 15){
+    public function getPlanTaskJobList($plan_id = 0,$query = '',$page = 15){
         $user_id =  Auth::user()->id;
-        $pageData = PlanTaskJob::where('user_id',$user_id)->select([
+        $pageData = PlanTaskJob::where('user_id',$user_id)->when($query,function($sub) use( $query){
+            $sub->where('name','like','%'.$query.'%');
+        })->when($plan_id,function($sub) use($plan_id){
+            $sub->where('plan_id',$plan_id);
+        })->select([
             'id',
+            'plan_task_id',
             'name',
             'content',
-            'day',
-            'status',
             'quantization',
             'asses',
             'date',
-            'quantization',
             'created_at',
             'updated_at'
-        ])->orderBy('sort','desc')->paginate($page);
+        ])->orderBy('id','desc')->paginate($page);
         return $pageData;
     }
-    public function  addPlanTaskJob(){
+    public function  addPlanTaskJob($params){
         $params['user_id']= Auth::user()->id;
         return PlanTaskJob::insert($params);
     }
