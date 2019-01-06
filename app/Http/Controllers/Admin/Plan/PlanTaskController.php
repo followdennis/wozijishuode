@@ -20,14 +20,16 @@ class PlanTaskController extends AdminController
     }
     public function index()
     {
-        return view('admin/plan/planTask/index');
+        $plan_id = $this->req->get('plan_id',0);
+        return view('admin/plan/planTask/index',['plan_id'=>$plan_id]);
     }
     public function get_list()
     {
         $id = $this->req->get("id");
+        $plan_id = $this->req->get('plan_id',0);
         $query = $this->req->get("query",'');
         $importance = $this->req->get('importance',0);
-        $pageData = $this->planRep->getPlanTaskList($id,$query,$importance);
+        $pageData = $this->planRep->getPlanTaskList($id,$plan_id,$query,$importance);
         $res = setPageData($pageData);
         return response()->json($res);
     }

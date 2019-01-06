@@ -65,8 +65,10 @@
             </el-table-column>
             <el-table-column
                     label="重要性"
-                    prop="importance_name"
             >
+                <template slot-scope="scope">
+                    <span v-html="scope.row.importance_name"></span>
+                </template>
             </el-table-column>
             <el-table-column
                     label="满意度"
@@ -103,7 +105,7 @@
                             size="small"
                             type="success"
                     >
-                        列表
+                        <a style="color:white" :href="'/back/plan_task/index?plan_id=' + scope.row.id" >列表</a>
                     </el-button>
                     <el-button
                             size="small"
@@ -314,9 +316,9 @@
                         } else if( item.importance == 1){
                             importance_name = '不重要';
                         }else if( item.importance == 2){
-                            importance_name = '一般';
-                        } else if( item.importance == 1){
-                            importance_name = '重要';
+                            importance_name = '<font color="orange">一般</font>';
+                        } else if( item.importance == 3){
+                            importance_name = '<font color="red">重要</font>';
                         }
                         item.importance_name = importance_name;
                         return item;

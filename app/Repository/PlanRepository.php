@@ -51,14 +51,16 @@ class PlanRepository extends Model
     /**
      * plan task
      */
-    public function getPlanTaskList($id = 0 , $query = '', $importance = 0,$page = 15){
+    public function getPlanTaskList($id = 0 ,$plan_id = 0, $query = '', $importance = 0,$page = 15){
         $user_id =  Auth::user()->id;
         $pageData = PlanTask::withCount(['days'])
             ->where('user_id',$user_id)->where(function($sub) use( $id) {
             if( $id > 0 ){
                 $sub->where('id',$id);
             }
-        })->with('days')->where(function($sub) use($query){
+        })->when($plan_id ,function($sub) use($plan_id){
+                $sub->where('plan_id',$plan_id);
+            })->with('days')->where(function($sub) use($query){
             if( $query != ''){
                 $sub->where('name','like','%'.$query.'%');
             }
@@ -99,21 +101,17 @@ class PlanRepository extends Model
      */
     public function getPlanTaskJobList($plan_id = 0,$query = '',$page = 15){
         $user_id =  Auth::user()->id;
-        $pageData = PlanTaskJob::where('user_id',$user_id)->when($query,function($sub) use( $query){
-            $sub->where('name','like','%'.$query.'%');
-        })->when($plan_id,function($sub) use($plan_id){
-            $sub->where('plan_id',$plan_id);
-        })->select([
-            'id',
-            'plan_task_id',
-            'name',
-            'content',
-            'quantization',
-            'asses',
-            'date',
-            'created_at',
-            'updated_at'
-        ])->orderBy('id','desc')->paginate($page);
+        $pageData = PlanTaskJob::with(['task' => function( $sub){
+                $sub->select('id','name as task_name'); //这个地方必须查找id 才能取出值
+             }])
+            ->where('user_id',$user_id)
+            ->when($query,function($sub) use( $query){
+                $sub->where('name','like','%'.$query.'%');
+            })
+            ->when($plan_id,function($sub) use($plan_id){
+                 $sub->where('plan_id',$plan_id);
+            })
+            ->orderBy('id','desc')->paginate($page);
         return $pageData;
     }
     public function  addPlanTaskJob($params){

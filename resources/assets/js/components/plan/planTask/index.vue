@@ -5,6 +5,18 @@
                 <el-form-item>
                     <el-input v-model="filters.query" placeholder="请输入关键词"></el-input>
                 </el-form-item>
+                <el-select v-model="filters.plan_id"
+                           filterable
+                           remote
+                           :remote-method="remoteMethodPlan"
+                           clearable  placeholder="请选择计划">
+                    <el-option
+                            v-for="item in planList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
                 <el-select v-model="filters.importance" clearable  placeholder="请选择">
                     <el-option
                             v-for="item in importanceList"
@@ -50,13 +62,17 @@
             </el-table-column>
             <el-table-column
                     label="重要性"
-                    prop="importance_name"
             >
+                <template slot-scope="scope">
+                    <span v-html="scope.row.importance_name"></span>
+                </template>
             </el-table-column>
             <el-table-column
-                    label="建议"
-                    prop="advice"
+                    label="完成状态"
             >
+                <template slot-scope="scope">
+                    <span v-html="scope.row.status_name"></span>
+                </template>
             </el-table-column>
             <el-table-column
                     label="量化值"
@@ -143,13 +159,17 @@
     import addTask from "./addTask.vue"
     import addJob from "../planTaskJob/addJob.vue"
     export default {
+        props:[
+          'plan_id'
+        ],
         components: {
             ElButton,
             addTask:addTask,
             addJob:addJob
         },
         mounted() {
-            this.getTaskList();
+            this.filters.plan_id =this.plan_id;
+            this.getPlanList();
             this.loadData();
             console.log('Component mounted.')
         },
@@ -161,7 +181,8 @@
                 msg: '开始',
                 filters:{
                     query:'',
-                    importance:0
+                    importance:0,
+                    plan_id:''
                 },
                 importanceList:[
                     {label:'重要性',value:0},
@@ -178,9 +199,7 @@
                     from:0,
                     to:0
                 },
-                todayTask:{
-                    list:[]
-                },
+                planList:[],
                 saveForm:{
                     name:'',
                     plan_name:'',//父级任务
@@ -224,8 +243,9 @@
                     page:this.page.currentPage,
                     perPage:this.page.perPage,
                     query:this.filters.query,
-                    importance:this.filters.importance
-                }
+                    importance:this.filters.importance,
+                    plan_id:this.filters.plan_id
+                };
                 this.loading = true;
                 axios.get('/back/plan_task/list',{params:params}).then( (res) =>{
 
@@ -236,10 +256,17 @@
                         } else if( item.importance == 1){
                             importance_name = '不重要';
                         }else if( item.importance == 2){
-                            importance_name = '一般';
-                        } else if( item.importance == 1){
-                            importance_name = '重要';
+                            importance_name = '<font color="orange">一般</font>';
+                        } else if( item.importance == 3){
+                            importance_name = '<font color="red">重要</font>';
                         }
+                        let status_name = null;
+                        if( item.status == 0){
+                            status_name = '<font>未完成</font>';
+                        } else if( item.status == 1){
+                            status_name = '<font color="red">已完成</font>';
+                        }
+                        item.status_name = status_name;
                         item.importance_name = importance_name;
                         return item;
                     });
@@ -250,12 +277,6 @@
                     this.loading = false;
                 })
 
-            },
-            getTaskList:function(){
-                axios.get('/back/diary/today_get_task_list').then((res)=>{
-                    let list = res.data;
-                    this.todayTask.list = list;
-                })
             },
             handleAdd:function(){
                 this.$refs.addTask.handleAdd(0);
@@ -292,6 +313,39 @@
 
                 });
 
+            },
+            getPlanList(){
+                let that = this;
+                axios.get("/back/plan/list",{
+                    params:{plan_id:this.filters.plan_id}
+                }).then( res => {
+                    if( res.status == 200){
+                        that.planList = res.data.items.map(function(item){
+                            let obj = {
+                                label:item.name,
+                                value:item.id
+                            };
+                            return obj;
+                        })
+                    }
+                });
+            },
+            remoteMethodPlan(query){
+                let that = this;
+                setTimeout(function(){
+                    axios.get('/back/plan/list',{
+                        params:{query:query}
+                    }).then( res =>{
+                        if( res.status == 200){
+                            that.planList = res.data.items.map(item => {
+                                return {
+                                    value:item.id,
+                                    label:item.name
+                                }
+                            });
+                        }
+                    })
+                },200);
             },
             handleAddJob(row){
                 console.log('taks_id',row);

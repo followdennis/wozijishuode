@@ -48,6 +48,11 @@
                 </template>
             </el-table-column>
             <el-table-column
+                    label="父级子任务"
+                    prop="task.task_name"
+            >
+            </el-table-column>
+            <el-table-column
                     label="量化值"
                     prop="quantization"
             >
@@ -165,7 +170,7 @@
                     perPage:this.page.perPage,
                     query:this.filters.query,
                     plan_id:this.filters.plan_id
-                }
+                };
                 this.loading = true;
                 axios.get('/back/plan_task_job/list',{params:params}).then( (res) =>{
 
@@ -191,14 +196,6 @@
                         })
                     }
                 });
-            },
-            getTaskList:function(){
-                axios.get('/back/diary/today_get_task_list').then((res)=>{
-                    if( res.status == 200){
-                        let list = res.data;
-                        this.todayTask.list = list;
-                    }
-                })
             },
             handleAdd:function(){
                this.$refs.addJob.handleAdd(0);

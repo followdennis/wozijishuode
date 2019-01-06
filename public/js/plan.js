@@ -84437,6 +84437,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -84519,9 +84521,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     } else if (item.importance == 1) {
                         importance_name = '不重要';
                     } else if (item.importance == 2) {
-                        importance_name = '一般';
-                    } else if (item.importance == 1) {
-                        importance_name = '重要';
+                        importance_name = '<font color="orange">一般</font>';
+                    } else if (item.importance == 3) {
+                        importance_name = '<font color="red">重要</font>';
                     }
                     item.importance_name = importance_name;
                     return item;
@@ -85121,6 +85123,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -85211,16 +85218,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
 
-        getTaskList: function getTaskList() {
-            var _this2 = this;
-
-            axios.get('/back/diary/today_get_task_list').then(function (res) {
-                if (res.status == 200) {
-                    var list = res.data;
-                    _this2.todayTask.list = list;
-                }
-            });
-        },
         handleAdd: function handleAdd() {
             this.$refs.addJob.handleAdd(0);
         },
@@ -85228,7 +85225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.addJob.handleEdit(index, row);
         },
         handleDel: function handleDel(index, row) {
-            var _this3 = this;
+            var _this2 = this;
 
             var that = this;
             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -85239,14 +85236,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function () {
                 axios.get('/back/plan_task_job/del', { params: { id: row.id } }).then(function (res) {
                     if (res.data.code == 0) {
-                        _this3.$message({
+                        _this2.$message({
                             type: 'success',
                             message: '删除成功!',
                             duration: 2000
                         });
                         that.loadData();
                     } else {
-                        _this3.$message({
+                        _this2.$message({
                             type: 'error',
                             message: '删除失败!',
                             duration: 2000
@@ -85847,18 +85844,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['plan_id'],
     components: {
         ElButton: __WEBPACK_IMPORTED_MODULE_0__node_modules_element_ui_packages_button_src_button___default.a,
         addTask: __WEBPACK_IMPORTED_MODULE_1__addTask_vue___default.a,
         addJob: __WEBPACK_IMPORTED_MODULE_2__planTaskJob_addJob_vue___default.a
     },
     mounted: function mounted() {
-        this.getTaskList();
+        this.filters.plan_id = this.plan_id;
+        this.getPlanList();
         this.loadData();
         console.log('Component mounted.');
     },
@@ -85869,7 +85884,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             msg: '开始',
             filters: {
                 query: '',
-                importance: 0
+                importance: 0,
+                plan_id: ''
             },
             importanceList: [{ label: '重要性', value: 0 }, { label: '不重要', value: 1 }, { label: '一般', value: 2 }, { label: '重要', value: 3 }],
             tableData: [],
@@ -85881,9 +85897,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 from: 0,
                 to: 0
             },
-            todayTask: {
-                list: []
-            },
+            planList: [],
             saveForm: {
                 name: '',
                 plan_name: '', //父级任务
@@ -85922,7 +85936,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 page: this.page.currentPage,
                 perPage: this.page.perPage,
                 query: this.filters.query,
-                importance: this.filters.importance
+                importance: this.filters.importance,
+                plan_id: this.filters.plan_id
             };
             this.loading = true;
             axios.get('/back/plan_task/list', { params: params }).then(function (res) {
@@ -85934,10 +85949,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     } else if (item.importance == 1) {
                         importance_name = '不重要';
                     } else if (item.importance == 2) {
-                        importance_name = '一般';
-                    } else if (item.importance == 1) {
-                        importance_name = '重要';
+                        importance_name = '<font color="orange">一般</font>';
+                    } else if (item.importance == 3) {
+                        importance_name = '<font color="red">重要</font>';
                     }
+                    var status_name = null;
+                    if (item.status == 0) {
+                        status_name = '<font>未完成</font>';
+                    } else if (item.status == 1) {
+                        status_name = '<font color="red">已完成</font>';
+                    }
+                    item.status_name = status_name;
                     item.importance_name = importance_name;
                     return item;
                 });
@@ -85948,14 +85970,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.loading = false;
             });
         },
-        getTaskList: function getTaskList() {
-            var _this2 = this;
-
-            axios.get('/back/diary/today_get_task_list').then(function (res) {
-                var list = res.data;
-                _this2.todayTask.list = list;
-            });
-        },
         handleAdd: function handleAdd() {
             this.$refs.addTask.handleAdd(0);
         },
@@ -85963,7 +85977,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.addTask.handleEdit(index, row);
         },
         handleDel: function handleDel(index, row) {
-            var _this3 = this;
+            var _this2 = this;
 
             var that = this;
             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -85974,14 +85988,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function () {
                 axios.get('/back/plan_task/del', { params: { id: row.id } }).then(function (res) {
                     if (res.data.code == 0) {
-                        _this3.$message({
+                        _this2.$message({
                             type: 'success',
                             message: '删除成功!',
                             duration: 2000
                         });
                         that.loadData();
                     } else {
-                        _this3.$message({
+                        _this2.$message({
                             type: 'error',
                             message: '删除失败!',
                             duration: 2000
@@ -85989,6 +86003,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 });
             }).catch(function () {});
+        },
+        getPlanList: function getPlanList() {
+            var that = this;
+            axios.get("/back/plan/list", {
+                params: { plan_id: this.filters.plan_id }
+            }).then(function (res) {
+                if (res.status == 200) {
+                    that.planList = res.data.items.map(function (item) {
+                        var obj = {
+                            label: item.name,
+                            value: item.id
+                        };
+                        return obj;
+                    });
+                }
+            });
+        },
+        remoteMethodPlan: function remoteMethodPlan(query) {
+            var that = this;
+            setTimeout(function () {
+                axios.get('/back/plan/list', {
+                    params: { query: query }
+                }).then(function (res) {
+                    if (res.status == 200) {
+                        that.planList = res.data.items.map(function (item) {
+                            return {
+                                value: item.id,
+                                label: item.name
+                            };
+                        });
+                    }
+                });
+            }, 200);
         },
         handleAddJob: function handleAddJob(row) {
             console.log('taks_id', row);
@@ -86654,6 +86701,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "label": "父级子任务",
+      "prop": "task.task_name"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "label": "量化值",
       "prop": "quantization"
     }
@@ -87180,9 +87232,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "label": "重要性",
-      "prop": "importance_name"
-    }
+      "label": "重要性"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('span', {
+          domProps: {
+            "innerHTML": _vm._s(scope.row.importance_name)
+          }
+        })]
+      }
+    }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "满意度",
@@ -87231,7 +87292,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             "size": "small",
             "type": "success"
           }
-        }, [_vm._v("\n                    列表\n                ")]), _vm._v(" "), _c('el-button', {
+        }, [_c('a', {
+          staticStyle: {
+            "color": "white"
+          },
+          attrs: {
+            "href": '/back/plan_task/index?plan_id=' + scope.row.id
+          }
+        }, [_vm._v("列表")])]), _vm._v(" "), _c('el-button', {
           attrs: {
             "size": "small",
             "type": "danger"
@@ -87651,6 +87719,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-select', {
     attrs: {
+      "filterable": "",
+      "remote": "",
+      "remote-method": _vm.remoteMethodPlan,
+      "clearable": "",
+      "placeholder": "请选择计划"
+    },
+    model: {
+      value: (_vm.filters.plan_id),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "plan_id", $$v)
+      },
+      expression: "filters.plan_id"
+    }
+  }, _vm._l((_vm.planList), function(item) {
+    return _c('el-option', {
+      key: item.value,
+      attrs: {
+        "label": item.label,
+        "value": item.value
+      }
+    })
+  })), _vm._v(" "), _c('el-select', {
+    attrs: {
       "clearable": "",
       "placeholder": "请选择"
     },
@@ -87725,14 +87816,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "label": "重要性",
-      "prop": "importance_name"
-    }
+      "label": "重要性"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('span', {
+          domProps: {
+            "innerHTML": _vm._s(scope.row.importance_name)
+          }
+        })]
+      }
+    }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "label": "建议",
-      "prop": "advice"
-    }
+      "label": "完成状态"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('span', {
+          domProps: {
+            "innerHTML": _vm._s(scope.row.status_name)
+          }
+        })]
+      }
+    }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "量化值",
