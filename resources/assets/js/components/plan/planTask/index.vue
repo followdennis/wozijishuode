@@ -168,7 +168,7 @@
             addJob:addJob
         },
         mounted() {
-            this.filters.plan_id =this.plan_id;
+            this.filters.plan_id =this.plan_id == 0 ? '':this.plan_id;
             this.getPlanList();
             this.loadData();
             console.log('Component mounted.')
@@ -205,7 +205,7 @@
                     plan_name:'',//父级任务
                     desc:'',
                     content:'',
-                    plan_id:0,
+                    plan_id:'',
                     is_satisfy:0,
                     advice:'',
                     quantization:0,

@@ -116,7 +116,7 @@ class PlanRepository extends Model
     }
     public function  addPlanTaskJob($params){
         $params['user_id']= Auth::user()->id;
-        return PlanTaskJob::insert($params);
+        return PlanTaskJob::create($params);
     }
     public function  editPlanTaskJob($id,$params){
         $user_id = Auth::user()->id;
