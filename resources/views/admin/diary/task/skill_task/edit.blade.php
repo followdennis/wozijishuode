@@ -43,6 +43,12 @@
 
 
     </script>
+    <style>
+        .textarea-noresize{
+            resize:vertical;
+            min-height:200px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -95,7 +101,7 @@
                                 <label class="control-label col-xs-3" id="content">内容<span class="required"> * </span>
                                 </label>
                                 <div class="col-xs-5">
-                                    <textarea class="form-control" name="content" >{{ $info->content }}</textarea>
+                                    <textarea class="form-control textarea-noresize" name="content" >{{ $info->content }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">

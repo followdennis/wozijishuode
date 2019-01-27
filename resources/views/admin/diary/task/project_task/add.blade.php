@@ -16,7 +16,12 @@
 
     <script src="{{asset('js/layer/layer.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/admin/task/project/form.js')}}" type="text/javascript"></script>
-
+    <style>
+        .textarea-noresize{
+            resize:vertical;
+            min-height:200px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -67,7 +72,7 @@
                                 <label class="control-label col-xs-3" id="content">内容<span class="required"> * </span>
                                 </label>
                                 <div class="col-xs-5">
-                                    <textarea class="form-control" name="content"></textarea>
+                                    <textarea class="form-control textarea-noresize" name="content"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
