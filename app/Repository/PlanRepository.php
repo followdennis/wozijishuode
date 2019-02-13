@@ -67,7 +67,7 @@ class PlanRepository extends Model
         })->when( $importance ,function($query) use ($importance){
             $query->where('importance',intval($importance));
         })
-            ->orderBy('id','desc')->orderBy('sort','desc')->paginate();
+            ->orderBy('importance','desc')->orderBy('sort','desc')->paginate();
         //添加量化值的总数
         foreach($pageData->items() as $item){
              if( $item->days()->count()){
