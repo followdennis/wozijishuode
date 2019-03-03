@@ -27,7 +27,7 @@ Route::any('view',function(){
 /**
  * 后台操作
  */
-Route::group(['domain'=>'www.wozijishuode.com','prefix'=>'back'],function() {
+Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com"),'prefix'=>'back'],function() {
     Auth::routes();
     Route::group(['middleware' => ['permissions', 'auth']], function () {
 
@@ -328,7 +328,7 @@ Route::group(['domain'=>'www.wozijishuode.com'],function(){
     Route::get('/user_center',['uses'=>'Foreground\CommonUserController@index']);
 });
 //前台
-Route::group(['domain'=>'wx.wozijishuode.com'],function(){
+Route::group(['domain'=>'wx.wozijishuode'.env("SITE_SUFFIX",".com")],function(){
     Route::any('/',function(){
         return view('wechat.index');
     });
@@ -337,7 +337,7 @@ Route::get('wx',function(){
     return view('wechat.wx');
 });
 //移动端
-Route::group(['domain'=>'m.wozijishuode.com'],function(){
+Route::group(['domain'=>'m.wozijishuode'.env("SITE_SUFFIX",".com")],function(){
     Route::any('/',function(){
         return view('mobile.index');
     });
