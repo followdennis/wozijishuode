@@ -213,7 +213,7 @@
                 addForm: {
                     content: '',
                     type:0,
-                    is_show: 1,
+                    is_show: 0,
                     level:0
                 },
                 editFormVisible:false,
