@@ -55,12 +55,13 @@
             >
             </el-table-column>
             <el-table-column
+                    width="80"
                     prop="type"
                     label="类型"
             >
             </el-table-column>
             <el-table-column
-
+                    width="80"
                     label="是否完成"
             >
                 <template slot-scope="scope">

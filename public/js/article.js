@@ -86433,6 +86433,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -87704,11 +87705,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "width": "80",
       "prop": "type",
       "label": "类型"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "width": "80",
       "label": "是否完成"
     },
     scopedSlots: _vm._u([{
