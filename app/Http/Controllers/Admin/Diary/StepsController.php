@@ -51,7 +51,10 @@ class StepsController extends AdminController
             if($request->filled('is_show')){
                 $query->where('is_show',intval($request->get('is_show')));
             }
-        })->paginate($perPage);
+        })
+            ->orderBy('level','desc')
+            ->orderBy('is_show','asc')
+            ->paginate($perPage);
         $results = [
             'total'=>$data->total(),
             'perPage' => $data->perPage(),

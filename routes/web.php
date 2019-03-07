@@ -274,7 +274,7 @@ Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com"),'prefix'=>'
     });
 });
 //前台
-Route::group(['domain'=>'www.wozijishuode.com'],function(){
+Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com")],function(){
     Route::any('login/qq',['uses'=>'Foreground\Auth\QQLoginController@qq']);
     Route::any('login/qq_login',['uses'=>'Foreground\Auth\QQLoginController@qqlogin']);
     Route::get('/login',['uses'=>'Foreground\Auth\LoginController@showLoginForm','as'=>'front.login']);

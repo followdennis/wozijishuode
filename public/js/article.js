@@ -86427,6 +86427,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -86440,7 +86446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             code: 200,
             tableData: [],
             options: [{ value: 0, label: '迭代日志' }, { value: 1, label: '大步骤' }, { value: 2, label: '小计划' }, { value: 3, label: '展示所有' }],
-            show_select: [{ value: '', label: '请选择' }, { value: 1, label: "是" }, { value: 0, label: "否" }],
+            show_select: [{ value: '', label: '请选择' }, { value: 1, label: "已完成" }, { value: 0, label: "未完成" }],
             page: {
                 total: 0,
                 perPage: 10,
@@ -87703,13 +87709,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "is_show",
-      "label": "是否展示"
-    }
+      "label": "是否完成"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [(scope.row.is_show == 0) ? _c('span', {
+          staticClass: "glyphicon glyphicon-remove is_finish_convert",
+          staticStyle: {
+            "color": "red"
+          }
+        }) : _c('span', {
+          staticClass: "glyphicon glyphicon-ok is_finish_convert",
+          staticStyle: {
+            "color": "green"
+          }
+        })]
+      }
+    }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "prop": "level",
-      "label": "级别",
+      "label": "重要性",
       "width": "80"
     }
   }), _vm._v(" "), _c('el-table-column', {
@@ -87851,7 +87872,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "等级"
+      "label": "重要性"
     }
   }, [_c('el-input-number', {
     attrs: {
@@ -87867,7 +87888,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "显示"
+      "label": "是否完成"
     }
   }, [_c('el-input-number', {
     attrs: {
@@ -87965,7 +87986,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "等级",
+      "label": "重要性",
       "prop": "level"
     }
   }, [_c('el-input-number', {
@@ -87982,7 +88003,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "显示",
+      "label": "是否完成",
       "prop": "is_show"
     }
   }, [_c('el-input-number', {

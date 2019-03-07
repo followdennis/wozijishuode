@@ -60,13 +60,19 @@
             >
             </el-table-column>
             <el-table-column
-                    prop="is_show"
-                    label="是否展示"
+
+                    label="是否完成"
             >
+                <template slot-scope="scope">
+                    <span v-if="scope.row.is_show == 0" class="glyphicon glyphicon-remove is_finish_convert" style="color:red;">
+                    </span>
+                    <span v-else class="glyphicon glyphicon-ok is_finish_convert" style="color:green;">
+                    </span>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="level"
-                    label="级别"
+                    label="重要性"
                     width="80">
             </el-table-column>
             <el-table-column
@@ -119,10 +125,10 @@
                         <el-input v-model="addForm.type" auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="等级">
+                <el-form-item label="重要性">
                     <el-input-number v-model="addForm.level" :min="0" :max="10"></el-input-number>
                 </el-form-item>
-                <el-form-item label="显示">
+                <el-form-item label="是否完成">
                     <el-input-number v-model="addForm.is_show" :min="0" :max="1"></el-input-number>
                 </el-form-item>
             </el-form>
@@ -144,10 +150,10 @@
                         <el-input v-model="editForm.type" auto-complete="off"></el-input>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="等级" prop="level">
+                <el-form-item label="重要性" prop="level">
                     <el-input-number v-model="editForm.level" :min="0" :max="3"></el-input-number>
                 </el-form-item>
-                <el-form-item label="显示" prop="is_show">
+                <el-form-item label="是否完成" prop="is_show">
                     <el-input-number v-model="editForm.is_show" :min="0" :max="10"></el-input-number>
                 </el-form-item>
             </el-form>
@@ -176,7 +182,7 @@
                 code:200,
                 tableData: [],
                 options:[{value:0,label:'迭代日志'},{value:1,label:'大步骤'},{value:2,label:'小计划'},{value:3,label:'展示所有'}],
-                show_select:[{value:'',label:'请选择'},{value:1,label:"是"},{value:0,label:"否"}],
+                show_select:[{value:'',label:'请选择'},{value:1,label:"已完成"},{value:0,label:"未完成"}],
                 page:{
                     total:0,
                     perPage:10,
