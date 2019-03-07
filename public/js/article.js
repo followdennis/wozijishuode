@@ -86547,7 +86547,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.addForm = {
                 content: '',
                 type: 0,
-                is_show: 1,
+                is_show: 0,
                 level: 0
             };
         },
@@ -87816,7 +87816,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("第" + _vm._s(_vm.page.from) + "到" + _vm._s(_vm.page.to) + "条")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
     attrs: {
-      "title": "新增",
+      "title": "新增1",
       "close-on-click-modal": false
     },
     model: {

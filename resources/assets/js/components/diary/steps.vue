@@ -114,7 +114,7 @@
             </el-col>
         </div>
         <!--新增界面-->
-        <el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
+        <el-dialog title="新增1" v-model="addFormVisible" :close-on-click-modal="false">
             <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
                 <el-form-item label="内容" prop="content">
                     <el-col :span="22">
@@ -284,7 +284,7 @@
                 this.addForm = {
                     content: '',
                     type: 0,
-                    is_show:1,
+                    is_show:0,
                     level:0
                 };
             },
