@@ -86696,6 +86696,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -86706,16 +86718,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.getPlanList();
+        this.remoteMethodPlanTask();
         this.loadData();
     },
 
     computed: {},
+    watch: {
+        'filters.plan_id': function filtersPlan_id(val, oldVal) {
+            this.remoteMethodPlanTask();
+        }
+    },
     data: function data() {
         return {
             msg: '开始',
             filters: {
                 query: '',
-                plan_id: ''
+                plan_id: '',
+                plan_task_id: ''
             },
             tableData: [],
             page: {
@@ -86728,6 +86747,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
 
             planList: [],
+            planTaskList: [],
             saveForm: {
                 name: '',
                 plan_name: '', //父级任务
@@ -86758,7 +86778,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 page: this.page.currentPage,
                 perPage: this.page.perPage,
                 query: this.filters.query,
-                plan_id: this.filters.plan_id
+                plan_id: this.filters.plan_id,
+                plan_task_id: this.filters.plan_task_id
             };
             this.loading = true;
             axios.get('/back/plan_task_job/list', { params: params }).then(function (res) {
@@ -86828,6 +86849,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }).then(function (res) {
                     if (res.status == 200) {
                         that.planList = res.data.items.map(function (item) {
+                            return {
+                                value: item.id,
+                                label: item.name
+                            };
+                        });
+                    }
+                });
+            }, 200);
+        },
+        remoteMethodPlanTask: function remoteMethodPlanTask() {
+            var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+            var that = this;
+            console.log('yes');
+            console.log(this.filters.plan_id);
+            setTimeout(function () {
+                axios.get('/back/plan_task/query_list', {
+                    params: { query: query, plan_id: that.filters.plan_id }
+                }).then(function (res) {
+                    if (res.status == 200) {
+                        that.planTaskList = res.data.items.map(function (item) {
                             return {
                                 value: item.id,
                                 label: item.name
@@ -88176,6 +88218,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "filters.plan_id"
     }
   }, _vm._l((_vm.planList), function(item) {
+    return _c('el-option', {
+      key: item.value,
+      attrs: {
+        "label": item.label,
+        "value": item.value
+      }
+    })
+  }), 1), _vm._v(" "), _c('el-select', {
+    attrs: {
+      "filterable": "",
+      "remote": "",
+      "remote-method": _vm.remoteMethodPlanTask,
+      "clearable": "",
+      "placeholder": "请选择子任务"
+    },
+    model: {
+      value: (_vm.filters.plan_task_id),
+      callback: function($$v) {
+        _vm.$set(_vm.filters, "plan_task_id", $$v)
+      },
+      expression: "filters.plan_task_id"
+    }
+  }, _vm._l((_vm.planTaskList), function(item) {
     return _c('el-option', {
       key: item.value,
       attrs: {

@@ -17,6 +17,18 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
+                <el-select v-model="filters.plan_task_id"
+                           filterable
+                           remote
+                           :remote-method="remoteMethodPlanTask"
+                           clearable  placeholder="请选择子任务">
+                    <el-option
+                            v-for="item in planTaskList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
                 <el-form-item>
                     <el-button type="primary" v-on:click="loadData">查询</el-button>
                 </el-form-item>
@@ -112,17 +124,24 @@
         },
         mounted() {
             this.getPlanList();
+            this.remoteMethodPlanTask();
             this.loadData();
         },
         computed:{
 
+        },
+        watch:{
+            'filters.plan_id':function(val,oldVal){
+                this.remoteMethodPlanTask();
+            }
         },
         data(){
             return {
                 msg: '开始',
                 filters:{
                     query:'',
-                    plan_id:''
+                    plan_id:'',
+                    plan_task_id:''
                 },
                 tableData:[],
                 page:{
@@ -135,6 +154,7 @@
                 },
 
                 planList:[],
+                planTaskList:[],
                 saveForm:{
                     name:'',
                     plan_name:'',//父级任务
@@ -169,7 +189,8 @@
                     page:this.page.currentPage,
                     perPage:this.page.perPage,
                     query:this.filters.query,
-                    plan_id:this.filters.plan_id
+                    plan_id:this.filters.plan_id,
+                    plan_task_id:this.filters.plan_task_id
                 };
                 this.loading = true;
                 axios.get('/back/plan_task_job/list',{params:params}).then( (res) =>{
@@ -242,6 +263,26 @@
                     }).then( res =>{
                         if( res.status == 200){
                             that.planList = res.data.items.map(item => {
+                                return {
+                                    value:item.id,
+                                    label:item.name
+                                }
+                            });
+                        }
+                    })
+
+                },200);
+            },
+            remoteMethodPlanTask(query = ''){
+                let that = this;
+                console.log('yes');
+                console.log(this.filters.plan_id);
+                setTimeout(function(){
+                    axios.get('/back/plan_task/query_list',{
+                        params:{query:query,plan_id:that.filters.plan_id}
+                    }).then( res =>{
+                        if( res.status == 200){
+                            that.planTaskList = res.data.items.map(item => {
                                 return {
                                     value:item.id,
                                     label:item.name

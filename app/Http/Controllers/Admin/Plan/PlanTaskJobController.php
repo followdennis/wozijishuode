@@ -26,7 +26,8 @@ class PlanTaskJobController extends AdminController
     {
         $query = $this->req->get('query','');
         $plan_id = $this->req->get('plan_id',0);
-        $pageData = $this->planRep->getPlanTaskJobList($plan_id,$query);
+        $plan_task_id = $this->req->get('plan_task_id',0);
+        $pageData = $this->planRep->getPlanTaskJobList($plan_id,$plan_task_id,$query);
         $res = setPageData($pageData);
         return response()->json($res);
     }

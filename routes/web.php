@@ -154,6 +154,8 @@ Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com"),'prefix'=>'
         Route::get('plan_task/show',['uses'=>'Admin\Plan\PlanTaskController@show','as'=>'plan_task/show']);
         Route::get('plan_task/del',['uses'=>'Admin\Plan\PlanTaskController@del','as'=>'plan_task/del']);
         Route::post('plan_task/edit',['uses'=>'Admin\Plan\PlanTaskController@edit','as'=>'plan_task/edit']);
+        Route::get('plan_task/query_list',['uses'=>'Admin\Plan\PlanTaskController@query_task_list','as'=>'plan_task/query_list']);//查询计划任务
+
 
         Route::get('plan_task_job/index',['uses'=>'Admin\Plan\PlanTaskJobController@index','as'=>'plan_task_job/index']);
         Route::get('plan_task_job/list',['uses'=>'Admin\Plan\PlanTaskJobController@get_list','as'=>'plan_task_job/list']);

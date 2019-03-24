@@ -34,6 +34,17 @@ class PlanTaskController extends AdminController
         return response()->json($res);
     }
 
+    /**
+     * 查询任务列表
+     * 2019-03-24
+     */
+    public function query_task_list(){
+        $plan_id = $this->req->get('plan_id',0);
+        $query = $this->req->get('query','');
+        $list = $this->planRep->queryTaskList($plan_id,$query);
+        $res = setPageData($list);
+        return response()->json($res);
+    }
     public function show()
     {
         $id = $this->req->get('id',0);

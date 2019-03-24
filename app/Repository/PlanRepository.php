@@ -78,6 +78,29 @@ class PlanRepository extends Model
         }
         return $pageData;
     }
+
+    /**
+     *  搜索子任务（tasklist)
+     * @param $params
+     * @return mixed
+     */
+    public function queryTaskList($plan_id = 0,$query){
+        $user_id =  Auth::user()->id;
+        $pageData = PlanTask::withCount(['days'])
+            ->select(['id','plan_id','name'])
+            ->where('user_id',$user_id)
+            ->when($plan_id ,function($sub) use($plan_id){
+                $sub->where('plan_id',$plan_id);
+            })
+            ->where(function($subQuery) use ($query){
+                if( trim($query) ){
+                    $subQuery->where('name','like','%'.$query .'%');
+                }
+            })
+            ->orderBy('importance','desc')->orderBy('sort','desc')->orderBy('status','asc')->paginate();
+
+        return $pageData;
+    }
     public function  addPlanTask($params){
         $params['user_id']= Auth::user()->id;
         $params['created_at'] = Carbon::now()->format('Y-m-m H:i:s');
@@ -99,7 +122,7 @@ class PlanRepository extends Model
     /**
      * plan task job
      */
-    public function getPlanTaskJobList($plan_id = 0,$query = '',$page = 15){
+    public function getPlanTaskJobList($plan_id = 0,$plan_task_id = 0,$query = '',$page = 15){
         $user_id =  Auth::user()->id;
         $pageData = PlanTaskJob::with(['task' => function( $sub){
                 $sub->select('id','name as task_name'); //这个地方必须查找id 才能取出值
@@ -110,6 +133,9 @@ class PlanRepository extends Model
             })
             ->when($plan_id,function($sub) use($plan_id){
                  $sub->where('plan_id',$plan_id);
+            })
+            ->when($plan_task_id,function($sub) use( $plan_task_id){
+                $sub->where('plan_task_id',$plan_task_id);
             })
             ->orderBy('id','desc')->paginate($page);
         return $pageData;
