@@ -88105,7 +88105,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('el-input', {
     attrs: {
       "type": "textarea",
-      "rows": "6"
+      "rows": 6
     },
     model: {
       value: (_vm.saveForm.content),
@@ -88480,7 +88480,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('el-input', {
     attrs: {
       "type": "textarea",
-      "rows": "6"
+      "rows": 6
     },
     model: {
       value: (_vm.saveForm.content),
@@ -88997,7 +88997,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('el-input', {
     attrs: {
       "type": "textarea",
-      "rows": "5"
+      "rows": 5
     },
     model: {
       value: (_vm.saveForm.content),

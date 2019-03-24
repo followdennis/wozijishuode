@@ -30,7 +30,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="正文" prop="content">
-                <el-input type="textarea" rows="6" v-model="saveForm.content"></el-input>
+                <el-input type="textarea" :rows="6" v-model="saveForm.content"></el-input>
             </el-form-item>
             <el-form-item label="评价">
                 <el-input v-model="saveForm.asses"></el-input>

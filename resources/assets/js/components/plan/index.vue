@@ -146,7 +146,7 @@
                     <el-input v-model="saveForm.desc"></el-input>
                 </el-form-item>
                 <el-form-item label="正文" prop="content">
-                    <el-input type="textarea"  rows="5" v-model="saveForm.content"></el-input>
+                    <el-input type="textarea"  :rows="5" v-model="saveForm.content"></el-input>
                 </el-form-item>
                 <el-form-item label="预估天数" prop="day">
                     <el-input v-model.number="saveForm.day"></el-input>
