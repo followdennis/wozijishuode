@@ -30,7 +30,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="正文" prop="content">
-                <el-input type="textarea" v-model="saveForm.content"></el-input>
+                <el-input type="textarea" rows="6" v-model="saveForm.content"></el-input>
             </el-form-item>
             <el-form-item label="评价">
                 <el-input v-model="saveForm.asses"></el-input>
@@ -113,7 +113,7 @@
                 };
             },
             handleEdit(index,row){
-                console.log(row);
+
                 this.dialogVisible = true;
                 this.type = 1;
                 let that = this;
@@ -152,9 +152,6 @@
             },
             handleSave:function(){
 //                this.saveForm = Object.assign({}, row);
-
-                console.log(this.saveForm);
-
                 let that = this;
                 if( this.type == 0){
                     //新增

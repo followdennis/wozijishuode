@@ -86412,7 +86412,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleEdit: function handleEdit(index, row) {
             var _this = this;
 
-            console.log(row);
             this.dialogVisible = true;
             this.type = 1;
             var that = this;
@@ -86452,9 +86451,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             //                this.saveForm = Object.assign({}, row);
-
-            console.log(this.saveForm);
-
             var that = this;
             if (this.type == 0) {
                 //新增
@@ -88108,7 +88104,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-input', {
     attrs: {
-      "type": "textarea"
+      "type": "textarea",
+      "rows": "6"
     },
     model: {
       value: (_vm.saveForm.content),
@@ -88482,7 +88479,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-input', {
     attrs: {
-      "type": "textarea"
+      "type": "textarea",
+      "rows": "6"
     },
     model: {
       value: (_vm.saveForm.content),
@@ -88998,7 +88996,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-input', {
     attrs: {
-      "type": "textarea"
+      "type": "textarea",
+      "rows": "5"
     },
     model: {
       value: (_vm.saveForm.content),
