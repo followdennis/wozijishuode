@@ -86097,7 +86097,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return item;
                 });
                 _this.tableData = data;
-                _this.page.total = data.total;
+                _this.page.total = res.data.total;
                 _this.page.from = data.from;
                 _this.page.to = data.to;
                 _this.loading = false;
@@ -86786,7 +86786,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 var data = res.data.items;
                 _this.tableData = data;
-                _this.page.total = data.total;
+
+                _this.page.total = res.data.total;
                 _this.page.from = data.from;
                 _this.page.to = data.to;
                 _this.loading = false;
@@ -87574,7 +87575,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return item;
                 });
                 _this.tableData = data;
-                _this.page.total = data.total;
+                _this.page.total = res.data.total;
                 _this.page.from = data.from;
                 _this.page.to = data.to;
                 _this.loading = false;

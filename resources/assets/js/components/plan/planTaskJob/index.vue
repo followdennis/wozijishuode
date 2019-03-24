@@ -197,7 +197,8 @@
 
                     let data = res.data.items;
                     this.tableData = data;
-                    this.page.total = data.total;
+
+                    this.page.total = res.data.total;
                     this.page.from = data.from;
                     this.page.to =data.to;
                     this.loading = false;
