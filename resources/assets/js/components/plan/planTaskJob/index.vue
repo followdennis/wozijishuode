@@ -118,11 +118,15 @@
     import ElButton from "../../../../../../node_modules/element-ui/packages/button/src/button";
     import addJob from "./addJob.vue";
     export default {
+        props:[
+            'plan_task_id'
+        ],
         components: {
             ElButton,
             addJob:addJob
         },
         mounted() {
+            this.filters.plan_task_id =this.plan_task_id == 0 ? '':this.plan_task_id;
             this.getPlanList();
             this.remoteMethodPlanTask();
             this.loadData();

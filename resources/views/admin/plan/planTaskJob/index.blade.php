@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="portlet-body" >
-                            <my_plan_task_job></my_plan_task_job>
+                            <my_plan_task_job :plan_task_id="{{ $plan_task_id }}"></my_plan_task_job>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->

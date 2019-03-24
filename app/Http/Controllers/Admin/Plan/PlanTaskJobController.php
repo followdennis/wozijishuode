@@ -20,7 +20,8 @@ class PlanTaskJobController extends AdminController
     }
     public function index()
     {
-        return view('admin/plan/planTaskJob/index');
+        $plan_task_id = $this->req->get('plan_task_id',0);
+        return view('admin/plan/planTaskJob/index',['plan_task_id'=>$plan_task_id]);
     }
     public function get_list()
     {

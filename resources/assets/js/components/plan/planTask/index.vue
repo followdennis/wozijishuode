@@ -125,7 +125,7 @@
                             size="small"
                             type="info"
                     >
-                        列表
+                        <a style="color:white" :href="'/back/plan_task_job/index?plan_task_id=' + scope.row.id" >列表</a>
                     </el-button>
                     <el-button
                             size="small"

@@ -86712,11 +86712,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['plan_task_id'],
     components: {
         ElButton: __WEBPACK_IMPORTED_MODULE_0__node_modules_element_ui_packages_button_src_button___default.a,
         addJob: __WEBPACK_IMPORTED_MODULE_1__addJob_vue___default.a
     },
     mounted: function mounted() {
+        this.filters.plan_task_id = this.plan_task_id == 0 ? '' : this.plan_task_id;
         this.getPlanList();
         this.remoteMethodPlanTask();
         this.loadData();
@@ -89539,7 +89541,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             "size": "small",
             "type": "info"
           }
-        }, [_vm._v("\n                    列表\n                ")]), _vm._v(" "), _c('el-button', {
+        }, [_c('a', {
+          staticStyle: {
+            "color": "white"
+          },
+          attrs: {
+            "href": '/back/plan_task_job/index?plan_task_id=' + scope.row.id
+          }
+        }, [_vm._v("列表")])]), _vm._v(" "), _c('el-button', {
           attrs: {
             "size": "small",
             "type": "danger"
