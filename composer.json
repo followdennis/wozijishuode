@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "FortAwesome/Font-Awesome": "*",
+        "fortawesome/font-awesome": "*",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
         "jaeger/querylist": "^3.2",
@@ -68,5 +68,11 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.laravel-china.org"
+        }
     }
 }

@@ -20,6 +20,12 @@ Vue.component('my_plan',require('./components/plan/index.vue'));
 Vue.component('my_plan_task',require('./components/plan/planTask/index.vue'));
 Vue.component('my_plan_task_job',require('./components/plan/planTaskJob/index.vue'));
 
+/**
+ * 财务管理部分
+ */
+Vue.component('buy_list',require('./components/finance/buyList.vue'));
+
+
 const app = new Vue({
     el: '#plan'
 });

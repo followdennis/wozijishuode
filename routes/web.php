@@ -165,6 +165,26 @@ Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com"),'prefix'=>'
         Route::post('plan_task_job/edit',['uses'=>'Admin\Plan\PlanTaskJobController@edit','as'=>'plan_task_job/edit']);
 
         /**
+         * 财务管理
+         * 20190502
+         */
+        //买入
+        Route::get('buy/index',['uses'=>'Admin\Finance\VirtualCoinController@index','as'=>'buy/index']);
+        Route::get('buy/lists',['uses'=>'Admin\Finance\VirtualCoinController@lists','as'=>'buy/lists']);
+        Route::post('buy/add',['uses'=>'Admin\Finance\VirtualCoinController@addBuy','as'=>'buy/add']);
+        Route::get('buy/del',['uses'=>'Admin\Finance\VirtualCoinController@delBuy','as'=>'buy/del']);
+        Route::post('buy/edit',['uses'=>'Admin\Finance\VirtualCoinController@editBuy','as'=>'buy/edit']);
+        //卖出
+        Route::post('sold/add',['uses'=>'Admin\Finance\VirtualCoinController@addSold','as'=>'sold/add']);
+        Route::get('sold/del',['uses'=>'Admin\Finance\VirtualCoinController@delSold','as'=>'sold/del']);
+        Route::post('sold/edit',['uses'=>'Admin\Finance\VirtualCoinController@editSold','as'=>'sold/edit']);
+        //获取币种
+        Route::get('coin/type',['uses'=>'Admin\Finance\VirtualCoinController@getCoinList','as'=>'coin/type']);
+
+
+
+
+        /**
          * 系统管理
          */
         /**
