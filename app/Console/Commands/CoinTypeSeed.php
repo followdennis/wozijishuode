@@ -80,6 +80,11 @@ class CoinTypeSeed extends Command
                 'alias' => '莱特币',
                 'sort' => 5
             ],
+            [
+                'coin_name' => 'usdt',
+                'alias' => 'usdt',
+                'sort' => 5
+            ],
         ];
         $res1 = \DB::table('coin_type')->truncate();
         $res2 = \DB::table('coin_type')->insert($data);
