@@ -34,11 +34,14 @@
         </el-col>
         <el-table
             border
+            show-summary
+            :summary-method="getSummaries"
             :data="buylist"
             style="width: 100%">
             <el-table-column type="expand">
             <template slot-scope="props">
                 <el-table
+                
                 :data="props.row.sold_list"
                 style="width: 100%">
                 <el-table-column
@@ -325,6 +328,39 @@
             //编辑卖出
             handleEditSold(index,row){
                 this.$refs.addSold.handleEdit(index,row);
+            },
+            //统计
+            getSummaries(param){
+                const { columns, data } = param;
+
+                const sums = [];
+                console.log('bbb',param);
+                columns.forEach((column, index) => {
+                    if (index === 0) {
+                        sums[index] = '汇总';
+                        return;
+                    }
+                    if( index === 1 || index === 3 || index === 5 || index === 6 || index === 9 || index === 11){
+                        sums['index'] = '';
+                        return;
+                    }
+                    const values = data.map(item => Number(item[column.property]));
+                    if (!values.every(value => isNaN(value))) {
+                        sums[index] = values.reduce((prev, curr) => {
+                            const value = Number(curr);
+                            if (!isNaN(value)) {
+                                return prev + curr;
+                            } else {
+                                return prev;
+                            }
+                        }, 0);
+                        sums[index] += ' 元';
+                    } else {
+                        sums[index] = '';
+                    }
+                });
+
+                return sums;
             },
             handleDel(index,row){
                 let that = this;
