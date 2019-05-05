@@ -145,13 +145,15 @@
                 this.dialogVisible = true;
                 this.type = 1;
                 let that = this;
-                console.log('plan_id',row.plan_id);
              
+            
                 console.log('show',row);
 
                 this.saveForm = {
                     id:row.id,
                     buy_unit_price:row.buy_unit_price,
+                    buy_count:row.count,//买入数量
+                    buy_money:row.buy_money,//买入总额
                     count:String(row.count),//卖出数量
                     sold_money:String(row.sold_money),//卖出总额
                     sold_unit_price:String(row.sold_price),//卖出单价

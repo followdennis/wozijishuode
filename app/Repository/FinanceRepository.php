@@ -69,6 +69,8 @@ class FinanceRepository extends Model
                 $profit += $sold->gross_profit;
                 //买入价格
                 $sold->buy_unit_price = $item->unit_price;
+                //购买总额
+                $sold->buy_money = $item->total_money;
 
             }
             if( $item_count ){

@@ -171,11 +171,26 @@ class VirtualCoinController extends AdminController
 
         $data['price_diff'] = $params['sold_unit_price'] - $params['buy_unit_price'];//价格差
         $data['profit_margin'] = 0;
-        if( $params['buy_unit_price']){
-            $data['profit_margin'] = round((100 * $data['price_diff'] )/ $params['buy_unit_price'],2);
-        }
+
         //利润
-        $data['gross_profit'] = round($params['sold_money'] - $params['buy_unit_price'] * $params['count'],4);
+
+        //买入数量与卖出数量相同时
+        if($params['count'] == $params['buy_count']){
+            // 买入总额  buy_money
+            $data['gross_profit'] = round($params['sold_money'] - $params['buy_money'],4);
+        } else {
+            $data['gross_profit'] = round($params['sold_money'] - $params['buy_unit_price'] * $params['count'],4);
+        }
+
+        if( $params['buy_unit_price']){
+            if($params['count'] == $params['buy_count']){
+                $data['profit_margin'] = round((100 * $data['gross_profit'] )/ $params['buy_money'],2);
+
+            } else {
+                $data['profit_margin'] = round((100 * $data['price_diff'] )/ $params['buy_unit_price'],2);
+            }
+        }
+
         $status = $this->financeRep->editSold($id,$data);
         if( $status ){
             return response()->json(['code'=>0,'msg'=>'编辑卖出成功']);
