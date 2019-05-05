@@ -18,7 +18,7 @@ class CreateCoinSoldTable extends Migration
             $table->integer("user_id")->default(0)->comment("用户id");
             $table->integer("coin_buy_id")->default(0)->comment("关联买入表id");
             //卖出数量
-            $table->float('count',10,2)->default(0)->comment('卖出数量');
+            $table->float('count',10,4)->default(0)->comment('卖出数量');
             $table->float('sold_money',10,4)->default(0)->comment('卖出总额');
             $table->float('sold_price',10,4)->default(0)->comment('卖出单价');
             $table->float('price_diff',10,4)->default(0)->comment('差价');

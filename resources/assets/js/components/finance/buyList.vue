@@ -334,7 +334,6 @@
                 const { columns, data } = param;
 
                 const sums = [];
-                console.log('bbb',param);
                 columns.forEach((column, index) => {
                     if (index === 0) {
                         sums[index] = '汇总';

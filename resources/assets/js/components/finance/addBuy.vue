@@ -198,7 +198,7 @@
                     unit_price:String(row.unit_price),//购买单价
                     market_price:String(row.market_price),//购买时市场价
                     left_count:String(row.left_count),//可售数量
-                    coin_type:row.coin_type_id,
+                    coin_type:row.coin_type.id,
                     buy_time:row.buy_time,
                     remark:row.remark
                 };

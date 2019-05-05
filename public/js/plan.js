@@ -86273,7 +86273,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 unit_price: String(row.unit_price), //购买单价
                 market_price: String(row.market_price), //购买时市场价
                 left_count: String(row.left_count), //可售数量
-                coin_type: row.coin_type_id,
+                coin_type: row.coin_type.id,
                 buy_time: row.buy_time,
                 remark: row.remark
             };
@@ -86544,6 +86544,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: 0,
                 coin_buy_id: 0,
                 count: 0, //卖出数量
+                buy_count: 0, //买入数量
+                buy_money: 0, //买入总额
                 sold_money: 0, //卖出总额
                 sold_unit_price: 0, //卖出单价
                 buy_unit_price: 0, //买入时的单价
@@ -86587,6 +86589,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 coin_buy_id: row.id,
                 buy_unit_price: row.unit_price, //买入时的单价
                 count: null, //卖出数量
+                buy_count: row.count, //买入数量
+                buy_money: row.total_money, //买入总额
                 sold_money: null, //卖出总额
                 sold_unit_price: null, //卖出单价
 
@@ -87147,7 +87151,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
             var sums = [];
-            console.log('bbb', param);
             columns.forEach(function (column, index) {
                 if (index === 0) {
                     sums[index] = '汇总';

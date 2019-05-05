@@ -6,8 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "doctrine/dbal": "^2.9",
         "fortawesome/font-awesome": "*",
-        "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
         "jaeger/querylist": "^3.2",
         "kartik-v/bootstrap-fileinput": "@dev",

@@ -74,10 +74,12 @@
                     id:0,
                     coin_buy_id:0,
                     count:0,//卖出数量
+                    buy_count:0,//买入数量
+                    buy_money:0,//买入总额
                     sold_money:0,//卖出总额
                     sold_unit_price:0,//卖出单价
                     buy_unit_price:0,//买入时的单价
-                  
+                    
                     sold_time:null,
                     remark:null
                 },
@@ -127,6 +129,8 @@
                     coin_buy_id:row.id,
                     buy_unit_price:row.unit_price, //买入时的单价
                     count:null,//卖出数量
+                    buy_count:row.count,//买入数量
+                    buy_money:row.total_money,//买入总额
                     sold_money:null,//卖出总额
                     sold_unit_price:null,//卖出单价
                 
