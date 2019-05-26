@@ -44,7 +44,11 @@ class VirtualCoinController extends AdminController
     public function lists(){
 
         //列表数据
-        $list = $this->financeRep->selectBuyList();
+        $pageSize = intval($this->req->get('perPage',10));
+        if( $pageSize > 100 ){
+            $pageSize = 10;
+        }
+        $list = $this->financeRep->selectBuyList($pageSize);
         $res = setPageData($list);
         return response()->json($res);
     }

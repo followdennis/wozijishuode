@@ -87095,7 +87095,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getBuyList: function getBuyList() {
             var _this = this;
 
-            axios.get('/back/buy/lists', { params: { id: 'a' } }).then(function (res) {
+            var params = {
+                page: this.page.currentPage,
+                perPage: this.page.perPage
+            };
+            axios.get('/back/buy/lists', { params: params }).then(function (res) {
                 console.log(res.data);
                 if (res.status == 200) {
                     var data = res.data.items.map(function (item) {
@@ -87110,10 +87114,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                         return item;
                     });
+                    console.log(111, res.data.total);
                     _this.buylist = data;
                     _this.page.total = res.data.total;
-                    _this.page.from = data.from;
-                    _this.page.to = data.to;
+                    _this.page.from = res.data.from;
+                    _this.page.to = res.data.to;
                     _this.loading = false;
                 } else {
                     console.log(res);
@@ -87221,12 +87226,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleSizeChange: function handleSizeChange(val) {
             console.log("\u6BCF\u9875 " + val + " \u6761");
             this.page.perPage = val;
-            // this.loadData();
+            this.getBuyList();
         },
         handleCurrentChange: function handleCurrentChange(val) {
             console.log("\u5F53\u524D\u9875: " + val + " " + this.page.perPage);
             this.page.currentPage = val;
-            // this.loadData();
+            this.getBuyList();
         },
 
         selsChange: function selsChange(sels) {

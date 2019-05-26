@@ -283,7 +283,12 @@
         methods:{
             
             getBuyList(){
-                    axios.get('/back/buy/lists',{params:{id:'a'}}).then(res => {
+
+                    let params = {
+                        page:this.page.currentPage,
+                        perPage:this.page.perPage
+                    }
+                    axios.get('/back/buy/lists',{params:params}).then(res => {
                         console.log(res.data);
                         if( res.status == 200){
                            let data = res.data.items.map( item => {
@@ -298,10 +303,11 @@
                             
                                 return item;
                             });
+                           console.log(111,res.data.total);
                             this.buylist = data;
                             this.page.total = res.data.total;
-                            this.page.from = data.from;
-                            this.page.to =data.to;
+                            this.page.from = res.data.from;
+                            this.page.to = res.data.to;
                             this.loading = false;
                         } else {
                             console.log(res);
@@ -403,12 +409,12 @@
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.page.perPage = val;
-                // this.loadData();
+                this.getBuyList();
             },
             handleCurrentChange(val) {
                 console.log(`当前页: ${val} ${this.page.perPage}`);
                 this.page.currentPage = val;
-                // this.loadData();
+                this.getBuyList();
             },
             selsChange:function(sels){
                 this.sels = sels;

@@ -34,11 +34,11 @@ class FinanceRepository extends Model
     }
 
     //买入列表数据
-    public function selectBuyList(){
+    public function selectBuyList($pageSize = 10){
         $user_id = Auth::user()->id;
         $list = CoinBuy::where('user_id',$user_id)
             ->orderBy("id","desc")
-            ->paginate();
+            ->paginate($pageSize);
         foreach( $list->items() as $item){
             //关联表获取币种名称
             $item->coin_name = $item->coinType->alias . "(" .$item->coinType->coin_name . ")";
