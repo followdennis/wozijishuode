@@ -329,7 +329,7 @@
                         end_time: this.filters.endTime
                     }
                     axios.get('/back/buy/lists',{params:params}).then(res => {
-                        console.log(res.data);
+
                         if( res.status == 200){
                            let data = res.data.items.map( item => {
                                 let left_count = null;
@@ -343,7 +343,6 @@
                             
                                 return item;
                             });
-                           console.log(111,res.data.total);
                             this.buylist = data;
                             this.page.total = res.data.total;
                             this.page.from = res.data.from;
@@ -358,6 +357,7 @@
                             // });
                         }
                     })
+
             },
             //获取币种列表
             getCoinTypeList(){
@@ -470,7 +470,7 @@
                         sums[index] = '汇总';
                         return;
                     }
-                    if( index === 1 || index === 3 || index === 5 || index === 6 || index === 9 || index === 11){
+                    if( index === 1 || index === 3 || index === 5 || index === 6 ||  index === 7 || index === 9 || index === 11){
                         sums['index'] = '';
                         return;
                     }
@@ -484,7 +484,12 @@
                                 return prev;
                             }
                         }, 0);
-                        sums[index] += ' 元';
+                        if( index == 8){
+                            sums[index] += ' 个';
+                        } else {
+                            sums[index] += ' 元';
+                        }
+
                     } else {
                         sums[index] = '';
                     }
@@ -518,6 +523,7 @@
                 }
 
             },
+
             startChange:function(data){
                 console.log('start-change');
                 console.log(data);

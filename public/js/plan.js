@@ -87141,7 +87141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 end_time: this.filters.endTime
             };
             axios.get('/back/buy/lists', { params: params }).then(function (res) {
-                console.log(res.data);
+
                 if (res.status == 200) {
                     var data = res.data.items.map(function (item) {
                         var left_count = null;
@@ -87155,7 +87155,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                         return item;
                     });
-                    console.log(111, res.data.total);
                     _this.buylist = data;
                     _this.page.total = res.data.total;
                     _this.page.from = res.data.from;
@@ -87284,7 +87283,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     sums[index] = '汇总';
                     return;
                 }
-                if (index === 1 || index === 3 || index === 5 || index === 6 || index === 9 || index === 11) {
+                if (index === 1 || index === 3 || index === 5 || index === 6 || index === 7 || index === 9 || index === 11) {
                     sums['index'] = '';
                     return;
                 }
@@ -87302,7 +87301,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             return prev;
                         }
                     }, 0);
-                    sums[index] += ' 元';
+                    if (index == 8) {
+                        sums[index] += ' 个';
+                    } else {
+                        sums[index] += ' 元';
+                    }
                 } else {
                     sums[index] = '';
                 }
@@ -87337,6 +87340,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return row.left_count < row.count && row.left_count > 0;
             }
         },
+
 
         startChange: function startChange(data) {
             console.log('start-change');
