@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminController;
 use App\Models\Finance\CoinBuy;
 use App\Models\Finance\CoinType;
 use App\Repository\FinanceRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VirtualCoinController extends AdminController
@@ -33,7 +34,6 @@ class VirtualCoinController extends AdminController
      * desc : 买入页面
      */
     public function index(){
-
         return view("admin.finance.index");
     }
     /**
@@ -45,10 +45,16 @@ class VirtualCoinController extends AdminController
 
         //列表数据
         $pageSize = intval($this->req->get('perPage',10));
+        $coinType = $this->req->get('coin_type_id',0);
+        $start_time = $this->req->get('start_time','');
+        $end_time = $this->req->get('end_time','');
+
+
         if( $pageSize > 100 ){
             $pageSize = 10;
         }
-        $list = $this->financeRep->selectBuyList($pageSize);
+
+        $list = $this->financeRep->selectBuyList($pageSize,$coinType,$start_time,$end_time);
         $res = setPageData($list);
         return response()->json($res);
     }
@@ -82,9 +88,17 @@ class VirtualCoinController extends AdminController
      * desc : 删除买入
      */
     public function delBuy(){
-        $params = $this->req->all();
-        $id = $params['id'];
-
+        $id = intval($this->req->get('coin_buy_id',0));
+        $code =  $this->financeRep->delCoinBuy($id);
+        $message = null;
+        if( $code == 0){
+            $message = "删除成功";
+        } else if( $message == -1){
+            $message = '有卖出数据，无法删除，请先删除内部数据';
+        } else {
+            $message = '删除失败，数据可能不存在';
+        }
+        return response()->json(['code'=>$code,'msg'=> $message]);
     }
     /**
      * created by gavin
@@ -159,7 +173,14 @@ class VirtualCoinController extends AdminController
      * desc : 删除卖出
      */
     public function delSold(){
-        echo 'delsold';
+        $id = intval($this->req->get('coin_sold_id',0));
+        $status = $this->financeRep->delCoinSold($id);
+        if( $status ){
+            $data = ['code'=>0,'msg'=>'删除成功'];
+        } else {
+            $data = ['code'=>-1,'msg'=>'删除失败'];
+        }
+        return response()->json($data);
     }
 
     public function editSold(){

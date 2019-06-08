@@ -87021,6 +87021,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -87034,7 +87038,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.filters.plan_id = this.plan_id == 0 ? '' : this.plan_id;
-
+        this.getCoinTypeList();
         this.getBuyList();
         console.log('Component mounted.');
     },
@@ -87046,7 +87050,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             filters: {
                 query: '',
                 importance: 0,
-                plan_id: ''
+                plan_id: '',
+                coinType: '',
+                startTime: '',
+                endTime: ''
             },
 
             page: {
@@ -87057,8 +87064,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 from: 0,
                 to: 0
             },
-            importanceList: [],
-            planList: [],
+            coinTypeList: [],
             saveForm: {
                 name: '',
                 plan_name: '', //父级任务
@@ -87076,6 +87082,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 importance: 0,
                 status: 0,
                 sort: 0
+            },
+            //日期筛选
+            buyTime: '',
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick: function onClick(picker) {
+                        var end = new Date();
+                        var start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick: function onClick(picker) {
+                        var end = new Date();
+                        var start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick: function onClick(picker) {
+                        var end = new Date();
+                        var start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
             },
             rules: {
                 name: [{ required: true, message: '标题必填', trigger: 'blur' }, { max: 255, min: '1', message: '不能超过255个字', trigger: 'blur' }],
@@ -87097,7 +87132,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var params = {
                 page: this.page.currentPage,
-                perPage: this.page.perPage
+                perPage: this.page.perPage,
+                coin_type_id: this.filters.coinType,
+                start_time: this.filters.startTime,
+                end_time: this.filters.endTime
             };
             axios.get('/back/buy/lists', { params: params }).then(function (res) {
                 console.log(res.data);
@@ -87131,6 +87169,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
 
+        //获取币种列表
+        getCoinTypeList: function getCoinTypeList() {
+            var _this2 = this;
+
+            axios.get('/back/coin/type').then(function (res) {
+                console.log(res.data);
+                if (res.status == 200) {
+
+                    _this2.coinTypeList = res.data;
+                } else {
+                    console.log(res);
+                }
+            });
+        },
+
         handleAdd: function handleAdd() {
 
             this.$refs.addBuy.handleAdd(0);
@@ -87139,6 +87192,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.$refs.addBuy.handleEdit(index, row);
         },
+        handleDel: function handleDel(index, row) {
+            var _this3 = this;
+
+            var coin_buy_id = row.id;
+            var that = this;
+            this.$confirm('确定删除？删除后将无法找回?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                axios.get('/back/buy/del', { params: { coin_buy_id: coin_buy_id } }).then(function (res) {
+                    if (res.data.code == 0) {
+                        _this3.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                            duration: 2000
+                        });
+                        that.getBuyList();
+                    } else if (res.data.code == -1) {
+                        _this3.$message({
+                            type: 'error',
+                            message: '内部含有售出数据，无法删除',
+                            duration: 2000
+                        });
+                    } else {
+                        _this3.$message({
+                            type: 'error',
+                            message: res.data.msg,
+                            duration: 2000
+                        });
+                    }
+                });
+            }).catch(function () {});
+        },
+
 
         //新增卖出
         handleAddSold: function handleAddSold(index, row) {
@@ -87148,6 +87237,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         //编辑卖出
         handleEditSold: function handleEditSold(index, row) {
             this.$refs.addSold.handleEdit(index, row);
+        },
+
+        //删除卖出
+        handleDelSold: function handleDelSold(index, row) {
+            var _this4 = this;
+
+            var coin_sold_id = row.id;
+            var that = this;
+            this.$confirm('确定删除？删除后将无法找回?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                axios.get('/back/sold/del', { params: { coin_sold_id: coin_sold_id } }).then(function (res) {
+                    if (res.data.code == 0) {
+                        _this4.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                            duration: 2000
+                        });
+                        that.getBuyList();
+                    } else {
+                        _this4.$message({
+                            type: 'error',
+                            message: '删除失败',
+                            duration: 2000
+                        });
+                    }
+                });
+            }).catch(function () {});
         },
 
         //统计
@@ -87188,35 +87308,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return sums;
         },
-        handleDel: function handleDel(index, row) {
-            var _this2 = this;
 
-            var that = this;
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(function () {
-                axios.get('/back/plan_task/del', { params: { id: row.id } }).then(function (res) {
-                    if (res.data.code == 0) {
-                        _this2.$message({
-                            type: 'success',
-                            message: '删除成功!',
-                            duration: 2000
-                        });
-                        // that.loadData();
-                    } else {
-                        _this2.$message({
-                            type: 'error',
-                            message: '删除失败!',
-                            duration: 2000
-                        });
-                    }
-                });
-            }).catch(function () {});
+        //时间
+        getSTime: function getSTime(val) {
+            if (val != null && val != '') {
+                var filters_date = val.split("至");
+                console.log(filters_date);
+                this.filters.startTime = filters_date[0];
+                this.filters.endTime = filters_date[1];
+            } else {
+                this.filters.startTime = '';
+                this.filters.endTime = '';
+            }
         },
-
 
         startChange: function startChange(data) {
             console.log('start-change');
@@ -89960,59 +90064,50 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "inline": true,
       "model": _vm.filters
     }
-  }, [_c('el-form-item', [_c('el-input', {
-    attrs: {
-      "placeholder": "请输入关键词"
-    },
-    model: {
-      value: (_vm.filters.query),
-      callback: function($$v) {
-        _vm.$set(_vm.filters, "query", $$v)
-      },
-      expression: "filters.query"
-    }
-  })], 1), _vm._v(" "), _c('el-select', {
+  }, [_c('el-select', {
     attrs: {
       "filterable": "",
       "clearable": "",
-      "placeholder": "请选择计划"
+      "placeholder": "虚拟币类型"
     },
     model: {
-      value: (_vm.filters.plan_id),
+      value: (_vm.filters.coinType),
       callback: function($$v) {
-        _vm.$set(_vm.filters, "plan_id", $$v)
+        _vm.$set(_vm.filters, "coinType", $$v)
       },
-      expression: "filters.plan_id"
+      expression: "filters.coinType"
     }
-  }, _vm._l((_vm.planList), function(item) {
+  }, _vm._l((_vm.coinTypeList), function(item) {
     return _c('el-option', {
-      key: item.value,
+      key: item.id,
       attrs: {
-        "label": item.label,
-        "value": item.value
+        "label": item.coin_name,
+        "value": item.id
       }
     })
-  }), 1), _vm._v(" "), _c('el-select', {
+  }), 1), _vm._v(" "), _c('el-date-picker', {
     attrs: {
-      "clearable": "",
-      "placeholder": "请选择"
+      "type": "daterange",
+      "align": "right",
+      "placeholder": "买入日期",
+      "unlink-panels": "",
+      "range-separator": "至",
+      "start-placeholder": "开始日期",
+      "end-placeholder": "结束日期",
+      "format": "yyyy-MM-dd",
+      "picker-options": _vm.pickerOptions
+    },
+    on: {
+      "change": _vm.getSTime
     },
     model: {
-      value: (_vm.filters.importance),
+      value: (_vm.buyTime),
       callback: function($$v) {
-        _vm.$set(_vm.filters, "importance", $$v)
+        _vm.buyTime = $$v
       },
-      expression: "filters.importance"
+      expression: "buyTime"
     }
-  }, _vm._l((_vm.importanceList), function(item) {
-    return _c('el-option', {
-      key: item.value,
-      attrs: {
-        "label": item.label,
-        "value": item.value
-      }
-    })
-  }), 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+  }), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     attrs: {
       "type": "primary"
     },
@@ -90117,6 +90212,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
                 attrs: {
                   "size": "small",
                   "type": "danger"
+                },
+                on: {
+                  "click": function($event) {
+                    return _vm.handleDelSold(scope.$index, scope.row)
+                  }
                 }
               }, [_vm._v("删除")])]
             }
@@ -90224,6 +90324,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           attrs: {
             "size": "small",
             "type": "danger"
+          },
+          on: {
+            "click": function($event) {
+              return _vm.handleDel(scope.$index, scope.row)
+            }
           }
         }, [_vm._v("删除")])]
       }

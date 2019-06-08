@@ -11,6 +11,7 @@ namespace App\Repository;
 
 use App\Models\Finance\CoinBuy;
 use App\Models\Finance\CoinSold;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,9 +35,22 @@ class FinanceRepository extends Model
     }
 
     //买入列表数据
-    public function selectBuyList($pageSize = 10){
+    public function selectBuyList($pageSize = 10,$coinType = 0,$start_time = '',$end_time = ''){
         $user_id = Auth::user()->id;
         $list = CoinBuy::where('user_id',$user_id)
+            ->where(function($query) use ( $coinType ){
+                if( $coinType > 0){
+                    $query->where('coin_type',$coinType);
+                }
+            })
+            ->when($start_time,function($query) use( $start_time){
+                $start_date_time =  Carbon::parse($start_time)->startOfDay()->toDateTimeString();
+                $query->where('buy_time','>=',$start_date_time);
+            })
+            ->when($end_time,function($query) use( $end_time){
+                $end_date_time =  Carbon::parse($end_time)->startOfDay()->toDateTimeString();
+                $query->where('buy_time','<=',$end_date_time);
+            })
             ->orderBy("id","desc")
             ->paginate($pageSize);
         foreach( $list->items() as $item){
@@ -103,5 +117,44 @@ class FinanceRepository extends Model
     public function editSold($id,$params = []){
         $user_id = Auth::user()->id;
         return CoinSold::where('user_id',$user_id)->where('id',$id)->update($params);
+    }
+
+    /**
+     * created by gavin
+     * date 2019/6/8 0:03
+     * desc : 删除买入
+     */
+    public function delCoinBuy($coin_buy_id = 0){
+        $user_id = Auth::user()->id;
+        $coinBuyModel = CoinBuy::withCount(['soldList'])->where(['id'=>$coin_buy_id])->where(['user_id'=>$user_id])->first();
+        if($coinBuyModel){
+
+            $sold_list_count = $coinBuyModel->sold_list_count;
+
+            if( $sold_list_count > 0 )
+            {
+                return -1;//内部含有数据，无法删除
+            }
+            $del_status = CoinBuy::where('id',$coin_buy_id)->delete();
+            if( $del_status){
+                return 0;//删除成功
+            } else {
+                return -2;//删除失败
+            }
+
+
+        }
+        return -3;//不存在的数据
+
+    }
+    /**
+     * created by gavin
+     * date 2019/6/8 0:40
+     * desc : 删除卖出数据
+     */
+    public function delCoinSold($coin_sold_id = 0){
+        $user_id = Auth::user()->id;
+        $del_status = CoinSold::where('user_id',$user_id)->where('id',$coin_sold_id)->delete();
+        return $del_status;
     }
 }

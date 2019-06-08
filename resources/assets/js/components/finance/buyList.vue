@@ -2,28 +2,30 @@
     <div class="row table_list">
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
-                <el-form-item>
-                    <el-input v-model="filters.query" placeholder="请输入关键词"></el-input>
-                </el-form-item>
-                <el-select v-model="filters.plan_id"
+                <el-select v-model="filters.coinType"
                            filterable
                          
-                           clearable  placeholder="请选择计划">
+                           clearable  placeholder="虚拟币类型">
                     <el-option
-                            v-for="item in planList"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            v-for="item in coinTypeList"
+                            :key="item.id"
+                            :label="item.coin_name"
+                            :value="item.id">
                     </el-option>
                 </el-select>
-                <el-select v-model="filters.importance" clearable  placeholder="请选择">
-                    <el-option
-                            v-for="item in importanceList"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
+                <el-date-picker
+                        v-model="buyTime"
+                        type="daterange"
+                        align="right"
+                        placeholder="买入日期"
+                        unlink-panels
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        format="yyyy-MM-dd"
+                        @change="getSTime"
+                        :picker-options="pickerOptions">
+                </el-date-picker>
                 <el-form-item>
                     <el-button type="primary" v-on:click="getBuyList">查询</el-button>
                 </el-form-item>
@@ -96,6 +98,7 @@
                         <el-button
                                 size="small"
                                 type="danger"
+                                @click="handleDelSold(scope.$index,scope.row)"
                             >删除</el-button>
                     </template>
                 </el-table-column>
@@ -175,6 +178,7 @@
                     <el-button
                             size="small"
                             type="danger"
+                            @click="handleDel(scope.$index,scope.row)"
                            >删除</el-button>
                 </template>
             </el-table-column>
@@ -215,7 +219,7 @@
         },
         mounted() {
             this.filters.plan_id =this.plan_id == 0 ? '':this.plan_id;
-           
+            this.getCoinTypeList();
             this.getBuyList();
             console.log('Component mounted.')
         },
@@ -228,9 +232,12 @@
                 filters:{
                     query:'',
                     importance:0,
-                    plan_id:''
+                    plan_id:'',
+                    coinType:'',
+                    startTime:'',
+                    endTime:''
                 },
-               
+
                 page:{
                     total:0,
                     perPage:10,
@@ -239,8 +246,7 @@
                     from:0,
                     to:0
                 },
-                importanceList:[],
-                planList:[],
+                coinTypeList:[],
                 saveForm:{
                     name:'',
                     plan_name:'',//父级任务
@@ -258,6 +264,35 @@
                     importance:0,
                     status:0,
                     sort:0
+                },
+                //日期筛选
+                buyTime:'',
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
                 },
                 rules:{
                     name:[
@@ -283,10 +318,12 @@
         methods:{
             
             getBuyList(){
-
                     let params = {
                         page:this.page.currentPage,
-                        perPage:this.page.perPage
+                        perPage:this.page.perPage,
+                        coin_type_id:this.filters.coinType,
+                        start_time:this.filters.startTime,
+                        end_time: this.filters.endTime
                     }
                     axios.get('/back/buy/lists',{params:params}).then(res => {
                         console.log(res.data);
@@ -319,6 +356,20 @@
                         }
                     })
             },
+            //获取币种列表
+            getCoinTypeList(){
+                axios.get('/back/coin/type').then(res => {
+                    console.log(res.data);
+                    if( res.status == 200){
+
+                        this.coinTypeList = res.data;
+
+                    } else {
+                        console.log(res);
+
+                    }
+                })
+            },
             handleAdd:function(){
                
                 this.$refs.addBuy.handleAdd(0);
@@ -327,6 +378,45 @@
 
                 this.$refs.addBuy.handleEdit(index,row);
             },
+            handleDel(index,row){
+
+                let coin_buy_id = row.id;
+                let that = this;
+                this.$confirm('确定删除？删除后将无法找回?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    axios.get('/back/buy/del',{params:{coin_buy_id:coin_buy_id}}).then(res => {
+                        if( res.data.code == 0){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!',
+                                duration:2000
+                            });
+                            that.getBuyList();
+                        } else if( res.data.code == -1){
+                            this.$message({
+                                type:'error',
+                                message:'内部含有售出数据，无法删除',
+                                duration:2000
+                            })
+                        } else  {
+                            this.$message({
+                                type: 'error',
+                                message: res.data.msg,
+                                duration:2000
+                            });
+                        }
+                    })
+
+                }).catch(() => {
+
+                });
+
+            },
+
             //新增卖出
             handleAddSold(index,row){
                 this.$refs.addSold.handleAdd(index,row);
@@ -334,6 +424,39 @@
             //编辑卖出
             handleEditSold(index,row){
                 this.$refs.addSold.handleEdit(index,row);
+            },
+            //删除卖出
+            handleDelSold(index,row){
+
+                let coin_sold_id = row.id;
+                let that = this;
+                this.$confirm('确定删除？删除后将无法找回?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    axios.get('/back/sold/del',{params:{coin_sold_id:coin_sold_id}}).then(res => {
+                        if( res.data.code == 0){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!',
+                                duration:2000
+                            });
+                            that.getBuyList();
+                        } else  {
+                            this.$message({
+                                type: 'error',
+                                message: '删除失败',
+                                duration:2000
+                            });
+                        }
+                    })
+
+                }).catch(() => {
+
+                });
+
             },
             //统计
             getSummaries(param){
@@ -367,38 +490,18 @@
 
                 return sums;
             },
-            handleDel(index,row){
-                let that = this;
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning',
-                    center: true
-                }).then(() => {
-                    axios.get('/back/plan_task/del',{params:{id:row.id}}).then(res => {
-                        if( res.data.code == 0){
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!',
-                                duration:2000
-                            });
-                            // that.loadData();
-                        } else {
-                            this.$message({
-                                type: 'error',
-                                message: '删除失败!',
-                                duration:2000
-                            });
-                        }
-                    })
-
-                }).catch(() => {
-
-                });
-
+            //时间
+            getSTime(val){
+                    if( val != null && val != ''){
+                        let filters_date = val.split("至");
+                        console.log(filters_date);
+                        this.filters.startTime = filters_date[0];
+                        this.filters.endTime = filters_date[1];
+                    } else {
+                        this.filters.startTime = '';
+                        this.filters.endTime = '';
+                    }
             },
-           
-        
             startChange:function(data){
                 console.log('start-change');
                 console.log(data);
