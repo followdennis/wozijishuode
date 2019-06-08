@@ -87146,9 +87146,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var data = res.data.items.map(function (item) {
                         var left_count = null;
                         if (item.left_count == item.count) {
-                            item.left_count_html = '<font color="red">未售出</font>';
+                            item.left_count_html = '<font color="red">未售出</font>' + '(' + item.count + ')';
                         } else if (item.left_count == 0) {
-                            item.left_count_html = '<font color="green">已售完</font>';
+                            item.left_count_html = '<font color="green">已售完</font>' + '(' + item.count + ')';
                         } else {
                             item.left_count_html = item.left_count;
                         }
