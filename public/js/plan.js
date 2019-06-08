@@ -87177,7 +87177,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.get('/back/coin/type').then(function (res) {
-                console.log(res.data);
                 if (res.status == 200) {
 
                     _this2.coinTypeList = res.data;
@@ -87334,6 +87333,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (val == 2) {
                 //已售完
                 return row.left_count == 0;
+            } else if (val == 3) {
+                return row.left_count < row.count && row.left_count > 0;
             }
         },
 
@@ -90284,6 +90285,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }, {
         text: '未出售',
         value: 1
+      }, {
+        text: '售出部分',
+        value: 3
       }],
       "filter-method": _vm.filterSoldStatus
     },

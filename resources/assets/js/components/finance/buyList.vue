@@ -138,7 +138,7 @@
             <el-table-column
                     prop="left_count"
             label="可售数量"
-            :filters="[{ text: '已售完', value: 2 }, { text: '未出售', value: 1 }]"
+            :filters="[{ text: '已售完', value: 2 }, { text: '未出售', value: 1 },{text:'售出部分',value:3}]"
             :filter-method="filterSoldStatus"
            >
                 <template slot-scope="scope">
@@ -362,7 +362,6 @@
             //获取币种列表
             getCoinTypeList(){
                 axios.get('/back/coin/type').then(res => {
-                    console.log(res.data);
                     if( res.status == 200){
 
                         this.coinTypeList = res.data;
@@ -514,6 +513,8 @@
                 } else if( val == 2){
                     //已售完
                     return row.left_count == 0;
+                } else if( val == 3){
+                    return row.left_count < row.count && row.left_count > 0;
                 }
 
             },
