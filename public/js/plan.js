@@ -87025,6 +87025,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -87319,6 +87322,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.filters.startTime = '';
                 this.filters.endTime = '';
+            }
+        },
+
+        //列筛选
+        filterSoldStatus: function filterSoldStatus(val, row) {
+            console.log(val, row);
+            if (val == 1) {
+                //未出售
+                return row.left_count == row.count;
+            } else if (val == 2) {
+                //已售完
+                return row.left_count == 0;
             }
         },
 
@@ -90261,7 +90276,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "label": "可售数量"
+      "prop": "left_count",
+      "label": "可售数量",
+      "filters": [{
+        text: '已售完',
+        value: 2
+      }, {
+        text: '未出售',
+        value: 1
+      }],
+      "filter-method": _vm.filterSoldStatus
     },
     scopedSlots: _vm._u([{
       key: "default",

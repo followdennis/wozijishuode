@@ -136,7 +136,10 @@
             prop="buy_time">
             </el-table-column>
             <el-table-column
+                    prop="left_count"
             label="可售数量"
+            :filters="[{ text: '已售完', value: 2 }, { text: '未出售', value: 1 }]"
+            :filter-method="filterSoldStatus"
            >
                 <template slot-scope="scope">
                         <span v-html="scope.row.left_count_html"></span>
@@ -501,6 +504,18 @@
                         this.filters.startTime = '';
                         this.filters.endTime = '';
                     }
+            },
+            //列筛选
+            filterSoldStatus(val,row){
+                console.log(val,row);
+                if( val == 1 ){
+                    //未出售
+                    return row.left_count == row.count;
+                } else if( val == 2){
+                    //已售完
+                    return row.left_count == 0;
+                }
+
             },
             startChange:function(data){
                 console.log('start-change');
