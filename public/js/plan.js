@@ -87028,6 +87028,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -88532,6 +88551,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_element_ui_packages_button_src_button___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_element_ui_packages_button_src_button__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_element_ui_packages_select_src_option__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_element_ui_packages_select_src_option___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__node_modules_element_ui_packages_select_src_option__);
+//
+//
+//
 //
 //
 //
@@ -90246,8 +90268,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }])
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "label": "ID",
-      "prop": "id"
+      "label": "Id",
+      "prop": "id",
+      "width": "50"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -90257,22 +90280,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "购入数量",
-      "prop": "count"
+      "prop": "count",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "总金额",
-      "prop": "total_money"
+      "prop": "total_money",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "购入单价",
-      "prop": "unit_price"
+      "prop": "unit_price",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "市场价格",
-      "prop": "market_price"
+      "prop": "market_price",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -90283,6 +90310,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "prop": "left_count",
       "label": "可售数量",
+      "width": "140",
       "filters": [{
         text: '已售完',
         value: 2
@@ -90293,7 +90321,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         text: '售出部分',
         value: 3
       }],
-      "filter-method": _vm.filterSoldStatus
+      "filter-method": _vm.filterSoldStatus,
+      "sortable": ""
     },
     scopedSlots: _vm._u([{
       key: "default",
@@ -90308,22 +90337,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "卖出数量",
-      "prop": "sold_count"
+      "prop": "sold_count",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "卖出总额",
-      "prop": "sold_money"
+      "prop": "sold_money",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "利润率(%)",
-      "prop": "sold_profit_rate"
+      "prop": "sold_profit_rate",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "label": "总利润",
-      "prop": "sold_profit"
+      "prop": "sold_profit",
+      "sortable": ""
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -90895,7 +90928,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-col', {
     attrs: {
-      "span": 10
+      "span": 5
     }
   }, [_c('el-input', {
     model: {
@@ -90912,7 +90945,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("    量化单位")]), _vm._v(" "), _c('el-col', {
     attrs: {
-      "span": 11
+      "span": 6
     }
   }, [_c('el-input', {
     model: {
@@ -90921,6 +90954,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.saveForm, "quantization_unit", $$v)
       },
       expression: "saveForm.quantization_unit"
+    }
+  })], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "line",
+    attrs: {
+      "span": 3
+    }
+  }, [_vm._v("    排序值")]), _vm._v(" "), _c('el-col', {
+    attrs: {
+      "span": 6
+    }
+  }, [_c('el-input', {
+    model: {
+      value: (_vm.saveForm.sort),
+      callback: function($$v) {
+        _vm.$set(_vm.saveForm, "sort", _vm._n($$v))
+      },
+      expression: "saveForm.sort"
     }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -90955,7 +91005,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "span": 4
     }
-  }, [_vm._v("    结束时间 ")]), _vm._v(" "), _c('el-col', {
+  }, [_vm._v("  结束时间 ")]), _vm._v(" "), _c('el-col', {
     attrs: {
       "span": 10
     }

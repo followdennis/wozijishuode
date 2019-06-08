@@ -106,8 +106,9 @@
             </template>
             </el-table-column>
             <el-table-column
-            label="ID"
-            prop="id">
+            label="Id"
+            prop="id"
+            width="50">
             </el-table-column>
         
             <el-table-column
@@ -116,20 +117,28 @@
             </el-table-column>
             <el-table-column
             label="购入数量"
-            prop="count">
+            prop="count"
+            sortable
+            >
             </el-table-column>
             <el-table-column
             label="总金额"
-            prop="total_money">
+            prop="total_money"
+            sortable
+            >
             </el-table-column>
             <el-table-column
             label="购入单价"
-            prop="unit_price">
+            prop="unit_price"
+            sortable
+            >
             </el-table-column>
 
             <el-table-column
             label="市场价格"
-            prop="market_price">
+            prop="market_price"
+            sortable
+            >
             </el-table-column>
             <el-table-column
             label="买入时间"
@@ -138,8 +147,10 @@
             <el-table-column
                     prop="left_count"
             label="可售数量"
+                    width="140"
             :filters="[{ text: '已售完', value: 2 }, { text: '未出售', value: 1 },{text:'售出部分',value:3}]"
             :filter-method="filterSoldStatus"
+                    sortable
            >
                 <template slot-scope="scope">
                         <span v-html="scope.row.left_count_html"></span>
@@ -147,19 +158,27 @@
             </el-table-column>
              <el-table-column
             label="卖出数量"
-            prop="sold_count">
+            prop="sold_count"
+            sortable
+             >
             </el-table-column>
              <el-table-column
             label="卖出总额"
-            prop="sold_money">
+            prop="sold_money"
+            sortable
+             >
             </el-table-column>
               <el-table-column
             label="利润率(%)"
-            prop="sold_profit_rate">
+            prop="sold_profit_rate"
+            sortable
+              >
             </el-table-column>
             <el-table-column
             label="总利润"
-            prop="sold_profit">
+            prop="sold_profit"
+            sortable
+            >
             </el-table-column>
 
             <el-table-column

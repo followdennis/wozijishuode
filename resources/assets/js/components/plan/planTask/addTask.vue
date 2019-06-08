@@ -37,9 +37,11 @@
                 <el-input v-model.number="saveForm.day_num"></el-input>
             </el-form-item>
             <el-form-item label="量化值" prop="quantization">
-                <el-col :span="10"><el-input v-model.number="saveForm.quantization"></el-input></el-col>
+                <el-col :span="5"><el-input v-model.number="saveForm.quantization"></el-input></el-col>
                 <el-col class="line" :span="3"> &nbsp; &nbsp;量化单位</el-col>
-                <el-col :span="11"><el-input v-model="saveForm.quantization_unit"></el-input></el-col>
+                <el-col :span="6"><el-input v-model="saveForm.quantization_unit"></el-input></el-col>
+                <el-col class="line" :span="3"> &nbsp; &nbsp;排序值</el-col>
+                <el-col :span="6"><el-input v-model.number="saveForm.sort"></el-input></el-col>
             </el-form-item>
             <el-form-item label="开始时间">
                 <el-col :span="10">
@@ -52,7 +54,7 @@
                             value-format="yyyy-MM-dd HH:mm:ss"
                             style="width: 100%;"></el-date-picker>
                 </el-col>
-                <el-col class="line" :span="4"> &nbsp;  结束时间 </el-col>
+                <el-col class="line" :span="4">  结束时间 </el-col>
                 <el-col :span="10">
                     <el-date-picker
                             type="datetime"
@@ -65,6 +67,7 @@
                 </el-col>
             </el-form-item>
             <el-form-item label="重要性" >
+
                 <el-select v-model="saveForm.importance" placeholder="请选择">
                     <el-option label="重要" :value="3"></el-option>
                     <el-option label="一般" :value="2"></el-option>
