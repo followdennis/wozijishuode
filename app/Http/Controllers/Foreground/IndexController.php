@@ -37,7 +37,6 @@ class IndexController extends CommonController
 
     public function index(Request $request,ArticleRepository $articleRepository,$page = 1){
 
-        return response()->view('errors.503');
         $request->merge(['page'=>$page]);
         $nav = $this->nav();
         $cates = $this->getCategoryArr();

@@ -188,6 +188,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,//laravel thinker
         //第三方登陆
         SocialiteProviders\Manager\ServiceProvider::class, //
+        
 
     ],
 
