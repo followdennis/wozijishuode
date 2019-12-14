@@ -281,6 +281,13 @@ Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com"),'prefix'=>'
         Route::any('field/lists',['uses'=>'Admin\Project\TableController@lists','as'=>'field/lists']);
         Route::any('field/del',['uses'=>'Admin\Project\TableController@del','as'=>'field/del']);
 
+        Route::any('fast_record/index',['uses'=>'Admin\Record\FastRecordController@index','as'=>'fast_record/index']);
+        Route::any('fast_record/list',['uses'=>'Admin\Record\FastRecordController@lists','as'=>'fast_record/list']);
+        Route::post('fast_record/set_finish',['uses'=>'Admin\Record\FastRecordController@setFinish','as'=>'fast_record/set_finish']);
+        Route::post('fast_record/del',['uses'=>'Admin\Record\FastRecordController@del','as'=>'fast_record/del']);
+
+
+
         /**
          *  文件上传
          */
@@ -321,6 +328,8 @@ Route::group(['domain'=>'www.wozijishuode'.env("SITE_SUFFIX",".com")],function()
     Route::any('/search/t/{tag}/',['uses'=>'Foreground\SearchController@search_tag']);//tag搜索
     Route::any('/search/auto',['uses'=>'Foreground\SearchController@autoload2']);//搜素自动完成
     Route::any('/article/another_batch',['uses'=>'Foreground\IndexController@another_batch']);//换一批
+    Route::get('/record',['uses'=>'Foreground\RecordController@record','as'=>'record']);
+    Route::get('/types',['uses'=>'Foreground\RecordController@types','as'=>'types']);
 
     /**
      * 评论点赞的功能
