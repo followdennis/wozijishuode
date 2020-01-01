@@ -43,7 +43,6 @@
         <!--logo start-->
         <a href="index.html" class="logo"><b>后台管理界面</b></a>
         <!--logo end-->
-
         <div class="top-menu" id="app">
             <ul class="nav pull-right top-menu">
                 {{--<li><a class="logout" href="login.html">Logout</a></li>--}}
@@ -208,6 +207,9 @@
             </ul>
             <!--  notification end -->
         </div>
+        <div class="nav notify-row" id="LeftTime" >
+
+        </div>
     </header>
     <!--header end-->
 
@@ -266,6 +268,7 @@
 <script src="{{asset('vendor/sweetalert2/sweetalert2.js')}}" type="text/javascript"> </script>
 
 @yield('CUSTOM_SCRIPT')
+<script src="{{ asset('js/admin/common/leftday.js') }}" type="text/javascript"></script>
 <script>
     $.sidebarMenu($('.sidebar-menu'))
 </script>
