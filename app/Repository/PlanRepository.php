@@ -58,9 +58,14 @@ class PlanRepository extends Model
             if( $id > 0 ){
                 $sub->where('id',$id);
             }
-        })->when($plan_id ,function($sub) use($plan_id){
-                $sub->where('plan_id',$plan_id);
-            })->with('days')->where(function($sub) use($query){
+        })->where(function($query)use($plan_id){
+            if(!$plan_id){
+                $query->where('plan_id',8);
+            }else{
+                $query->where('plan_id',$plan_id);
+            }
+
+        })->with('days')->where(function($sub) use($query){
             if( $query != ''){
                 $sub->where('name','like','%'.$query.'%');
             }
