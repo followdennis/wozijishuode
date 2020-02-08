@@ -85,6 +85,17 @@ class CoinTypeSeed extends Command
                 'alias' => 'usdt',
                 'sort' => 5
             ],
+            [
+                'coin_name' => 'bsv',
+                'alias' => 'bsv',
+                'sort' => 5
+            ],
+            [
+                'coin_name' => 'bch',
+                'alias' => 'bch',
+                'sort' => 5
+            ],
+
         ];
         $res1 = \DB::table('coin_type')->truncate();
         $res2 = \DB::table('coin_type')->insert($data);
