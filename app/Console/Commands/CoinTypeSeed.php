@@ -98,6 +98,7 @@ class CoinTypeSeed extends Command
         if(  $res2){
             $this->info('币种插入成功');
         }else{
+
             $this->info('币种插入失败');
         }
     }
