@@ -85,12 +85,20 @@ class CoinTypeSeed extends Command
                 'alias' => 'usdt',
                 'sort' => 5
             ],
+            [
+                'coin_name' => 'bsv',
+                'alias' => 'bsv',
+                'sort' => 5
+            ]
+
         ];
         $res1 = \DB::table('coin_type')->truncate();
         $res2 = \DB::table('coin_type')->insert($data);
-        if( $res1 && $res2){
+
+        if(  $res2){
             $this->info('币种插入成功');
         }else{
+
             $this->info('币种插入失败');
         }
     }
