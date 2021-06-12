@@ -165,6 +165,18 @@
                         <td>6</td>
                         <td>制造情绪波动？ Yes Or No</td>
                     </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>超出常人的勤奋？ Yes Or No</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>异乎寻常的体贴？ Yes Or No</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>无限的安全感？ Yes Or No</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
