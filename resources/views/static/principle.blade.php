@@ -153,6 +153,14 @@
                         <td>3</td>
                         <td>今天有给别人带来价值吗？ Yes Or No</td>
                     </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>今天有没有累成狗？ Yes Or No</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>人群中的小太阳？浑身散发这领袖气质？ Yes Or No</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
