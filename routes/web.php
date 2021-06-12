@@ -26,6 +26,9 @@ Route::get('thinking',function(){
 Route::get('tenyears',function(){
     return view('static.tenyears');
 })->name('tenyears');
+Route::get('principle',function(){
+    return view('static.principle');
+});
 //Route::any('index',function(){
 //    return view('layouts.main_layout');
 //});
