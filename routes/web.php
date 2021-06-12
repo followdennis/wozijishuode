@@ -20,6 +20,12 @@ Route::any('test2',['uses'=>'TestController@test2','as'=>'test2']);
 Route::any('view',function(){
     return view('layouts.common');
 });
+Route::get('thinking',function(){
+    return view('static.thinking');
+});
+Route::get('tenyears',function(){
+    return view('static.tenyears');
+})->name('tenyears');
 //Route::any('index',function(){
 //    return view('layouts.main_layout');
 //});
