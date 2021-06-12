@@ -161,6 +161,10 @@
                         <td>5</td>
                         <td>人群中的小太阳？浑身散发这领袖气质？ Yes Or No</td>
                     </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>制造情绪波动？ Yes Or No</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
