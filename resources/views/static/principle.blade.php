@@ -170,12 +170,16 @@
                         <td>超出常人的勤奋？ Yes Or No</td>
                     </tr>
                     <tr>
-                        <td>7</td>
+                        <td>8</td>
                         <td>异乎寻常的体贴？ Yes Or No</td>
                     </tr>
                     <tr>
-                        <td>8</td>
+                        <td>9</td>
                         <td>无限的安全感？ Yes Or No</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>无敌的效率？ Yes Or No</td>
                     </tr>
                     </tbody>
                 </table>
