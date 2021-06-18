@@ -179,7 +179,11 @@
                     </tr>
                     <tr>
                         <td>10</td>
-                        <td>无敌的效率？ Yes Or No</td>
+                        <td>恐怖的效率？ Yes Or No</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>构建（能够罗列出每一个环节，工作，生活，婚姻，事业）</td>
                     </tr>
                     </tbody>
                 </table>
