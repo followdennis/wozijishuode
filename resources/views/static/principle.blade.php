@@ -138,52 +138,64 @@
                     <tr>
                         <th>#</th>
                         <th>强化细节的思考和行动的落实</th>
+                        <th>拓展</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>1</td>
                         <td>无敌的自信？ Yes or No</td>
+                        <td>我做成了一件又一件事情，给别人信心</td>
                     </tr>
                     <tr>
                         <td>2</td>
                         <td>今天是傻逼吗？ Yes Or No</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td>今天有给别人带来价值吗？ Yes Or No</td>
+                        <td>今天有给别人带来价值吗？Yes Or No</td>
+                        <td>我做的事情永远比别人多</td>
                     </tr>
                     <tr>
                         <td>4</td>
                         <td>今天有没有累成狗？ Yes Or No</td>
+                        <td>那是因为我给别人做的事情更多</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td>人群中的小太阳？浑身散发这领袖气质？ Yes Or No</td>
+                        <td>人群中的小太阳？浑身散发着领袖气质？ Yes Or No</td>
+                        <td>我可以主导一件事情的发展方向</td>
                     </tr>
                     <tr>
                         <td>6</td>
                         <td>制造情绪波动？ Yes Or No</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>7</td>
                         <td>超出常人的勤奋？ Yes Or No</td>
+                        <td>我忍受了别人不愿意忍受的东西</td>
                     </tr>
                     <tr>
                         <td>8</td>
                         <td>异乎寻常的体贴？ Yes Or No</td>
+                        <td>观察到了很多细节</td>
                     </tr>
                     <tr>
                         <td>9</td>
                         <td>无限的安全感？ Yes Or No</td>
+                        <td>我可以想到更多</td>
                     </tr>
                     <tr>
                         <td>10</td>
                         <td>恐怖的效率？ Yes Or No</td>
+                        <td>我有足够多的生活热情</td>
                     </tr>
                     <tr>
-                        <td>11</td>
-                        <td>构建（能够罗列出每一个环节，工作，生活，婚姻，事业）</td>
+                        <td>12</td>
+                        <td>构建</td>
+                        <td>能够罗列出每一个环节，工作，生活，婚姻，事业</td>
                     </tr>
                     </tbody>
                 </table>
