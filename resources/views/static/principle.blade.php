@@ -137,7 +137,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>原则</th>
+                        <th>强化细节的思考和行动的落实</th>
                     </tr>
                     </thead>
                     <tbody>
