@@ -44,9 +44,10 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">:)</div>
+                <div class="title">正向心态</div>
+                <div class="title">深度思考</div>
                 <div class="left_time">
-
+                    保持这两点，所有的问题，迎刃而解
                 </div>
             </div>
         </div>
@@ -54,7 +55,7 @@
     <script>
         function FreshTime()
         {
-            var endtime=new Date("2018/1/1,0:0:0");//结束时间
+            var endtime=new Date("2022/1/1,0:0:0");//结束时间
             var nowtime = new Date();//当前时间
             var lefttime=parseInt((endtime.getTime()-nowtime.getTime())/1000);
             var d=parseInt(lefttime/3600/24);
