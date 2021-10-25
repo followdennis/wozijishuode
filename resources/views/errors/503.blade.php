@@ -47,7 +47,6 @@
                 <div class="title">正向心态</div>
                 <div class="title">深度思考</div>
                 <div class="left_time">
-                    保持这两点，所有的问题，迎刃而解
                 </div>
             </div>
         </div>

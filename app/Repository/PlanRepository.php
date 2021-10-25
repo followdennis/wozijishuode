@@ -60,7 +60,7 @@ class PlanRepository extends Model
             }
         })->where(function($query)use($plan_id){
             if(!$plan_id){
-                $query->where('plan_id',8);
+//                $query->where('plan_id',8);
             }else{
                 $query->where('plan_id',$plan_id);
             }
