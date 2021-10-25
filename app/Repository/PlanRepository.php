@@ -73,7 +73,7 @@ class PlanRepository extends Model
             $query->where('importance',intval($importance));
         })
             ->orderBy('sort','desc')
-            ->orderBy('importance','desc')->orderBy('sort','desc')->orderBy('status','asc')->paginate();
+            ->orderBy('importance','desc')->orderBy('sort','desc')->orderBy('status','asc')->paginate(10);
         //添加量化值的总数
         foreach($pageData->items() as $item){
              if( $item->days()->count()){
@@ -128,7 +128,7 @@ class PlanRepository extends Model
     /**
      * plan task job
      */
-    public function getPlanTaskJobList($plan_id = 0,$plan_task_id = 0,$query = '',$page = 15){
+    public function getPlanTaskJobList($plan_id = 0,$plan_task_id = 0,$query = '',$page = 10){
         $user_id =  Auth::user()->id;
         $pageData = PlanTaskJob::with(['task' => function( $sub){
                 $sub->select('id','name as task_name'); //这个地方必须查找id 才能取出值
