@@ -86505,10 +86505,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 { pattern: /^\d{1,6}(?=\.{0,1}\d{1,2}$|$)/, message: '请输入正确的总额', trigger: 'blur' }],
                 unit_price: [{ required: true, message: '请输入购买单价', trigger: 'blur' },
                 //两位正小数，最多6位
-                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的单价', trigger: 'blur' }],
+                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,15}$|$)/, message: '请输入正确的单价', trigger: 'blur' }],
                 market_price: [{ required: true, message: '请输入市场价', trigger: 'blur' },
                 //两位正小数，最多6位
-                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的市场价', trigger: 'blur' }],
+                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,15}$|$)/, message: '请输入正确的市场价', trigger: 'blur' }],
                 left_count: [{ required: true, message: '输入数量', trigger: 'blur' },
                 //两位正小数，最多6位
                 { pattern: /^\d{1,6}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的数量', trigger: 'blur' }],
