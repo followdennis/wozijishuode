@@ -86853,16 +86853,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             rules: {
                 count: [{ required: true, message: '输入卖出数量', trigger: 'blur' },
                 //两位正小数，最多6位
-                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,2}$|$)/, message: '请输入正确的数量', trigger: 'blur' }],
+                { pattern: /^\d{1,10}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的数量', trigger: 'blur' }],
                 total_money: [{ required: true, message: '请输入卖出总额', trigger: 'blur' },
                 //两位正小数，最多6位
-                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,2}$|$)/, message: '请输入正确的总额', trigger: 'blur' }],
+                { pattern: /^\d{1,7}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的总额', trigger: 'blur' }],
                 unit_price: [{ required: true, message: '请输入卖出单价', trigger: 'blur' },
                 //两位正小数，最多6位
-                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的单价', trigger: 'blur' }],
+                { pattern: /^\d{1,7}(?=\.{0,1}\d{1,15}$|$)/, message: '请输入正确的单价', trigger: 'blur' }],
                 market_price: [{ required: false, message: '请输入卖出市场价', trigger: 'blur' },
                 //两位正小数，最多6位
-                { pattern: /^\d{1,6}(?=\.{0,1}\d{1,4}$|$)/, message: '请输入正确的单价', trigger: 'blur' }],
+                { pattern: /^\d{1,7}(?=\.{0,1}\d{1,15}$|$)/, message: '请输入正确的单价', trigger: 'blur' }],
                 remark: [{ required: false, message: '小记', trigger: 'blur' }, { max: 255, min: '1', message: '不能超过255个字', trigger: 'blur' }]
             },
             loading: false,
